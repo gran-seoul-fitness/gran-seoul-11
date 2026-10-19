@@ -11,9 +11,9 @@
 /* Layout: 휴대폰 한 화면 = 객차 한 칸. 위 황동 명판(칸 이동) → 창(칸마다 다른 풍경) → 기구 → 테이블 위 미션 카드 */
 :root{
   color-scheme:dark;
-  --night:#0D1A15;
+  --night:#0F1511;
   --brass:#C9A55C; --brass-dk:#8A6A2E;
-  --paper:#F4ECDB; --ink:#22281F; --muted:#6B6A5C; --leather:#1D5444;
+  --paper:#F4ECDB; --ink:#22281F; --muted:#6B6A5C; --leather:#6E2626;
   --frame:#2C3034; --frame-hi:#464B50; --shroud:#A2A6A9; --shroud-hi:#C3C6C8; --pad:#1E2124; --stack:#666B70;
   --glove:#FBFAF5; --navy:#1F2F52;
   --sky1:#E8D3A6; --sky2:#F3E5C3; --sun:#F6E2A8; --lamp:#F7D88A;
@@ -209,7 +209,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .posts{position:absolute;left:0;right:0;bottom:26%;height:12%;pointer-events:none}
 .post{position:absolute;bottom:0;width:7px;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--brass-dk),#E3C47F,var(--brass-dk))}
 .post::before{content:"";position:absolute;top:-6px;left:-3px;width:13px;height:13px;border-radius:50%;background:var(--brass)}
-.rope{position:absolute;top:8%;height:28px;border-bottom:5px solid #1D5444;border-radius:0 0 50% 50%}
+.rope{position:absolute;top:8%;height:28px;border-bottom:5px solid #6E2626;border-radius:0 0 50% 50%}
 
 .office-ui{position:absolute;left:0;right:0;bottom:0;padding:0 max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:5}
 .welcome{position:absolute;top:13%;left:0;right:0;text-align:center;color:#3A2A1C;padding-inline:16px;z-index:4}
@@ -253,13 +253,13 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 @keyframes flash{50%{opacity:.25}}
 .train-side{position:absolute;left:4%;bottom:31%;height:20%;display:flex;align-items:flex-end;gap:6px;transition:transform 2.6s cubic-bezier(.55,0,.75,.4)}
 .departing .train-side{transform:translateX(-150%)}
-.tcar{position:relative;height:100%;width:220px;flex:none;border-radius:10px 10px 4px 4px;background:linear-gradient(#EFE3C8 0 34%,#C9A55C 34% 36%,#1D5444 36%);box-shadow:0 8px 16px rgba(0,0,0,.3)}
+.tcar{position:relative;height:100%;width:220px;flex:none;border-radius:10px 10px 4px 4px;background:linear-gradient(#EFE3C8 0 34%,#C9A55C 34% 36%,#23392C 36%);box-shadow:0 8px 16px rgba(0,0,0,.3)}
 .tcar .ws{position:absolute;left:8px;right:8px;top:10%;height:20%;display:flex;gap:6px}
 .tcar .ws i{flex:1;border-radius:4px;background:#F2C97A;box-shadow:inset 0 0 0 2px #8A6A2E}
 .tcar .nm{position:absolute;left:0;right:0;top:52%;text-align:center;font-family:var(--f-display);font-size:13px;letter-spacing:.14em;color:#E3C47F}
 .tcar .gl{position:absolute;left:0;right:0;bottom:22%;height:2px;background:var(--brass)}
-.loco2{width:150px;border-radius:50px 10px 4px 4px;background:linear-gradient(#1D5444,#143E33)}
-.loco2 .chim{position:absolute;left:26px;top:-22px;width:18px;height:24px;border-radius:3px 3px 0 0;background:#143E33}
+.loco2{width:150px;border-radius:50px 10px 4px 4px;background:linear-gradient(#23392C,#1A2B21)}
+.loco2 .chim{position:absolute;left:26px;top:-22px;width:18px;height:24px;border-radius:3px 3px 0 0;background:#1A2B21}
 .puff{position:absolute;left:22px;top:-30px;width:26px;height:26px;border-radius:50%;background:#F4EEE2;opacity:0}
 .departing .puff,.waiting .puff{animation:puff 1.6s ease-out infinite}
 .puff:nth-child(2){animation-delay:.5s!important}.puff:nth-child(3){animation-delay:1s!important}
@@ -274,7 +274,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .plat-msg b{display:block;font-family:var(--f-kr);font-size:20px}
 .plat-msg span{font-size:13px;color:#5E5444}
 .skip{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:max(14px,env(safe-area-inset-top,0px));z-index:9;background:rgba(15,21,17,.55);border:1px solid rgba(201,165,92,.6);color:#F1E5CB;border-radius:999px;padding:6px 12px;font-size:12px}
-.fade{position:absolute;inset:0;background:#0D1A15;opacity:0;pointer-events:none;transition:opacity .5s;z-index:10}
+.fade{position:absolute;inset:0;background:#0F1511;opacity:0;pointer-events:none;transition:opacity .5s;z-index:10}
 .fade.on{opacity:1}
 
 
@@ -317,7 +317,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .st-card .acts{display:flex;gap:8px;margin-top:4px}
 .st-card .acts .btn{flex:1}
 .st-card .btn.line{background:transparent;color:var(--ink);border:1px solid #CFC5B0}
-.received{position:absolute;right:12px;top:-58px;width:96px;height:96px;border-radius:50%;border:3px double #1D5444;color:#1D5444;display:grid;place-items:center;text-align:center;
+.received{position:absolute;right:12px;top:-58px;width:96px;height:96px;border-radius:50%;border:3px double #6E2626;color:#6E2626;display:grid;place-items:center;text-align:center;
   font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;line-height:1.35;transform:rotate(-12deg);animation:stampIn .45s cubic-bezier(.3,1.7,.5,1);background:rgba(244,236,219,.85)}
 .received b{display:block;font-family:var(--f-kr);font-size:13px;letter-spacing:0}
 @keyframes stampIn{from{transform:rotate(-12deg) scale(2);opacity:0}}
@@ -355,7 +355,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .paper .mast{font-family:var(--f-display);font-size:7px;letter-spacing:.06em;border-bottom:1.5px solid #2A2622;padding-bottom:1px;white-space:nowrap;overflow:hidden}
 .paper .hd{font-family:var(--f-kr);font-weight:800;font-size:8.5px;line-height:1.25}
 .paper .cols{flex:1;background:repeating-linear-gradient(0deg,#B7AF9E 0 1px,transparent 1px 4px);opacity:.8}
-.paper .ft{font-size:7.5px;font-weight:600;color:#1D5444}
+.paper .ft{font-size:7.5px;font-weight:600;color:#6E2626}
 .info-pillar{position:absolute;left:1%;top:42%;width:27%;z-index:4;filter:drop-shadow(0 12px 14px rgba(0,0,0,.35))}
 .info-pillar .green{animation:glowG 2.4s ease-in-out infinite}
 @keyframes glowG{50%{opacity:.55}}
@@ -385,7 +385,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 
 
 /* 승강장 v2 */
-.platform{background:#74502F}
+.platform{background:#A65A3A}
 .pf-bg{position:absolute;inset:0;width:100%;height:100%}
 .pf-bg .beams2{animation:beam 8s ease-in-out infinite}
 .platform .roof,.platform .lamppost{display:none}
@@ -407,7 +407,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 
 
 /* ── 매표소 v3: 벽돌 대합실 */
-.office{background:#6E4A2C}
+.office{background:#9E5638}
 .office .hall,.office .info-pillar,.office .news{display:none}
 .hall2{position:absolute;inset:0;width:100%;height:100%}
 .hall2 .beams{animation:beam 7s ease-in-out infinite}
@@ -486,7 +486,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 
 
 /* 정차역 v2 */
-.station{background:#6E4A2C}
+.station{background:#9E5638}
 .st-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .st-bg .beams{animation:beam 7s ease-in-out infinite}
 .station .ground{display:none}
@@ -767,10 +767,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
     <section class="scene office" id="office">
       <svg class="hall2" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <defs>
-          <pattern id="brk" width="20" height="40" patternUnits="userSpaceOnUse"><rect width="20" height="40" fill="#74502F"/><rect width="1.6" height="40" fill="#3E2716"/><rect x="2" width="4" height="40" fill="rgba(255,220,170,.07)"/><path d="M11.0 0 V40" stroke="rgba(40,22,10,.10)" stroke-width="1"/></pattern>
-          <pattern id="mul3" width="20" height="18" patternUnits="userSpaceOnUse" x="80"><rect width="20" height="18" fill="none" stroke="#123A2F" stroke-width="1.4"/></pattern>
-          <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C705B"/><stop offset=".6" stop-color="#1D5444"/><stop offset="1" stop-color="#143E33"/></linearGradient>
-          <linearGradient id="fl3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9BA9A"/><stop offset="1" stop-color="#A3926F"/></linearGradient>
+          <pattern id="brk" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#9E5638"/><path d="M0 .5H20 M0 5.5H20 M10 0V5 M0 5V10 M20 5V10" stroke="#743A23" stroke-width="1"/><rect x="1" y="1" width="8" height="3.6" fill="rgba(255,200,150,.09)"/><rect x="11" y="6" width="8" height="3.6" fill="rgba(0,0,0,.05)"/></pattern>
+          <pattern id="mul3" width="20" height="18" patternUnits="userSpaceOnUse" x="80"><rect width="20" height="18" fill="none" stroke="#3B3E3A" stroke-width="1.4"/></pattern>
+          <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F1E2"/><stop offset=".6" stop-color="#E6E0D0"/><stop offset="1" stop-color="#CFC6B0"/></linearGradient>
+          <linearGradient id="fl3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFC7B6"/><stop offset="1" stop-color="#A69C88"/></linearGradient>
           <radialGradient id="glb"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".45" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
           <linearGradient id="bm3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,240,205,.45)"/><stop offset="1" stop-color="rgba(255,240,205,0)"/></linearGradient>
         </defs>
@@ -778,36 +778,35 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <!-- 볼트 천장 -->
         <path d="M0 0 H400 V40 Q200 -10 0 40Z" fill="#7A3E26"/>
         <!-- 큰 아치 + 테라코타 몰딩 -->
-        <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#8C6440" stroke-width="12"/>
-        <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#4A3020" stroke-width="2" transform="translate(0 8)"/>
+        <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#C26A45" stroke-width="12"/>
+        <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#7E3F27" stroke-width="2" transform="translate(0 8)"/>
         <path d="M80 286 V150 A120 120 0 0 1 320 150 V286 Z" fill="url(#sky3)"/>
-        <path d="M80 286 V150 A120 120 0 0 1 320 150 V286 Z" fill="url(#mul3)"/>
-        <path d="M80 150 A120 120 0 0 1 320 150" fill="none" stroke="#3E2716" stroke-width="5"/>
-        <path d="M200 30 V286 M140 46 V286 M260 46 V286 M80 210 H320" stroke="#3E2716" stroke-width="4"/>
+        <path d="M80 150 A120 120 0 0 1 320 150" fill="none" stroke="#2F322F" stroke-width="5"/>
+        <path d="M200 30 V286 M140 46 V286 M260 46 V286 M80 210 H320" stroke="#2F322F" stroke-width="4"/>
         <!-- 창 너머 플랫폼 지붕 실루엣 -->
-        <rect x="80" y="214" width="240" height="4" fill="#A8F0CF" opacity=".85"/><rect x="80" y="210" width="240" height="14" fill="#A8F0CF" opacity=".18"/><g fill="#C9B48E" opacity=".75"><rect x="104" y="232" width="4" height="16"/><rect x="110" y="234" width="4" height="14"/><rect x="230" y="232" width="4" height="16"/><rect x="236" y="231" width="4" height="17"/><rect x="242" y="234" width="4" height="14"/><rect x="290" y="250" width="4" height="16"/></g>
+        <path d="M84 256 L140 236 L200 248 L260 236 L316 256 V286 H84Z" fill="rgba(80,80,74,.35)"/>
         <!-- 장식 기둥 머리 -->
         <g fill="#C9A55C"><rect x="140" y="194" width="8" height="18"/><rect x="252" y="194" width="8" height="18"/></g>
         <!-- 시계 -->
-        <g transform="translate(200 108)"><path d="M0 -60 V-34" stroke="#3E2716" stroke-width="2.5"/>
-          <circle r="34" fill="#3E2716"/><circle r="30" fill="#FBF5E4"/><circle r="30" fill="none" stroke="#C9A55C" stroke-width="2"/>
+        <g transform="translate(200 108)"><path d="M0 -60 V-34" stroke="#2F322F" stroke-width="2.5"/>
+          <circle r="34" fill="#2F322F"/><circle r="30" fill="#FBF5E4"/><circle r="30" fill="none" stroke="#C9A55C" stroke-width="2"/>
           <g stroke="#2A2620" stroke-width="1.4"><line y1="-26" y2="-21" transform="rotate(0)"/><line y1="-26" y2="-23" transform="rotate(30)"/><line y1="-26" y2="-23" transform="rotate(60)"/><line y1="-26" y2="-21" transform="rotate(90)"/><line y1="-26" y2="-23" transform="rotate(120)"/><line y1="-26" y2="-23" transform="rotate(150)"/><line y1="-26" y2="-21" transform="rotate(180)"/><line y1="-26" y2="-23" transform="rotate(210)"/><line y1="-26" y2="-23" transform="rotate(240)"/><line y1="-26" y2="-21" transform="rotate(270)"/><line y1="-26" y2="-23" transform="rotate(300)"/><line y1="-26" y2="-23" transform="rotate(330)"/></g>
           <line class="hh" y1="3" y2="-15" stroke="#2A2620" stroke-width="3" stroke-linecap="round"/><line class="mh" y1="4" y2="-23" stroke="#2A2620" stroke-width="2" stroke-linecap="round"/><circle r="2.4" fill="#2A2620"/></g>
         <!-- 빛줄기 -->
         <path class="beams" d="M90 286 L20 760 L170 760 L180 286 Z M220 286 L240 760 L380 760 L310 286 Z" fill="url(#bm3)"/>
         <!-- 코니스 -->
-        <rect x="0" y="290" width="400" height="10" fill="#8C6440"/><rect x="0" y="300" width="400" height="4" fill="#3E2716"/>
-        <g fill="#8C6440"><rect x="4" y="304" width="8" height="6"/><rect x="20" y="304" width="8" height="6"/><rect x="36" y="304" width="8" height="6"/><rect x="52" y="304" width="8" height="6"/><rect x="68" y="304" width="8" height="6"/><rect x="84" y="304" width="8" height="6"/><rect x="100" y="304" width="8" height="6"/><rect x="116" y="304" width="8" height="6"/><rect x="132" y="304" width="8" height="6"/><rect x="148" y="304" width="8" height="6"/><rect x="164" y="304" width="8" height="6"/><rect x="180" y="304" width="8" height="6"/><rect x="196" y="304" width="8" height="6"/><rect x="212" y="304" width="8" height="6"/><rect x="228" y="304" width="8" height="6"/><rect x="244" y="304" width="8" height="6"/><rect x="260" y="304" width="8" height="6"/><rect x="276" y="304" width="8" height="6"/><rect x="292" y="304" width="8" height="6"/><rect x="308" y="304" width="8" height="6"/><rect x="324" y="304" width="8" height="6"/><rect x="340" y="304" width="8" height="6"/><rect x="356" y="304" width="8" height="6"/><rect x="372" y="304" width="8" height="6"/><rect x="388" y="304" width="8" height="6"/></g>
+        <rect x="0" y="290" width="400" height="10" fill="#C26A45"/><rect x="0" y="300" width="400" height="4" fill="#743A23"/>
+        <g fill="#C26A45"><rect x="4" y="304" width="8" height="6"/><rect x="20" y="304" width="8" height="6"/><rect x="36" y="304" width="8" height="6"/><rect x="52" y="304" width="8" height="6"/><rect x="68" y="304" width="8" height="6"/><rect x="84" y="304" width="8" height="6"/><rect x="100" y="304" width="8" height="6"/><rect x="116" y="304" width="8" height="6"/><rect x="132" y="304" width="8" height="6"/><rect x="148" y="304" width="8" height="6"/><rect x="164" y="304" width="8" height="6"/><rect x="180" y="304" width="8" height="6"/><rect x="196" y="304" width="8" height="6"/><rect x="212" y="304" width="8" height="6"/><rect x="228" y="304" width="8" height="6"/><rect x="244" y="304" width="8" height="6"/><rect x="260" y="304" width="8" height="6"/><rect x="276" y="304" width="8" height="6"/><rect x="292" y="304" width="8" height="6"/><rect x="308" y="304" width="8" height="6"/><rect x="324" y="304" width="8" height="6"/><rect x="340" y="304" width="8" height="6"/><rect x="356" y="304" width="8" height="6"/><rect x="372" y="304" width="8" height="6"/><rect x="388" y="304" width="8" height="6"/></g>
         <!-- 가로등 -->
         <g><rect x="22" y="120" width="6" height="440" fill="#1F1E1C"/><path d="M18 128 h14 l-2 -8 h-10z" fill="#1F1E1C"/><circle cx="25" cy="104" r="36" fill="url(#glb)"/><circle cx="25" cy="104" r="12" fill="#FFF6DA"/><rect x="14" y="548" width="22" height="12" fill="#1F1E1C"/></g>
         <g><rect x="372" y="120" width="6" height="440" fill="#1F1E1C"/><path d="M368 128 h14 l-2 -8 h-10z" fill="#1F1E1C"/><circle cx="375" cy="104" r="36" fill="url(#glb)"/><circle cx="375" cy="104" r="12" fill="#FFF6DA"/><rect x="364" y="548" width="22" height="12" fill="#1F1E1C"/></g>
         <!-- 매표 부스 벽 (2번째 단) -->
-        <rect x="0" y="352" width="400" height="160" fill="#7A5434"/>
-        <rect x="0" y="352" width="400" height="6" fill="#1D5444"/>
-        <rect x="0" y="470" width="400" height="42" fill="#1D5444"/>
+        <rect x="0" y="352" width="400" height="160" fill="#F3E4C4"/>
+        <rect x="0" y="352" width="400" height="6" fill="#3E4A44"/>
+        <rect x="0" y="470" width="400" height="42" fill="#3E4A44"/>
         <!-- 게시판들 -->
-        <g><rect x="44" y="372" width="30" height="40" fill="#E9E2CF" stroke="#3E2716" stroke-width="2"/><rect x="48" y="378" width="22" height="3" fill="#8C8270"/><rect x="48" y="384" width="18" height="2" fill="#B5AC98"/><rect x="48" y="389" width="20" height="2" fill="#B5AC98"/><rect x="48" y="394" width="14" height="2" fill="#B5AC98"/></g>
-        <g><rect x="326" y="372" width="30" height="40" fill="#E9E2CF" stroke="#3E2716" stroke-width="2"/><rect x="330" y="378" width="22" height="3" fill="#8C8270"/><rect x="330" y="384" width="18" height="2" fill="#B5AC98"/><rect x="330" y="389" width="20" height="2" fill="#B5AC98"/></g>
+        <g><rect x="44" y="372" width="30" height="40" fill="#E9E2CF" stroke="#2F322F" stroke-width="2"/><rect x="48" y="378" width="22" height="3" fill="#8C8270"/><rect x="48" y="384" width="18" height="2" fill="#B5AC98"/><rect x="48" y="389" width="20" height="2" fill="#B5AC98"/><rect x="48" y="394" width="14" height="2" fill="#B5AC98"/></g>
+        <g><rect x="326" y="372" width="30" height="40" fill="#E9E2CF" stroke="#2F322F" stroke-width="2"/><rect x="330" y="378" width="22" height="3" fill="#8C8270"/><rect x="330" y="384" width="18" height="2" fill="#B5AC98"/><rect x="330" y="389" width="20" height="2" fill="#B5AC98"/></g>
         <g fill="#FFE3A0"><circle cx="100" cy="364" r="3"/><circle cx="300" cy="364" r="3"/><circle cx="160" cy="364" r="2.5"/><circle cx="240" cy="364" r="2.5"/></g>
         <!-- 바닥 -->
         <rect x="0" y="512" width="400" height="248" fill="url(#fl3)"/>
@@ -856,13 +855,13 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <circle cx="26" cy="134" r="10" fill="#1C1B1A"/><circle cx="26" cy="134" r="4" fill="#8A6A2E"/><circle cx="108" cy="134" r="10" fill="#1C1B1A"/><circle cx="108" cy="134" r="4" fill="#8A6A2E"/>
         <g><rect x="12" y="78" width="110" height="40" rx="5" fill="#6B3A22"/><rect x="12" y="78" width="110" height="6" rx="3" fill="#82492B"/><rect x="34" y="78" width="7" height="40" fill="#3E2414"/><rect x="92" y="78" width="7" height="40" fill="#3E2414"/><rect x="58" y="72" width="18" height="7" rx="3" fill="none" stroke="#3E2414" stroke-width="3"/><circle cx="46" cy="98" r="7" fill="#E7D7B0"/><rect x="66" y="92" width="16" height="10" rx="1" fill="#C9A55C"/></g>
         <g><rect x="22" y="44" width="86" height="34" rx="5" fill="#A26B3F"/><rect x="22" y="44" width="86" height="5" rx="2" fill="#B9804F"/><rect x="40" y="44" width="6" height="34" fill="#5A3520"/><rect x="84" y="44" width="6" height="34" fill="#5A3520"/><rect x="56" y="38" width="16" height="7" rx="3" fill="none" stroke="#5A3520" stroke-width="3"/><rect x="58" y="56" width="18" height="12" rx="1" fill="#2F5E5B"/></g>
-        <g><rect x="38" y="18" width="56" height="26" rx="10" fill="#2F3A33"/><rect x="38" y="18" width="56" height="4" rx="2" fill="#1D5444"/><rect x="58" y="12" width="14" height="7" rx="3" fill="none" stroke="#C9A55C" stroke-width="2.5"/><circle cx="52" cy="31" r="2.5" fill="#C9A55C"/><circle cx="80" cy="31" r="2.5" fill="#C9A55C"/></g>
+        <g><rect x="38" y="18" width="56" height="26" rx="10" fill="#2F3A33"/><rect x="38" y="18" width="56" height="4" rx="2" fill="#3E4A44"/><rect x="58" y="12" width="14" height="7" rx="3" fill="none" stroke="#C9A55C" stroke-width="2.5"/><circle cx="52" cy="31" r="2.5" fill="#C9A55C"/><circle cx="80" cy="31" r="2.5" fill="#C9A55C"/></g>
       </svg>
 
       <!-- 오브제: 신문 가판대 -->
       <div class="kiosk" aria-label="신문 가판대">
         <svg class="kiosk-bg" viewBox="0 0 130 190" aria-hidden="true">
-          <path d="M6 30 L65 6 L124 30 Z" fill="#2F3A33"/><rect x="8" y="30" width="114" height="14" fill="#1D5444"/><text x="65" y="40.5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#E3C47F">NEWS · LETTERS</text>
+          <path d="M6 30 L65 6 L124 30 Z" fill="#2F3A33"/><rect x="8" y="30" width="114" height="14" fill="#3E4A44"/><text x="65" y="40.5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#E3C47F">NEWS · LETTERS</text>
           <rect x="14" y="44" width="102" height="146" fill="#5A3520"/><rect x="18" y="48" width="94" height="88" fill="#3A2214"/>
           <rect x="14" y="136" width="102" height="8" fill="#7A4A2C"/><rect x="14" y="144" width="102" height="46" fill="#4A2C18"/>
           <g fill="#E9E2CF"><rect x="22" y="150" width="20" height="26"/><rect x="46" y="152" width="20" height="24"/><rect x="70" y="150" width="20" height="26"/><rect x="94" y="152" width="18" height="24"/></g>
@@ -907,36 +906,36 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
     <section class="scene platform" id="platform" hidden>
       <svg class="pf-bg" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <defs>
-          <pattern id="brick" width="24" height="42" patternUnits="userSpaceOnUse"><rect width="24" height="42" fill="#74502F"/><rect width="1.6" height="42" fill="#3E2716"/><rect x="2" width="4" height="42" fill="rgba(255,220,170,.07)"/><path d="M13.200000000000001 0 V42" stroke="rgba(40,22,10,.10)" stroke-width="1"/></pattern>
+          <pattern id="brick" width="24" height="12" patternUnits="userSpaceOnUse"><rect width="24" height="12" fill="#A65A3A"/><path d="M0 0.5 H24 M0 6.5 H24 M12 0 V6 M0 6 V12 M24 6 V12" stroke="#7E3F27" stroke-width="1"/><rect x="1" y="1" width="10" height="4.6" fill="rgba(255,190,140,.10)"/></pattern>
           <pattern id="mul2" width="16" height="20" patternUnits="userSpaceOnUse"><rect width="16" height="20" fill="none" stroke="#3A3F3C" stroke-width="1.6"/></pattern>
           <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4D8"/><stop offset="1" stop-color="#F6D9A0"/></linearGradient>
           <linearGradient id="beam2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,226,160,.6)"/><stop offset="1" stop-color="rgba(255,226,160,0)"/></linearGradient>
           <linearGradient id="floor2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2B286"/><stop offset=".35" stop-color="#E6CFA6"/><stop offset="1" stop-color="#DBC097"/></linearGradient><pattern id="plank2" width="120" height="22" patternUnits="userSpaceOnUse"><rect width="120" height="22" fill="none"/><path d="M0 21.5 H120" stroke="rgba(110,74,40,.28)" stroke-width="1"/><path d="M38 0 V22" stroke="rgba(110,74,40,.22)" stroke-width="1"/><path d="M0 7 Q30 5 60 8 T120 7 M0 14 Q40 16 80 13 T120 15" stroke="rgba(140,100,60,.10)" stroke-width="1" fill="none"/><rect x="0" y="0" width="120" height="3" fill="rgba(255,240,215,.18)"/></pattern><pattern id="plank2b" width="120" height="44" patternUnits="userSpaceOnUse"><rect y="0" width="120" height="22" fill="url(#plank2)"/><rect x="0" y="22" width="120" height="22" fill="url(#plank2)" transform="translate(60 0)"/></pattern>
-          <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A5434"/><stop offset="1" stop-color="#5A3B22"/></linearGradient>
+          <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4E5C52"/><stop offset="1" stop-color="#36423A"/></linearGradient>
           <radialGradient id="globeL"><stop offset="0" stop-color="#FFF6DA"/><stop offset=".5" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
         </defs>
         <!-- 벽돌 벽 -->
         <rect width="400" height="760" fill="url(#brick)"/>
         <!-- 큰 아치 창 -->
-        <path d="M70 300 V170 A130 130 0 0 1 330 170 V300 Z" fill="#4A3020"/>
+        <path d="M70 300 V170 A130 130 0 0 1 330 170 V300 Z" fill="#7E3F27"/>
         <path d="M80 300 V172 A120 120 0 0 1 320 172 V300 Z" fill="url(#sky2)"/>
         <path d="M80 300 V172 A120 120 0 0 1 320 172 V300 Z" fill="url(#mul2)"/>
         <path d="M80 172 A120 120 0 0 1 320 172" fill="none" stroke="#3A3F3C" stroke-width="4"/>
         <path d="M200 52 V300 M140 70 V300 M260 70 V300 M80 230 H320" stroke="#2E3330" stroke-width="3"/>
-        <path d="M60 172 A140 140 0 0 1 340 172" fill="none" stroke="#8C6440" stroke-width="8"/>
+        <path d="M60 172 A140 140 0 0 1 340 172" fill="none" stroke="#C9714C" stroke-width="8"/>
         <!-- 양옆 작은 아치 창 -->
         <path d="M-30 300 V200 A46 46 0 0 1 40 200 V300 Z" fill="url(#sky2)"/><path d="M-30 300 V200 A46 46 0 0 1 40 200 V300 Z" fill="url(#mul2)"/>
         <path d="M360 300 V200 A46 46 0 0 1 430 200 V300 Z" fill="url(#sky2)"/><path d="M360 300 V200 A46 46 0 0 1 430 200 V300 Z" fill="url(#mul2)"/>
         <!-- 코니스 -->
-        <rect x="0" y="300" width="400" height="12" fill="#8C6440"/><rect x="0" y="312" width="400" height="4" fill="#4A3020"/>
+        <rect x="0" y="300" width="400" height="12" fill="#C9714C"/><rect x="0" y="312" width="400" height="4" fill="#7E3F27"/>
         <!-- 아래 패널 + 문 + 게시판 -->
         <rect x="0" y="316" width="400" height="120" fill="url(#panel)"/>
-        <g fill="#143E33"><rect x="22" y="330" width="44" height="106"/><rect x="334" y="330" width="44" height="106"/></g>
+        <g fill="#2B342E"><rect x="22" y="330" width="44" height="106"/><rect x="334" y="330" width="44" height="106"/></g>
         <g fill="#F1E3C2" opacity=".85"><rect x="28" y="338" width="14" height="40"/><rect x="46" y="338" width="14" height="40"/><rect x="340" y="338" width="14" height="40"/><rect x="358" y="338" width="14" height="40"/></g>
         <rect x="150" y="334" width="100" height="44" fill="#E9DFC6" stroke="#B8913E" stroke-width="3"/>
-        <text x="200" y="352" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#143E33">TO PLATFORM 7F</text>
+        <text x="200" y="352" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#2B342E">TO PLATFORM 7F</text>
         <text x="200" y="368" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-size="9" fill="#5A4A2E">그랑서울 피트니스행</text>
-        <g fill="#E9DFC6" stroke="#143E33" stroke-width="1.5"><rect x="92" y="340" width="22" height="30"/><rect x="286" y="340" width="22" height="30"/></g>
+        <g fill="#E9DFC6" stroke="#2B342E" stroke-width="1.5"><rect x="92" y="340" width="22" height="30"/><rect x="286" y="340" width="22" height="30"/></g>
         <g fill="#FFE3A0"><circle cx="124" cy="330" r="3"/><circle cx="276" cy="330" r="3"/></g>
         <!-- 철골 지붕 -->
         <rect x="0" y="0" width="400" height="56" fill="#2B2A28"/>
@@ -1024,7 +1023,7 @@ bike:`<svg viewBox="0 0 130 150"><rect x="6" y="138" width="118" height="8" rx="
 mat:`<svg viewBox="0 0 260 90"><path d="M50 20 L210 20 L250 84 L10 84 Z" fill="#7F937A"/><path d="M58 26 L202 26 L236 78 L24 78 Z" fill="none" stroke="#A9B9A2" stroke-width="1.5"/><rect x="96" y="36" width="70" height="22" rx="11" fill="#E3D8C2"/><path d="M106 36 V58 M156 36 V58" stroke="#C9BB9C" stroke-width="2"/></svg>`,
 mats:`<svg viewBox="0 0 120 140"><circle cx="26" cy="118" r="18" fill="#7F937A"/><circle cx="26" cy="118" r="7" fill="#5F7259"/><circle cx="62" cy="118" r="18" fill="#8E6640"/><circle cx="62" cy="118" r="7" fill="#6D4C2E"/><circle cx="44" cy="86" r="18" fill="#7F937A"/><circle cx="44" cy="86" r="7" fill="#5F7259"/><rect x="78" y="40" width="34" height="96" rx="6" fill="#4F6A4B"/><path d="M90 52 C82 36 70 34 66 20 M96 52 C104 34 114 30 112 14 M93 52 C92 34 96 22 92 6" stroke="#6F8A68" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`,
 mirror:`<svg viewBox="0 0 160 200"><rect x="6" y="6" width="148" height="190" rx="6" fill="var(--brass-dk)"/><rect x="14" y="14" width="132" height="174" rx="3" fill="#41604E"/><path d="M30 20 L70 20 L30 120 Z" fill="rgba(255,255,255,.12)"/><path d="M84 20 L100 20 L48 182 L32 182 Z" fill="rgba(255,255,255,.08)"/></svg>`,
-steps:`<svg viewBox="0 0 170 120"><rect x="6" y="80" width="78" height="22" rx="4" fill="var(--pad)"/><rect x="10" y="102" width="12" height="10" fill="var(--frame)"/><rect x="68" y="102" width="12" height="10" fill="var(--frame)"/><rect x="18" y="56" width="66" height="22" rx="4" fill="var(--pad)" opacity=".9"/><rect x="96" y="96" width="70" height="16" rx="8" fill="#1D5444"/><circle cx="104" cy="104" r="8" fill="#5A1E1E"/><g transform="translate(120 46)"><circle cx="14" cy="26" r="20" fill="var(--pad)"/><path d="M2 12 Q14 -6 26 12" stroke="var(--shroud)" stroke-width="5" fill="none"/></g></svg>`
+steps:`<svg viewBox="0 0 170 120"><rect x="6" y="80" width="78" height="22" rx="4" fill="var(--pad)"/><rect x="10" y="102" width="12" height="10" fill="var(--frame)"/><rect x="68" y="102" width="12" height="10" fill="var(--frame)"/><rect x="18" y="56" width="66" height="22" rx="4" fill="var(--pad)" opacity=".9"/><rect x="96" y="96" width="70" height="16" rx="8" fill="#6E2626"/><circle cx="104" cy="104" r="8" fill="#5A1E1E"/><g transform="translate(120 46)"><circle cx="14" cy="26" r="20" fill="var(--pad)"/><path d="M2 12 Q14 -6 26 12" stroke="var(--shroud)" stroke-width="5" fill="none"/></g></svg>`
 };
 
 const CARS=[
@@ -1507,37 +1506,37 @@ function stationBg(S){
   const teeth=Array.from({length:25},(_,i)=>`<rect x="${4+i*16}" y="318" width="8" height="5"/>`).join("");
   const truss=Array.from({length:11},(_,i)=>`${i?"L":"M"}${i*40} ${i%2?0:44}`).join(" ");
   const bench=(x)=>`<g transform="translate(${x} 470)"><rect x="0" y="0" width="70" height="7" rx="2" fill="#5A3520"/><rect x="0" y="10" width="70" height="6" rx="2" fill="#5A3520"/><rect x="0" y="22" width="70" height="7" rx="2" fill="#6B4428"/><path d="M6 -2 V44 M64 -2 V44" stroke="#22211F" stroke-width="4"/><path d="M2 30 H68" stroke="#22211F" stroke-width="3"/></g>`;
-  const planter=(x)=>`<g transform="translate(${x} 462)"><path d="M0 22 H30 L26 52 H4Z" fill="#1D5444"/><rect x="-2" y="18" width="34" height="6" rx="2" fill="#C9A55C"/>
+  const planter=(x)=>`<g transform="translate(${x} 462)"><path d="M0 22 H30 L26 52 H4Z" fill="#3E4A44"/><rect x="-2" y="18" width="34" height="6" rx="2" fill="#C9A55C"/>
     <g fill="#4F6A4B"><ellipse cx="15" cy="8" rx="16" ry="12"/><ellipse cx="4" cy="14" rx="9" ry="7"/><ellipse cx="26" cy="14" rx="9" ry="7"/></g><g fill="${night?"#B9C9B0":"#E9B9A0"}"><circle cx="9" cy="4" r="2.4"/><circle cx="20" cy="2" r="2.4"/><circle cx="25" cy="10" r="2.4"/></g></g>`;
   return `<svg class="st-bg" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <defs>
-    <pattern id="sbk" width="20" height="40" patternUnits="userSpaceOnUse"><rect width="20" height="40" fill="#74502F"/><rect width="1.6" height="40" fill="#3E2716"/><rect x="2" width="4" height="40" fill="rgba(255,220,170,.07)"/><path d="M11.0 0 V40" stroke="rgba(40,22,10,.10)" stroke-width="1"/></pattern>
-    <pattern id="smul" width="20" height="18" patternUnits="userSpaceOnUse" x="90"><rect width="20" height="18" fill="none" stroke="#123A2F" stroke-width="1.4"/></pattern>
+    <pattern id="sbk" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#9E5638"/><path d="M0 .5H20 M0 5.5H20 M10 0V5 M0 5V10 M20 5V10" stroke="#743A23" stroke-width="1"/><rect x="1" y="1" width="8" height="3.6" fill="rgba(255,200,150,.09)"/></pattern>
+    <pattern id="smul" width="20" height="18" patternUnits="userSpaceOnUse" x="90"><rect width="20" height="18" fill="none" stroke="#3B3E3A" stroke-width="1.4"/></pattern>
     <linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>
-    <linearGradient id="sfl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9BA9A"/><stop offset="1" stop-color="#A3926F"/></linearGradient>
+    <linearGradient id="sfl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFC7B6"/><stop offset="1" stop-color="#A69C88"/></linearGradient>
     <linearGradient id="sbm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${night?"rgba(255,226,160,.25)":"rgba(255,240,205,.5)"}"/><stop offset="1" stop-color="rgba(255,240,205,0)"/></linearGradient>
     <radialGradient id="sgl"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".45" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
     <linearGradient id="vel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7E2B2B"/><stop offset="1" stop-color="#4A1616"/></linearGradient>
   </defs>
   <rect width="400" height="760" fill="url(#sbk)"/>
   <!-- 큰 아치 창 (어메니티 뒤 역광) -->
-  <path d="M54 318 V178 A146 146 0 0 1 346 178 V318" fill="none" stroke="#8C6440" stroke-width="12"/>
+  <path d="M54 318 V178 A146 146 0 0 1 346 178 V318" fill="none" stroke="#C26A45" stroke-width="12"/>
   <path d="M86 314 V178 A114 114 0 0 1 314 178 V314Z" fill="url(#ssky)"/>
   ${night?`<g fill="#fff" opacity=".7">${Array.from({length:30},(_,i)=>`<circle cx="${96+(i*53)%210}" cy="${90+(i*37)%180}" r="${i%4?0.8:1.4}"/>`).join("")}</g><path d="M90 300 V280 H110 V262 H128 V284 H150 V256 H170 V290 H196 V270 H220 V286 H246 V250 H262 V280 H290 V266 H310 V300Z" fill="#14202E"/><g fill="#F2C97A">${Array.from({length:14},(_,i)=>`<rect x="${100+i*15}" y="${276+(i%3)*6}" width="3" height="3"/>`).join("")}</g>`:""}
   <path d="M86 314 V178 A114 114 0 0 1 314 178 V314Z" fill="url(#smul)"/>
-  <path d="M86 178 A114 114 0 0 1 314 178" fill="none" stroke="#3E2716" stroke-width="5"/>
-  <path d="M200 64 V314 M144 80 V314 M256 80 V314 M86 240 H314" stroke="#3E2716" stroke-width="4"/>
+  <path d="M86 178 A114 114 0 0 1 314 178" fill="none" stroke="#2F322F" stroke-width="5"/>
+  <path d="M200 64 V314 M144 80 V314 M256 80 V314 M86 240 H314" stroke="#2F322F" stroke-width="4"/>
   <!-- 시계 -->
-  <g transform="translate(200 132)"><circle r="16" fill="#3E2716"/><circle r="13.5" fill="#FBF5E4"/><g stroke="#2A2620" stroke-width="1">${ticks}</g>
+  <g transform="translate(200 132)"><circle r="16" fill="#2F322F"/><circle r="13.5" fill="#FBF5E4"/><g stroke="#2A2620" stroke-width="1">${ticks}</g>
     <line class="hh" y1="1.5" y2="-6.5" stroke="#2A2620" stroke-width="2" stroke-linecap="round"/><line class="mh" y1="2" y2="-10.5" stroke="#2A2620" stroke-width="1.4" stroke-linecap="round"/></g>
   <!-- 코니스 -->
-  <rect x="0" y="312" width="400" height="7" fill="#8C6440"/><g fill="#8C6440">${teeth}</g>
+  <rect x="0" y="312" width="400" height="7" fill="#C26A45"/><g fill="#C26A45">${teeth}</g>
   <!-- 아래 패널 -->
-  <rect x="0" y="330" width="400" height="160" fill="#1D5444"/>
-  <g fill="#143E33"><rect x="300" y="350" width="46" height="140"/></g>
+  <rect x="0" y="330" width="400" height="160" fill="#3E4A44"/>
+  <g fill="#2B342E"><rect x="300" y="350" width="46" height="140"/></g>
   <g fill="${night?"#F2C97A":"#E9E2CF"}" opacity=".9"><rect x="306" y="358" width="15" height="48"/><rect x="325" y="358" width="15" height="48"/></g>
   <rect x="122" y="348" width="156" height="30" fill="#E9DFC6" stroke="#B8913E" stroke-width="3"/>
-  <text x="200" y="361" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="9" letter-spacing="1.6" fill="#143E33">${S.en}</text>
+  <text x="200" y="361" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="9" letter-spacing="1.6" fill="#2B342E">${S.en}</text>
   <text x="200" y="373" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-size="8" fill="#5A4A2E">${S.km} · 어메니티 수령 정차역</text>
   <!-- 철골 유리 지붕 -->
   <rect x="0" y="0" width="400" height="48" fill="#2B2A28"/>
@@ -1550,7 +1549,7 @@ function stationBg(S){
   <path d="M0 540 H400 M0 610 H400 M0 700 H400" stroke="rgba(0,0,0,.06)" stroke-width="1.5"/>
   <path d="M0 490 H400" stroke="#E8C84E" stroke-width="5" stroke-dasharray="18 18"/>
   <!-- 정차 중인 객차 (왼쪽) -->
-  <g><rect x="-70" y="250" width="118" height="200" rx="10" fill="#1D5444"/><rect x="-70" y="250" width="118" height="70" rx="10" fill="#EFE3C8"/><rect x="-70" y="316" width="118" height="4" fill="#C9A55C"/>
+  <g><rect x="-70" y="250" width="118" height="200" rx="10" fill="#23392C"/><rect x="-70" y="250" width="118" height="70" rx="10" fill="#EFE3C8"/><rect x="-70" y="316" width="118" height="4" fill="#C9A55C"/>
     <rect x="-60" y="266" width="44" height="38" rx="5" fill="${night?"#F2C97A":"#FFE6A6"}" stroke="#8A6A2E" stroke-width="2"/><rect x="-6" y="266" width="44" height="38" rx="5" fill="${night?"#F2C97A":"#FFE6A6"}" stroke="#8A6A2E" stroke-width="2"/>
     <rect x="-60" y="266" width="44" height="10" fill="#F4EEDF"/><rect x="-6" y="266" width="44" height="10" fill="#F4EEDF"/>
     <text x="-10" y="360" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="9" letter-spacing="1.5" fill="#E3C47F">FITNESS CAR</text>
@@ -1591,7 +1590,7 @@ function showStation(n){
   $("#stRecv").onclick=()=>{recv[n]=today;mark()};
   $("#stClose").onclick=()=>host.innerHTML="";
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
-    c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#1D5444","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
+    c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
     c.style.setProperty("--dx",(Math.random()*80-40)+"px");c.style.setProperty("--r",(Math.random()*720)+"deg");st.appendChild(c)}}
 }
 $("#stBtn").onclick=()=>{const order=[3,6,9,12];const k=+($("#stBtn").dataset.k||0);showStation(order[k%4]);$("#stBtn").dataset.k=k+1};
