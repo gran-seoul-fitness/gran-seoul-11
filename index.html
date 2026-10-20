@@ -2077,7 +2077,7 @@ function punchSeq(){
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
   setTimeout(()=>hand.classList.remove("click"),1400);
-  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=n; render();
+  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=n; saveProgress(); render();
     const stn=STATIONS[n]&&STATIONS[n].name;
     $("#msg").innerHTML=`${n}번째 칸 승차 확인<small>${stn?`열차가 곧 ${stn}에 정차합니다.`:"내일은 다른 객차로 옮겨 타 보세요."}</small>
       <button class="btn" style="margin-top:14px" id="back">${stn?"역에 내리기 →":"객차로 돌아가기"}</button>`;
@@ -2282,6 +2282,10 @@ function hangSign(S,n){
       <ellipse cx="-14" cy="-20" rx="22" ry="12" fill="#fff" opacity=".18" transform="rotate(-30 -14 -20)"/>
     </g></svg>`}
 let recv={};
+/* 진행 기록: 새로고침하거나 다음 날 다시 열어도 이어지도록 이 기기 브라우저에 저장 */
+const SAVE_KEY="gse-progress";
+function saveProgress(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({done,recv}));localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}}
+try{const sv=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(sv){done=sv.done||{};recv=sv.recv||{};total=Object.keys(done).length;render()}}catch(e){}
 function showStation(n){
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   host.innerHTML=`<section class="station" style="--st-bg:${S.bg}" aria-label="${S.name} 정차">
@@ -2301,7 +2305,7 @@ function showStation(n){
     $("#stRecv").hidden=true};
   tickClocks();
   if(recv[n]) mark();
-  $("#stRecv").onclick=()=>{recv[n]=today;mark()};
+  $("#stRecv").onclick=()=>{recv[n]=today;saveProgress();mark()};
   $("#stClose").onclick=()=>host.innerHTML="";
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
@@ -2377,7 +2381,7 @@ function showMyTicket(){
   const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
-  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};P.pmode="";$("#layer").hidden=true;render();close()};
+  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
   setTimeout(()=>el.classList.add("set"),950);
