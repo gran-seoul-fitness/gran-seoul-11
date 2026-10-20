@@ -2193,12 +2193,24 @@ function open(id){
     r.onload=()=>{proof=r.result; $("#pv").innerHTML=`<img class="proof" src="${proof}" alt="인증샷 미리보기">`; ready()}; r.readAsDataURL(f)};
   $("#pb").onclick=punchSeq; $("#pc").onclick=()=>L.hidden=true;
 }
-function punchSeq(){
-  const n=total+1, c=CARS[cur], L=$("#layer");
+async function punchSeq(){
+  const c=CARS[cur], L=$("#layer"), m=c.missions.find(x=>x.id===mid);
+  if(!memberKey()){L.innerHTML=`<div class="box"><div class="msg">먼저 매표소에서 승차권을 발권해 주세요<small>이름·입주사가 있어야 시트에 기록돼요.</small><button class="btn" style="margin-top:14px" id="toOffice">매표소로 가기</button></div></div>`;
+    $("#toOffice").onclick=()=>{L.hidden=true;showIntro()};return}
+  const n=total+1;
   const holes=Array.from({length:TOTAL},(_,i)=>`<span class="hole ${i<total?"on":""} ${i===total?"target":""}"></span>`).join("");
   L.innerHTML=`<div class="box"><div class="tk" id="tk"><div><div class="brand">GRAN SEOUL EXPRESS</div>
     <div class="row">PASSENGER<b>${who()}</b></div><div class="row">CAR / ZONE<b>${c.no}호차 · ${c.ko}</b></div>${pmode?`<div class="row">PARTNER<b>${pmode}${P.mate?` · ${P.mate}`:""}</b></div>`:""}</div>
     <div class="holes">${holes}</div></div>${HAND}<div class="msg" id="msg">차장님이 승차권을 확인하고 있어요…</div></div>`;
+  /* 시트에 먼저 기록하고(하루 1칸은 시트에서 확인), 통과하면 차장님이 펀칭해요 */
+  let res=null;
+  try{res=await sheetPost({kind:"stamp",name:memberKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,
+    partner:(mid==="m12"&&P.inviter&&P.inviter!==memberKey())?P.inviter:"",photo:proof?await shrinkPhoto(proof):""})}catch(e){}
+  if(!res||!res.success){
+    const why=res&&res.reason==="already_certified_today"?"오늘은 이미 한 칸을 탔어요<small>열차는 하루에 한 칸씩 옮겨 타요. 내일 다음 칸에서 만나요!</small>"
+      :"승차권 확인에 실패했어요<small>인터넷 연결을 확인하고 잠시 후 다시 시도해 주세요.</small>";
+    $("#msg").innerHTML=`${why}<button class="btn" style="margin-top:14px" id="back">객차로 돌아가기</button>`;
+    $("#back").onclick=()=>{L.hidden=true};return}
   const hand=$("#hand"), tk=$("#tk"), tgt=tk.querySelector(".hole.target");
   setTimeout(()=>{const hr=tgt.getBoundingClientRect(), br=hand.parentElement.getBoundingClientRect();
     hand.style.setProperty("--hx",(hr.left+hr.width/2-(br.right+8-370+15.9))+"px");
@@ -2208,7 +2220,7 @@ function punchSeq(){
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
   setTimeout(()=>hand.classList.remove("click"),1400);
-  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=n; saveProgress(); render();
+  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=calcTotal(); saveProgress(); render();
     const stn=STATIONS[n]&&STATIONS[n].name;
     $("#msg").innerHTML=`${n}번째 칸 승차 확인<small>${stn?`열차가 곧 ${stn}에 정차합니다.`:"내일은 다른 객차로 옮겨 타 보세요."}</small>
       <button class="btn" style="margin-top:14px" id="back">${stn?"역에 내리기 →":"객차로 돌아가기"}</button>`;
@@ -2250,7 +2262,7 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   P.name=n; P.co=co; P.mate=$("#iMate").value.trim(); P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000));
   try{localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}
   $("#giver").innerHTML=GIVER; $("#ntName").textContent=P.name; $("#ntCo").textContent=P.co?`-${P.co}`:""; $("#ntName2").textContent=P.name; $("#ntMate").textContent=P.mate||"—"; $("#ntNo").textContent="No."+P.no.slice(-4);
-  office.classList.add("issued")});
+  office.classList.add("issued");syncFromSheet()});
 $("#toPlatform").onclick=()=>{office.hidden=true;plat.hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
   plat.classList.add("waiting");
   setTimeout(()=>plat.classList.add("departing"),reduce?0:1300);
@@ -2416,10 +2428,45 @@ function hangSign(S,n){
       <ellipse cx="-14" cy="-20" rx="22" ry="12" fill="#fff" opacity=".18" transform="rotate(-30 -14 -20)"/>
     </g></svg>`}
 let recv={};
+/* ── 챌린지 시트 연결: 8·9·10월과 같은 Apps Script 웹앱 · month:"11월" 로 구분 */
+const SHEET_URL="https://script.google.com/macros/s/AKfycbyp3GsKcm_TdD1qsFHHx7gWb3ZZC65xBVVBYRFr0-Iyt4WT0z9oVAeoaC5ZveEj8Jxg/exec";
+const MONTH="11월";
+/* 시트에서 사람을 구분하는 이름: 10월처럼 이름(입주사) */
+const memberKey=()=>P.name?(P.co?`${P.name}(${P.co})`:P.name):"";
+const sheetPost=o=>fetch(SHEET_URL,{method:"POST",body:JSON.stringify({month:MONTH,...o})}).then(r=>r.json());
+/* 인증샷은 긴 변 1280px JPEG로 줄여서 보내요 (전송 시간·드라이브 용량 절약) */
+const shrinkPhoto=src=>new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),cv=document.createElement("canvas");
+  cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.82))};im.onerror=()=>res(src);im.src=src});
+/* 칸 수: 6호차는 GX·파트너 중 하나만 세요 */
+const calcTotal=()=>CARS.reduce((a,c)=>a+Math.min(c.missions.filter(m=>done[m.id]).length,need(c)),0);
+/* 시트에서 내 기록 불러오기: 다른 기기에서 탄 칸, 동행 승객 덕분에 채워진 칸, 어메니티 수령일 */
+async function syncFromSheet(){
+  const key=memberKey();if(!key)return;
+  try{
+    const r=await fetch(`${SHEET_URL}?month=${encodeURIComponent(MONTH)}&name=${encodeURIComponent(key)}`).then(x=>x.json());
+    const fresh=[];
+    (r.stamps||[]).forEach(st=>{if(!CARS.some(c=>c.missions.some(m=>m.id===st.missionId))||done[st.missionId])return;
+      done[st.missionId]=true;if(st.source==="동행"&&st.partner)fresh.push(st.partner)});
+    (r.stamps||[]).forEach(st=>{if(st.missionId==="m12"&&st.partner)P.together=st.partner.replace(/\(.*\)$/,"")});
+    Object.entries(r.amenities||{}).forEach(([k,v])=>{if(!recv[k])recv[k]=v});
+    total=calcTotal();saveProgress();render();
+    if(fresh.length)toast(`${fresh[0].replace(/\(.*\)$/,"")} 님과 함께 탄 파트너 칸이 승차권에 찍혔어요!`);
+  }catch(e){}
+}
+/* 동행 승차권 링크로 들어온 경우: 초대한 사람을 기억해 두고, 파트너 운동 인증 때 함께 보내요 */
+(()=>{const q=new URLSearchParams(location.search),w=q.get("with");if(!w)return;
+  P.inviter=w;P.inviterName=q.get("wn")||w.replace(/\(.*\)$/,"");try{localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}})();
+function inviteLink(){return `${location.origin}${location.pathname}?with=${encodeURIComponent(memberKey())}&wn=${encodeURIComponent(P.name)}`}
+async function shareInvite(){
+  if(!memberKey()){toast("먼저 매표소에서 승차권을 발권해 주세요");return}
+  const url=inviteLink(),text=`${P.name} 님이 그랑서울 피트니스 열차 동행 승차권을 보냈어요. 6호차 파트너 운동을 함께해요!`;
+  try{if(navigator.share){await navigator.share({title:"동행 승차권",text,url});return}}catch(e){if(e&&e.name==="AbortError")return}
+  try{await navigator.clipboard.writeText(url);toast("동행 승차권 링크를 복사했어요. 카톡으로 보내 주세요!")}catch(e){prompt("이 링크를 복사해서 보내 주세요",url)}
+}
 /* 진행 기록: 새로고침하거나 다음 날 다시 열어도 이어지도록 이 기기 브라우저에 저장 */
 const SAVE_KEY="gse-progress";
 function saveProgress(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({done,recv}));localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}}
-try{const sv=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(sv){done=sv.done||{};recv=sv.recv||{};total=Object.keys(done).length;render()}}catch(e){}
+try{const sv=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(sv){done=sv.done||{};recv=sv.recv||{};total=calcTotal();render()}}catch(e){}
 function showStation(n){
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   host.innerHTML=`<section class="station" style="--st-bg:${S.bg}" aria-label="${S.name} 정차">
@@ -2439,7 +2486,7 @@ function showStation(n){
     $("#stRecv").hidden=true};
   tickClocks();
   if(recv[n]) mark();
-  $("#stRecv").onclick=()=>{recv[n]=today;saveProgress();mark()};
+  $("#stRecv").onclick=()=>{recv[n]=today;saveProgress();mark();if(memberKey())sheetPost({kind:"amenity",name:memberKey(),station:n}).catch(()=>{})};
   $("#stClose").onclick=()=>host.innerHTML="";
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
@@ -2545,7 +2592,7 @@ function myTicketHTML(){
   const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"✓":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
   const am=ST_ORDER.map(k=>{const S=STATIONS[k],got=recv[k],ready=!got&&total>=k;
     return `<div class="${got?"got":ready?"ready":""}"><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능":`${k-total}칸 남음`}</em></div>`}).join("");
-  const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
+  const partner=done.m12?(P.together?`${P.together} 님과 파트너 운동`:(P.pmode||"파트너 운동 완료")):done.m11?"GX 수업 참여":"아직 없음";
   return `<div class="mtk" role="document" aria-label="나의 승차권">
     <div class="h"><span>MY TICKET</span><span>GSX · 2026.11</span></div>
     <div class="t">Train Ticket</div><div class="st">Fitness journey · 7F Gran Seoul</div>
@@ -2566,11 +2613,12 @@ function myTicketHTML(){
 function showMyTicket(){
   const el=document.createElement("div"); el.className="myt"; el.setAttribute("role","dialog"); el.setAttribute("aria-label","마이 티켓");
   el.innerHTML=`<div><div class="lift">${myTicketHTML()}<div class="mhand back">${MYHAND_B}</div><div class="mhand front">${MYHAND_F}</div></div>
-    <div class="acts"><button type="button" class="cl">닫기</button><button type="button" class="rs">기록 초기화</button></div></div>`;
+    <div class="acts"><button type="button" class="iv">동행 승차권 보내기</button><button type="button" class="cl">닫기</button><button type="button" class="rs">기록 초기화</button></div></div>`;
   $("#stage").appendChild(el);
   const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
+  el.querySelector(".iv").onclick=shareInvite;
   el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
@@ -2580,6 +2628,9 @@ function showMyTicket(){
 $("#myTk").onclick=showMyTicket;
 
 showIntro();
+if(P.inviter&&P.inviter!==memberKey()){if(!$("#iMate").value)$("#iMate").value=P.inviterName||"";
+  if(new URLSearchParams(location.search).get("with"))setTimeout(()=>toast(`${P.inviterName} 님이 보낸 동행 승차권이에요. 6호차 파트너 운동을 함께 인증하면 두 분 모두 펀칭돼요!`),1200)}
+syncFromSheet();
 </script>
 
 </body>
