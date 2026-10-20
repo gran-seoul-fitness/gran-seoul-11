@@ -474,7 +474,6 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .hall2 .beams{animation:beam 7s ease-in-out infinite}
 .flapboard{position:absolute;left:12%;right:12%;top:41.5%;z-index:3;background:#121416;border:3px solid #8A6A2E;border-radius:4px;padding:4px 6px 5px;box-shadow:0 8px 16px rgba(0,0,0,.4)}
 .fb-tap{margin-left:auto;margin-right:6px;font-size:7.5px;letter-spacing:.06em;color:#F2C97A;font-family:var(--f-body)}
-.flapboard{cursor:pointer}
 .rk-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:2px}
 .rk-list li{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:8px;padding:7px 6px;border-bottom:1px dashed rgba(108,31,36,.25);font-size:14px}
 .rk-list li b{font-family:var(--f-mono);font-size:12px;color:#6C1F24}
@@ -1324,8 +1323,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
       
       <!-- 스플릿플랩 출발 안내판 -->
-      <div class="flapboard" id="flapboard" role="button" tabindex="0" aria-label="출발 안내판 · 누르면 탑승 순위를 볼 수 있어요">
-        <div class="fb-head"><span id="fbTitle">DEPARTURES</span><span class="fb-tap" id="fbTap" hidden>순위 보기 ›</span><span class="fb-dot"></span></div>
+      <div class="flapboard" id="flapboard" aria-live="off" aria-label="출발 안내판 · 출발 정보와 탑승 순위">
+        <div class="fb-head"><span id="fbTitle">DEPARTURES</span><span class="fb-dot"></span></div>
         <div class="fb-row" id="fbRow1"></div>
         <div class="fb-row" id="fbRow2"></div>
       </div>
@@ -2289,19 +2288,11 @@ function startBoardCycle(){
   const top=ranking.top.slice(0,4);
   for(let i=0;i<top.length;i+=2)frames.push({t:"TOP RIDERS · 탑승 순위",a:rkLine(top[i]),b:top[i+1]?rkLine(top[i+1]):""});
   if(ranking.me)frames.push({t:"MY RANK · 나의 순위",a:rkLine(ranking.me,`나 ${ranking.me.rank}위`),b:`탑승객 ${ranking.riders}명 중`});
-  $("#fbTap").hidden=false;let k=0;
+  let k=0;
   const show=()=>{const f=frames[k%frames.length];$("#fbTitle").textContent=f.t;flap("#fbRow1",f.a);flap("#fbRow2",f.b);k++};
   boardTimer=setInterval(show,reduce?8000:5500);
 }
-function openRanking(){
-  const el=document.createElement("div");el.className="qz";el.setAttribute("role","dialog");el.setAttribute("aria-label","탑승 순위");
-  const r=ranking,body=!r||!r.top.length?`<p class="qz-hint" style="margin-top:16px">아직 탑승한 승객이 없어요. 첫 번째 승객이 되어 보세요!</p>`
-    :`<ol class="rk-list">${r.top.map(x=>`<li class="${r.me&&x.rank===r.me.rank&&x.name===r.me.name&&x.count===r.me.count?"me":""}"><b>${x.rank}위</b><span class="nm">${x.name}</span><span class="ct">${x.count}/${r.total}칸</span></li>`).join("")}</ol>
-      ${r.me?`<div class="rk-me">나의 순위 <b>${r.me.rank}위</b> · ${r.me.count}/${r.total}칸 <small style="display:block;color:#6B5A48;margin-top:2px">탑승객 ${r.riders}명 중</small></div>`
-        :memberKey()?`<div class="rk-me">아직 탄 칸이 없어요. 첫 칸을 타면 순위에 올라요!</div>`:""}`;
-  el.innerHTML=`<div class="qz-paper"><div class="qz-mast" style="font-size:20px">TOP RIDERS</div><div class="qz-dl"><span>탑승 순위 · ${MONTH}</span><span>이름 일부는 * 로 가려요</span></div>${body}</div><button type="button" class="qz-close">닫기</button>`;
-  const close=()=>el.remove();el.querySelector(".qz-close").onclick=close;el.onclick=e=>{if(e.target===el)close()};
-  $("#stage").appendChild(el);el.querySelector(".qz-close").focus();loadRanking()}
+
 $("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding")};
 /* ── 첫 화면 */
 const P={name:"",mate:"",co:""};
@@ -2573,7 +2564,6 @@ function openReader(kind){
   el.querySelector("button").onclick=()=>el.remove();
   $("#stage").appendChild(el); el.querySelector("button").focus();
 }
-$("#flapboard").onclick=openRanking;$("#flapboard").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openRanking()}};
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
 /* ── 이달의 퀴즈 (11월) ─ 매달 아래 값만 바꿔주세요 */
