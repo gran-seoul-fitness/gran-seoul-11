@@ -2478,9 +2478,13 @@ const quizDone=()=>{try{if(localStorage.getItem(QUIZ.id))return true}catch(e){}r
 const markQuizDone=()=>{const v=new Date().toISOString();try{localStorage.setItem(QUIZ.id,v)}catch(e){}document.cookie=`${QUIZ.id}=1;max-age=${60*60*24*365*5};path=/;SameSite=Lax`};
 const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
 /* 정답자 기록을 시트에 조용히 남김 (기존 퀴즈와 같은 형식: action·name·vol·timestamp). 실패해도 화면엔 영향 없음 */
+/* 퀴즈 ↔ 승차권 카드 이름 연동: 발권했거나 매표소 카드에 적어둔 이름·입주사를 퀴즈에 쓰고, 퀴즈에서 적은 이름은 카드에도 채움 */
+const quizName=()=>P.name||($("#iName")?.value||"").trim();
+const quizCo=()=>P.co||($("#iCo")?.value||"");
+function syncNameToTicket(name){const i=$("#iName");if(i&&!i.value.trim())i.value=name}
 function sendQuizToSheet(name){
   try{fetch(QUIZ_SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:new URLSearchParams({action:"quiz",name,vol:QUIZ.sheetVol,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
+    body:new URLSearchParams({action:"quiz",name,company:quizCo(),vol:QUIZ.sheetVol,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
 }
 function paintQuizPoster(){
   const w=$("#wallQuiz"),st=quizState(),done=quizDone();
@@ -2498,7 +2502,7 @@ function openQuiz(){
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
   else if(st==="closed") body=`<p class="qz-kick">CLOSED</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>마감되었어요</p><p class="qz-hint">다음 달 퀴즈로 다시 만나요.</p>`;
   else body=`<p class="qz-kick">QUESTION</p><p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
-    <label class="qz-name"><span>이름 NAME</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름을 입력해 주세요" value="${(P.name||"").replace(/"/g,"&quot;")}"></label>
+    <label class="qz-name"><span>이름 NAME</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름을 입력해 주세요" value="${quizName().replace(/"/g,"&quot;")}"></label>
     <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div><p class="qz-msg" id="qzMsg" aria-live="polite"></p>`;
   el.innerHTML=`<div class="qz-paper">${head}<div id="qzBody">${body}</div></div><button type="button" class="qz-close">닫기</button>`;
   const close=()=>{el.remove();paintQuizPoster()};
@@ -2508,6 +2512,7 @@ function openQuiz(){
   el.querySelectorAll(".qz-choice").forEach(b=>b.onclick=()=>{
     const nm=el.querySelector("#qzName"),name=nm.value.trim();
     if(!name){el.querySelector("#qzMsg").textContent="이름을 먼저 입력해 주세요.";nm.focus();return}
+    syncNameToTicket(name);
     if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
   $("#stage").appendChild(el);el.querySelector(".qz-close").focus();
