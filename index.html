@@ -217,6 +217,15 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .welcome h1{font-family:var(--f-kr);font-weight:800;font-size:20px;line-height:1.35;margin:4px 0 0;text-wrap:balance}
 .issue-card{background:var(--paper);color:var(--ink);border-radius:8px;padding:16px;box-shadow:0 20px 40px -10px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:10px}
 .issue-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.issue-card .row2.solo{grid-template-columns:1fr}
+/* 이름·입주사 한 줄: 입주사가 길어서 칸을 넓게, 카드 세로 높이도 줄임 */
+.issue-card .row2.nameco{grid-template-columns:.8fr 1.2fr;gap:12px}
+.office .office-ui .issue-card{padding:11px 14px 12px;gap:7px}
+.office .issue-card .ttl{padding-bottom:6px}
+.office .issue-card .ttl b{font-size:13.5px;line-height:1.3;letter-spacing:-.02em;white-space:nowrap}
+.office .issue-card .ttl b br{display:none}
+.office .issue-card .fld input{font-size:16px;padding:3px 0}
+.office .issue-card .fld select{font-size:14px;padding:3px 16px 3px 0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.office .issue-card .btn{padding:10px 16px}
 .fld label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--muted)}
 .fld input{width:100%;border:0;border-bottom:1.5px solid var(--ink);background:transparent;font:700 17px var(--f-kr);color:var(--ink);padding:4px 0}
 .fld input:focus{outline:none;border-bottom-color:var(--brass-dk)}
@@ -1405,10 +1414,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <form class="office-ui" id="issueForm" autocomplete="off">
         <div class="issue-card">
           <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>그랑서울 피트니스 열차여행에 <br>오신 것을 환영합니다</b></div>
-          <div class="row2 solo">
+          <div class="row2 nameco">
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
+            <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
           </div>
-          <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사를 선택하세요</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
           <button class="btn" type="submit">승차권 발권하기</button>
         </div>
       </form>
