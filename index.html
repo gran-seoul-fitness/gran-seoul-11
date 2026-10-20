@@ -494,7 +494,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .kiosk .paper{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(90,70,40,.13) 50%,rgba(255,255,255,.25) 51%,transparent 53%),linear-gradient(#F1E8D2,#E4D7B8);
   box-shadow:0 3px 6px rgba(0,0,0,.4),inset 0 0 6px rgba(120,90,40,.3);gap:1px;align-items:stretch}
 .kiosk .paper.p2{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(90,70,40,.13) 50%,rgba(255,255,255,.25) 51%,transparent 53%),linear-gradient(#ECE2C8,#DDCFAD)}
-.kiosk .paper>*{flex-shrink:0}.kiosk .paper .cols{flex:1 1 auto;min-height:0}
+.kiosk .paper>*{flex-shrink:0}.kiosk .paper .mast.wl{line-height:1.1;padding-bottom:1px}.kiosk .paper .cols{flex:1 1 auto;min-height:0}
 .kiosk .paper .mast{font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:4.1px;letter-spacing:0;text-align:center;border-bottom:2.2px double #1E1B17;padding-bottom:1.5px;line-height:1.35;overflow:visible}
 .kiosk .paper .dl{display:block;font-family:var(--f-mono);font-size:3.4px;letter-spacing:.06em;text-align:center;color:#4A4236;border-bottom:.5px solid #1E1B17;padding-bottom:1px;white-space:nowrap;overflow:hidden}
 .kiosk .paper .hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:7.2px;line-height:1.15;color:#1E1B17;letter-spacing:-.02em}
@@ -932,6 +932,38 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .wq-top,.wq-go{background:#6C1F24;color:#F1E5C8}
 .wq-dl,.wq-q{color:#6C1F24}
 .wq-new{background:#EADBB8;color:#5E1A1E;border-color:#5E1A1E;transform:rotate(8deg);box-shadow:none}
+/* ── 이달의 퀴즈 화면: 버건디·아이보리 신문 지면 */
+.qz{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px 16px;background:rgba(12,10,8,.78);backdrop-filter:blur(3px);animation:stIn .3s ease-out;overflow-y:auto}
+.qz-paper{position:relative;width:min(100%,360px);color:#2A1D18;padding:14px 16px 16px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 49%,rgba(110,60,40,.08) 50%,rgba(255,255,255,.2) 50.5%,transparent 52%),radial-gradient(130% 90% at 50% 35%,#F6EEDA 55%,#E6D7B4 100%);
+  box-shadow:0 24px 40px rgba(0,0,0,.55),inset 0 0 26px rgba(120,80,40,.28);animation:qzIn .5s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes qzIn{from{transform:translateY(40px) rotate(-2deg);opacity:0}}
+.qz-paper::before{content:"";position:absolute;inset:6px;border:1px solid rgba(108,31,36,.55);outline:.5px solid rgba(108,31,36,.4);outline-offset:-4px;pointer-events:none}
+.qz-mast{background:#6C1F24;color:#F1E5C8;text-align:center;font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:24px;letter-spacing:.16em;padding:6px 0 4px}
+.qz-dl{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;color:#6C1F24;border-bottom:3px double #6C1F24;padding:5px 2px 4px}
+.qz-kick{margin:14px 0 2px;text-align:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:#6C1F24}
+.qz-q{margin:0;text-align:center;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:21px;line-height:1.4;text-wrap:balance}
+.qz-hint{margin:8px 0 0;text-align:center;font-size:12px;color:#6B5A48}
+.qz-hint button{border:0;background:none;padding:0;color:#6C1F24;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.qz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.qz-choice{border:1.5px solid #6C1F24;border-radius:3px;background:rgba(255,250,238,.55);padding:16px 8px 14px;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:22px;color:#2A1D18;transition:transform .15s,background .15s}
+.qz-choice small{display:block;font-family:var(--f-mono);font-weight:400;font-size:9px;letter-spacing:.16em;color:#6C1F24;margin-bottom:4px}
+.qz-choice:active{transform:scale(.97)}
+.qz-choice.wrong{animation:qzShake .4s;background:rgba(108,31,36,.08)}
+@keyframes qzShake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+.qz-msg{min-height:18px;margin:10px 0 0;text-align:center;font-size:12.5px;font-weight:600;color:#6C1F24}
+.qz-ok{text-align:center;padding-top:6px}
+.qz-stamp{display:inline-grid;place-items:center;width:92px;height:92px;margin:10px auto 6px;border:3px double #6C1F24;border-radius:50%;color:#6C1F24;transform:rotate(-10deg);font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;line-height:1.3;animation:stampIn .45s cubic-bezier(.3,1.7,.5,1)}
+.qz-stamp b{display:block;font-family:"Nanum Myeongjo",serif;font-size:19px;letter-spacing:0}
+.qz-ok h3{margin:4px 0 6px;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:19px}
+.qz-ok p{margin:0 0 8px;font-size:13px;line-height:1.65;color:#4A3C30}
+.qz-who{display:inline-block;margin-top:4px;padding:5px 10px;border:1px dashed #6C1F24;font-size:12.5px;font-weight:700;color:#2A1D18}
+.qz-close{background:rgba(244,236,219,.12);border:1px solid rgba(201,165,92,.6);color:#F1E6CB;border-radius:999px;padding:8px 22px;font-size:13px}
+/* 포스터 상태 */
+.wallquiz.done .wq-new,.wallquiz.soon .wq-new,.wallquiz.closed .wq-new{display:none}
+.wq-badge{display:none;position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) rotate(-12deg);z-index:3;padding:2px 5px;border:1.5px double #6C1F24;background:rgba(241,229,200,.92);color:#6C1F24;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;white-space:nowrap}
+.wallquiz.done .wq-badge,.wallquiz.soon .wq-badge,.wallquiz.closed .wq-badge{display:block}
+
 /* 세로가 짧은 휴대폰: 이름 카드를 납작하게, 퀴즈 신문은 작게 해서 서로 가리지 않게 */
 @media (max-height:720px){
   .office .office-ui .issue-card{padding:10px 12px;gap:6px}
@@ -1275,7 +1307,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <button class="wallquiz" type="button" id="wallQuiz" aria-label="이달의 퀴즈 열기"><span class="wq-paper"><span class="wq-frame">
         <span class="wq-top">THE QUIZ</span><span class="wq-dl">VOL.04 · NOV 2026</span>
         <span class="wq-q">?</span><span class="wq-hd">11월<br>이달의 퀴즈</span><span class="wq-cols"></span><span class="wq-go">풀러 가기 →</span></span>
-        <span class="wq-new">NEW</span></span></button>
+        <span class="wq-new">NEW</span><span class="wq-badge" id="wqBadge"></span></span></button>
       <!-- 원목 매표 부스 3칸 -->
       <div class="booth5" aria-label="매표 부스">
         <div class="b5-head"><span>TICKETS</span></div>
@@ -1338,7 +1370,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <g fill="#8C8270"><rect x="25" y="154" width="14" height="2"/><rect x="49" y="156" width="14" height="2"/><rect x="73" y="154" width="14" height="2"/><rect x="97" y="156" width="12" height="2"/></g>
           <circle cx="65" cy="22" r="4" fill="#FFE3A0"/>
         </svg>
-        <button class="paper p1" type="button" id="paper1"><span class="mast">BODY LETTER</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
+        <button class="paper p1" type="button" id="paper1"><span class="mast wl">WELLNESS<br>LETTER</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
         <button class="paper p2" type="button" id="paper2"><span class="mast">GX TIMES</span><span class="dl">NOV 2026 · 7F STUDIO</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
       </div>
 
@@ -2429,7 +2461,48 @@ function openReader(kind){
 }
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
-$("#wallQuiz").onclick=()=>toast("11월 퀴즈 화면은 준비 중이에요");
+/* ── 이달의 퀴즈 (11월) ─ 매달 아래 값만 바꿔주세요 */
+const QUIZ={id:"gse_quiz_2026_11",vol:"VOL.04",month:"11월",start:"2026-11-01",end:"2026-11-15",
+  q:"횡격막은 막일까요?<br>근육일까요?",choices:["근육","막"],answer:"근육",
+  why:"이름에 ‘막’이 붙어 있지만, 횡격막은 가슴과 배 사이를 돔처럼 가로지르는 <b>근육</b>이에요. 숨을 들이쉴 때 아래로 내려가며 폐가 부풀 공간을 만들어 주는, 호흡의 주인공이랍니다."};
+/* 날짜 확인용: 주소 끝에 ?today=2026-11-05 를 붙이면 그 날짜로 보여요 */
+const quizToday=()=>{const t=new URLSearchParams(location.search).get("today");return /^\d{4}-\d{2}-\d{2}$/.test(t||"")?t:new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date())};
+const quizState=()=>{const d=quizToday();return d<QUIZ.start?"soon":d>QUIZ.end?"closed":"open"};
+/* 이 기기에서 참여했는지: localStorage + 쿠키 둘 다 확인 (기존 퀴즈 사이트와 같은 방식) */
+const quizDone=()=>{try{if(localStorage.getItem(QUIZ.id))return true}catch(e){}return document.cookie.split("; ").some(c=>c.startsWith(QUIZ.id+"="))};
+const markQuizDone=()=>{const v=new Date().toISOString();try{localStorage.setItem(QUIZ.id,v)}catch(e){}document.cookie=`${QUIZ.id}=1;max-age=${60*60*24*365*5};path=/;SameSite=Lax`};
+const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
+function paintQuizPoster(){
+  const w=$("#wallQuiz"),st=quizState(),done=quizDone();
+  w.classList.remove("soon","closed","done");
+  if(done){w.classList.add("done");$("#wqBadge").textContent="✓ 정답 완료"}
+  else if(st!=="open"){w.classList.add(st);$("#wqBadge").textContent=st==="soon"?`${md(QUIZ.start)} OPEN`:"CLOSED"}
+}
+function openQuiz(){
+  const st=quizState(),done=quizDone(),el=document.createElement("div");
+  el.className="qz";el.setAttribute("role","dialog");el.setAttribute("aria-label",`${QUIZ.month} 이달의 퀴즈`);
+  const head=`<div class="qz-mast">THE QUIZ</div><div class="qz-dl"><span>${QUIZ.vol} · ${QUIZ.month}</span><span>${md(QUIZ.start)} – ${md(QUIZ.end)}</span></div>`;
+  const whoTag=P.name?`<span class="qz-who">${who()} 님</span>`:"";
+  const ok=`<div class="qz-ok"><div class="qz-stamp">CORRECT<b>정답</b>${quizToday().slice(5).replace("-",".")}</div><h3>정답은 ‘${QUIZ.answer}’이에요!</h3><p>${QUIZ.why}</p><p><b>7층 데스크</b>에 이 화면을 보여주시면 참여를 확인해드려요.</p>${whoTag}</div>`;
+  let body;
+  if(done) body=ok;
+  else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
+  else if(st==="closed") body=`<p class="qz-kick">CLOSED</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>마감되었어요</p><p class="qz-hint">다음 달 퀴즈로 다시 만나요.</p>`;
+  else body=`<p class="qz-kick">QUESTION</p><p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
+    <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div><p class="qz-msg" id="qzMsg" aria-live="polite"></p>`;
+  el.innerHTML=`<div class="qz-paper">${head}<div id="qzBody">${body}</div></div><button type="button" class="qz-close">닫기</button>`;
+  const close=()=>{el.remove();paintQuizPoster()};
+  el.querySelector(".qz-close").onclick=close;
+  el.onclick=e=>{if(e.target===el)close()};
+  el.querySelectorAll("[data-letter]").forEach(b=>b.onclick=()=>openReader("letter"));
+  el.querySelectorAll(".qz-choice").forEach(b=>b.onclick=()=>{
+    if(b.dataset.c===QUIZ.answer){markQuizDone();el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
+    else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
+  $("#stage").appendChild(el);el.querySelector(".qz-close").focus();
+}
+$("#wallQuiz").onclick=openQuiz;
+paintQuizPoster();
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const q=document.querySelector(".qz");if(q){q.remove();paintQuizPoster()}}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){const r=document.querySelector(".reader");if(r)r.remove()}});
 
 /* ── 마이 티켓: 손으로 티켓을 꺼내 진행상황 보여주기 */
