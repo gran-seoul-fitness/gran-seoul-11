@@ -2484,7 +2484,7 @@ function openQuiz(){
   el.className="qz";el.setAttribute("role","dialog");el.setAttribute("aria-label",`${QUIZ.month} 이달의 퀴즈`);
   const head=`<div class="qz-mast">THE QUIZ</div><div class="qz-dl"><span>${QUIZ.vol} · ${QUIZ.month}</span><span>${md(QUIZ.start)} – ${md(QUIZ.end)}</span></div>`;
   const whoTag=P.name?`<span class="qz-who">${who()} 님</span>`:"";
-  const ok=`<div class="qz-ok"><div class="qz-stamp">CORRECT<b>정답</b>${quizToday().slice(5).replace("-",".")}</div><h3>정답은 ‘${QUIZ.answer}’이에요!</h3><p>${QUIZ.why}</p><p><b>7층 데스크</b>에 이 화면을 보여주시면 참여를 확인해드려요.</p>${whoTag}</div>`;
+  const ok=`<div class="qz-ok"><div class="qz-stamp">CORRECT<b>정답</b>${quizToday().slice(5).replace("-",".")}</div><h3>정답은 ‘${QUIZ.answer}’이에요!</h3><p>${QUIZ.why}</p><p>퀴즈가 마감되는 <b>${md(QUIZ.end)} 이후</b>, <b>7층 데스크</b>에 이 화면을 보여주시면 <b>리워드</b>를 받으실 수 있어요.</p>${whoTag}</div>`;
   let body;
   if(done) body=ok;
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
