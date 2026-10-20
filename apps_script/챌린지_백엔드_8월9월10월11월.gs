@@ -5,7 +5,7 @@
  * - 11월 사이트는 요청에 month: "11월" 을 보내요. 그 요청만 새 11월 분기로 들어가
  *   "11월 stamps"/"11월 요약" 탭에 기록돼요. 8·9·10월 코드/탭은 그대로예요.
  * - 하루 1칸 제한, 어메니티 수령일 기록, "내 기록 불러오기"(GET ?month=11월&team=...),
- *   "탑승 순위"(GET ?month=11월&rank=1&name=..., 이름은 김*조 처럼 가려서)를 지원해요.
+ *   "나의 순위·전체 기록"(GET ?month=11월&rank=1&name=..., 다른 사람 이름은 보내지 않음)을 지원해요.
  * - 적용 방법은 아래와 같아요: 통째로 붙여넣기 → 저장 → 배포 관리에서 "새 버전"으로 배포
  *   (웹앱 주소 그대로 유지 · 10월 사이트는 아무 조치 필요 없음)
  *
@@ -1165,9 +1165,10 @@ function novemberMask(name) {
   return n[0] + "*".repeat(n.length - 2) + n[n.length - 1];
 }
 
-// 탑승 순위: "11월 요약" 탭의 달성 칸으로 순위를 매겨요. 이름은 가려서 보내요.
-// 같은 칸 수면 같은 순위예요(1, 2, 2, 4 …). me를 주면 그 사람의 순위도 알려줘요.
-function handleNovemberRanking(me, limit) {
+// 탑승 순위: "11월 요약" 탭의 달성 칸으로 순위를 매기되, 다른 사람 이름은 절대 보내지 않아요.
+// 보내는 것: 나의 순위(me), 탑승객 수, 모두가 탄 칸 수 합계, 완주한 사람 수.
+// 같은 칸 수면 같은 순위예요(1, 2, 2, 4 …).
+function handleNovemberRanking(me) {
   const summary = getOrCreateNovemberSummarySheet();
   const lastRow = summary.getLastRow();
   const list = [];
@@ -1175,7 +1176,7 @@ function handleNovemberRanking(me, limit) {
     const vals = summary.getRange(2, 1, lastRow - 1, NOVEMBER_COL.done).getDisplayValues();
     vals.forEach((r) => {
       const count = parseInt(String(r[NOVEMBER_COL.done - 1]).split("/")[0], 10);
-      if (r[0] && count > 0) list.push({ key: normalizeName(r[0]), name: novemberMask(r[0]), count: count });
+      if (r[0] && count > 0) list.push({ key: normalizeName(r[0]), count: count });
     });
   }
   list.sort((a, b) => b.count - a.count);
@@ -1185,8 +1186,9 @@ function handleNovemberRanking(me, limit) {
   return {
     total: NOVEMBER_TOTAL,
     riders: list.length,
-    top: list.slice(0, limit || 10).map((x) => ({ rank: x.rank, name: x.name, count: x.count })),
-    me: mine ? { rank: mine.rank, name: mine.name, count: mine.count } : null,
+    cars: list.reduce((a, x) => a + x.count, 0),
+    finishers: list.filter((x) => x.count >= NOVEMBER_TOTAL).length,
+    me: mine ? { rank: mine.rank, count: mine.count } : null,
   };
 }
 
@@ -1284,7 +1286,7 @@ function doGet(e) {
   // 11월 사이트: ?month=11월&team=... 로 팀 기록(칸·팀원·어메니티)을 불러와요.
   if (e && e.parameter && e.parameter.month === "11월") {
     try {
-      if (e.parameter.rank) return jsonResponse(handleNovemberRanking(e.parameter.name, 10));
+      if (e.parameter.rank) return jsonResponse(handleNovemberRanking(e.parameter.name));
       return jsonResponse(handleNovemberGet(e.parameter.team || e.parameter.name));
     } catch (err) {
       logError("doGet 11월", err, { name: e.parameter.name });

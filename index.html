@@ -2274,20 +2274,18 @@ function flap(id,text){const row=$(id),N=20,t=text.padEnd(N," ").slice(0,N),A="A
   [...row.children].forEach((el,i)=>{let k=0,max=reduce?0:6+i;const go=()=>{if(k>=max){el.textContent=t[i];return}
     el.textContent=A[Math.floor(Math.random()*A.length)];el.classList.remove("f");void el.offsetWidth;el.classList.add("f");k++;setTimeout(go,70)};go()})}
 function boardText(){flap("#fbRow1","11:01 GRAN SEOUL EXP");flap("#fbRow2","PLATFORM 7F  ON TIME")}
-/* ── 탑승 순위: 출발 안내판이 출발 정보와 순위(이름은 김*조처럼 가림)를 번갈아 보여줘요 */
+/* ── 출발 안내판: 출발 정보 → 모두의 기록(합계) → 나의 순위를 번갈아 보여줘요. 다른 사람 이름은 보이지 않아요 */
 let ranking=null,boardTimer=null;
-const rkLine=(r,label)=>{const left=`${label||r.rank+"위"} ${r.name}`,right=`${r.count}/${ranking.total}`;
-  return left.slice(0,20-right.length-1).padEnd(20-right.length," ")+right};
+const fbLine=(left,right="")=>left.slice(0,20-right.length-(right?1:0)).padEnd(20-right.length," ")+right;
 async function loadRanking(){
   try{const r=await fetch(`${SHEET_URL}?month=${encodeURIComponent(MONTH)}&rank=1&name=${encodeURIComponent(memberKey())}`).then(x=>x.json());
-    if(r&&r.top){ranking=r;startBoardCycle()}}catch(e){}
+    if(r&&typeof r.riders==="number"){ranking=r;startBoardCycle()}}catch(e){}
 }
 function startBoardCycle(){
-  clearInterval(boardTimer);if(!ranking||!ranking.top.length)return;
-  const frames=[{t:"DEPARTURES",a:"11:01 GRAN SEOUL EXP",b:"PLATFORM 7F  ON TIME"}];
-  const top=ranking.top.slice(0,4);
-  for(let i=0;i<top.length;i+=2)frames.push({t:"TOP RIDERS · 탑승 순위",a:rkLine(top[i]),b:top[i+1]?rkLine(top[i+1]):""});
-  if(ranking.me)frames.push({t:"MY RANK · 나의 순위",a:rkLine(ranking.me,`나 ${ranking.me.rank}위`),b:`탑승객 ${ranking.riders}명 중`});
+  clearInterval(boardTimer);if(!ranking||!ranking.riders)return;
+  const frames=[{t:"DEPARTURES",a:"11:01 GRAN SEOUL EXP",b:"PLATFORM 7F  ON TIME"},
+    {t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${ranking.cars}칸`),b:fbLine("완주한 승객",`${ranking.finishers}명`)}];
+  if(ranking.me)frames.push({t:"MY RANK · 나의 순위",a:fbLine(`나의 순위 ${ranking.me.rank}위`,`${ranking.me.count}/${ranking.total}`),b:fbLine(`탑승객 ${ranking.riders}명 중`)});
   let k=0;
   const show=()=>{const f=frames[k%frames.length];$("#fbTitle").textContent=f.t;flap("#fbRow1",f.a);flap("#fbRow2",f.b);k++};
   boardTimer=setInterval(show,reduce?8000:5500);
