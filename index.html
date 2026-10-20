@@ -2,12 +2,11 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>그랑서울 피트니스 열차</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital@1&family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=UnifrakturMaguntia&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital@1&family=Nanum+Myeongjo:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
+[hidden]{display:none!important}
 /* Layout: 휴대폰 한 화면 = 객차 한 칸. 위 황동 명판(칸 이동) → 창(칸마다 다른 풍경) → 기구 → 테이블 위 미션 카드 */
 :root{
   color-scheme:dark;
@@ -129,6 +128,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .menu .spec{font-size:12px;color:var(--muted)}
 .menu .go{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--leather)}
 .menu.done .go{color:#3D6E6C}
+.menu.off{opacity:.45;filter:grayscale(.6);cursor:default}
 .gxlink{display:inline-block;margin-top:6px;font-size:11.5px;color:var(--brass-dk);text-decoration:underline;text-underline-offset:2px}
 .menu.done::after{content:"승차 확인";position:absolute;right:10px;top:10px;transform:rotate(8deg);font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;
   color:var(--leather);border:2px double var(--leather);border-radius:50%;padding:12px 6px}
@@ -286,6 +286,49 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .clerk{position:absolute;left:50%;bottom:0;width:58%;transform:translateX(-50%);opacity:.9}
 
 /* ── 정차역 */
+/* ── 마이 티켓 */
+.myt{position:absolute;inset:0;z-index:30;display:grid;place-items:center;background:rgba(10,14,12,0);backdrop-filter:blur(0);transition:background .35s,backdrop-filter .35s;overflow:hidden}
+.myt.on{background:rgba(10,14,12,.62);backdrop-filter:blur(2px)}
+.myt>div{width:100%;display:flex;flex-direction:column;align-items:center}
+.myt .lift{position:relative;width:min(86%,330px);transform:translateY(120vh) rotate(-4deg);transition:transform .8s cubic-bezier(.2,.85,.25,1)}
+.myt.on .lift{transform:translateY(0) rotate(0)}
+.myt.on.set .lift{transform:translateY(-14px) rotate(0)}
+.myt .mhand{position:absolute;left:50%;bottom:-130px;width:150px;transform:translateX(-30%);pointer-events:none;transition:transform .45s ease-in,opacity .45s}.myt .mhand.back{z-index:0}.myt .mhand.front{z-index:2}.myt .mtk{z-index:1}
+.myt.set .mhand{transform:translateX(-30%) translateY(140px);opacity:0}
+.mtk{position:relative;background:#F3EDE0;color:#1F3B2D;border-radius:14px;padding:16px 18px 14px;box-shadow:0 0 0 1.5px #E3C47F,0 24px 40px rgba(0,0,0,.55);
+  -webkit-mask:radial-gradient(circle 9px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat;
+  mask:radial-gradient(circle 9px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat}
+.mtk::before{content:"";position:absolute;inset:6px;border:1px solid rgba(31,59,45,.35);border-radius:10px;pointer-events:none}
+.mtk .h{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em}
+.mtk .t{font-family:var(--f-display);font-size:27px;line-height:1.05;margin:4px 0 2px;letter-spacing:.01em}
+.mtk .st{font-family:var(--f-display);font-style:italic;font-size:12.5px;opacity:.8}
+.mtk .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:12px 0 10px;padding:10px 0;border-top:3px double #1F3B2D;border-bottom:1px solid rgba(31,59,45,.3)}
+.mtk .k{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;opacity:.7}
+.mtk .v{font-family:var(--f-kr);font-weight:800;font-size:15px;color:#1C2A22}
+.mtk .sec{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;margin:10px 0 6px;display:flex;justify-content:space-between}
+.mtk .sec b{font-family:var(--f-kr);letter-spacing:0;font-size:11.5px}
+.mtk .holes{display:flex;gap:4px}.mtk .holes i{flex:1;aspect-ratio:1;border-radius:50%;border:1.5px solid #1F3B2D;opacity:.45}
+.mtk .holes i.on{background:#1F3B2D;opacity:1;box-shadow:inset 0 0 0 2px #F3EDE0}
+.mtk .cars{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:6px}
+.mtk .cars span{text-align:center;font-family:var(--f-mono);font-size:9.5px;padding:4px 0;border:1px dashed rgba(31,59,45,.45);border-radius:3px}
+.mtk .cars span.on{background:#1F3B2D;color:#F3EDE0;border-style:solid}
+.mtk .cars span small{display:block;font-size:8px;opacity:.8}
+.mtk .dash{border-top:2px dashed rgba(31,59,45,.45);margin:12px -6px 8px}
+.mtk .am{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.mtk .am div{border:1px solid rgba(31,59,45,.35);border-radius:6px;padding:6px 4px;text-align:center;font-size:10.5px;line-height:1.35;position:relative}
+.mtk .am div b{display:block;font-family:var(--f-kr);font-size:12.5px}
+.mtk .am div em{font-style:normal;font-family:var(--f-mono);font-size:8.5px;opacity:.75}
+.mtk .am div.ready{border-color:#B8913E;background:#F7E7B9}
+.mtk .am div.got{background:#1F3B2D;color:#F3EDE0;border-color:#1F3B2D}
+.mtk .am div.got::after{content:"RECEIVED";position:absolute;right:-6px;top:-8px;font-family:var(--f-mono);font-size:7px;letter-spacing:.1em;color:#6E2626;border:1.5px solid #6E2626;border-radius:3px;padding:1px 3px;background:#F3EDE0;transform:rotate(8deg)}
+.mtk .bar{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px}
+.mtk .code{height:26px;width:46%;background:repeating-linear-gradient(90deg,#1F3B2D 0 2px,transparent 2px 3px,#1F3B2D 3px 4px,transparent 4px 7px,#1F3B2D 7px 10px,transparent 10px 11px)}
+.mtk .no{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-align:right;white-space:nowrap;color:#1F3B2D;line-height:1.5}
+.myt .acts{position:relative;display:flex;gap:8px;justify-content:center;margin-top:14px;opacity:0;transition:opacity .3s .1s}
+.myt.set .acts{opacity:1}
+.myt .acts button{font:inherit;font-size:13px;padding:9px 18px;border-radius:999px;border:1px solid rgba(243,237,224,.6);background:rgba(243,237,224,.12);color:#F3EDE0;cursor:pointer}
+.myt .acts .rs{border:none;background:none;font-size:11px;opacity:.6;text-decoration:underline;padding:9px 6px}
+
 .station{position:absolute;inset:0;z-index:9;overflow:hidden;display:flex;flex-direction:column;align-items:center;
   padding:max(18px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
   background:var(--st-bg);animation:stIn .5s ease-out}
@@ -313,6 +356,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .st-card h2{margin:0;font-family:var(--f-kr);font-weight:800;font-size:19px;line-height:1.35}
 .st-card p{margin:0;font-size:13px;color:var(--muted)}
 .st-card .items{font-size:13.5px;font-weight:600}
+.st-card .coll{display:flex;gap:6px;margin:8px 0 2px}.st-card .coll span{flex:1;text-align:center;font-size:11.5px;padding:5px 0;border-radius:4px;border:1px dashed #C9B48A;color:#9A8A6A}.st-card .coll span.on{border-style:solid;background:#EDE2C6;color:#3A2A10;font-weight:700}.st-card .coll span.now{border-color:#B8913E;box-shadow:0 0 0 2px rgba(184,145,62,.25)}
 .st-card .tbd{display:inline-block;font-family:var(--f-mono);font-size:9.5px;background:#E3D3AE;color:#3A2A10;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:1px;font-weight:400}
 .st-card .acts{display:flex;gap:8px;margin-top:4px}
 .st-card .acts .btn{flex:1}
@@ -446,16 +490,6 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .kiosk .paper .ft{font-size:6px}
 .office .office-ui .issue-card{padding:13px 14px;gap:8px}
 .office .issue-card .ttl b{font-size:15.5px}
-/* 이름 입력 카드: 밝은 아이보리 종이 질감 (잔노이즈 + 결 + 가장자리 바램) */
-.office .issue-card{position:relative;border-radius:3px;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .34 0 0 0 0 .22 0 0 0 .17 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .35' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .45 0 0 0 0 .30 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
-    radial-gradient(120% 90% at 50% 35%,#FFFDF6 0%,#FBF6E9 55%,#F1E7CF 100%);
-  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 0 0 1px rgba(150,120,80,.18),0 20px 40px -10px rgba(0,0,0,.6)}
-.office .issue-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(140,100,64,.32);border-radius:1px;pointer-events:none}
-.office .issue-card .ttl{border-bottom-color:rgba(140,100,64,.28)}
-.office .fld input::placeholder{color:#B4A88E}
 
 /* 빈티지 탑승권 */
 .new-ticket.vt{display:flex;grid-template-columns:none;width:min(92%,360px);background:#EFE4C6;border-radius:0;
@@ -493,6 +527,11 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .station .roof,.station .lamppost{display:none}
 .st-sign{margin-top:8.5%;border-color:#1F2F52;background:linear-gradient(#FBF7EC,#EFE7D3);box-shadow:0 12px 24px rgba(0,0,0,.4),inset 0 0 0 2px #F4EEDF,inset 0 0 0 4px #1F2F52}
 .st-sign::before,.st-sign::after{background:#1C1B1A;width:2px}
+.st-hang{position:relative;z-index:2;margin-top:2%;width:min(64%,250px);transform-origin:50% 0;animation:swing 1.4s cubic-bezier(.3,1.6,.4,1) .2s both;filter:drop-shadow(0 12px 16px rgba(0,0,0,.4))}
+.st-hang svg{display:block;width:100%;overflow:visible}
+.st-hang.night{filter:drop-shadow(0 0 6px rgba(255,214,150,.38)) drop-shadow(0 0 18px rgba(255,200,120,.22)) drop-shadow(0 12px 16px rgba(0,0,0,.45))}
+.st-hang.night::after{content:"";position:absolute;left:-8%;right:-8%;top:-6%;height:52%;z-index:-1;background:radial-gradient(closest-side,rgba(255,220,160,.22),rgba(255,220,160,0));pointer-events:none}
+.st-hang::before{content:"";position:absolute;left:12%;right:12%;top:-60px;height:52px;border-left:2px solid #1C1B1A;border-right:2px solid #1C1B1A}
 .st-gift{align-items:end;padding-bottom:4%}
 .st-gift svg{max-height:min(34vh,250px)}
 .st-gift svg>ellipse:first-of-type{display:none}
@@ -500,9 +539,9 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 
 /* 객차 연결 미닫이 문 */
 .door2{position:absolute;inset:0;z-index:5;pointer-events:none;visibility:hidden;opacity:0;transform:scale(1.06);
-  transition:opacity .28s ease,transform .28s ease}
+  transition:opacity .22s ease,transform .22s ease}
 .door2.show{visibility:visible;opacity:1;transform:none}
-.door2.open{transform:translateX(calc(-100% - 20px));transition:transform .75s cubic-bezier(.6,.05,.3,1)}
+.door2.open{transform:translateX(calc(-100% - 20px));transition:transform .52s cubic-bezier(.55,.05,.3,1)}
 .door2.open.back{transform:translateX(calc(100% + 20px))}
 .d-wood{position:absolute;inset:0;background:
   linear-gradient(90deg,rgba(0,0,0,.35),transparent 6%,transparent 94%,rgba(0,0,0,.35)),
@@ -723,6 +762,270 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .w4 .interior{filter:brightness(1.2)!important}
 .w1 .vignette,.w4 .vignette{opacity:.45!important}
 
+
+/* ── 매표소 v4: 벽돌 대합실 + 석재 매표 창구 */
+.office{background:#B87650}
+
+.hall3{position:absolute;inset:0;width:100%;height:100%}
+.office .flapboard{top:33.4%;left:18%;right:18%;border-color:#B8913E;background:#15181A}
+.booths.v3{top:47%;height:20%;left:2%;right:2%;grid-template-columns:1fr 1.3fr 1fr;gap:4%}
+.booths.v3 .booth{background:none;box-shadow:none;padding:0;border-radius:0}
+.booths.v3 .stone{position:absolute;inset:0 0 7% 0;border-radius:999px 999px 0 0;padding:6px 6px 0;background:linear-gradient(#F1E7D3,#E2D4B8);box-shadow:inset 0 0 0 1.5px #C2AE86,0 2px 0 rgba(0,0,0,.05)}
+.booths.v3 .stone::before{content:"";position:absolute;left:50%;top:-4px;width:14px;height:12px;transform:translateX(-50%);background:#E6D9BE;border:1.5px solid #C2AE86;clip-path:polygon(0 0,100% 0,82% 100%,18% 100%)}
+.booths.v3 .wood{height:100%;border-radius:999px 999px 0 0;padding:4px 4px 0;background:linear-gradient(#7A4A2C,#5A3520);display:flex;flex-direction:column;gap:3px;box-shadow:inset 0 0 0 1px #3E2414}
+.booths.v3 .fan{flex:0 0 34%;border-radius:999px 999px 0 0;position:relative;overflow:hidden;display:grid;place-items:end center;padding-bottom:3px;
+  background:repeating-linear-gradient(90deg,rgba(40,50,60,.35) 0 1px,transparent 1px 14%),repeating-linear-gradient(0deg,rgba(40,50,60,.35) 0 1px,transparent 1px 30%),linear-gradient(#9DB1BE,#6F889A)}
+.booths.v3 .fan span{font-family:Gloock,Georgia,serif;font-size:12px;letter-spacing:.08em;color:#F6EBCD;text-shadow:0 1px 0 #2B3A45}
+.booths.v3 .main .fan span{font-size:15px}
+.booths.v3 .signs{display:flex;gap:3px}
+.booths.v3 .signs i{flex:1;font-style:normal;text-align:center;background:#EFE6CF;color:#3A2A1C;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.08em;padding:1px 0;border:1px solid #B8913E}
+.booths.v3 .bglass{flex:1;height:auto;border-radius:0;background:radial-gradient(70% 60% at 50% 70%,rgba(247,216,138,.55),transparent 70%),linear-gradient(#4A3624,#6A5034)}
+.booths.v3 .bglass::after{background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 34%,transparent 40%)}
+.booths.v3 .mull{position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#5A3520}
+.booths.v3 .grille{height:36%;border-top-width:2px}
+.booths.v3 .dg{background:linear-gradient(#E9E4D8,#C9C3B4);display:grid;place-items:start center}
+.booths.v3 .dg::before{content:"";position:absolute;inset:26% 10% 0;border:2px solid #3E2414;border-bottom:0;background:linear-gradient(90deg,transparent 48%,#3E2414 48% 52%,transparent 52%),linear-gradient(#C9D3D6,#A9B4B6)}
+.booths.v3 .exit{position:relative;z-index:2;margin-top:4px;background:#B23A2E;color:#FFF;font-family:Arial,sans-serif;font-weight:700;font-size:8px;letter-spacing:.08em;padding:1px 5px;border-radius:1px}
+.booths.v3 .door .wood{background:linear-gradient(#8A6A2E,#6B4428)}
+.booths.v3 .ledge{position:absolute;left:-6%;right:-6%;bottom:0;height:7%;background:linear-gradient(#5F6A62,#3C4A42);border-top:2px solid #C9BB9C;box-shadow:0 5px 8px rgba(0,0,0,.25)}
+.booths.v3 .ledge::before,.booths.v3 .ledge::after{content:"";position:absolute;top:100%;width:8px;height:12px;background:linear-gradient(90deg,#8A6A2E,#E9CB80,#8A6A2E);clip-path:polygon(0 0,100% 0,100% 30%,30% 100%,0 100%)}
+.booths.v3 .ledge::before{left:16%}.booths.v3 .ledge::after{right:16%;transform:scaleX(-1)}
+.booths.v3 .slot{bottom:7%;height:7%;left:32%;right:32%}
+.booths.v3 .shut{bottom:46%}
+.office .bell{top:62.4%}
+.offer-clip{top:65%}
+.office .kiosk{left:0;right:auto;top:57%;width:27%}
+
+
+/* ── 매표소 v5: 1번 사진 스타일 (원목 문 + 액자 벽) */
+.booths.v4{position:absolute;top:47.5%;height:19.4%;left:3%;right:3%;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:7%}
+.booths.v4 .booth{position:relative;background:none;box-shadow:none;padding:0;border-radius:0;display:flex;flex-direction:column;gap:4px}
+.booths.v4 .plaque{align-self:center;background:#D8C7A6;border:1px solid #8E6A44;padding:2px 6px;font-family:Gloock,Georgia,serif;font-size:7px;letter-spacing:.12em;color:#5A3A22;white-space:nowrap}
+.booths.v4 .plaque.big{font-size:11px;padding:2px 12px;background:#1F2530;color:#F1E6CB;border-color:#B8913E}
+.booths.v4 .leaf{position:relative;flex:1;background:linear-gradient(90deg,#B8885A,#CFA272 50%,#B8885A);border:3px solid #8E6A44;border-bottom:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1.3fr 1fr;gap:4px;padding:5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+.booths.v4 .lite{background:linear-gradient(#E9E6DD,#C9C5BA);border:2px solid #8E6A44}
+.booths.v4 .pnl{border:2px solid #A47A50;box-shadow:inset 0 0 0 2px rgba(255,255,255,.12)}
+.booths.v4 .knob{position:absolute;right:8px;top:56%;width:5px;height:5px;border-radius:50%;background:#E9CB80}
+.booths.v4 .knob.l{right:auto;left:8px}
+.booths.v4 .tw{grid-template-columns:1fr;grid-template-rows:1.6fr 1fr}
+.booths.v4 .tw .bglass{position:relative;overflow:hidden;border:2px solid #8E6A44;background:radial-gradient(70% 60% at 50% 70%,rgba(247,216,138,.6),transparent 70%),linear-gradient(#4A3624,#6A5034)}
+.booths.v4 .tw .bglass::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 34%,transparent 40%)}
+.booths.v4 .lamp-in{position:absolute;left:50%;top:38%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#FFE3A0;box-shadow:0 0 24px 10px rgba(255,227,160,.45)}
+.booths.v4 .grille{position:absolute;left:0;right:0;bottom:0;height:40%;background:repeating-linear-gradient(90deg,transparent 0 9px,rgba(201,165,92,.65) 9px 10.5px);border-top:2px solid #C9A55C}
+.booths.v4 .ledge{position:absolute;left:-8%;right:-8%;bottom:30%;height:6px;background:linear-gradient(#9A6F45,#6B4428);box-shadow:0 4px 6px rgba(0,0,0,.25)}
+.booths.v4 .slot{position:absolute;left:32%;right:32%;bottom:calc(30% + 6px);height:6px;background:#1C120A;border-radius:3px 3px 0 0;z-index:3}
+.office.issued .booths.v4 .lamp-in{animation:glowG 1s ease-in-out 2}
+.office .hall3 + .flapboard,.office .flapboard{top:33.4%}
+.office .bell{top:57.4%;left:60%}
+.offer-clip{top:61%}
+
+
+/* ── 매표소 v6: 큰 아치 벽돌 대합실 + 원목 매표 부스 */
+.office .hall3{display:none}
+.hall4{position:absolute;inset:0;width:100%;height:100%}
+.booth5{position:absolute;left:24%;right:24%;top:43.5%;height:24%;z-index:2;display:flex;flex-direction:column;filter:drop-shadow(0 10px 12px rgba(0,0,0,.35))}
+.booth5{--w1:#46594F;--w2:#34453D;--w3:#26332D;--br:#C9A55C}
+.b5-head{flex:0 0 17%;background:linear-gradient(var(--w1),var(--w2));border:2px solid var(--w3);border-bottom:3px solid var(--br);display:grid;place-items:center;box-shadow:inset 0 0 0 3px rgba(255,255,255,.04)}
+.b5-head span{font-family:"Playfair Display SC",Gloock,Georgia,serif;font-size:clamp(14px,5vw,20px);letter-spacing:.14em;color:#E9CB80;text-shadow:0 1px 0 #1C2622}
+.b5-body{flex:1;display:grid;grid-template-columns:7% 1fr 1fr 7%;gap:4%;padding:5px 0 0;background:linear-gradient(90deg,var(--w2),var(--w1) 50%,var(--w2));border-left:2px solid var(--w3);border-right:2px solid var(--w3)}
+.booth5 .flute{background:repeating-linear-gradient(90deg,var(--w3) 0 1.5px,var(--w1) 1.5px 4px);box-shadow:inset 0 0 0 1px var(--w3)}
+.b5-win{border-radius:999px 999px 0 0;background:var(--w3);padding:3px 3px 0}
+.b5-win .bglass{position:relative;height:100%;border-radius:999px 999px 0 0;overflow:hidden;background:radial-gradient(70% 60% at 50% 72%,rgba(247,216,138,.6),transparent 70%),linear-gradient(#4A3624,#6A5034)}
+.b5-win .bglass::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.16) 34%,transparent 40%)}
+.b5-win .lamp-in{position:absolute;left:50%;top:44%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#FFE3A0;box-shadow:0 0 22px 9px rgba(255,227,160,.45)}
+.b5-win .lamp-in.dim{opacity:.35}
+.b5-win .grille{position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,transparent 0 8px,rgba(201,165,92,.65) 8px 9.5px);border-top:2px solid var(--br)}
+.b5-win .shut{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);background:#F1E6CB;color:#3A2A1C;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.1em;padding:1px 4px;white-space:nowrap}
+.b5-ledge{position:relative;flex:0 0 7%;margin:0 -5%;background:linear-gradient(#F4F1EA,#D9D4C8);border-radius:3px;box-shadow:0 4px 6px rgba(0,0,0,.28)}
+.slot5{position:absolute;left:14%;width:24%;top:0;height:45%;background:#1C120A;border-radius:0 0 3px 3px}
+.b5-low{flex:0 0 30%;display:grid;grid-template-columns:7% 1fr 1fr 7%;gap:4%;padding:5px 0;background:linear-gradient(90deg,var(--w2),var(--w1) 50%,var(--w2));border:2px solid var(--w3);border-top:0}
+.b5-low span{border:2px solid var(--w3);box-shadow:inset 0 0 0 3px rgba(255,255,255,.05),inset 0 0 0 5px var(--w2)}
+.office.issued .booth5 .main .lamp-in{animation:glowG 1s ease-in-out 2}
+.office .flapboard{top:33.6%;left:20%;right:20%}
+.office .kiosk{left:0;top:56%;width:23%}
+.office .bell{top:57.6%;left:61%;width:6.5%}
+.offer-clip{top:60.4%;left:37%;width:30%}
+
+
+/* 배경은 이전 벽돌 대합실(시계 아치)로, 부스는 원목 부스 유지 */
+.office .hall4,.office .hall3{display:none}
+.office .hall2{display:block}
+.office .flapboard{top:39.2%;left:14%;right:14%}
+.booth5{top:47.6%;height:20%}
+.offer-clip{top:60.2%;left:37%;width:30%}
+.office .bell{top:57.6%;left:61%}
+.office .trolley{left:0;top:59%;width:25%}
+.office .kiosk{left:auto;right:0;top:55.5%;width:24%}
+
+
+
+
+
+/* 승강장 v3: 유리 볼트 지붕 + 역사 벽 + 오브제 */
+.platform{background:#A65A3A}
+
+.pf-obj{position:absolute;bottom:29%;width:27%;max-width:124px;z-index:0;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+.pf-obj.cross{left:1%}
+.pf-obj.nexttrain{right:1%}
+.xl{animation:xl 1s steps(1) infinite;filter:drop-shadow(0 0 4px rgba(255,80,60,.9))}
+.xl.b{animation-delay:.5s}
+@keyframes xl{0%{fill:#FF4A3A;opacity:1}50%{fill:#5A1A16;opacity:.6}}
+.departing .xl{animation-duration:.6s}
+.plat-msg{z-index:4}
+.plat-msg b{font-family:"Playfair Display","Nanum Myeongjo",serif;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:23px;letter-spacing:-.01em;color:#2A1D12;text-shadow:0 1px 0 rgba(255,240,215,.6)}
+.plat-msg span{font-family:"Nanum Myeongjo",serif;font-weight:700;font-size:13.5px;color:#5A4430;margin-top:4px;display:block}
+.plat-msg::before{content:"WELCOME ABOARD";display:block;font-family:"Playfair Display SC",Gloock,serif;font-size:11px;letter-spacing:.32em;color:#8E2B2B;margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.xl{animation:none}}
+
+.office .of-clock{position:absolute;left:2%;top:43.5%;width:15%;max-width:72px;z-index:3;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+.office .trolley{z-index:4}
+
+/* 신문 v2: 옛 신문 1면 느낌 */
+.ptimes.np{transform:rotate(-.4deg);padding:10px 12px 12px;color:#1A1714;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(120,90,40,.18)),linear-gradient(90deg,transparent 49.7%,rgba(0,0,0,.07) 50%,transparent 50.3%),
+  radial-gradient(circle at 70% 20%,rgba(150,110,50,.10) 0 22px,transparent 23px),radial-gradient(circle at 20% 80%,rgba(150,110,50,.07) 0 30px,transparent 31px),#ECE5D3}
+.ptimes.np::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.018) 0 1px,transparent 1px 3px)}
+.np-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;border-bottom:1.5px solid #1A1714;padding-bottom:4px}
+.np-badge{border:2px solid #1A1714;padding:2px 5px;line-height:1;text-align:center}
+.np-badge b{display:block;font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:9px;letter-spacing:.02em}
+.np-badge span{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:9px}
+.np-mast{font-family:"UnifrakturMaguntia",Gloock,serif;font-size:clamp(22px,7vw,30px);line-height:1;text-align:center;white-space:nowrap}
+.np-price{font-family:var(--f-mono);font-size:9px;text-align:right;line-height:1.2}
+.np-date{display:flex;justify-content:space-between;gap:6px;font-family:"Playfair Display SC",Georgia,serif;font-size:8.5px;letter-spacing:.06em;border-bottom:3px double #1A1714;padding:2px 0 3px}
+.np-date span:nth-child(2){font-family:var(--f-kr);letter-spacing:0;font-weight:700}
+.np-head{margin:6px 0 4px;font-family:var(--f-kr);font-weight:800;font-size:clamp(28px,9vw,38px);line-height:1;letter-spacing:-.02em;text-align:center;border-bottom:1px solid #1A1714;padding-bottom:6px}
+.np-lead{display:grid;grid-template-columns:36% 1fr;gap:8px;align-items:start}
+.np-sub{border-right:1px solid #1A1714;padding-right:7px}
+.np-sub b{display:block;font-family:var(--f-kr);font-weight:800;font-size:14px;line-height:1.25;color:#8E2B2B}
+.np-sub span{display:block;font-size:11px;font-weight:600;margin:3px 0 5px;border-bottom:1px solid #B9AE96;padding-bottom:4px}
+.np-sub p{margin:0;font-family:var(--f-kr);font-size:11.5px;line-height:1.5}
+.np-photo{margin:0;border:1px solid #1A1714;padding:3px;background:#E3DAC4}
+.np-photo .exfig{background:radial-gradient(70% 70% at 50% 50%,#F4EFE2,#DCD2BA);filter:sepia(.25) contrast(1.05)}
+.np-photo figcaption{font-family:var(--f-kr);font-size:9.5px;line-height:1.35;margin-top:3px;font-style:italic;color:#4A4236}
+.np-rule{position:relative;text-align:center;margin:9px 0 5px;border-top:1px solid #1A1714;border-bottom:1px solid #1A1714;padding:2px 0}
+.np-rule span{font-family:"Playfair Display SC",var(--f-kr),serif;font-size:10px;letter-spacing:.14em;font-weight:700}
+.np-key li{font-family:var(--f-kr);font-size:12.5px}
+.np-key span{background:#1A1714}
+.np-more{margin-top:8px;border-top:3px double #1A1714}
+.np-more summary{list-style:none;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;padding:7px 0 2px;font-family:var(--f-kr);font-weight:800;font-size:13px}
+.np-more summary::-webkit-details-marker{display:none}
+.np-more summary i{font-style:normal;transition:transform .3s}
+.np-more[open] summary i{transform:rotate(180deg)}
+.np-more[open] summary span::after{content:" (접기)";font-weight:400;font-size:11px;color:#6B6252}
+.np-cols{columns:2;column-gap:14px;column-rule:1px solid #B9AE96;padding-top:6px;animation:unfold .45s ease-out;transform-origin:top}
+@keyframes unfold{from{transform:perspective(600px) rotateX(-70deg);opacity:0}}
+.np-cols .pt-h{column-span:all}
+.np-cols ol{font-family:var(--f-kr);font-size:12px;line-height:1.5;margin:0;padding-left:16px}
+@media (max-width:360px){.np-cols{columns:1}}
+
+
+/* 양옆 창문 추가 */
+.window.side{top:19%;height:24%}
+.window.side.sl{left:-20%;right:auto;width:28%}
+.window.side.sr{right:-20%;left:auto;width:28%}
+.window.arch.side{top:15%;height:29%}
+
+
+/* 신문 v3: 접힌 신문 → 펼치기 */
+.np .np-head{border-bottom:0;padding-bottom:0;margin:8px 0 2px;cursor:pointer}
+.np-deck{margin:0 0 8px;text-align:center;font-family:var(--f-kr);font-size:11.5px;font-weight:700;color:#8E2B2B;border-bottom:1px solid #1A1714;padding-bottom:7px}
+.np-open{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:1.5px solid #1A1714;background:transparent;padding:8px;font-family:var(--f-kr);font-weight:800;font-size:13px;color:#1A1714}
+.np-open i{font-style:normal}
+.np:not(.folded) .np-open{display:none}
+.np.folded{padding-bottom:14px;box-shadow:0 18px 30px rgba(0,0,0,.45),0 6px 0 -2px #DCD3BE,0 12px 0 -4px #CFC5AE}
+.np.folded::before{content:"";position:absolute;left:0;right:0;bottom:0;height:22px;background:linear-gradient(transparent,rgba(90,70,40,.18));pointer-events:none}
+.np.folded .np-body{display:none}
+.np-body{transform-origin:top;animation:npUnfold .55s cubic-bezier(.2,.8,.3,1)}
+@keyframes npUnfold{from{transform:perspective(700px) rotateX(-80deg);opacity:0}}
+.np-photo{margin:0 0 10px;border:1px solid #1A1714;padding:4px;background:#E3DAC4}
+.np-photo .exfig{max-height:210px}
+.np-photo figcaption{text-align:center;font-style:italic;font-size:10px;margin-top:4px}
+.np-sec{border-top:3px double #1A1714;padding-top:6px;margin-top:8px}
+.np-sec h5{margin:0 0 6px;display:flex;align-items:baseline;justify-content:space-between;font-family:var(--f-kr);font-size:13px;font-weight:800}
+.np-sec h5 span{font-family:"Playfair Display SC",Georgia,serif;font-size:10.5px;letter-spacing:.16em;color:#8E2B2B;font-weight:700}
+.np-sec ol{margin:0;padding-left:18px;font-family:var(--f-kr);font-size:12.5px;line-height:1.55}
+.np-sec ol li+li{margin-top:3px}
+.np-sec .np-key{gap:6px}
+.np-close{display:block;margin:12px auto 0;border:0;background:transparent;font-family:var(--f-kr);font-size:12px;color:#6B6252;text-decoration:underline;text-underline-offset:3px}
+.np .np-lead,.np .np-rule,.np .np-more{display:none}
+
+
+/* 신문 v4: 접힌 신문 오브제 → 펼치기 */
+.np-wrap.folded .np{display:none}
+.np-wrap:not(.folded) .np-fold{display:none}
+.np-wrap.opened .np{animation:npIn .45s ease-out}
+@keyframes npIn{from{transform:perspective(900px) rotateX(-60deg) scaleY(.6);transform-origin:50% 0;opacity:0}}
+.np-wrap.opened .np{transform-origin:50% 0}
+.np-fold{position:relative;display:block;width:100%;border:0;padding:0 0 34px;background:none;text-align:left;cursor:pointer;perspective:900px}
+.nf-sheet{position:relative;z-index:2;background:linear-gradient(#F1EFE9,#E4E1D8);color:#1E1E1C;padding:10px 12px 12px;transform:rotate(-1.6deg);
+  box-shadow:3px 3px 0 -1px #DCD9D0,6px 6px 0 -2px #D2CFC5,9px 9px 0 -3px #C9C5BA,0 20px 30px rgba(0,0,0,.45);border-radius:1px}
+.nf-sheet::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.6%,rgba(0,0,0,.08) 50%,transparent 50.4%);pointer-events:none}
+.nf-mast{font-family:"Playfair Display",Gloock,Georgia,serif;font-weight:900;font-size:clamp(24px,8vw,34px);letter-spacing:.02em;text-align:center;line-height:1;text-transform:uppercase}
+.nf-rule{display:flex;justify-content:space-between;border-top:2.5px solid #1E1E1C;border-bottom:1px solid #1E1E1C;margin:5px 0 7px;padding:2px 0;font-family:var(--f-mono);font-size:7.5px;letter-spacing:.08em}
+.nf-cols{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:9px}
+.nf-cols>div{min-width:0;display:flex;flex-direction:column;gap:3px}
+.nf-cols .mid{border-left:1px solid #9C9A92;border-right:1px solid #9C9A92;padding:0 8px}
+.nf-kick{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:9.5px;letter-spacing:.02em}
+.nf-big{font-family:var(--f-kr);font-weight:800;font-size:16px;line-height:1.15}
+.nf-cols em{font-style:normal;font-size:9px;color:#5A5A55;font-weight:600}
+.nf-lines{display:block;height:calc(var(--n) * 5px);background:repeating-linear-gradient(#A9A79F 0 1.6px,transparent 1.6px 5px);opacity:.75}
+.nf-leaf{position:absolute;left:0;right:0;top:0;height:calc(100% - 26px);z-index:3;display:none;background:linear-gradient(#E9E6DE,#DAD6CC);padding:12px;
+  transform-origin:50% 100%;backface-visibility:hidden;box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+.nf-cols.back{opacity:.8}
+.nf-tap{position:absolute;z-index:5;left:50%;bottom:-4px;transform:translateX(-50%);font-family:var(--f-kr);font-weight:800;font-size:12.5px;color:#F4ECDB;background:rgba(15,21,17,.7);padding:5px 14px;border-radius:999px;white-space:nowrap;animation:tapHint 1.8s ease-in-out infinite}
+@keyframes tapHint{50%{transform:translateX(-50%) translateY(-3px)}}
+.np-fold:hover .nf-sheet{transform:rotate(-.6deg) translateY(-2px)}
+.np-wrap.opening .nf-tap{opacity:0}
+.np-wrap.opening .nf-sheet{transform-origin:50% 0;animation:nfLift .75s cubic-bezier(.4,.1,.3,1) forwards}
+@keyframes nfLift{0%{transform:rotate(-1.6deg)}35%{transform:perspective(700px) rotateX(28deg) rotate(0) scale(1.03)}70%{transform:perspective(700px) rotateX(-8deg) scaleY(1.6);opacity:1}100%{transform:scaleY(2.1);opacity:0}}
+.np-wrap.opening .nf-leaf{display:none}
+@keyframes nfOpen{0%{transform:rotateX(0deg);opacity:1}55%{transform:rotateX(-95deg) skewX(-6deg);opacity:1}100%{transform:rotateX(-178deg);opacity:0}}
+.np-close{display:block}
+
+
+.glitter{position:absolute;left:43%;width:14%;top:66.5%;bottom:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(255,226,150,.95) 0 2px,transparent 2px 6px);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);
+  animation:glit 1.6s ease-in-out infinite;filter:drop-shadow(0 0 3px rgba(255,210,120,.9))}
+@keyframes glit{50%{opacity:.55;transform:scaleX(1.25)}}
+.window .glass:has(.glitter)::after{content:"";position:absolute;inset:0;background:radial-gradient(40% 30% at 50% 52%,rgba(255,230,170,.55),transparent 70%);pointer-events:none}
+
+
+/* 신문 펼치기 v3: 접힌 아래쪽이 접힘선에서 앞으로 넘어오며 펼쳐짐 */
+.np-fold{perspective:1100px}
+.np-wrap{position:relative}
+.np-wrap.opening{z-index:20}
+.nf-sheet{transform-style:preserve-3d;transition:transform .3s}
+.nf-leaf{display:block!important;position:absolute;left:0;right:0;top:100%;height:100%;padding:10px 12px;z-index:3;
+  background:linear-gradient(#E6E3DA,#F1EFE9);transform-origin:50% 0;transform:rotateX(-179deg);backface-visibility:hidden;
+  box-shadow:0 14px 24px rgba(0,0,0,.35);border-radius:1px;visibility:hidden}
+.nf-leaf .nf-shade{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,0) 60%);pointer-events:none}
+.np-wrap.opening .nf-tap{opacity:0;transition:opacity .2s}
+.np-wrap.opening .nf-sheet{animation:nfStraighten 1.1s cubic-bezier(.4,.1,.2,1) forwards}
+@keyframes nfStraighten{0%{transform:rotate(-1.6deg)}25%{transform:rotate(0) translateY(-6px) scale(1.02)}0%,80%{opacity:1}80%{transform:rotate(0) translateY(-24px) scale(1)}100%{transform:rotate(0) translateY(-24px);opacity:0}}
+.np-wrap.opening .nf-leaf{visibility:visible;animation:nfFlip .8s cubic-bezier(.3,.05,.25,1) .15s forwards}
+@keyframes nfFlip{0%{transform:rotateX(-179deg)}60%{transform:rotateX(12deg)}80%{transform:rotateX(-4deg)}100%{transform:rotateX(0)}}
+.np-wrap.opening .nf-shade{animation:nfShade .8s .15s forwards}
+@keyframes nfShade{to{opacity:0}}
+.np-wrap.opening .nf-sheet::before{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rgba(0,0,0,.18);z-index:4}
+@keyframes npIn{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
+.np-wrap.opened .np{animation:npIn .35s ease-out}
+
+.pt-key .soft{display:block;font-size:.92em;color:#8A8274;line-height:1.45;margin-top:2px}
+
+.exfig .bo{fill:#2A2622;stroke:#2A2622;stroke-width:2.8;stroke-linejoin:round}
+.exfig .bf{fill:#ECE3CF}
+.exfig .far .bf{fill:#D6CCB6}.exfig .far .bo{opacity:.8}
+.exfig circle.bf.far{fill:#D6CCB6}
+.exfig .fib{stroke:rgba(110,28,10,.38);stroke-width:.8;fill:none;stroke-linecap:round}
+.exfig .cont{stroke:#B3A78F;stroke-width:1;fill:none;stroke-linecap:round}
+.exfig .hotm2{fill:#D9502F}
+
+
+.exfig .lead{stroke:#8E2B2B;stroke-width:.7;fill:none}
+.exfig .leadd{fill:#8E2B2B}
+.exfig .tag{font-family:"IBM Plex Sans KR",sans-serif;font-size:7px;font-weight:700;fill:#8E2B2B;paint-order:stroke;stroke:#F4EFE2;stroke-width:2.4px}
+
 /* 한글 줄바꿈: 단어 단위로 끊고, 마지막 줄에 한두 글자만 남지 않게 */
 body{word-break:keep-all;overflow-wrap:break-word}
 p,li,.spec,.hint,.drop,.msg,.gate p,.ptimes .dek,.st-card p,.st-card .items,.pt-key li,.ptimes ol li,.menu h3,.menu .spec{text-wrap:pretty}
@@ -730,9 +1033,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
-
 </head>
 <body>
+
+
 <div class="stage" id="stage">
   <div class="rock">
     <div class="interior" id="interior" aria-hidden="true"></div>
@@ -750,7 +1054,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
     </div>
     <div class="sheet">
       <div class="cards" id="cards"></div>
-      <div class="bar"><span id="stat"></span><span style="display:flex;gap:6px"><button type="button" id="again">매표소</button><button type="button" id="stBtn">정차역</button><button type="button" id="reset">다시 보기</button></span></div>
+      <div class="bar"><span id="stat"></span><span style="display:flex;gap:6px"><button type="button" id="again">매표소</button><button type="button" id="stBtn">정차역</button><button type="button" id="myTk">마이 티켓</button></span></div>
     </div>
   </div>
   <div class="door2" id="door2" aria-hidden="true">
@@ -768,7 +1072,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <svg class="hall2" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <defs>
           <pattern id="brk" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#9E5638"/><path d="M0 .5H20 M0 5.5H20 M10 0V5 M0 5V10 M20 5V10" stroke="#743A23" stroke-width="1"/><rect x="1" y="1" width="8" height="3.6" fill="rgba(255,200,150,.09)"/><rect x="11" y="6" width="8" height="3.6" fill="rgba(0,0,0,.05)"/></pattern>
-          <pattern id="mul3" width="20" height="18" patternUnits="userSpaceOnUse" x="80"><rect width="20" height="18" fill="none" stroke="#3B3E3A" stroke-width="1.4"/></pattern>
+          <pattern id="mul3" width="20" height="18" patternUnits="userSpaceOnUse" x="80"><rect width="20" height="18" fill="none" stroke="#9A9C95" stroke-width="1"/></pattern>
+          <pattern id="lbrk" width="22" height="11" patternUnits="userSpaceOnUse"><rect width="22" height="11" fill="#C48460"/><path d="M0 .5H22 M0 6H22 M11 0V5.5 M0 5.5V11 M22 5.5V11" stroke="#A86A48" stroke-width="1"/><rect x="1" y="1.2" width="9" height="3.6" fill="rgba(255,220,190,.10)"/><rect x="12" y="6.7" width="9" height="3.6" fill="rgba(0,0,0,.04)"/></pattern>
           <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F1E2"/><stop offset=".6" stop-color="#E6E0D0"/><stop offset="1" stop-color="#CFC6B0"/></linearGradient>
           <linearGradient id="fl3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFC7B6"/><stop offset="1" stop-color="#A69C88"/></linearGradient>
           <radialGradient id="glb"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".45" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
@@ -781,6 +1086,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#C26A45" stroke-width="12"/>
         <path d="M44 290 V150 A156 156 0 0 1 356 150 V290" fill="none" stroke="#7E3F27" stroke-width="2" transform="translate(0 8)"/>
         <path d="M80 286 V150 A120 120 0 0 1 320 150 V286 Z" fill="url(#sky3)"/>
+        <path d="M80 286 V150 A120 120 0 0 1 320 150 V286 Z" fill="url(#mul3)"/>
         <path d="M80 150 A120 120 0 0 1 320 150" fill="none" stroke="#2F322F" stroke-width="5"/>
         <path d="M200 30 V286 M140 46 V286 M260 46 V286 M80 210 H320" stroke="#2F322F" stroke-width="4"/>
         <!-- 창 너머 플랫폼 지붕 실루엣 -->
@@ -801,7 +1107,9 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <g><rect x="22" y="120" width="6" height="440" fill="#1F1E1C"/><path d="M18 128 h14 l-2 -8 h-10z" fill="#1F1E1C"/><circle cx="25" cy="104" r="36" fill="url(#glb)"/><circle cx="25" cy="104" r="12" fill="#FFF6DA"/><rect x="14" y="548" width="22" height="12" fill="#1F1E1C"/></g>
         <g><rect x="372" y="120" width="6" height="440" fill="#1F1E1C"/><path d="M368 128 h14 l-2 -8 h-10z" fill="#1F1E1C"/><circle cx="375" cy="104" r="36" fill="url(#glb)"/><circle cx="375" cy="104" r="12" fill="#FFF6DA"/><rect x="364" y="548" width="22" height="12" fill="#1F1E1C"/></g>
         <!-- 매표 부스 벽 (2번째 단) -->
-        <rect x="0" y="352" width="400" height="160" fill="url(#brk)"/>
+        <rect x="0" y="352" width="400" height="160" fill="#C88A63"/>
+        <rect x="0" y="358" width="400" height="112" fill="url(#lbrk)"/>
+        <g stroke="rgba(120,62,36,.35)" stroke-width="1"><path d="M0 362 H400 M0 466 H400"/></g>
         <rect x="0" y="352" width="400" height="6" fill="#3E4A44"/>
         <rect x="0" y="470" width="400" height="42" fill="#3E4A44"/>
         <!-- 게시판들 -->
@@ -814,7 +1122,59 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <path d="M0 560 H400 M0 620 H400 M0 700 H400" stroke="rgba(0,0,0,.06)" stroke-width="1.5"/>
         <ellipse cx="200" cy="600" rx="150" ry="18" fill="rgba(255,255,255,.12)"/>
       </svg>
+      <svg class="hall4" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <defs>
+    <pattern id="hbk" width="18" height="9" patternUnits="userSpaceOnUse"><rect width="18" height="9" fill="#AE6A46"/><path d="M0 .5H18 M0 5H18 M9 0V4.5 M0 4.5V9 M18 4.5V9" stroke="#8E5536" stroke-width=".9"/><rect x="1" y="1" width="7" height="3" fill="rgba(255,210,170,.08)"/></pattern>
+    <linearGradient id="hgl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9ECEA"/><stop offset=".5" stop-color="#D3D8D6"/><stop offset="1" stop-color="#B9BFBC"/></linearGradient>
+    <linearGradient id="hfl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BAB6AD"/><stop offset=".5" stop-color="#D2CEC5"/><stop offset="1" stop-color="#BDB8AE"/></linearGradient>
+    <linearGradient id="href" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(62,74,70,.4)"/><stop offset="1" stop-color="rgba(62,74,70,0)"/></linearGradient>
+    <radialGradient id="hglb" cx=".4" cy=".35"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#FFF4DA"/><stop offset="1" stop-color="#EAD9AE"/></radialGradient>
+    <radialGradient id="hglow"><stop offset="0" stop-color="rgba(255,232,180,.7)"/><stop offset="1" stop-color="rgba(255,232,180,0)"/></radialGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#hbk)"/>
+  <path d="M46 248 V150 A154 154 0 0 1 354 150 V248" fill="none" stroke="#B26E48" stroke-width="16"/>
+    <path d="M38 248 V150 A162 162 0 0 1 362 150" fill="none" stroke="#8E5536" stroke-width="2.4"/>
+    <path d="M60 248 V150 A140 140 0 0 1 340 150 V248Z" fill="url(#hgl)"/>
+    <path d="M82 248 V74.7 M104 248 V48.1 M126 248 V31.2 M148 248 V20.0 M170 248 V13.3 M192 248 V10.2 M214 248 V10.7 M236 248 V14.7 M258 248 V22.6 M280 248 V35.1 M302 248 V54.1 M324 248 V85.0 " stroke="#3B403D" stroke-width="3"/>
+    <path d="M60 150 H340 M60 188 H340 M60 226 H340" stroke="#3B403D" stroke-width="2.4"/>
+    <path d="M60 150 A140 140 0 0 1 340 150" fill="none" stroke="#2F3431" stroke-width="4"/>
+    <path d="M116 150 A84 84 0 0 1 284 150" fill="none" stroke="#3B403D" stroke-width="2"/>
+  <path d="M-224 248 V150 A104 104 0 0 1 -16 150 V248" fill="none" stroke="#B26E48" stroke-width="16"/>
+    <path d="M-232 248 V150 A112 112 0 0 1 -8 150" fill="none" stroke="#8E5536" stroke-width="2.4"/>
+    <path d="M-210 248 V150 A90 90 0 0 1 -30 150 V248Z" fill="url(#hgl)"/>
+    <path d="M-188 248 V91.0 M-166 248 V72.6 M-144 248 V63.3 M-122 248 V60.0 M-100 248 V62.3 M-78 248 V70.4 M-56 248 V86.7 M-34 248 V123.5 " stroke="#3B403D" stroke-width="3"/>
+    <path d="M-210 150 H-30 M-210 188 H-30 M-210 226 H-30" stroke="#3B403D" stroke-width="2.4"/>
+    <path d="M-210 150 A90 90 0 0 1 -30 150" fill="none" stroke="#2F3431" stroke-width="4"/>
+    <path d="M-174 150 A54 54 0 0 1 -66 150" fill="none" stroke="#3B403D" stroke-width="2"/><path d="M416 248 V150 A104 104 0 0 1 624 150 V248" fill="none" stroke="#B26E48" stroke-width="16"/>
+    <path d="M408 248 V150 A112 112 0 0 1 632 150" fill="none" stroke="#8E5536" stroke-width="2.4"/>
+    <path d="M430 248 V150 A90 90 0 0 1 610 150 V248Z" fill="url(#hgl)"/>
+    <path d="M452 248 V91.0 M474 248 V72.6 M496 248 V63.3 M518 248 V60.0 M540 248 V62.3 M562 248 V70.4 M584 248 V86.7 M606 248 V123.5 " stroke="#3B403D" stroke-width="3"/>
+    <path d="M430 150 H610 M430 188 H610 M430 226 H610" stroke="#3B403D" stroke-width="2.4"/>
+    <path d="M430 150 A90 90 0 0 1 610 150" fill="none" stroke="#2F3431" stroke-width="4"/>
+    <path d="M466 150 A54 54 0 0 1 574 150" fill="none" stroke="#3B403D" stroke-width="2"/>
+  <g fill="#B26E48"><rect x="18" y="160" width="26" height="90"/><rect x="356" y="160" width="26" height="90"/></g>
+  <rect x="0" y="246" width="400" height="8" fill="#9A5A3A"/><rect x="0" y="254" width="400" height="4" fill="#3E4A46"/>
+  <!-- 테라코타 벽 띠 -->
+  <rect x="0" y="258" width="400" height="214" fill="#C9825F"/>
+  <rect x="0" y="258" width="400" height="12" fill="#B87452"/>
+  <rect x="55" y="252" width="14" height="222" fill="#3E4A46"/><rect x="53" y="252" width="18" height="6" fill="#2F3936"/><rect x="331" y="252" width="14" height="222" fill="#3E4A46"/><rect x="329" y="252" width="18" height="6" fill="#2F3936"/>
+  <rect x="8" y="300" width="46" height="34" fill="#3A3F3B"/><rect x="11" y="303" width="40" height="28" fill="#E7DDC6"/><path d="M13 328 V318.7 h6.8999999999999995 v-5 h5.52 v8 h9.200000000000001 v-10 h4.6000000000000005 v6 h11.5 V328Z" fill="#A49478"/><rect x="346" y="300" width="46" height="34" fill="#3A3F3B"/><rect x="349" y="303" width="40" height="28" fill="#E7DDC6"/><path d="M351 328 V318.7 h6.8999999999999995 v-5 h5.52 v8 h9.200000000000001 v-10 h4.6000000000000005 v6 h11.5 V328Z" fill="#A49478"/>
+  <rect x="8" y="346" width="20" height="26" fill="#3A3F3B"/><rect x="11" y="349" width="14" height="20" fill="#E7DDC6"/><path d="M13 366 V360.3 h3.0 v-5 h2.4 v8 h4.0 v-10 h2.0 v6 h5.0 V366Z" fill="#A49478"/><rect x="34" y="346" width="20" height="26" fill="#3A3F3B"/><rect x="37" y="349" width="14" height="20" fill="#E7DDC6"/><path d="M39 366 V360.3 h3.0 v-5 h2.4 v8 h4.0 v-10 h2.0 v6 h5.0 V366Z" fill="#A49478"/><rect x="346" y="346" width="20" height="26" fill="#3A3F3B"/><rect x="349" y="349" width="14" height="20" fill="#E7DDC6"/><path d="M351 366 V360.3 h3.0 v-5 h2.4 v8 h4.0 v-10 h2.0 v6 h5.0 V366Z" fill="#A49478"/><rect x="372" y="346" width="20" height="26" fill="#3A3F3B"/><rect x="375" y="349" width="14" height="20" fill="#E7DDC6"/><path d="M377 366 V360.3 h3.0 v-5 h2.4 v8 h4.0 v-10 h2.0 v6 h5.0 V366Z" fill="#A49478"/>
+  <g><circle cx="31" cy="290" r="16" fill="url(#hglow)"/><path d="M31 284 v-6" stroke="#2B2E2C" stroke-width="2"/><path d="M25 284 h12 l-2 6 h-8z" fill="#E9E2D0"/></g><g><circle cx="369" cy="290" r="16" fill="url(#hglow)"/><path d="M369 284 v-6" stroke="#2B2E2C" stroke-width="2"/><path d="M363 284 h12 l-2 6 h-8z" fill="#E9E2D0"/></g><g><circle cx="110" cy="282" r="16" fill="url(#hglow)"/><path d="M110 276 v-6" stroke="#2B2E2C" stroke-width="2"/><path d="M104 276 h12 l-2 6 h-8z" fill="#E9E2D0"/></g><g><circle cx="290" cy="282" r="16" fill="url(#hglow)"/><path d="M290 276 v-6" stroke="#2B2E2C" stroke-width="2"/><path d="M284 276 h12 l-2 6 h-8z" fill="#E9E2D0"/></g>
+  <!-- 징두리 + 난간 -->
+  <rect x="0" y="472" width="400" height="44" fill="#3E4A46"/>
+  <rect x="0" y="470" width="400" height="3" fill="#2B2E2C"/><path d="M4 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M20 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M36 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M52 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M68 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M84 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M100 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M116 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M132 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M148 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M164 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M180 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M196 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M212 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M228 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M244 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M260 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M276 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M292 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M308 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M324 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M340 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M356 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M372 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><path d="M388 470 V500" stroke="#3A3F3B" stroke-width="1.6"/><rect x="0" y="498" width="400" height="2" fill="#2B2E2C"/>
+  <!-- 바닥 -->
+  <rect x="0" y="516" width="400" height="244" fill="url(#hfl)"/><path d="M130 516 L-248 760 L-219.2 760 L134.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M140 516 L-184 760 L-155.2 760 L144.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M150 516 L-120 760 L-91.19999999999999 760 L154.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M160 516 L-56 760 L-27.19999999999999 760 L164.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M170 516 L8 760 L36.80000000000001 760 L174.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M180 516 L72 760 L100.8 760 L184.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M190 516 L136 760 L164.8 760 L194.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M200 516 L200 760 L228.8 760 L204.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M210 516 L264 760 L292.8 760 L214.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M220 516 L328 760 L356.8 760 L224.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M230 516 L392 760 L420.8 760 L234.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M240 516 L456 760 L484.8 760 L244.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M250 516 L520 760 L548.8 760 L254.5 516Z" fill="rgba(255,255,255,.07)"/><path d="M260 516 L584 760 L612.8 760 L264.5 516Z" fill="rgba(255,255,255,.07)"/>
+  <rect x="0" y="516" width="400" height="34" fill="url(#href)"/>
+  <g><rect x="25" y="40" width="6" height="440" fill="#2B2E2C"/><rect x="22" y="470" width="12" height="12" fill="#2B2E2C"/>
+     <path d="M21 200 h14 M23 120 h10" stroke="#2B2E2C" stroke-width="3"/>
+     <path d="M22 52 h12 l-3 -8 h-6z" fill="#2B2E2C"/><circle cx="28" cy="34" r="30" fill="url(#hglow)"/><circle cx="28" cy="32" r="12" fill="url(#hglb)"/></g><g><rect x="369" y="40" width="6" height="440" fill="#2B2E2C"/><rect x="366" y="470" width="12" height="12" fill="#2B2E2C"/>
+     <path d="M365 200 h14 M367 120 h10" stroke="#2B2E2C" stroke-width="3"/>
+     <path d="M366 52 h12 l-3 -8 h-6z" fill="#2B2E2C"/><circle cx="372" cy="34" r="30" fill="url(#hglow)"/><circle cx="372" cy="32" r="12" fill="url(#hglb)"/></g>
+</svg>
 
+      
       <!-- 스플릿플랩 출발 안내판 -->
       <div class="flapboard" aria-label="출발 안내: 11시 01분 그랑서울 익스프레스 7층 승강장">
         <div class="fb-head"><span>DEPARTURES</span><span class="fb-dot"></span></div>
@@ -823,19 +1183,24 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       </div>
 
       <!-- 원목 매표 부스 3칸 -->
-      <div class="booths">
-        <div class="booth"><div class="bsign">BAGGAGE</div><div class="bglass"><span class="shut">CLOSED</span></div></div>
-        <div class="booth main"><div class="bsign">TICKETS</div><div class="bglass"><span class="lamp-in"></span><span class="grille"></span></div><div class="slot"></div></div>
-        <div class="booth"><div class="bsign">INFORMATION</div><div class="bglass"><span class="shut">CLOSED</span></div></div>
-        <div class="bcounter"></div>
+      <div class="booth5" aria-label="매표 부스">
+        <div class="b5-head"><span>TICKETS</span></div>
+        <div class="b5-body">
+          <i class="flute"></i>
+          <div class="b5-win main"><div class="bglass"><span class="lamp-in"></span><span class="grille"></span></div></div>
+          <div class="b5-win"><div class="bglass"><span class="lamp-in dim"></span><span class="shut">NEXT WINDOW</span></div></div>
+          <i class="flute"></i>
+        </div>
+        <div class="b5-ledge"><span class="slot5"></span></div>
+        <div class="b5-low"><i class="flute"></i><span></span><span></span><i class="flute"></i></div>
       </div>
 
       <!-- 창구에서 나오는 손 -->
       <div class="offer-clip" aria-hidden="true"><svg class="offer-hand" viewBox="0 0 140 170">
         <defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F1EFE8"/><stop offset="1" stop-color="#D9D5C9"/></linearGradient>
-          <linearGradient id="os" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16223D"/><stop offset="1" stop-color="#2A3D66"/></linearGradient></defs>
+          <linearGradient id="os" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1B2F72"/><stop offset=".45" stop-color="#3556B0"/><stop offset="1" stop-color="#1F3680"/></linearGradient></defs>
         <rect x="42" y="0" width="56" height="70" rx="6" fill="url(#os)"/>
-        <rect x="42" y="54" width="56" height="5" fill="#C9A55C"/><rect x="42" y="62" width="56" height="2.5" fill="#C9A55C"/><circle cx="84" cy="30" r="4" fill="#C9A55C"/>
+        <path d="M44 0 V58 M96 0 V58" stroke="#D9B565" stroke-width="1.6"/><path d="M42 52 L70 40 L98 52" stroke="#D9B565" stroke-width="2.4" fill="none"/><rect x="42" y="58" width="56" height="4" fill="#D9B565"/><rect x="42" y="64.5" width="56" height="1.6" fill="#D9B565"/><circle cx="84" cy="24" r="3.6" fill="#E9CF8E" stroke="#8A6A2E" stroke-width=".8"/><circle cx="84" cy="10" r="3.6" fill="#E9CF8E" stroke="#8A6A2E" stroke-width=".8"/>
         <path d="M40 68 L100 68 L104 82 L36 82Z" fill="url(#og)" stroke="#CFCAB9" stroke-width="1.2"/>
         <path d="M38 80 Q30 112 46 128 L96 128 Q110 112 102 80Z" fill="url(#og)" stroke="#CFCAB9" stroke-width="1.2"/>
         <path d="M54 88 Q56 106 54 120 M70 86 Q72 106 70 122 M86 88 Q86 106 84 120" stroke="#DCD7C8" stroke-width="1.4" fill="none"/>
@@ -850,6 +1215,18 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <button class="bell" type="button" id="bell" aria-label="매표소 벨"><svg viewBox="0 0 40 30" aria-hidden="true"><rect x="2" y="25" width="36" height="5" rx="2" fill="#3E2414"/><path d="M6 25 Q6 8 20 8 Q34 8 34 25 Z" fill="#D9B565"/><path d="M10 22 Q10 12 20 11" stroke="#FFF1C6" stroke-width="2" fill="none" opacity=".7"/><rect x="18" y="2" width="4" height="7" rx="1.5" fill="#8A6A2E"/></svg></button>
 
       <!-- 오브제: 여행가방 카트 -->
+      
+
+      <svg class="of-clock" viewBox="0 0 90 230" aria-hidden="true">
+  <rect x="4" y="6" width="82" height="28" rx="2" fill="#6E2626" stroke="#4A1818" stroke-width="2"/>
+  <text x="45" y="20" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="10.5" letter-spacing="1" fill="#F1E3B8">NEXT TRAIN</text>
+  <text x="45" y="29" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6" letter-spacing="1.2" fill="#F1E3B8">THIS PLATFORM</text>
+  <rect x="40" y="34" width="10" height="190" fill="#6E2626"/><rect x="38" y="140" width="14" height="4" fill="#4A1818"/>
+  <g transform="translate(45 66)"><circle r="31" fill="#6E2626"/><circle r="27" fill="#F4EEDD"/><circle r="27" fill="none" stroke="#4A1818" stroke-width="1"/><line y1="-24" y2="-19" transform="rotate(0)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(30)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(60)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-19" transform="rotate(90)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(120)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(150)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-19" transform="rotate(180)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(210)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(240)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-19" transform="rotate(270)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(300)" stroke="#2A2620" stroke-width="1.4"/><line y1="-24" y2="-21" transform="rotate(330)" stroke="#2A2620" stroke-width="1.4"/><text x="0.0" y="-15.4" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">12</text><text x="9.0" y="-13.0" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">1</text><text x="15.6" y="-6.4" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">2</text><text x="18.0" y="2.6" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">3</text><text x="15.6" y="11.6" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">4</text><text x="9.0" y="18.2" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">5</text><text x="0.0" y="20.6" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">6</text><text x="-9.0" y="18.2" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">7</text><text x="-15.6" y="11.6" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">8</text><text x="-18.0" y="2.6" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">9</text><text x="-15.6" y="-6.4" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">10</text><text x="-9.0" y="-13.0" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="6.5" fill="#2A2620">11</text>
+    <text y="10" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="5" fill="#B23A2E">GSX</text>
+    <line class="hh" y1="2" y2="-12" stroke="#1E2422" stroke-width="2.6" stroke-linecap="round"/><line class="mh" y1="3" y2="-19" stroke="#1E2422" stroke-width="1.8" stroke-linecap="round"/><circle r="2" fill="#1E2422"/></g>
+  <path d="M30 230 L34 218 H56 L60 230Z" fill="#4A1818"/>
+</svg>
       <svg class="trolley" viewBox="0 0 140 150" aria-hidden="true">
         <rect x="8" y="118" width="120" height="7" rx="2" fill="#2B2A28"/><path d="M128 120 L136 24" stroke="#2B2A28" stroke-width="5" stroke-linecap="round"/><path d="M128 40 h10" stroke="#2B2A28" stroke-width="4" stroke-linecap="round"/>
         <circle cx="26" cy="134" r="10" fill="#1C1B1A"/><circle cx="26" cy="134" r="4" fill="#8A6A2E"/><circle cx="108" cy="134" r="10" fill="#1C1B1A"/><circle cx="108" cy="134" r="4" fill="#8A6A2E"/>
@@ -857,7 +1234,6 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <g><rect x="22" y="44" width="86" height="34" rx="5" fill="#A26B3F"/><rect x="22" y="44" width="86" height="5" rx="2" fill="#B9804F"/><rect x="40" y="44" width="6" height="34" fill="#5A3520"/><rect x="84" y="44" width="6" height="34" fill="#5A3520"/><rect x="56" y="38" width="16" height="7" rx="3" fill="none" stroke="#5A3520" stroke-width="3"/><rect x="58" y="56" width="18" height="12" rx="1" fill="#2F5E5B"/></g>
         <g><rect x="38" y="18" width="56" height="26" rx="10" fill="#2F3A33"/><rect x="38" y="18" width="56" height="4" rx="2" fill="#3E4A44"/><rect x="58" y="12" width="14" height="7" rx="3" fill="none" stroke="#C9A55C" stroke-width="2.5"/><circle cx="52" cy="31" r="2.5" fill="#C9A55C"/><circle cx="80" cy="31" r="2.5" fill="#C9A55C"/></g>
       </svg>
-
       <!-- 오브제: 신문 가판대 -->
       <div class="kiosk" aria-label="신문 가판대">
         <svg class="kiosk-bg" viewBox="0 0 130 190" aria-hidden="true">
@@ -907,11 +1283,20 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <svg class="pf-bg" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <defs>
           <pattern id="brick" width="24" height="12" patternUnits="userSpaceOnUse"><rect width="24" height="12" fill="#A65A3A"/><path d="M0 0.5 H24 M0 6.5 H24 M12 0 V6 M0 6 V12 M24 6 V12" stroke="#7E3F27" stroke-width="1"/><rect x="1" y="1" width="10" height="4.6" fill="rgba(255,190,140,.10)"/></pattern>
-          <pattern id="mul2" width="16" height="20" patternUnits="userSpaceOnUse"><rect width="16" height="20" fill="none" stroke="#3A3F3C" stroke-width="1.6"/></pattern>
-          <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4D8"/><stop offset="1" stop-color="#F6D9A0"/></linearGradient>
+          <pattern id="mul2" width="20" height="18" patternUnits="userSpaceOnUse" x="80"><rect width="20" height="18" fill="none" stroke="#9A9C95" stroke-width="1"/></pattern>
+          <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9F4E6"/><stop offset=".6" stop-color="#EDE4CE"/><stop offset="1" stop-color="#E2D2AE"/></linearGradient>
           <linearGradient id="beam2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="rgba(255,226,160,.6)"/><stop offset="1" stop-color="rgba(255,226,160,0)"/></linearGradient>
-          <linearGradient id="floor2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2B286"/><stop offset=".35" stop-color="#E6CFA6"/><stop offset="1" stop-color="#DBC097"/></linearGradient><pattern id="plank2" width="120" height="22" patternUnits="userSpaceOnUse"><rect width="120" height="22" fill="none"/><path d="M0 21.5 H120" stroke="rgba(110,74,40,.28)" stroke-width="1"/><path d="M38 0 V22" stroke="rgba(110,74,40,.22)" stroke-width="1"/><path d="M0 7 Q30 5 60 8 T120 7 M0 14 Q40 16 80 13 T120 15" stroke="rgba(140,100,60,.10)" stroke-width="1" fill="none"/><rect x="0" y="0" width="120" height="3" fill="rgba(255,240,215,.18)"/></pattern><pattern id="plank2b" width="120" height="44" patternUnits="userSpaceOnUse"><rect y="0" width="120" height="22" fill="url(#plank2)"/><rect x="0" y="22" width="120" height="22" fill="url(#plank2)" transform="translate(60 0)"/></pattern>
-          <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4E5C52"/><stop offset="1" stop-color="#36423A"/></linearGradient>
+          <linearGradient id="floor3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9BE92"/><stop offset="1" stop-color="#C7A878"/></linearGradient>
+          <linearGradient id="plankShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(60,36,20,.18)"/><stop offset=".25" stop-color="rgba(60,36,20,0)"/><stop offset="1" stop-color="rgba(255,240,210,.08)"/></linearGradient>
+          <pattern id="plank" width="300" height="44" patternUnits="userSpaceOnUse">
+            <path d="M0 21.5 H300 M0 43.5 H300" stroke="#A68356" stroke-width="1.3"/>
+            <path d="M188 0 V21.5 M86 22 V44" stroke="#A68356" stroke-width="1.3"/>
+            <rect x="0" y="0" width="188" height="21.5" fill="rgba(255,238,205,.10)"/><rect x="86" y="22" width="214" height="21.5" fill="rgba(120,80,40,.05)"/>
+            <path d="M4 6 Q60 3 120 7 T186 6 M192 5 Q240 3 298 6 M6 14 Q70 16 140 13 T186 15 M196 15 Q250 17 298 14 M4 29 Q40 27 84 30 M92 28 Q160 25 230 29 T298 28 M8 37 Q50 39 84 36 M96 37 Q170 40 240 36 T298 38" stroke="rgba(150,108,66,.32)" stroke-width=".9" fill="none"/>
+            <path d="M130 9 q8 -3 14 0 q-6 4 -14 0 M240 33 q7 -3 12 0 q-5 3 -12 0" stroke="rgba(130,90,52,.4)" stroke-width=".8" fill="none"/>
+          </pattern>
+          <linearGradient id="floor2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B7A07A"/><stop offset="1" stop-color="#8C7556"/></linearGradient>
+          <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDE3CC"/><stop offset="1" stop-color="#DCCDAE"/></linearGradient>
           <radialGradient id="globeL"><stop offset="0" stop-color="#FFF6DA"/><stop offset=".5" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
         </defs>
         <!-- 벽돌 벽 -->
@@ -919,22 +1304,25 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <!-- 큰 아치 창 -->
         <path d="M70 300 V170 A130 130 0 0 1 330 170 V300 Z" fill="#7E3F27"/>
         <path d="M80 300 V172 A120 120 0 0 1 320 172 V300 Z" fill="url(#sky2)"/>
-        <path d="M80 172 A120 120 0 0 1 320 172" fill="none" stroke="#3A3F3C" stroke-width="4"/>
-        <path d="M200 52 V300 M140 70 V300 M260 70 V300 M80 230 H320" stroke="#2E3330" stroke-width="3"/>
+        <path d="M80 300 V172 A120 120 0 0 1 320 172 V300 Z" fill="url(#mul2)"/>
+        <path d="M80 172 A120 120 0 0 1 320 172" fill="none" stroke="#2F322F" stroke-width="5"/>
+        <path d="M200 52 V300 M140 70 V300 M260 70 V300 M80 236 H320" stroke="#2F322F" stroke-width="4"/>
+        <path d="M84 270 L140 250 L200 262 L260 250 L316 270 V300 H84Z" fill="rgba(80,80,74,.28)"/>
+        
         <path d="M60 172 A140 140 0 0 1 340 172" fill="none" stroke="#C9714C" stroke-width="8"/>
         <!-- 양옆 작은 아치 창 -->
-        <path d="M-30 300 V200 A46 46 0 0 1 40 200 V300 Z" fill="url(#sky2)"/>
-        <path d="M360 300 V200 A46 46 0 0 1 430 200 V300 Z" fill="url(#sky2)"/>
+        <path d="M-30 300 V200 A46 46 0 0 1 40 200 V300 Z" fill="url(#sky2)"/><path d="M-30 300 V200 A46 46 0 0 1 40 200 V300 Z" fill="url(#mul2)"/><path d="M-30 200 A46 46 0 0 1 40 200 M5 154 V300 M-30 240 H40" fill="none" stroke="#2F322F" stroke-width="3"/>
+        <path d="M360 300 V200 A46 46 0 0 1 430 200 V300 Z" fill="url(#sky2)"/><path d="M360 300 V200 A46 46 0 0 1 430 200 V300 Z" fill="url(#mul2)"/><path d="M360 200 A46 46 0 0 1 430 200 M395 154 V300 M360 240 H430" fill="none" stroke="#2F322F" stroke-width="3"/>
         <!-- 코니스 -->
         <rect x="0" y="300" width="400" height="12" fill="#C9714C"/><rect x="0" y="312" width="400" height="4" fill="#7E3F27"/>
         <!-- 아래 패널 + 문 + 게시판 -->
-        <rect x="0" y="316" width="400" height="120" fill="url(#panel)"/>
-        <g fill="#2B342E"><rect x="22" y="330" width="44" height="106"/><rect x="334" y="330" width="44" height="106"/></g>
+        <rect x="0" y="316" width="400" height="120" fill="url(#panel)"/><rect x="0" y="406" width="400" height="30" fill="#6E2626"/><rect x="0" y="404" width="400" height="3" fill="#C9A55C"/>
+        <g fill="#6E2626"><rect x="22" y="330" width="44" height="106"/><rect x="334" y="330" width="44" height="106"/></g>
         <g fill="#F1E3C2" opacity=".85"><rect x="28" y="338" width="14" height="40"/><rect x="46" y="338" width="14" height="40"/><rect x="340" y="338" width="14" height="40"/><rect x="358" y="338" width="14" height="40"/></g>
-        <rect x="150" y="334" width="100" height="44" fill="#E9DFC6" stroke="#B8913E" stroke-width="3"/>
-        <text x="200" y="352" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#2B342E">TO PLATFORM 7F</text>
+        <rect x="150" y="334" width="100" height="44" fill="#F6F0E2" stroke="#6E2626" stroke-width="3"/>
+        <text x="200" y="352" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="1.5" fill="#6E2626">TO PLATFORM 7F</text>
         <text x="200" y="368" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-size="9" fill="#5A4A2E">그랑서울 피트니스행</text>
-        <g fill="#E9DFC6" stroke="#2B342E" stroke-width="1.5"><rect x="92" y="340" width="22" height="30"/><rect x="286" y="340" width="22" height="30"/></g>
+        <g fill="#F6F0E2" stroke="#6E2626" stroke-width="1.5"><rect x="92" y="340" width="22" height="30"/><rect x="286" y="340" width="22" height="30"/></g>
         <g fill="#FFE3A0"><circle cx="124" cy="330" r="3"/><circle cx="276" cy="330" r="3"/></g>
         <!-- 철골 지붕 -->
         <rect x="0" y="0" width="400" height="56" fill="#2B2A28"/>
@@ -944,23 +1332,35 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <!-- 빛줄기 -->
         <path class="beams2" d="M90 300 L-40 760 L110 760 L170 300 Z M210 300 L190 760 L330 760 L300 300 Z" fill="url(#beam2)"/>
         <!-- 승강장 바닥 + 긴 그림자 -->
-        <rect x="0" y="560" width="400" height="200" fill="url(#floor2)"/><rect x="0" y="560" width="400" height="200" fill="url(#plank2b)"/>
+        <rect x="0" y="560" width="400" height="200" fill="url(#floor3)"/><rect x="0" y="560" width="400" height="200" fill="url(#plank)"/><rect x="0" y="560" width="400" height="200" fill="url(#plankShade)"/>
         <g fill="rgba(60,36,20,.22)"><path d="M58 560 L74 560 L-40 760 L-70 760 Z"/><path d="M336 560 L352 560 L250 760 L220 760 Z"/></g>
         <g fill="rgba(255,226,160,.18)"><path d="M120 560 L230 560 L200 760 L40 760 Z"/></g>
         <path d="M0 640 H400 M0 700 H400" stroke="rgba(0,0,0,.06)" stroke-width="2"/>
         <!-- 가로등 -->
         <g><rect x="62" y="230" width="6" height="330" fill="#22211F"/><rect x="56" y="548" width="18" height="12" fill="#22211F"/><path d="M58 236 h14 l-3 -10 h-8z" fill="#22211F"/><circle cx="65" cy="214" r="34" fill="url(#globeL)"/><circle cx="65" cy="214" r="11" fill="#FFF3D2"/></g>
         <g><rect x="332" y="230" width="6" height="330" fill="#22211F"/><rect x="326" y="548" width="18" height="12" fill="#22211F"/><path d="M328 236 h14 l-3 -10 h-8z" fill="#22211F"/><circle cx="335" cy="214" r="34" fill="url(#globeL)"/><circle cx="335" cy="214" r="11" fill="#FFF3D2"/></g>
-        <!-- 승강장 인포메이션 시계 기둥 -->
-        <g transform="translate(286 470)"><rect x="-9" y="0" width="18" height="90" fill="#9C7A34"/><rect x="-11" y="-6" width="22" height="6" fill="#A9A9A2"/>
-          <circle cx="0" cy="-20" r="16" fill="#A9A9A2"/><circle cx="0" cy="-20" r="13" fill="#FFF6D6"/><circle cx="0" cy="-42" r="4" fill="#5FD39A"/>
-          <g transform="translate(0 -20)" stroke="#3A2A10" stroke-width="1"><line y1="-15" y2="-12" transform="rotate(0)"/><line y1="-15" y2="-13" transform="rotate(30)"/><line y1="-15" y2="-13" transform="rotate(60)"/><line y1="-15" y2="-12" transform="rotate(90)"/><line y1="-15" y2="-13" transform="rotate(120)"/><line y1="-15" y2="-13" transform="rotate(150)"/><line y1="-15" y2="-12" transform="rotate(180)"/><line y1="-15" y2="-13" transform="rotate(210)"/><line y1="-15" y2="-13" transform="rotate(240)"/><line y1="-15" y2="-12" transform="rotate(270)"/><line y1="-15" y2="-13" transform="rotate(300)"/><line y1="-15" y2="-13" transform="rotate(330)"/><line class="hh" y1="1" y2="-6" stroke="#22281F" stroke-width="2"/><line class="mh" y1="1" y2="-10" stroke="#22281F" stroke-width="1.4"/></g>
-          <rect x="-8" y="8" width="16" height="6" fill="#14181A"/><path d="M-26 86 Q0 78 26 86 L26 92 Q0 84 -26 92 Z" fill="#5A3520"/></g>
+        
       </svg>
       <div class="dep"><span class="h">TIME</span><span class="h">TRAIN</span><span class="h">PLATFORM</span><span>11:01</span><span>GRAN SEOUL EXP.</span><span>7F</span><span class="h">STATUS</span><span class="flash" style="grid-column:span 2">곧 출발합니다</span></div>
       <div class="rails2"></div>
+      <svg class="pf-obj cross" viewBox="0 0 90 230" aria-hidden="true">
+  <g transform="translate(45 34)">
+    <g transform="rotate(35)"><rect x="-44" y="-9" width="88" height="18" rx="2" fill="#F6F2E8" stroke="#2A2622" stroke-width="2"/><text x="-25" y="4.5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="11" letter-spacing="1" fill="#1E2422">RAIL</text><text x="25" y="4.5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="11" letter-spacing="1" fill="#1E2422">ROAD</text></g>
+    <g transform="rotate(-35)"><rect x="-44" y="-9" width="88" height="18" rx="2" fill="#F6F2E8" stroke="#2A2622" stroke-width="2"/><text x="0" y="5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="11" letter-spacing="1" fill="#1E2422">CROSSING</text></g>
+  </g>
+  <rect x="42" y="30" width="6" height="190" fill="#1E2422"/>
+  <rect x="31" y="66" width="28" height="16" rx="2" fill="#1E2422"/><text x="45" y="78" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="12" fill="#F6F2E8">7F</text>
+  <path d="M14 98 H76" stroke="#1E2422" stroke-width="3"/>
+  <g><circle cx="16" cy="98" r="11" fill="#1E2422"/><circle class="xl a" cx="16" cy="98" r="6" fill="#C8352B"/></g>
+  <g><circle cx="74" cy="98" r="11" fill="#1E2422"/><circle class="xl b" cx="74" cy="98" r="6" fill="#C8352B"/></g>
+  <rect x="14" y="122" width="62" height="24" rx="2" fill="#1E2422"/><text x="45" y="132" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="7.5" letter-spacing="1" fill="#F6F2E8">STOP ON</text><text x="45" y="142" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="7.5" letter-spacing="1" fill="#F6F2E8">RED SIGNAL</text>
+  <path d="M30 230 L34 216 H56 L60 230Z" fill="#1E2422"/>
+</svg>
+      
       <div class="train-side" id="trainSide"></div>
       <div class="edge"></div>
+      
+      
       <div class="plat-msg"><b id="platTitle">탑승을 환영합니다</b><span>1호차부터 하루 한 칸씩 옮겨 타며 운동을 인증해요</span></div>
     </section>
     <button class="skip" type="button" id="skip">바로 탑승</button>
@@ -1001,20 +1401,34 @@ inbody:`<svg viewBox="0 0 130 240">
   <path d="M10 222 L120 222 L128 236 L2 236Z" fill="var(--frame)"/><path d="M14 214 L116 214 L120 222 L10 222Z" fill="var(--frame-hi)"/>
   <g fill="var(--shroud)" opacity=".85"><path d="M26 216 h18 l-1 4 h-18z"/><path d="M84 216 h18 l1 4 h-18z"/><path d="M30 225 h16 l-1 6 h-17z"/><path d="M82 225 h16 l1 6 h-17z"/></g>
   <path d="M54 214 L56 86 L74 86 L76 214Z" fill="var(--frame)"/><rect x="58" y="88" width="3" height="124" fill="var(--frame-hi)"/>
-  <g fill="#7FD3B5"><circle cx="65" cy="104" r="1.4"/><circle cx="65" cy="110" r="1.4"/><circle cx="65" cy="116" r="1.4"/></g>
+  <g fill="var(--shroud-hi)"><circle cx="65" cy="104" r="1.4"/><circle cx="65" cy="110" r="1.4"/><circle cx="65" cy="116" r="1.4"/></g>
   <rect x="58" y="150" width="14" height="26" rx="2" fill="var(--pad)" stroke="var(--frame-hi)"/><circle cx="65" cy="162" r="3.4" fill="var(--stack)"/>
   <path d="M28 92 H102" stroke="var(--frame)" stroke-width="4"/>
   <rect x="25" y="88" width="6" height="64" rx="3" fill="var(--pad)"/><rect x="99" y="88" width="6" height="64" rx="3" fill="var(--pad)"/>
   <rect x="25" y="140" width="6" height="10" rx="2" fill="var(--shroud)"/><rect x="99" y="140" width="6" height="10" rx="2" fill="var(--shroud)"/>
-  <path d="M40 6 L92 2 L94 80 L72 88 L58 88 L38 82Z" fill="var(--frame)"/>
-  <path d="M44 10 L89 7 L90 76 L44 78Z" fill="#12161A"/>
-  <g transform="translate(66.5 42)"><path d="M-6.3 -13.6 A15 15 0 0 1 6.3 -13.6" stroke="#C86A4A" stroke-width="5" fill="none"/><path d="M8.6 -12.3 A15 15 0 0 1 14.9 -1.3" stroke="#B9567A" stroke-width="5" fill="none"/><path d="M14.9 1.3 A15 15 0 0 1 8.6 12.3" stroke="#5E86B8" stroke-width="5" fill="none"/><path d="M6.3 13.6 A15 15 0 0 1 -6.3 13.6" stroke="#6E5FA8" stroke-width="5" fill="none"/><path d="M-8.6 12.3 A15 15 0 0 1 -14.9 1.3" stroke="#3F9A8E" stroke-width="5" fill="none"/><path d="M-14.9 -1.3 A15 15 0 0 1 -8.6 -12.3" stroke="#C9A04A" stroke-width="5" fill="none"/><text x="0" y="3" text-anchor="middle" font-size="9" font-family="Arial,sans-serif" font-weight="700" fill="#F4ECDB">36</text></g>
-  <rect x="61" y="80" width="10" height="2.5" rx="1" fill="#C9A55C"/>
+  <rect x="44" y="0" width="44" height="84" rx="4" fill="var(--frame)"/><path d="M58 84 H74 L72 90 H60Z" fill="var(--frame)"/>
+  <rect x="48" y="4" width="36" height="74" rx="2" fill="#12161A"/>
+  <g transform="translate(66 34)"><circle r="11" fill="none" stroke="#3A3F44" stroke-width="3.4"/><path d="M0 -11 A11 11 0 1 1 -10.4 3.6" fill="none" stroke="#C9C3B4" stroke-width="3.4" stroke-linecap="round"/><text x="0" y="3" text-anchor="middle" font-size="7.5" font-family="Arial,sans-serif" font-weight="700" fill="#F4ECDB">36</text></g><g fill="#3A3F44"><rect x="53" y="54" width="26" height="2.4" rx="1"/><rect x="53" y="60" width="20" height="2.4" rx="1"/><rect x="53" y="66" width="23" height="2.4" rx="1"/></g>
+  
 </svg>`,
 legpress:`<svg viewBox="0 0 240 150"><rect x="8" y="10" width="44" height="132" rx="6" fill="var(--shroud)"/><rect x="8" y="10" width="10" height="132" rx="5" fill="var(--shroud-hi)"/><rect x="20" y="30" width="22" height="96" rx="2" fill="var(--pad)"/><g fill="var(--stack)"><rect x="22" y="78" width="18" height="6"/><rect x="22" y="86" width="18" height="6"/><rect x="22" y="94" width="18" height="6"/><rect x="22" y="102" width="18" height="6"/><rect x="22" y="110" width="18" height="6"/><rect x="22" y="118" width="18" height="6"/></g><rect x="40" y="132" width="196" height="10" rx="3" fill="var(--frame)"/><path d="M70 128 L200 46" stroke="var(--frame-hi)" stroke-width="9" stroke-linecap="round"/><path d="M70 128 L200 46" stroke="var(--frame)" stroke-width="5" stroke-linecap="round"/><rect x="196" y="40" width="10" height="96" rx="3" fill="var(--frame)"/><g transform="rotate(32 186 54)"><rect x="176" y="22" width="14" height="64" rx="3" fill="var(--shroud)"/><rect x="178" y="26" width="10" height="56" rx="2" fill="var(--frame-hi)"/></g><rect x="74" y="104" width="12" height="30" fill="var(--frame)"/><rect x="60" y="96" width="56" height="12" rx="6" fill="var(--pad)" transform="rotate(-12 88 102)"/><rect x="52" y="50" width="16" height="58" rx="8" fill="var(--pad)" transform="rotate(-30 60 100)"/><rect x="100" y="98" width="20" height="5" rx="2.5" fill="var(--shroud)"/><rect x="50" y="20" width="60" height="6" rx="3" fill="var(--frame)"/></svg>`,
 smith:`<svg viewBox="0 0 140 220"><rect x="6" y="208" width="128" height="9" rx="3" fill="var(--frame)"/><rect x="14" y="10" width="14" height="200" rx="3" fill="var(--frame)"/><rect x="112" y="10" width="14" height="200" rx="3" fill="var(--frame)"/><rect x="16" y="12" width="4" height="196" fill="var(--frame-hi)"/><rect x="114" y="12" width="4" height="196" fill="var(--frame-hi)"/><rect x="8" y="6" width="124" height="12" rx="4" fill="var(--frame)"/><rect x="32" y="18" width="3" height="190" fill="var(--shroud-hi)"/><rect x="105" y="18" width="3" height="190" fill="var(--shroud-hi)"/><rect x="0" y="92" width="140" height="6" rx="3" fill="var(--shroud-hi)"/><rect x="26" y="88" width="15" height="14" rx="3" fill="var(--shroud)"/><rect x="99" y="88" width="15" height="14" rx="3" fill="var(--shroud)"/><rect x="2" y="70" width="8" height="50" rx="3" fill="var(--pad)"/><rect x="130" y="70" width="8" height="50" rx="3" fill="var(--pad)"/><rect x="10" y="76" width="5" height="38" rx="2" fill="var(--stack)"/><rect x="125" y="76" width="5" height="38" rx="2" fill="var(--stack)"/><rect x="22" y="150" width="24" height="5" rx="2" fill="var(--shroud)"/><rect x="94" y="150" width="24" height="5" rx="2" fill="var(--shroud)"/><rect x="40" y="200" width="60" height="8" rx="2" fill="var(--pad)"/></svg>`,
 latpull:`<svg viewBox="0 0 160 220"><rect x="10" y="208" width="146" height="9" rx="3" fill="var(--frame)"/><rect x="108" y="40" width="40" height="170" rx="6" fill="var(--shroud)"/><rect x="108" y="40" width="9" height="170" rx="4" fill="var(--shroud-hi)"/><rect x="120" y="60" width="20" height="130" rx="2" fill="var(--pad)"/><g fill="var(--stack)"><rect x="122" y="140" width="16" height="6"/><rect x="122" y="148" width="16" height="6"/><rect x="122" y="156" width="16" height="6"/><rect x="122" y="164" width="16" height="6"/><rect x="122" y="172" width="16" height="6"/></g><rect x="96" y="8" width="14" height="202" rx="3" fill="var(--frame)"/><rect x="24" y="8" width="88" height="10" rx="4" fill="var(--frame)"/><circle cx="32" cy="24" r="6" fill="var(--shroud-hi)"/><path d="M32 24 V72" stroke="var(--stack)" stroke-width="2"/><path d="M4 74 Q32 68 62 74" stroke="var(--shroud-hi)" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="2" y="70" width="8" height="10" rx="3" fill="var(--pad)"/><rect x="56" y="70" width="8" height="10" rx="3" fill="var(--pad)"/><rect x="56" y="150" width="9" height="58" fill="var(--frame)"/><rect x="34" y="144" width="52" height="11" rx="5" fill="var(--pad)"/><rect x="38" y="118" width="40" height="11" rx="5" fill="var(--pad)"/><rect x="56" y="124" width="6" height="22" fill="var(--frame-hi)"/></svg>`,
-row:`<svg viewBox="0 0 230 130"><rect x="8" y="114" width="214" height="9" rx="3" fill="var(--frame)"/><rect x="182" y="12" width="40" height="104" rx="6" fill="var(--shroud)"/><rect x="182" y="12" width="9" height="104" rx="4" fill="var(--shroud-hi)"/><rect x="194" y="28" width="20" height="74" rx="2" fill="var(--pad)"/><g fill="var(--stack)"><rect x="196" y="70" width="16" height="6"/><rect x="196" y="78" width="16" height="6"/><rect x="196" y="86" width="16" height="6"/><rect x="196" y="94" width="16" height="6"/></g><rect x="24" y="90" width="110" height="11" rx="5" fill="var(--pad)"/><rect x="40" y="100" width="8" height="16" fill="var(--frame)"/><rect x="110" y="100" width="8" height="16" fill="var(--frame)"/><rect x="146" y="48" width="9" height="68" rx="3" fill="var(--frame)"/><rect x="140" y="56" width="12" height="34" rx="6" fill="var(--pad)"/><g transform="rotate(-18 166 104)"><rect x="160" y="84" width="10" height="28" rx="3" fill="var(--shroud)"/></g><path d="M178 60 H128" stroke="var(--stack)" stroke-width="2"/><rect x="118" y="56" width="12" height="9" rx="3" fill="var(--shroud-hi)"/></svg>`,
+row:`<svg viewBox="0 0 200 170">
+<path d="M14 166 V30 Q14 10 34 10 H70 Q86 10 86 26 V60" fill="none" stroke="var(--shroud)" stroke-width="9" stroke-linecap="round"/>
+<path d="M14 166 V30 Q14 10 34 10 H70 Q86 10 86 26 V60" fill="none" stroke="var(--shroud-hi)" stroke-width="3" stroke-linecap="round" transform="translate(-2 -1)"/>
+<path d="M30 20 V120 M42 20 V120" stroke="var(--stack)" stroke-width="2"/>
+<rect x="24" y="96" width="26" height="40" rx="2" fill="var(--pad)"/><g fill="var(--stack)"><rect x="26" y="100" width="22" height="5"/><rect x="26" y="107" width="22" height="5"/><rect x="26" y="114" width="22" height="5"/><rect x="26" y="121" width="22" height="5"/><rect x="26" y="128" width="22" height="5"/></g>
+<path d="M8 166 H192" stroke="var(--frame)" stroke-width="7" stroke-linecap="round"/>
+<path d="M60 166 L74 128 H118 L132 166" fill="none" stroke="var(--shroud)" stroke-width="7" stroke-linejoin="round"/>
+<rect x="50" y="116" width="66" height="13" rx="6" fill="var(--pad)"/>
+<path d="M126 60 V128" stroke="var(--shroud)" stroke-width="7" stroke-linecap="round"/>
+<rect x="118" y="58" width="13" height="50" rx="6" fill="var(--pad)"/>
+<path d="M124 108 Q150 112 158 166" fill="none" stroke="var(--shroud)" stroke-width="8" stroke-linecap="round"/>
+<path d="M140 150 L184 70" stroke="var(--shroud)" stroke-width="7" stroke-linecap="round"/>
+<path d="M184 70 V50" stroke="var(--frame)" stroke-width="5" stroke-linecap="round"/><rect x="180" y="40" width="8" height="18" rx="3" fill="var(--pad)"/>
+<circle cx="140" cy="150" r="6" fill="var(--frame-hi)"/><path d="M146 156 H178" stroke="var(--frame)" stroke-width="5" stroke-linecap="round"/>
+</svg>`,
 chest:`<svg viewBox="0 0 180 210"><rect x="6" y="198" width="168" height="9" rx="3" fill="var(--frame)"/><rect x="8" y="20" width="42" height="180" rx="6" fill="var(--shroud)"/><rect x="8" y="20" width="9" height="180" rx="4" fill="var(--shroud-hi)"/><rect x="20" y="40" width="20" height="140" rx="2" fill="var(--pad)"/><g fill="var(--stack)"><rect x="22" y="130" width="16" height="6"/><rect x="22" y="138" width="16" height="6"/><rect x="22" y="146" width="16" height="6"/><rect x="22" y="154" width="16" height="6"/><rect x="22" y="162" width="16" height="6"/></g><rect x="44" y="16" width="110" height="9" rx="4" fill="var(--frame)"/><rect x="146" y="16" width="12" height="184" rx="3" fill="var(--frame)"/><rect x="98" y="140" width="10" height="60" fill="var(--frame)"/><rect x="76" y="132" width="56" height="13" rx="6" fill="var(--pad)"/><rect x="124" y="62" width="15" height="80" rx="7" fill="var(--pad)"/><path d="M140 34 Q120 60 76 92" stroke="var(--frame-hi)" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M140 34 Q120 60 76 92" stroke="var(--frame)" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="62" y="84" width="16" height="22" rx="5" fill="var(--pad)"/></svg>`,
 dbrack:`<svg viewBox="0 0 150 120"><rect x="6" y="110" width="138" height="8" rx="3" fill="var(--frame)"/><path d="M14 112 L20 30 M136 112 L130 30" stroke="var(--frame)" stroke-width="8" stroke-linecap="round"/><rect x="12" y="44" width="126" height="7" rx="3" fill="var(--frame-hi)"/><rect x="10" y="84" width="130" height="7" rx="3" fill="var(--frame-hi)"/>${[22,52,82,112].map(x=>`<rect x="${x-2}" y="30" width="20" height="4" fill="var(--shroud-hi)"/><rect x="${x-8}" y="25" width="10" height="16" rx="2" fill="var(--pad)"/><rect x="${x+14}" y="25" width="10" height="16" rx="2" fill="var(--pad)"/>`).join("")}${[20,54,88,120].map(x=>`<rect x="${x-2}" y="70" width="22" height="5" fill="var(--shroud-hi)"/><rect x="${x-10}" y="63" width="12" height="20" rx="2" fill="var(--pad)"/><rect x="${x+16}" y="63" width="12" height="20" rx="2" fill="var(--pad)"/>`).join("")}</svg>`,
 treadmill:`<svg viewBox="0 0 240 150"><path d="M20 128 L222 112 L226 124 L22 140 Z" fill="var(--frame)"/><path d="M28 124 L214 109 L216 114 L30 130 Z" fill="var(--pad)"/><path d="M48 124 L34 44" stroke="var(--frame)" stroke-width="9" stroke-linecap="round"/><path d="M34 60 L96 58" stroke="var(--shroud)" stroke-width="5" stroke-linecap="round"/><g transform="rotate(-8 39 40)"><rect x="8" y="28" width="62" height="24" rx="5" fill="var(--shroud)"/><rect x="16" y="32" width="44" height="13" rx="2" fill="#2B3A45"/></g></svg>`,
@@ -1032,12 +1446,12 @@ const CARS=[
   missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"결과지·결과 화면 또는 측정기 앞에서 찍은 사진<br>둘 중 하나면 돼요"},{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"}]},
  {no:2,en:"VELVET CAR",ko:"등 칸",zone:"등존",view:"호숫가 초원 · 아침",wall:"w2",win:"rect",sky:["#CFE0E6","#EEF2E6"],sun:{c:"#FFF4D6",x:18,y:14,s:28},lamp:"#FBE6B0",
   layers:[["peaks","#B4C6C9",56,40],["flat","#8FB3B8",18,16],["rolling","#7FA36B",22,9],["shrubs","#4E7A4A",12,3.5]],
-  left:["latpull","left:2%;bottom:29%;width:40%"],right:["row","right:0;bottom:29%;width:56%"],
+  left:["latpull","left:2%;bottom:29%;width:40%"],right:["row","right:1%;bottom:28%;width:48%"],
   missions:[{id:"m3",cat:"BACK",name:"랫 풀다운",spec:"3세트 × 12회"},{id:"m4",cat:"BACK",name:"시티드 로우",spec:"3세트 × 12회"}]},
- {no:3,en:"NAVY CAR",ko:"가슴·어깨 칸",zone:"상체존",view:"노을 바다 · 해 질 녘",wall:"w3",win:"rect",sky:["#E9A27A","#F4D3A1"],sun:{c:"#FBE3B0",x:44,y:44,s:40},lamp:"#F5CF8A",
-  layers:[["waves","#5C7290",34,12],["waves","#3E5574",22,6],["waves","#26385A",12,3]],
+ {no:3,en:"NAVY CAR",ko:"가슴·어깨 칸",zone:"상체존",view:"노을 바다 · 해 질 녘",wall:"w3",win:"rect",sky:["#E58A3C","#F7C47A"],sun:{c:"#FFF4D0",x:45,y:44,s:28},lamp:"#F5CF8A",glitter:true,
+  layers:[["rolling","#A85E36",50,70],["flat","#8E6A52",34,40],["waves","#6B4D3A",20,7],["waves","#4A3528",10,3.5]],
   left:["chest","left:2%;bottom:29%;width:46%"],right:["dbrack","right:2%;bottom:29%;width:42%"],
-  missions:[{id:"m5",cat:"CHEST",name:"체스트 프레스 머신",spec:"3세트 × 12회"},{id:"m6",cat:"SHOULDER",name:"덤벨 숄더 프레스",spec:"3세트 × 10회"}]},
+  missions:[{id:"m5",cat:"CHEST",name:"체스트 프레스 머신",spec:"3세트 × 12회"},{id:"m6",cat:"SHOULDER",name:"덤벨 숄더 프레스",spec:"3세트 × 10회 · 앉아서"}]},
  {no:4,en:"MAHOGANY CAR",ko:"유산소 칸",zone:"유산소존",view:"사막 고원 · 한낮",wall:"w4",win:"porthole",sky:["#B9D3DE","#F1E2C2"],sun:{c:"#FFF3D0",x:30,y:12,s:26},lamp:"#F7E2B2",
   layers:[["peaks","#B7AFC4",30,50],["dunes","#D7B888",34,16],["shrubs","#9C8A5C",14,2.6]],
   left:["treadmill","left:0;bottom:29%;width:58%"],right:["bike","right:4%;bottom:29%;width:30%"],
@@ -1045,8 +1459,8 @@ const CARS=[
  {no:5,en:"SAGE CAR",ko:"코어·호흡 칸",zone:"스트레칭존",view:"첫눈 내린 숲 · 오전",wall:"w5",win:"rect",sky:["#DCE3E6","#F4F4EE"],sun:{c:"#FFFFFF",x:70,y:14,s:22},lamp:"#FFF0CC",
   layers:[["peaks","#E7ECEE",60,46],["pines","#8DA19A",34,18],["pines","#56706A",22,6]],
   left:["mat","left:12%;bottom:27%;width:64%"],right:["mats","right:3%;bottom:29%;width:26%"],
-  missions:[{id:"m9",cat:"CORE",name:"데드버그",spec:"3세트 × 좌우 8회"},{id:"m10",cat:"BREATH",name:"횡격막 호흡",spec:"누워서 5분"}]},
- {no:6,en:"LOUNGE CAR",ko:"GX 라운지 칸",zone:"GX존",view:"밤의 도시 불빛",wall:"w6",win:"arch",sky:["#0F1B2E","#263D5A"],sun:{c:"#F1E6C8",x:70,y:12,s:20},lamp:"#F2C97A",stars:true,night:true,
+  missions:[{id:"m9",cat:"CORE",name:"데드버그",spec:"3세트 × 좌우 10회"},{id:"m10",cat:"BREATH",name:"횡격막 호흡",spec:"누워서 5분"}]},
+ {no:6,en:"LOUNGE CAR",ko:"GX 라운지 칸",zone:"GX존",view:"밤의 도시 불빛",wall:"w6",win:"arch",sky:["#0F1B2E","#263D5A"],sun:{c:"#F1E6C8",x:70,y:12,s:20},lamp:"#F2C97A",stars:true,night:true,pick:true,
   layers:[["rolling","#1B2B3E",34,30],["city","#0B1422",36,12],["trees","#060C14",14,4]],
   left:["mirror","left:3%;bottom:30%;width:28%"],right:["steps","right:2%;bottom:29%;width:50%"],
   missions:[{id:"m11",cat:"GX",name:"GX 수업 1회 참여",spec:"11월 시간표 중 1회",gx:true},{id:"m12",cat:"PARTNER",name:"파트너 운동",spec:"보조받기 또는 보조하기 1회",partner:true,hint:"함께한 동행 승객이나 선생님이 보이게 찍어 주세요"}]}
@@ -1054,6 +1468,8 @@ const CARS=[
 
 const $=s=>document.querySelector(s);
 let cur=0, done={}, total=0;
+const need=c=>c.pick?1:c.missions.length, carDone=c=>c.missions.filter(m=>done[m.id]).length>=need(c);
+const TOTAL=CARS.reduce((a,c)=>a+need(c),0); /* 6호차는 GX·파트너 중 택1 → 총 11칸 */
 
 function interiorHTML(c){
   const hills=c.layers.map(([s,col,h,dur])=>{const S=SHAPES[s],[, ,vw,vh]=S.vb.split(" ").map(Number),k=Math.ceil(520/S.w)+1;
@@ -1061,9 +1477,9 @@ function interiorHTML(c){
     return `<svg class="hills" viewBox="0 0 ${vw*k} ${vh}" preserveAspectRatio="none" style="height:${h}%;width:${S.w*k}px;--w:${S.w}px;animation-duration:${dur}s" fill="${col}">${tiles}</svg>`}).join("");
   return `<div class="wall"></div><div class="ceiling"></div>
     <div class="lamp l"></div><div class="lamp r"></div><div class="rack l"></div><div class="rack r"></div>
-    ${(c.win==="porthole"?["porthole pl","porthole pr"]:[c.win]).map((w,wi)=>`<div class="window ${w}"><div class="glass">${c.stars?'<div class="stars"></div>':""}
+    ${(c.win==="porthole"?["porthole pl","porthole pr"]:[c.win,c.win+" side sl",c.win+" side sr"]).map((w,wi)=>`<div class="window ${w}"><div class="glass">${c.stars?'<div class="stars"></div>':""}${c.glitter?'<div class="glitter"></div>':""}
       ${wi===0?`<div class="sun" style="left:${c.sun.x}%;top:${c.sun.y}%;width:${c.sun.s}px;height:${c.sun.s}px"></div>`:""}
-      <div class="hills-wrap" style="${wi?"--off:-90px":""}">${hills}</div><div class="curtain l"></div><div class="curtain r"></div></div></div>`).join("")}
+      <div class="hills-wrap" style="${wi?`--off:${wi===1?60:-140}px`:""}">${hills}</div><div class="curtain l"></div><div class="curtain r"></div></div></div>`).join("")}
     <div class="floor"></div><div class="runner"></div>
     ${c.no===5?"":'<div class="spot l"></div><div class="spot r"></div>'}
     <div class="machine" style="${c.left[1]}">${M[c.left[0]]}</div>
@@ -1082,13 +1498,14 @@ function drawCar(c){
 }
 function render(){
   const c=CARS[cur];
-  $("#cards").innerHTML=c.missions.map(m=>`<button type="button" class="menu ${done[m.id]?"done":""}" data-id="${m.id}">
-    <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?"✓ 승차 확인":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`).join("");
-  $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&open(b.dataset.id)});
+  const full=carDone(c);
+  $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
+    <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
+    <div class="go">${done[m.id]?"✓ 승차 확인":off?"이 칸은 이미 완료했어요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+  $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
-  $("#stat").textContent=`${c.zone} ${n} / 2 · 전체 ${total} / 12칸`;
-  $("#dots").innerHTML=CARS.map((x,i)=>`<button type="button" aria-label="${x.no}호차" aria-current="${i===cur}" class="${x.missions.every(m=>done[m.id])?"full":""}" data-i="${i}">${x.no}</button>`).join("");
+  $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸`;
+  $("#dots").innerHTML=CARS.map((x,i)=>`<button type="button" aria-label="${x.no}호차" aria-current="${i===cur}" class="${carDone(x)?"full":""}" data-i="${i}">${x.no}</button>`).join("");
   $("#dots").querySelectorAll("button").forEach(b=>b.onclick=()=>go(+b.dataset.i));
 }
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1100,9 +1517,9 @@ function go(i){
   $("#dPlate").innerHTML=`${back?"← ":""}FITNESS CAR · ${c.no}${back?"":" →"}<b>${c.no}호차 · ${c.ko}</b>`;
   $("#peek").innerHTML=`<div class="pv ${c.wall}" style="width:${st.width}px;height:${st.height}px;--sky1:${c.sky[0]};--sky2:${c.sky[1]};--sun:${c.sun.c};--lamp:${c.lamp}"><div class="interior">${interiorHTML(c)}</div></div>`;
   d.classList.remove("open","back"); void d.offsetWidth; d.classList.add("show");
-  setTimeout(()=>{cur=i;drawCar(c)},320);
-  setTimeout(()=>{d.classList.toggle("back",back); d.classList.add("open")},1150);
-  setTimeout(()=>{d.classList.remove("show","open","back");busy=false},1950);
+  setTimeout(()=>{cur=i;drawCar(c)},230);
+  setTimeout(()=>{d.classList.toggle("back",back); d.classList.add("open")},620);
+  setTimeout(()=>{d.classList.remove("show","open","back");busy=false},1180);
 }
 $("#prev").onclick=()=>go(cur-1); $("#next").onclick=()=>go(cur+1);
 let sx=null;
@@ -1110,7 +1527,7 @@ $("#stage").addEventListener("touchstart",e=>{if(e.target.closest(".menu,.punch-
 $("#stage").addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>60)go(cur+(dx<0?1:-1))});
 
 const GLOVE_DEFS=`<defs><linearGradient id="gv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F1EFE8"/><stop offset="1" stop-color="#D9D5C9"/></linearGradient>
-  <linearGradient id="sl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3D66"/><stop offset="1" stop-color="#16223D"/></linearGradient>
+  <linearGradient id="sl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3556B0"/><stop offset="1" stop-color="#1B2F72"/></linearGradient>
   <linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBCB86"/><stop offset=".5" stop-color="#C9A55C"/><stop offset="1" stop-color="#8A6A2E"/></linearGradient></defs>`;
 const HAND=`<svg class="hand" id="hand" viewBox="0 0 420 130" aria-hidden="true">${GLOVE_DEFS}
   <!-- 펀칭기 아래 손잡이 -->
@@ -1158,28 +1575,28 @@ const GUIDE={
  m1:{t:["all"],how:["측정 2~3시간 전부터 공복, 화장실 먼저 다녀오기","맨발로 발판의 앞·뒤 전극에 발을 맞춰 올라서기","양쪽 손잡이를 쥐고 팔을 몸통에서 살짝 떨어뜨린 채 화면 안내가 끝날 때까지 가만히"],
    key:["운동·샤워 직후는 수분 변화로 결과가 흔들려요","매번 같은 시간대, 비슷한 옷차림으로 재야 비교가 정확해요","체중보다 골격근량과 체지방률을 중심으로 비교해 보세요"]},
  m2:{t:["qd","gl","ca"],
-   how:["고개를 숙이면 튀어나오는 뼈 바로 아래, 승모근 위에 바 얹기","어깨에서 주먹 하나 바깥쪽으로 바 잡기","발은 어깨너비 1.5배, 발끝과 무릎 방향 맞추기","가슴을 들고 복압을 잡은 뒤 고관절부터 접으며 앉았다 일어서기"],
-   key:["<b>무릎 앞으로 5 : 고관절 뒤로 5</b>, 둘이 함께 나가며 앉기.<br>무릎이 발끝을 넘으면 안 된다며 무릎만 뒤로 빼면 상체가 숙여져 허리에 부담이 가요","무릎은 항상 발끝 방향을 따라가게","앉을 때 엉덩이 양쪽이 멀어지는 느낌으로","발바닥 3점 지지, 갈비뼈를 닫고 허벅지·종아리·엉덩이 힘 유지"]},
- m3:{t:["lat","bi","sh"],how:["무릎 패드를 허벅지에 맞게 고정","어깨보다 넓게 바를 잡고 가슴을 살짝 열기","바를 쇄골 쪽으로 당겼다가 천천히 올려 보내기"],
-   key:["당기기 전에 어깨를 귀에서 멀리, 견갑부터 내리기","상체를 크게 젖히며 반동 쓰지 않기","올라갈 때 팔은 펴되 어깨가 끌려 올라가지 않게"]},
- m4:{t:["lat","tr","bi"],how:["발판에 발을 대고 무릎은 살짝 굽히기","허리를 세운 채 손잡이 잡기","팔꿈치를 뒤로 보내며 배꼽 쪽으로 당기고 천천히 돌아오기"],
-   key:["상체를 뒤로 눕히며 당기지 않기","당긴 끝에서 날개뼈를 모아 1초 멈추기","돌아올 때 어깨가 앞으로 말리지 않게"]},
- m5:{t:["ch","sh","tri"],how:["손잡이가 가슴 중간 높이에 오도록 시트 높이 맞추기","등과 뒤통수를 등받이에 붙이기","내쉬며 앞으로 밀고, 들이마시며 천천히 돌아오기"],
-   key:["팔꿈치는 어깨보다 약간 아래, 45° 정도로","끝까지 밀어도 어깨가 앞으로 따라 나오지 않게","돌아올 때 무게가 쿵 내려앉지 않게 조절"]},
- m6:{t:["sh","tri","tr"],how:["등받이를 세운 벤치에 앉아 덤벨을 귀 옆 높이로","손바닥은 앞을 보게, 팔꿈치는 손목 바로 아래","머리 위로 밀어 올리고 귀 높이까지 천천히 내리기"],
-   key:["허리가 뒤로 젖혀지지 않게 복부에 힘","가벼운 무게로 시작해 자세 먼저 익히기","위에서 덤벨끼리 부딪히지 않게 살짝 간격 두기"]},
+   how:["고개를 숙이면 튀어나오는 목뼈 바로 아래, 승모근 위에 바 얹기","어깨에서 주먹 하나 바깥쪽으로 바 잡기","발은 어깨너비 1.5배, 발끝과 무릎 방향 맞추기","가슴을 들고 복압을 잡은 뒤 고관절부터 접으며 앉았다 일어서기"],
+   key:["<b>무릎 앞으로 5 : 고관절 뒤로 5</b>, 둘이 함께 나가며 앉기.<br><small class='soft'>무릎이 발끝을 넘으면 안 된다며 무릎만 뒤로 빼면 상체가 숙여져 허리에 부담이 가요</small>","무릎은 항상 발끝 방향을 따라가게","앉을 때 엉덩이 양쪽이 멀어지는 느낌으로","발바닥 3점 지지, 갈비뼈를 닫고 허벅지·종아리·엉덩이 힘 유지","앉을 때 <b>뒤꿈치가 뜬다면</b> 뒤꿈치 아래에 원판(플레이트)을 대고 해도 좋아요"]},
+ m3:{t:["lat","bi","sh"],
+   how:["발로 지면을 밀어 하체에 단단히 힘이 들어가게 세팅","바를 잡고 쇄골 중앙이 사선 위로 올라가는 느낌, 명치 뒤(등)를 살짝 받쳐 올리기","날개뼈가 빠지지 않고 고정된 느낌 유지하기","바 중앙을 턱 밑으로 당긴다는 느낌으로 내리기"],
+   key:["당기기 전 어깨를 <b>으쓱으쓱</b>, 날개뼈가 잘 움직이는지 먼저 체크","팔꿈치가 뒤쪽으로 빠지지 않게 몸통 옆에 고정","올라갈 때 힘을 훅 풀지 말고 끝까지 버티며 천천히","상체는 살짝만 뒤로 기울이고, 반동으로 당기지 않기"]},
+ m4:{t:["lat","tr","sh","bi"],
+   how:["시트 높이는 손잡이가 가슴 중앙에 오도록 맞추기","뒤꿈치와 발볼로 지면을 지지해 하체에 힘 세팅","패드에 가슴을 얹는 느낌으로 복압을 잡고, 등을 살짝 뒤로 젖히기","팔꿈치를 편 채 손잡이를 잡고 날개뼈끼리 먼저 모아 붙이기","팔꿈치를 접어 옷 옆 봉제선까지만 당기기"],
+   key:["당길 때 <b>가슴을 들고</b> 날개뼈를 함께 모으기","발로 지면을 밀어내는 힘을 끝까지 유지","시선은 살짝 사선 위로, 목은 일직선으로","팔을 펼 때도 <b>등의 긴장감을 유지</b>하며 천천히","가슴이 패드에서 떨어질 만큼 반동 쓰지 않기"]},
+ m5:{t:["ch","sh","tri"],
+   how:["시트 높이는 손잡이가 가슴 중간 높이에 오도록 맞추기","어깨를 살짝 뒤로 당겨 가슴을 연 채로 시작하기","팔꿈치는 몸통 기준 약 45°로 유지하기","손잡이는 가볍게 쥐고, 팔이 아닌 가슴으로 밀어내기","가슴이 가장 수축되는 지점에서 1초 멈추기"],
+   key:["<b>어깨가 앞으로 말리지 않게</b>, 말리면 가슴 대신 어깨에 부담이 가요","템포는 <b>밀기 2초 · 정지 1초 · 돌아오기 3초</b>, 돌아올 때 천천히 버티기","반동 없이, 무게보다 가슴 자극을 먼저 찾기","<small class='soft'>가슴 대신 어깨나 팔만 피곤하다면 자세부터 다시 점검해요</small>"]},
+ m6:{t:["sh","tri"],
+   how:["등받이를 세운 벤치에 등과 엉덩이를 붙이고 복압 잡기","덤벨을 양옆으로 벌려 머리 높이 가까이에서 준비","어깨를 아래로 살짝 누른 채 덤벨을 수직으로 밀어 올리기","어깨 자극을 느끼며 천천히 시작 자세로 내리기"],
+   key:["팔꿈치는 몸통 뒤로 빠지지 않게, <b>몸 앞쪽으로 살짝 모은 궤도</b>","밀 때 <b>어깨가 귀 쪽으로 들리지 않게</b>, 승모근이 대신 일해요","내릴 때 힘을 풀어 팔꿈치가 툭 떨어지지 않게 버티기","허리를 과하게 꺾지 말고, 덤벨끼리 부딪히지 않게 조절","<small class='soft'>세트 후 승모근이 아니라 어깨 전체가 뻐근하면 잘하고 있는 거예요</small>"]},
  m7:{t:["gl","hm","ca"],how:["낮은 속도로 걷기 시작한 뒤 경사를 6~10%로 올리기","손잡이를 잡지 않고 팔을 자연스럽게 흔들기","대화가 가능한 속도로 20분 유지"],
    key:["손잡이에 매달리면 운동 효과가 크게 줄어요","보폭은 평소보다 조금 짧게, 뒤꿈치부터 닿기","상체는 살짝 앞으로, 허리는 꺾지 않기"]},
  m8:{t:["qd","gl","ca"],how:["안장 높이를 골반뼈 높이에 맞추기","페달이 가장 아래일 때 무릎이 살짝 굽는지 확인","중간 강도로 15분 페달링"],
    key:["무릎이 안쪽으로 모이지 않게 발끝과 같은 방향","상체 힘을 빼고 핸들은 가볍게","숨은 조금 차지만 말할 수 있는 강도"]},
- m9:{t:["ab","dia"],how:["누워서 팔은 천장으로, 무릎은 90°로 들기","허리를 매트에 붙인 상태 만들기","반대쪽 팔과 다리를 천천히 뻗었다가 돌아오기"],
-   key:["허리가 뜨면 뻗는 범위를 줄이기","뻗을 때 길게 내쉬기","빠르게보다 천천히, 통제하며"]},
- m10:{t:["dia","ab"],how:["무릎을 세우고 누워 한 손은 가슴, 한 손은 갈비뼈 옆에","코로 4초 들이마시며 갈비뼈가 옆·뒤로 넓어지는지 느끼기","입으로 6초 길게 내쉬기를 5분 반복"],
-   key:["가슴과 어깨가 먼저 들리지 않게","배만 내밀지 말고 몸통이 360° 넓어지게","어지럽거나 숨이 차면 바로 멈추고 평소처럼 호흡"]},
- m11:{t:["all"],how:["11월 GX 시간표에서 수업을 고르고 예약","시작 5분 전에 들어가 매트와 소도구 준비","수업이 끝나면 GX룸에서 인증샷 남기기"],
-   key:["처음엔 강사 동작의 70% 강도로 따라가기","통증이 있는 부위는 시작 전에 강사에게 알리기","물 한 병 챙기기"]},
- m12:{t:["ch","sh","lat"],how:["함께할 동작 정하기 (예: 체스트 프레스, 랫 풀다운)","보조자는 수행자 옆·뒤에서 손을 가까이 두기","마지막 1~2회 힘들 때만 살짝 도와주기"],
-   key:["시작 전에 \"도와줘\" 신호를 미리 정하기","보조자는 무게를 대신 들지 말고 길만 잡아주기","역할을 바꿔 한 번씩 해 보기"]}
+ m9:{t:["ab","dia"],how:["등을 대고 누워 <b>양팔은 천장 방향으로 곧게</b> 뻗기","무릎은 골반 위로 들어 <b>90°</b>로 굽히기","내쉬며 <b>한쪽 팔 + 반대쪽 다리</b>를 바닥 가까이","1~2초 버티고, 들이쉬며 복귀 → 반대쪽","<small class='soft'>좌우 합쳐 10회가 1세트, 총 3세트 · 세트 사이 20초 휴식</small>"],
+   key:["<b>허리는 고정</b>, 바닥과 손가락 몇 개 틈 유지","허리를 꺾거나 꾹 누르면 코어가 덜 써져요","몸이 흔들리지 않게 <b>배와 등에 함께</b> 힘주기","빠르게보다 천천히, 근육을 느끼며","<small class='soft'>허리가 뜨면 팔·다리를 덜 내려도 괜찮아요</small>"]},
+ m10:{t:["dia","ab"],how:["무릎을 세우고 누워 <b>한 손은 가슴, 한 손은 배</b>에","<b>코로 4초</b> 들이마시고 → <b>2초</b> 잠시 멈추기","숨을 <b>8초</b> 길게 내쉬며 몸의 긴장 내보내기","갈비뼈 밑이 넓어지고, 숨이 골반까지 내려가는 느낌","<small class='soft'>힘들다면 3·2·6초로 시작해도 좋아요</small>"],
+   key:["갈비뼈 아래가 <b>앞·옆·뒤로 똑같이</b> 넓어지게","<b>윗가슴과 어깨는 올라가지 않게</b>","코에서 소리 나지 않게, 자연스럽고 편하게","배만 내미는 복식호흡과 달리 <b>몸통 전체</b>가 부풀어요","<small class='soft'>어지러우면 멈추고 평소 호흡으로 돌아오기</small>"]}
 };
 
 /* ── 운동 동작 일러스트 (움직이는 잉크 드로잉) */
@@ -1198,63 +1615,131 @@ const EX={
  m1:{mus:["all"],pose:(t,T)=>({hip:[74,59+.6*Math.sin(T*2)],torso:-90,feet:[[74,120],[80,120]],hands:[88,80],hands2:[92,78],knee:FWD,elbow:BACK}),
    props:(J,T)=>`<path d="M60 124 Q80 116 100 124 L100 128 Q80 122 60 128Z" class="mc"/><path d="M84 120 L88 40" class="mcl"/><rect x="76" y="26" width="26" height="18" rx="3" class="mc"/>
      ${[0,1,2,3].map(i=>`<rect x="${80+i*5}" y="${40-6-((Math.sin(T*3+i)+1)*4)}" width="3" height="${6+((Math.sin(T*3+i)+1)*4)}" class="hl2"/>`).join("")}`},
- m2:{mus:["thigh","glute"],pose:t=>({hip:LP([80,62],[60,95],t),torso:L(-92,-58,t),feet:[[82,124],[86,124]],hands:"sh",knee:FWD,elbow:DOWN}),
+ m2:{mus:["quad","glute","calf"],pose:t=>({hip:LP([80,62],[60,95],t),torso:L(-92,-58,t),feet:[[82,124],[86,124]],hands:"sh",knee:FWD,elbow:DOWN}),
    props:(J)=>`<path d="M100 8 V126 M110 8 V126" class="mcl"/><rect x="${J.sh[0]-3}" y="${J.sh[1]-3}" width="34" height="5" rx="2" class="mc"/><circle cx="${J.sh[0]+26}" cy="${J.sh[1]-.5}" r="11" class="mc"/><path d="M96 70 h20" class="mcl"/>`,front:true},
- m3:{mus:["torsoU","uarm","shoulder"],pose:t=>({hip:[60,94],torso:L(-94,-102,t),feet:[[98,124],[102,124]],hands:LP([[74,12],[76,12]][0],[70,46],t),hands2:LP([78,12],[74,46],t),knee:UP,elbow:DB}),
+ m3:{mus:["lat","bicep","rdelt"],pose:t=>({hip:[60,94],torso:L(-94,-102,t),feet:[[98,124],[102,124]],hands:LP([[74,12],[76,12]][0],[70,46],t),hands2:LP([78,12],[74,46],t),knee:UP,elbow:DB}),
    props:(J)=>`<rect x="40" y="96" width="34" height="6" rx="2" class="mc"/><path d="M57 102 V126 M44 126 H80" class="mcl"/><rect x="80" y="80" width="10" height="8" rx="3" class="mc"/>
      <path d="M74 4 L${J.hand[0]} ${J.hand[1]}" class="cable"/><path d="M${J.hand[0]-18} ${J.hand[1]+2} Q${J.hand[0]} ${J.hand[1]-4} ${J.hand[0]+18} ${J.hand[1]+2}" class="bar"/><circle cx="74" cy="4" r="3" class="mc"/><rect x="10" y="40" width="16" height="86" class="mc"/>`},
- m4:{mus:["torsoU","uarm"],pose:t=>({hip:[44,98],torso:L(-72,-96,t),feet:[[104,108],[106,110]],hands:LP([102,76],[66,82],t),knee:UP,elbow:BACK}),
-   props:(J)=>`<rect x="28" y="100" width="40" height="6" rx="2" class="mc"/><path d="M40 106 V126 M20 126 H140" class="mcl"/><path d="M106 96 L112 122" class="mcl" style="stroke-width:5"/>
-     <path d="M${J.hand[0]} ${J.hand[1]} L134 84" class="cable"/><rect x="${J.hand[0]-3}" y="${J.hand[1]-6}" width="6" height="12" rx="2" class="mc"/><rect x="132" y="40" width="16" height="86" class="mc"/>`},
- m5:{mus:["torsoU","shoulder","uarm"],pose:t=>({hip:[50,96],torso:-100,feet:[[88,124],[92,124]],hands:LP([70,58],[104,56],t),knee:UP,elbow:BACK}),
+ m4:{mus:["lat","trap","rdelt","bicep"],tempo:T=>{const c=T%5.8;const e=x=>(1-Math.cos(Math.PI*x))/2;return c<1.8?e(c/1.8):c<2.5?1:c<5.3?1-e((c-2.5)/2.8):0},pose:t=>{const piv=[112,124],r=74,an=rad(L(-90,-129,t));const h=[piv[0]+r*Math.cos(an),piv[1]+r*Math.sin(an)];
+     return {hip:[50,94],torso:-84,feet:[[96,122],[99,122]],hands:h,knee:UP,elbow:[-1,.1],piv}},
+   props:(J)=>{const piv=[112,124],h=J.hand;return `<rect x="12" y="20" width="22" height="104" class="mc" style="fill:#2A2622"/>${[0,1,2,3,4,5,6].map(i=>`<rect x="15" y="${70+i*7}" width="16" height="4.5" style="fill:#7A766C"/>`).join("")}
+     <path d="M23 20 V12 H36" class="mcl" style="stroke-width:4"/><circle cx="36" cy="12" r="3" class="mc"/><path d="M8 124 H150" class="mcl" style="stroke-width:4"/>
+     <rect x="30" y="94" width="40" height="8" rx="3" style="fill:#2A2622"/><path d="M50 102 V124" class="mcl" style="stroke-width:5"/>
+     <path d="M86 128 L92 118 H108" class="mcl" style="stroke-width:3.5"/>
+     <rect x="61" y="52" width="8" height="34" rx="4" style="fill:#2A2622"/><path d="M69 70 H90 L100 116" class="mcl" style="stroke-width:3.5"/>
+     <path d="M${piv[0]} ${piv[1]} L${h[0].toFixed(1)} ${h[1].toFixed(1)}" class="mcl" style="stroke-width:5"/><circle cx="${piv[0]}" cy="${piv[1]}" r="4" class="mc"/>
+     <path d="M100 116 H112 V124" class="mcl" style="stroke-width:4"/>`},
+   front:(J)=>`<rect x="${(J.hand[0]-2.5).toFixed(1)}" y="${(J.hand[1]-8).toFixed(1)}" width="5" height="16" rx="2" class="db"/>`},
+ m5:{mus:["chest","fdelt","tricep"],tempo:T=>{const c=T%6.5;const e=x=>(1-Math.cos(Math.PI*x))/2;return c<2?e(c/2):c<3?1:c<6?1-e((c-3)/3):0},pose:t=>({hip:[50,96],torso:-100,feet:[[88,124],[92,124]],hands:LP([70,58],[104,56],t),knee:UP,elbow:BACK}),
    props:(J)=>`<rect x="34" y="98" width="34" height="6" rx="2" class="mc"/><path d="M30 46 L36 100" class="mc" style="stroke-width:9;stroke-linecap:round"/><path d="M48 104 V126 M30 126 H100" class="mcl"/>
      <path d="M110 6 L${J.hand[0]+2} ${J.hand[1]}" class="mcl"/><rect x="${J.hand[0]-2}" y="${J.hand[1]-7}" width="5" height="14" rx="2" class="mc"/><rect x="118" y="20" width="16" height="106" class="mc"/>`},
- m6:{mus:["shoulder","uarm"],pose:t=>({hip:[60,96],torso:-92,feet:[[94,124],[98,124]],hands:LP([66,32],[64,4],t),knee:UP,elbow:DOWN}),
+ m6:{mus:["delt","tricep","trap"],tempo:T=>{const c=T%6.5;const e=x=>(1-Math.cos(Math.PI*x))/2;return c<2?e(c/2):c<3?1:c<6?1-e((c-3)/3):0},pose:t=>({hip:[60,96],torso:-92,feet:[[94,124],[98,124]],hands:LP([66,32],[64,4],t),knee:UP,elbow:DOWN}),
    props:(J)=>`<rect x="44" y="98" width="32" height="6" rx="2" class="mc"/><path d="M48 50 L52 100" class="mc" style="stroke-width:9;stroke-linecap:round"/><path d="M58 104 V126 M40 126 H84" class="mcl"/>`,
    front:(J)=>`<rect x="${J.hand[0]-9}" y="${J.hand[1]-3}" width="18" height="6" rx="2" class="db"/><rect x="${J.hand[0]-11}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/><rect x="${J.hand[0]+6}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/>`},
- m7:{mus:["glute","thigh","shin"],cyc:true,pose:(t,T)=>{const ph=T*3.2,g=x=>126-(x-10)*.09;
+ m7:{mus:["glute","ham","calf","quad"],cyc:true,pose:(t,T)=>{const ph=T*3.2,g=x=>126-(x-10)*.09;
      const ft=k=>{const a=ph+k*Math.PI,x=74+18*Math.sin(a);return [x,g(x)-Math.max(0,7*Math.cos(a))]};
      const hd=k=>{const a=ph+k*Math.PI+Math.PI;return [80+12*Math.sin(a),88]};
-     return {hip:[76,59+1.5*Math.abs(Math.sin(ph))],torso:-84,feet:[ft(0),ft(1)],hands:hd(1),hands2:hd(0),knee:FWD,elbow:DB,two:true}},
+     return {hip:[76,59+1.5*Math.abs(Math.sin(ph))],torso:-84,feet:[ft(0),ft(1)],hands:hd(0),hands2:hd(1),knee:FWD,elbow:DB,two:true}},
    props:()=>`<path d="M10 126 L150 113" class="mc" style="stroke-width:6"/><path d="M10 130 L150 117" class="mcl"/><path d="M128 114 L120 40 M120 52 H100" class="mcl"/><rect x="112" y="30" width="22" height="12" rx="2" class="mc"/>`},
- m8:{mus:["thigh","glute","shin"],cyc:true,pose:(t,T)=>{const ph=T*3.6,c=[80,104],r=12,ft=k=>[c[0]+r*Math.cos(ph+k*Math.PI),c[1]+r*Math.sin(ph+k*Math.PI)];
+ m8:{mus:["quad","glute","calf"],cyc:true,pose:(t,T)=>{const ph=T*3.6,c=[80,104],r=12,ft=k=>[c[0]+r*Math.cos(ph+k*Math.PI),c[1]+r*Math.sin(ph+k*Math.PI)];
      return {hip:[58,70],torso:-55,feet:[ft(0),ft(1)],hands:[100,62],knee:FWD,elbow:DOWN,two:true}},
    props:()=>`<path d="M50 72 H66" class="mc" style="stroke-width:6;stroke-linecap:round"/><path d="M58 74 L72 126 M80 104 L72 126 M100 64 L92 126 M60 126 H112" class="mcl"/><circle cx="80" cy="104" r="15" class="mcl" fill="none"/><circle cx="108" cy="108" r="14" class="mc"/>`},
- m9:{mus:["torsoL","dia"],pose:t=>({hip:[92,110],torso:180,feet:[LP([116,78],[146,104],t),[116,78]],hands:LP([48,72],[16,100],t),hands2:[50,72],knee:UP,elbow:UP,two:true,lying:true}),
-   props:()=>`<path d="M20 120 H150" class="mc" style="stroke-width:5"/>`},
- m10:{mus:["dia","torsoL"],breath:true,pose:(t)=>({hip:[96,112],torso:180,feet:[[128,122],[132,122]],hands:[70,100],hands2:[60,102],knee:UP,elbow:UP,two:true,lying:true}),
-   props:()=>`<path d="M20 124 H150" class="mc" style="stroke-width:5"/>`},
+ m9:{mus:["abs","dia"],tempo:T=>T,pose:(t,T)=>{const c=T%8,side=c<4?0:1,u=c%4,e=x=>(1-Math.cos(Math.PI*x))/2;
+     const k=u<1.6?e(u/1.6):u<2.6?1:u<4?1-e((u-2.6)/1.4):0;
+     const hip=[92,108],sh=P2(hip,180,LEN.torso);
+     const arm=q=>{const ang=L(-88,-166,q);return P2(sh,ang,46)};
+     const leg=(q,dx)=>q<=0?[124+dx,76]:LP([124+dx,76],[148,98],q);
+     const aN=side?0:k,aF=side?k:0,lN=side?k:0,lF=side?0:k;
+     const ep=q=>{const ang=rad(L(-88,-166,q));return [-Math.sin(ang),Math.cos(ang)].map(v=>-v)};
+     return {hip,torso:180,feet:[leg(lN,0),leg(lF,2)],hands:arm(aN),hands2:arm(aF),knee:UP,elbows:[ep(aN),ep(aF)],two:true,lying:true,dia:.5+.5*k}},
+   props:()=>`<path d="M4 121 H156" class="mc" style="stroke-width:5"/>`},
+ m10:{mus:["dia","abs"],breath:true,pose:(t,T,b=0)=>({hip:[96,108],torso:180,feet:[[124,117],[127,117]],hands:[84,98-3.4*b],hands2:[60,96.6],knee:UP,elbow:DOWN,two:true,lying:true,flat:true}),
+   props:()=>`<path d="M4 121 H156" class="mc" style="stroke-width:5"/><ellipse cx="38" cy="114" rx="14" ry="4.5" class="mcl" style="fill:#E4DCCB"/>`,
+   front:()=>`<ellipse cx="60" cy="96.4" rx="6" ry="3.3" class="bo"/><ellipse cx="60" cy="96.4" rx="6" ry="3.3" class="bf"/>`},
  m11:{mus:["all"],pose:t=>({hip:LP([79,62],[70,88],t),torso:L(-92,-76,t),feet:[[80,124],[84,124]],hands:LP([82,94],[98,20],t),knee:FWD,elbow:BACK}),
    props:()=>`<path d="M20 126 H140" class="mc" style="stroke-width:4"/>`},
- m12:{mus:["shoulder","uarm"],partner:true,pose:t=>({hip:[74,96],torso:-92,feet:[[106,124],[110,124]],hands:LP([80,32],[78,4],t),knee:UP,elbow:DOWN}),
+ m12:{mus:["delt","tricep"],partner:true,pose:t=>({hip:[74,96],torso:-92,feet:[[106,124],[110,124]],hands:LP([80,32],[78,4],t),knee:UP,elbow:DOWN}),
    props:(J)=>`<rect x="58" y="98" width="32" height="6" rx="2" class="mc"/><path d="M62 50 L66 100" class="mc" style="stroke-width:9;stroke-linecap:round"/><path d="M72 104 V126 M54 126 H98" class="mcl"/>`,
    front:(J)=>`<rect x="${J.hand[0]-9}" y="${J.hand[1]-3}" width="18" height="6" rx="2" class="db"/><rect x="${J.hand[0]-11}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/><rect x="${J.hand[0]+6}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/>`}
 };
 const W={torso:15,thigh:11,shin:8.5,uarm:7.5,farm:6.5};
 const seg=(a,b,w,cls="")=>`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="ink ${cls}" stroke-width="${w+2.6}"/><line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="skin ${cls}" stroke-width="${w}"/>`;
 const hot=(a,b,w,f0=.15,f1=.85)=>{const p=LP(a,b,f0),q=LP(a,b,f1);return `<line x1="${p[0].toFixed(1)}" y1="${p[1].toFixed(1)}" x2="${q[0].toFixed(1)}" y2="${q[1].toFixed(1)}" class="hotm" stroke-width="${w}"/>`};
+/* ── 해부학 스타일 인체: 근육 볼륨 + 근육별 하이라이트 */
+const f2=p=>p[0].toFixed(1)+" "+p[1].toFixed(1);
+const off=(p,n,d)=>[p[0]+n[0]*d,p[1]+n[1]*d];
+function perpF(a,b){const dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;let n=[-dy/l,dx/l];if(n[0]-.6*n[1]<0)n=[-n[0],-n[1]];return n}
+function limbD(a,b,w0,w1,fb,bb,um=.4){const n=perpF(a,b),m=LP(a,b,um);
+  const A1=off(a,n,w0/2),A2=off(a,n,-w0/2),B1=off(b,n,w1/2),B2=off(b,n,-w1/2);
+  const C1=off(m,n,(w0+w1)/4+fb*2),C2=off(m,n,-((w0+w1)/4+bb*2));
+  const dl=Math.hypot(b[0]-a[0],b[1]-a[1])||1,d=[(b[0]-a[0])/dl,(b[1]-a[1])/dl],k0=w0/2*1.25,k1=w1/2*1.25;
+  /* 관절 끝을 둥글게 (반원 근사 곡선) */
+  return `M${f2(A1)} Q${f2(C1)} ${f2(B1)} C${f2(off(B1,d,k1))} ${f2(off(B2,d,k1))} ${f2(B2)} Q${f2(C2)} ${f2(A2)} C${f2(off(A2,d,-k0))} ${f2(off(A1,d,-k0))} ${f2(A1)} Z`}
+function lensD(a,b,u0,u1,side,depth,inner=.08){const n=perpF(a,b),p0=LP(a,b,u0),p1=LP(a,b,u1),pm=LP(a,b,(u0+u1)/2);
+  const o=off(pm,n,side*depth),i=off(pm,n,side*inner*depth);
+  return {d:`M${f2(p0)} Q${f2(o)} ${f2(p1)} Q${f2(i)} ${f2(p0)} Z`,fib:[.35,.65].map(k=>{const q=off(pm,n,side*depth*k*.55);return `M${f2(LP(p0,q,.25))} Q${f2(q)} ${f2(LP(p1,q,.25))}`}).join(" "),
+    edge:`M${f2(p0)} Q${f2(i)} ${f2(p1)}`}}
+let CLIPN=0;
+function muscle(clip,L,hot){if(hot)return `<g clip-path="url(#${clip})"><path d="${L.d}" class="hotm2"/><path d="${L.fib}" class="fib"/></g>`;
+  return `<path d="${L.edge}" class="cont"/>`}
+function torsoD(hip,sh,ws){const n=perpF(hip,sh);const pts=[],back=[];
+  const W=u=>{let f=0,b=0;for(let i=0;i<ws.length-1;i++){const [u0,f0,b0]=ws[i],[u1,f1,b1]=ws[i+1];if(u>=u0&&u<=u1){const k=(u-u0)/(u1-u0),e=(1-Math.cos(Math.PI*k))/2;f=f0+(f1-f0)*e;b=b0+(b1-b0)*e}}return [f,b]};
+  for(let i=0;i<=12;i++){const u=i/12,p=LP(hip,sh,u),[f,b]=W(u);pts.push(off(p,n,f));back.unshift(off(p,n,-b))}
+  return "M"+pts.map(f2).join(" L")+" L"+back.map(f2).join(" L")+" Z"}
 function figure(ps,mus,far=false){
   const all=mus.includes("all"), has=k=>all||mus.includes(k);
-  const sh=P2(ps.hip,ps.torso,LEN.torso), head=P2(ps.hip,ps.torso,LEN.torso+11);
+  const sh=P2(ps.hip,ps.torso,LEN.torso), neck=P2(ps.hip,ps.torso,LEN.torso+9), head=P2(ps.hip,ps.torso,LEN.torso+16);
   const H=ps.hands==="sh"?[[sh[0]+7,sh[1]+3],[sh[0]+9,sh[1]+3]]:[ps.hands,ps.hands2||ps.hands];
   const legs=ps.feet.map(f=>ik(ps.hip,f,LEN.thigh,LEN.shin,ps.knee));
-  const arms=H.map(h=>ik(sh,h,LEN.uarm,LEN.farm,ps.elbow));
-  let o="";
-  const limb=(i,isFar)=>{const [k,f]=legs[i];let r=seg(ps.hip,k,W.thigh,isFar?"far":"")+seg(k,f,W.shin,isFar?"far":"")+`<line x1="${f[0]}" y1="${f[1]}" x2="${f[0]+(ps.lying?0:9)}" y2="${f[1]+(ps.lying?-9:0)}" class="ink ${isFar?"far":""}" stroke-width="5"/>`;
-    if(!isFar){if(has("thigh"))r+=hot(ps.hip,k,W.thigh-3);if(has("shin"))r+=hot(k,f,W.shin-3,.1,.6)}return r};
-  const arm=(i,isFar)=>{const [e,h]=arms[i];let r=seg(sh,e,W.uarm,isFar?"far":"")+seg(e,h,W.farm,isFar?"far":"")+`<circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="3.6" class="skin2 ${isFar?"far":""}"/>`;
-    if(!isFar&&has("uarm"))r+=hot(sh,e,W.uarm-2.5);return r};
-  o+=limb(1,true)+arm(1,true);
-  if(has("glute")) o+=`<circle cx="${ps.hip[0]}" cy="${ps.hip[1]}" r="9" class="hotm2"/>`;
-  o+=seg(ps.hip,sh,W.torso);
-  if(has("torsoU")) o+=hot(LP(ps.hip,sh,.5),sh,W.torso-4,.05,.8);
-  if(has("torsoL")) o+=hot(ps.hip,LP(ps.hip,sh,.55),W.torso-4,.15,.95);
-  if(has("dia")){const c=LP(ps.hip,sh,.55),k=ps.dia??1;o+=`<ellipse cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" rx="${(5+3*k).toFixed(1)}" ry="${(3+2*k).toFixed(1)}" class="hotm2"/>`}
-  o+=limb(0,false);
-  o+=`<circle cx="${head[0].toFixed(1)}" cy="${head[1].toFixed(1)}" r="7.5" class="ink"/><circle cx="${head[0].toFixed(1)}" cy="${head[1].toFixed(1)}" r="6.2" class="skin2"/>`;
-  if(has("shoulder")) o+=`<circle cx="${sh[0].toFixed(1)}" cy="${sh[1].toFixed(1)}" r="5.5" class="hotm2"/>`;
-  o+=arm(0,false);
-  return {svg:o,J:{sh,hand:arms[0][1],elbow:arms[0][0],hip:ps.hip}};
+  const arms=H.map((h,i)=>ik(sh,h,LEN.uarm,LEN.farm,ps.elbows?ps.elbows[i]:ps.elbow));
+  const id=()=>`fc${CLIPN++}`;
+  const group=(shapes,cls="")=>`<g class="${cls}">${shapes.map(d=>`<path d="${d}" class="bo"/>`).join("")}${shapes.map(d=>`<path d="${d}" class="bf"/>`).join("")}</g>`;
+  const legShapes=i=>{const [k,f]=legs[i];const ft=ps.lying&&!ps.flat?[f[0],f[1]-9]:[f[0]+9,f[1]+.5];
+    return {th:limbD(ps.hip,k,14,9,1.4,1.2),sn:limbD(k,f,8.5,5,0,1.8,.3),ft:limbD(f,ft,5.5,4,0,0),k,f}};
+  const armShapes=i=>{const [e,h]=arms[i];return {ua:limbD(sh,e,8.5,6.5,1.1,1.1),fa:limbD(e,h,7,4.4,1,.6,.3),e,h}};
+  let o="",defs="";const C={};
+  /* 먼 쪽 다리·팔 */
+  const L1=legShapes(1),A1=armShapes(1);
+  o+=group([L1.th,L1.sn,L1.ft],"far")+group([A1.ua,A1.fa],"far")+`<circle cx="${A1.h[0].toFixed(1)}" cy="${A1.h[1].toFixed(1)}" r="3.6" class="bf far"/>`;
+  /* 몸통 + 가까운 다리 */
+  const tw=(ps.torsoW||0)*3.4;const tor=torsoD(ps.hip,sh,[[0,8,9.5],[.35,8+tw*.8,8.5],[.6,10.5+tw,9.5],[.82,11.5+tw*.5,10],[1,7,8.5]]);
+  const nT=perpF(ps.hip,sh), glute=off(ps.hip,nT,-4);
+  const gluteD=`M${f2(off(glute,[1,0],-.01))} m-9 0 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0`;
+  const L0=legShapes(0);
+  const neckD=limbD(sh,neck,7.5,6.5,0,0);
+  o+=group([gluteD,tor,neckD,L0.th,L0.sn,L0.ft]);
+  /* 몸통 근육 */
+  const tc=id(); defs+=`<clipPath id="${tc}"><path d="${tor}"/></clipPath>`;
+  o+=muscle(tc,lensD(ps.hip,sh,.6,1.02,1,13),has("chest"));
+  { const ab=lensD(ps.hip,sh,.06,.6,1,10); o+=muscle(tc,ab,has("abs"));
+    if(has("abs")) o+=`<g clip-path="url(#${tc})">${[.2,.33,.46].map(u=>{const p=LP(ps.hip,sh,u);return `<path d="M${f2(off(p,nT,1))} L${f2(off(p,nT,7))}" class="fib" style="stroke-width:1"/>`}).join("")}</g>`; }
+  o+=muscle(tc,lensD(ps.hip,sh,.32,.9,-1,13),has("lat"));
+  o+=muscle(tc,lensD(ps.hip,sh,.78,1.1,-1,11),has("trap"));
+  o+=muscle(tc,lensD(ps.hip,sh,.04,.5,-1,7),has("erector"));
+  if(has("dia")){const c=LP(ps.hip,sh,.6),k=ps.dia??1;o+=`<ellipse cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" rx="${(5+3*k).toFixed(1)}" ry="${(3+2*k).toFixed(1)}" class="hotm2"/>`}
+  if(has("glute")) o+=`<circle cx="${glute[0].toFixed(1)}" cy="${glute[1].toFixed(1)}" r="7.6" class="hotm2"/><path d="M${f2(off(glute,nT,-4))} q4 3 7 0" class="fib"/>`;
+  /* 다리 근육 */
+  { const tcl=id(),scl=id(); defs+=`<clipPath id="${tcl}"><path d="${L0.th}"/></clipPath><clipPath id="${scl}"><path d="${L0.sn}"/></clipPath>`;
+    o+=muscle(tcl,lensD(ps.hip,L0.k,.08,.95,1,11),has("quad"));
+    o+=muscle(tcl,lensD(ps.hip,L0.k,.12,.9,-1,10),has("ham"));
+    o+=muscle(scl,lensD(L0.k,L0.f,.04,.62,-1,9),has("calf")); }
+  { const n0=perpF(ps.hip,L0.k),n1=perpF(L0.k,L0.f);
+    Object.assign(C,{chest:off(LP(ps.hip,sh,.8),nT,6),abs:off(LP(ps.hip,sh,.33),nT,5),lat:off(LP(ps.hip,sh,.62),nT,-6),trap:off(LP(ps.hip,sh,.96),nT,-5),erector:off(LP(ps.hip,sh,.25),nT,-5),
+      glute,dia:LP(ps.hip,sh,.6),quad:off(LP(ps.hip,L0.k,.5),n0,4),ham:off(LP(ps.hip,L0.k,.5),n0,-4),calf:off(LP(L0.k,L0.f,.3),n1,-3)}); }
+  /* 머리 */
+  o+=`<circle cx="${head[0].toFixed(1)}" cy="${head[1].toFixed(1)}" r="8" class="bo"/><circle cx="${head[0].toFixed(1)}" cy="${head[1].toFixed(1)}" r="8" class="bf"/>`;
+  /* 가까운 팔 */
+  const A0=armShapes(0);
+  const delt=`M${f2(sh)} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`;
+  o+=group([delt,A0.ua,A0.fa])+`<circle cx="${A0.h[0].toFixed(1)}" cy="${A0.h[1].toFixed(1)}" r="3.8" class="bo"/><circle cx="${A0.h[0].toFixed(1)}" cy="${A0.h[1].toFixed(1)}" r="3.8" class="bf"/>`;
+  { const ucl=id(),dcl=id(); defs+=`<clipPath id="${ucl}"><path d="${A0.ua}"/></clipPath><clipPath id="${dcl}"><path d="${delt}"/></clipPath>`;
+    o+=muscle(ucl,lensD(sh,A0.e,.12,.92,1,8),has("bicep"));
+    o+=muscle(ucl,lensD(sh,A0.e,.1,.95,-1,8),has("tricep"));
+    if(has("delt")) o+=`<circle cx="${sh[0].toFixed(1)}" cy="${sh[1].toFixed(1)}" r="5.6" class="hotm2"/><path d="M${f2(off(sh,[0,1],-4))} q3 4 0 8" class="fib"/>`;
+    else if(has("fdelt")||has("rdelt")){const nU=perpF(sh,A0.e);const c=off(sh,nU,has("fdelt")?3:-3);o+=`<g clip-path="url(#${dcl})"><circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="5" class="hotm2"/></g>`}
+    else o+=`<path d="M${f2(off(sh,nT,-5))} q4 6 9 3" class="cont"/>`;
+    const nu=perpF(sh,A0.e); Object.assign(C,{bicep:off(LP(sh,A0.e,.5),nu,2.5),tricep:off(LP(sh,A0.e,.5),nu,-2.5),delt:sh,fdelt:off(sh,nu,3),rdelt:off(sh,nu,-3)}); }
+  return {svg:`<defs>${defs}</defs>`+o,J:{sh,hand:arms[0][1],elbow:arms[0][0],hip:ps.hip},C};
 }
 
 
@@ -1268,11 +1753,11 @@ function checkupFront(T){
     <rect x="74" y="12" width="12" height="112" class="mc" style="fill:#2A2622"/>
     <path d="M40 60 H120" stroke="#2A2622" stroke-width="3"/>
     <rect x="37" y="58" width="5" height="44" rx="2.5" style="fill:#2A2622"/><rect x="118" y="58" width="5" height="44" rx="2.5" style="fill:#2A2622"/>
-    <path d="M56 -17 L104 -18 L105 9 L89 13 L71 13 L55 9Z" style="fill:#2A2622"/>
-    <path d="M59 -14 L101 -15 L102 6 L59 7Z" style="fill:#12161A"/>
-    <g transform="translate(80 -4) scale(.62)">${segs.map(([c,a],i)=>`<path d="${arc(15,a,a+52)}" stroke="${c}" stroke-width="5" fill="none" opacity="${i/6<fill?1:.22}"/>`).join("")}
+    <rect x="66" y="-28" width="28" height="44" rx="3" style="fill:#2A2622"/>
+    <rect x="69" y="-25" width="22" height="38" rx="1.5" style="fill:#12161A"/>
+    <g transform="translate(80 -14) scale(.46)">${segs.map(([c,a],i)=>`<path d="${arc(15,a,a+52)}" stroke="#E7E1D2" stroke-width="5" fill="none" opacity="${i/6<fill?1:.18}"/>`).join("")}
       <text x="0" y="3.5" text-anchor="middle" font-size="9" font-family="Gloock,Georgia,serif" fill="#F4ECDB">${Math.round(fill*100>99?100:fill*100)}%</text></g>
-    <line x1="60" x2="101" y1="${(-12+18*scan).toFixed(1)}" y2="${(-12+18*scan).toFixed(1)}" stroke="#7FD3B5" stroke-width="1" opacity=".8"/>
+    <line x1="70" x2="90" y1="${(-24+36*scan).toFixed(1)}" y2="${(-24+36*scan).toFixed(1)}" stroke="#C9C3B4" stroke-width=".8" opacity=".6"/>
   </g>`;
   /* 뒤에서 본 사람 */
   const hipY=86+br*.2, shY=50+br*.3, sL=[cx-14,shY+3], sR=[cx+14,shY+3];
@@ -1282,11 +1767,148 @@ function checkupFront(T){
   o+=`<path d="M${cx-11} ${hipY+4} L${cx-15} ${shY+4} L${cx+15} ${shY+4} L${cx+11} ${hipY+4} Z" class="ink" style="stroke-width:2.6;stroke-linejoin:round"/><path d="M${cx-11} ${hipY+4} L${cx-15} ${shY+4} L${cx+15} ${shY+4} L${cx+11} ${hipY+4} Z" class="skin2"/>`;
   o+=seg(sL,eL,W.uarm)+seg(eL,hL,W.farm)+seg(sR,eR,W.uarm)+seg(eR,hR,W.farm);
   o+=`<circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="skin2"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="skin2"/>`;
-  o+=`<rect x="${cx-3}" y="${shY-5}" width="6" height="8" class="skin2"/><circle cx="${cx}" cy="${shY-12}" r="8.5" class="ink"/><circle cx="${cx}" cy="${shY-12}" r="7.2" class="skin2"/>`;
+  o+=`<rect x="${cx-4}" y="${shY-9}" width="8" height="12" class="skin2" stroke="#2A2622" stroke-width="1.4"/><circle cx="${cx}" cy="${shY-16}" r="8.5" class="ink"/><circle cx="${cx}" cy="${shY-16}" r="7.2" class="skin2"/>`;
   /* 몸을 훑는 측정 빛 */
   const sy=(shY-18)+(124-(shY-18))*scan;
   o+=`<rect x="${cx-46}" y="${sy.toFixed(1)}" width="92" height="3" rx="1.5" class="scanl"/>`;
   o+=`<text x="80" y="152" class="lb2">발판 전극에 맨발 · 손잡이를 잡고 1분간 가만히</text>`;
+  return o;
+}
+
+
+function bodyGroup(shapes){return `<g>${shapes.map(d=>`<path d="${d}" class="bo"/>`).join("")}${shapes.map(d=>`<path d="${d}" class="bf"/>`).join("")}</g>`}
+function clipM(d,lens,hot){const id=`fc${CLIPN++}`;return `<defs><clipPath id="${id}"><path d="${d}"/></clipPath></defs>`+muscle(id,lens,hot)}
+function latFront(t){
+  const cx=80, sink=t*2.2, shY=46+sink, hipY=94;
+  const sL=[cx-17,shY], sR=[cx+17,shY];
+  const hy=L(-4,shY+2,t), hx=L(30,34,t);
+  const hL=[cx-hx,hy], hR=[cx+hx,hy];
+  const pref=[1,0];
+  const [eL]=ik(sL,hL,LEN.uarm,LEN.farm,[-1,1.2]); const [eR]=ik(sR,hR,LEN.uarm,LEN.farm,[1,1.2]);
+  const barY=hy-1;
+  let o=`<g class="props">
+    <rect x="${cx-9}" y="-16" width="18" height="140" style="fill:#3A3E3C"/><rect x="${cx-7}" y="30" width="14" height="60" style="fill:#2A2622"/>
+    <path d="M${cx-30} -16 H${cx+30}" class="mcl" style="stroke-width:4"/><circle cx="${cx}" cy="-10" r="4.5" class="mc"/>
+    <path d="M${cx} -6 L${cx} ${barY}" class="cable"/>
+    <rect x="18" y="98" width="124" height="7" rx="2" style="fill:#2A2622"/><path d="M40 105 V124 M120 105 V124" class="mcl"/>
+  </g>`;
+  /* 바 */
+  o+=`<path d="M${cx-46} ${barY+5} L${cx-38} ${barY} H${cx+38} L${cx+46} ${barY+5}" class="bar" style="stroke-width:3.2"/>`;
+  /* 다리 · 엉덩이 */
+  const lgL=limbD([cx-9,hipY+4],[cx-11,118],14,11,0,0),lgR=limbD([cx+9,hipY+4],[cx+11,118],14,11,0,0);
+  const gL=`M${cx-8} ${hipY} m-10 0 a10 7.5 0 1 0 20 0 a10 7.5 0 1 0 -20 0`,gR=`M${cx+8} ${hipY} m-10 0 a10 7.5 0 1 0 20 0 a10 7.5 0 1 0 -20 0`;
+  /* 등: 역삼각형 */
+  const back=`M${cx-12} ${hipY-3} Q${cx-15} ${(hipY+shY)/2+6} ${cx-21} ${shY+4} Q${cx} ${shY-6} ${cx+21} ${shY+4} Q${cx+15} ${(hipY+shY)/2+6} ${cx+12} ${hipY-3}Z`;
+  const neckD=`M${cx-4} ${shY+2} V${shY-11} H${cx+4} V${shY+2}Z`;
+  o+=bodyGroup([lgL,lgR,gL,gR,back,neckD]);
+  const bc=`fc${CLIPN++}`; o+=`<defs><clipPath id="${bc}"><path d="${back}"/></clipPath></defs><g clip-path="url(#${bc})">`;
+  /* 승모근 */
+  o+=`<path d="M${cx} ${shY-4} L${cx-18} ${shY+5} L${cx} ${shY+30} L${cx+18} ${shY+5}Z" class="cont" style="fill:rgba(179,167,143,.18)"/>`;
+  /* 광배근 */
+  const w=1+t*.12;
+  [-1,1].forEach(sg=>{const P=`M${cx+sg*2} ${hipY-6} L${cx+sg*20*w} ${shY+11} Q${cx+sg*12} ${shY+17} ${cx+sg*4} ${shY+28} Z`;
+    o+=`<path d="${P}" class="hotm2"/><path d="M${cx+sg*5} ${hipY-10} L${cx+sg*16*w} ${shY+14} M${cx+sg*8} ${hipY-14} L${cx+sg*18*w} ${shY+18} M${cx+sg*4} ${hipY-18} L${cx+sg*13} ${shY+22}" class="fib"/>`});
+  /* 척추기립근 · 날개뼈 */
+  o+=`<path d="M${cx-3} ${shY+28} V${hipY-4} M${cx+3} ${shY+28} V${hipY-4}" class="cont"/><path d="M${cx} ${shY+2} V${hipY-6}" stroke="#B9AE96" stroke-width="1.2"/>`;
+  const sc=t*3;
+  o+=`<path d="M${cx-13+sc*.4} ${shY+7+sc} q5 6 2 13 M${cx+13-sc*.4} ${shY+7+sc} q-5 6 -2 13" stroke="#8E7C5C" stroke-width="1.3" fill="none"/></g>`;
+  /* 팔 */
+  const uaL=limbD(sL,eL,9.5,7,1.2,1.2),faL=limbD(eL,hL,7.5,5,1,.6,.3),uaR=limbD(sR,eR,9.5,7,1.2,1.2),faR=limbD(eR,hR,7.5,5,1,.6,.3);
+  const dL=`M${sL[0]} ${sL[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`,dR=`M${sR[0]} ${sR[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`;
+  o+=bodyGroup([uaL,faL,uaR,faR,dL,dR]);
+  o+=`<circle cx="${sL[0]}" cy="${sL[1]}" r="5.4" class="hotm2"/><circle cx="${sR[0]}" cy="${sR[1]}" r="5.4" class="hotm2"/>`;
+  o+=clipM(uaL,lensD(sL,eL,.15,.92,-1,7),false)+clipM(uaR,lensD(sR,eR,.15,.92,1,7),false);
+  o+=`<circle cx="${hL[0].toFixed(1)}" cy="${hL[1].toFixed(1)}" r="3.8" class="bo"/><circle cx="${hL[0].toFixed(1)}" cy="${hL[1].toFixed(1)}" r="3.8" class="bf"/><circle cx="${hR[0].toFixed(1)}" cy="${hR[1].toFixed(1)}" r="3.8" class="bo"/><circle cx="${hR[0].toFixed(1)}" cy="${hR[1].toFixed(1)}" r="3.8" class="bf"/>`;
+  /* 머리 */
+  o+=`<circle cx="${cx}" cy="${shY-18}" r="8.5" class="bo"/><circle cx="${cx}" cy="${shY-18}" r="8.5" class="bf"/>`;
+  o+=tagsSVG({lat:[cx+12,shY+24],rdelt:[sL[0],sL[1]],trap:[cx,shY+12]},["lat","rdelt","trap"]);
+  /* 화살표 */
+  const ay=L(10,24,t);
+  o+=`<path d="M${cx-58} ${ay} v12 m-4 -5 l4 5 l4 -5" stroke="#8E2B2B" stroke-width="1.6" fill="none" opacity="${.35+.5*(1-t)}"/>`;
+  o+=`<text x="80" y="140" class="lb2">바를 턱 밑으로 · 팔꿈치는 몸통 옆에</text>`;
+  return o;
+}
+
+function chestFront(t){
+  const cx=80, shY=44, hipY=92, z=1+.18*t;
+  const sL=[cx-18,shY+3], sR=[cx+18,shY+3];
+  const hL=[L(cx-31,cx-15,t),L(shY+7,shY+11,t)], hR=[cx*2-hL[0],hL[1]];
+  const eL=[L(cx-33,cx-24,t),L(shY+24,shY+14,t)], eR=[cx*2-eL[0],eL[1]];
+  const pvL=[cx-44,120], pvR=[cx+44,120];
+  let o=`<g class="props">
+    <rect x="${cx+40}" y="-18" width="20" height="142" style="fill:#6A6E6A"/><rect x="${cx+43}" y="66" width="14" height="44" style="fill:#2A2622"/>${[0,1,2,3,4].map(i=>`<rect x="${cx+44}" y="${70+i*7.5}" width="12" height="5" style="fill:#7A766C"/>`).join("")}
+    <path d="M${cx-24} -6 H${cx+50}" class="mcl" style="stroke-width:3"/>
+    <rect x="${cx-17}" y="${shY-22}" width="34" height="${hipY-shY+18}" rx="5" style="fill:#2A2622"/>
+    <rect x="${cx-22}" y="${hipY-2}" width="44" height="9" rx="3" style="fill:#2A2622"/><path d="M${cx} ${hipY+7} V124 M${cx-30} 124 H${cx+56}" class="mcl" style="stroke-width:4"/>
+  </g>`;
+  /* 다리 */
+  const kL=[cx-17,hipY+12],kR=[cx+17,hipY+12],fL=[cx-21,124],fR=[cx+21,124];
+  const thL=limbD([cx-9,hipY],kL,15,13,0,0),thR=limbD([cx+9,hipY],kR,15,13,0,0),snL=limbD(kL,fL,10,6,1.4,1.4,.3),snR=limbD(kR,fR,10,6,1.4,1.4,.3);
+  const ftL=limbD(fL,[fL[0]-6,fL[1]+1],6,5,0,0),ftR=limbD(fR,[fR[0]+6,fR[1]+1],6,5,0,0);
+  /* 몸통 */
+  const tor=`M${cx-12} ${hipY+3} Q${cx-14} ${(hipY+shY)/2} ${cx-20} ${shY+4} Q${cx} ${shY-2} ${cx+20} ${shY+4} Q${cx+14} ${(hipY+shY)/2} ${cx+12} ${hipY+3} Q${cx} ${hipY+7} ${cx-12} ${hipY+3}Z`;
+  const neckD=`M${cx-4} ${shY+2} V${shY-11} H${cx+4} V${shY+2}Z`;
+  o+=bodyGroup([thL,thR,snL,snR,ftL,ftR,tor,neckD]);
+  /* 대흉근 (수축 시 가운데로 모임) */
+  const sq=t*2;
+  [-1,1].forEach(sg=>{const P=`M${cx+sg*1} ${shY+6} Q${cx+sg*(19-sq)} ${shY+3} ${cx+sg*(19-sq*.5)} ${shY+9} Q${cx+sg*(16-sq)} ${shY+22} ${cx+sg*2} ${shY+20} Z`;
+    o+=`<path d="${P}" class="hotm2"/><path d="M${cx+sg*3} ${shY+9} Q${cx+sg*11} ${shY+8} ${cx+sg*(17-sq*.6)} ${shY+10} M${cx+sg*3} ${shY+15} Q${cx+sg*11} ${shY+14} ${cx+sg*(16-sq)} ${shY+13}" class="fib"/>`});
+  o+=`<path d="M${cx} ${shY+20} V${hipY} M${cx-7} ${shY+28} h14 M${cx-7} ${shY+35} h14 M${cx-6} ${shY+42} h12" class="cont"/>`;
+  /* 레버 + 손잡이 (뒤쪽) */
+  const hsz=7*z;
+  o+=`<path d="M${pvL[0]} ${pvL[1]} L${(hL[0]-2).toFixed(1)} ${(hL[1]+hsz).toFixed(1)} M${pvR[0]} ${pvR[1]} L${(hR[0]+2).toFixed(1)} ${(hR[1]+hsz).toFixed(1)}" class="mcl" style="stroke-width:${(3.4*z).toFixed(1)}"/><circle cx="${pvL[0]}" cy="${pvL[1]}" r="3.5" class="mc"/><circle cx="${pvR[0]}" cy="${pvR[1]}" r="3.5" class="mc"/>`;
+  /* 팔 */
+  const uaL=limbD(sL,eL,9.5,7.5,1.3,1.3),faL=limbD(eL,hL,7.5*z,5.5*z,1,.6,.3),uaR=limbD(sR,eR,9.5,7.5,1.3,1.3),faR=limbD(eR,hR,7.5*z,5.5*z,1,.6,.3);
+  const dL=`M${sL[0]} ${sL[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`,dR=`M${sR[0]} ${sR[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`;
+  o+=bodyGroup([uaL,uaR,dL,dR]);
+  o+=`<circle cx="${sL[0]+1.5}" cy="${sL[1]}" r="4.6" class="hotm2"/><circle cx="${sR[0]-1.5}" cy="${sR[1]}" r="4.6" class="hotm2"/>`;
+  o+=clipM(uaL,lensD(sL,eL,.15,.95,-1,7),true)+clipM(uaR,lensD(sR,eR,.15,.95,1,7),true);
+  o+=bodyGroup([faL,faR]);
+  o+=`<rect x="${(hL[0]-2.6*z).toFixed(1)}" y="${(hL[1]-hsz).toFixed(1)}" width="${(5.2*z).toFixed(1)}" height="${(hsz*2).toFixed(1)}" rx="2" class="db"/><rect x="${(hR[0]-2.6*z).toFixed(1)}" y="${(hR[1]-hsz).toFixed(1)}" width="${(5.2*z).toFixed(1)}" height="${(hsz*2).toFixed(1)}" rx="2" class="db"/>`;
+  o+=`<circle cx="${hL[0].toFixed(1)}" cy="${hL[1].toFixed(1)}" r="${(3.8*z).toFixed(1)}" class="bo"/><circle cx="${hL[0].toFixed(1)}" cy="${hL[1].toFixed(1)}" r="${(3.8*z).toFixed(1)}" class="bf"/><circle cx="${hR[0].toFixed(1)}" cy="${hR[1].toFixed(1)}" r="${(3.8*z).toFixed(1)}" class="bo"/><circle cx="${hR[0].toFixed(1)}" cy="${hR[1].toFixed(1)}" r="${(3.8*z).toFixed(1)}" class="bf"/>`;
+  /* 머리 */
+  o+=`<circle cx="${cx}" cy="${shY-18}" r="8.5" class="bo"/><circle cx="${cx}" cy="${shY-18}" r="8.5" class="bf"/>`;
+  o+=tagsSVG({chest:[cx-9,shY+12],fdelt:[sR[0]-1,sR[1]],tricep:LP(sL,eL,.55)},["chest","fdelt","tricep"],"m5");
+  o+=`<text x="80" y="140" class="lb2">팔꿈치 45° · 어깨는 뒤로, 가슴으로 밀기</text>`;
+  return o;
+}
+
+function shoulderFront(t){
+  const cx=80, shY=52, hipY=98;
+  const sL=[cx-18,shY+3], sR=[cx+18,shY+3];
+  const hL=[L(cx-35,cx-19,t),L(shY-17,shY-56,t)], hR=[cx*2-hL[0],hL[1]];
+  const eL=[L(cx-37,cx-26,t),L(shY+9,shY-26,t)], eR=[cx*2-eL[0],eL[1]];
+  let o=`<g class="props"><rect x="${cx-17}" y="${shY-20}" width="34" height="${hipY-shY+16}" rx="5" style="fill:#2A2622"/>
+    <rect x="${cx-24}" y="${hipY-2}" width="48" height="9" rx="3" style="fill:#2A2622"/><path d="M${cx} ${hipY+7} V126 M${cx-30} 126 H${cx+30}" class="mcl" style="stroke-width:4"/></g>`;
+  const kL=[cx-17,hipY+12],kR=[cx+17,hipY+12],fL=[cx-21,126],fR=[cx+21,126];
+  const thL=limbD([cx-9,hipY],kL,15,13,0,0),thR=limbD([cx+9,hipY],kR,15,13,0,0),snL=limbD(kL,fL,10,6,1.4,1.4,.3),snR=limbD(kR,fR,10,6,1.4,1.4,.3);
+  const ftL=limbD(fL,[fL[0]-6,fL[1]+1],6,5,0,0),ftR=limbD(fR,[fR[0]+6,fR[1]+1],6,5,0,0);
+  const tor=`M${cx-12} ${hipY+3} Q${cx-14} ${(hipY+shY)/2} ${cx-20} ${shY+4} Q${cx} ${shY-2} ${cx+20} ${shY+4} Q${cx+14} ${(hipY+shY)/2} ${cx+12} ${hipY+3} Q${cx} ${hipY+7} ${cx-12} ${hipY+3}Z`;
+  const neckD=`M${cx-4} ${shY+2} V${shY-11} H${cx+4} V${shY+2}Z`;
+  o+=bodyGroup([thL,thR,snL,snR,ftL,ftR,tor,neckD]);
+  o+=`<path d="M${cx} ${shY+20} V${hipY} M${cx-7} ${shY+28} h14 M${cx-7} ${shY+35} h14 M${cx-6} ${shY+42} h12 M${cx-17} ${shY+11} q8 9 16 3 M${cx+17} ${shY+11} q-8 9 -16 3" class="cont"/>`;
+  /* 승모근: 들리지 않게 (윤곽만) */
+  o+=`<path d="M${cx-4} ${shY-5} Q${cx-11} ${shY} ${cx-17} ${shY+1} M${cx+4} ${shY-5} Q${cx+11} ${shY} ${cx+17} ${shY+1}" class="cont" style="stroke-width:1.4"/>`;
+  /* 머리 */
+  o+=`<circle cx="${cx}" cy="${shY-18}" r="8.5" class="bo"/><circle cx="${cx}" cy="${shY-18}" r="8.5" class="bf"/>`;
+  /* 팔 */
+  const uaL=limbD(sL,eL,9.5,7.5,1.3,1.3),faL=limbD(eL,hL,7.5,5.5,1,.6,.3),uaR=limbD(sR,eR,9.5,7.5,1.3,1.3),faR=limbD(eR,hR,7.5,5.5,1,.6,.3);
+  const dL=`M${sL[0]-1} ${sL[1]} m-7.5 0 a7.5 7 0 1 0 15 0 a7.5 7 0 1 0 -15 0`,dR=`M${sR[0]+1} ${sR[1]} m-7.5 0 a7.5 7 0 1 0 15 0 a7.5 7 0 1 0 -15 0`;
+  o+=bodyGroup([uaL,uaR,faL,faR,dL,dR]);
+  [[sL,-1],[sR,1]].forEach(([p,sg])=>{const c=[p[0]+sg*1,p[1]];o+=`<ellipse cx="${c[0]}" cy="${c[1]}" rx="6.6" ry="6.2" class="hotm2"/><path d="M${c[0]-sg*3} ${c[1]-5} q${sg*7} 2 ${sg*7} 9 M${c[0]+sg*1} ${c[1]-6} q${sg*4} 4 ${sg*3} 11 M${c[0]-sg*5} ${c[1]-2} q${sg*3} 4 ${sg*4} 8" class="fib"/>`});
+  o+=clipM(uaL,lensD(sL,eL,.2,.95,-1,6),true)+clipM(uaR,lensD(sR,eR,.2,.95,1,6),true);
+  /* 덤벨 (정면: 원판이 보임) */
+  /* 덤벨: 정면 기준 가로, 손바닥은 정면 */
+  [hL,hR].forEach(h=>{const x=h[0],y=h[1];
+    o+=`<rect x="${(x-11).toFixed(1)}" y="${(y-1.6).toFixed(1)}" width="22" height="3.2" rx="1.2" fill="#5A5650"/>`;
+    [-1,1].forEach(sg=>{o+=`<rect x="${(x+sg*9-(sg<0?6:0)).toFixed(1)}" y="${(y-7.5).toFixed(1)}" width="6" height="15" rx="2" class="db"/><rect x="${(x+sg*15-(sg<0?3:0)).toFixed(1)}" y="${(y-5.5).toFixed(1)}" width="3" height="11" rx="1.2" class="db"/>`});
+    /* 손바닥이 앞을 향한 손: 손가락이 바를 감싸고 엄지가 아래 */
+    o+=`<path d="M${(x-5.5).toFixed(1)} ${(y+7).toFixed(1)} L${(x-5.5).toFixed(1)} ${(y-3).toFixed(1)} Q${x.toFixed(1)} ${(y-6.5).toFixed(1)} ${(x+5.5).toFixed(1)} ${(y-3).toFixed(1)} L${(x+5.5).toFixed(1)} ${(y+7).toFixed(1)}Z" class="bo"/>
+      <path d="M${(x-5.5).toFixed(1)} ${(y+7).toFixed(1)} L${(x-5.5).toFixed(1)} ${(y-3).toFixed(1)} Q${x.toFixed(1)} ${(y-6.5).toFixed(1)} ${(x+5.5).toFixed(1)} ${(y-3).toFixed(1)} L${(x+5.5).toFixed(1)} ${(y+7).toFixed(1)}Z" class="bf"/>
+      <path d="M${(x-2.6).toFixed(1)} ${(y-4.6).toFixed(1)} V${(y-1).toFixed(1)} M${x.toFixed(1)} ${(y-5.4).toFixed(1)} V${(y-1).toFixed(1)} M${(x+2.6).toFixed(1)} ${(y-4.6).toFixed(1)} V${(y-1).toFixed(1)}" class="cont"/>
+      <path d="M${(x-4).toFixed(1)} ${(y+3).toFixed(1)} q4 2 8 0" class="cont"/>`});
+  o+=tagsSVG({sdelt:[sR[0]+4,sR[1]-2],tricep:[(sL[0]+eL[0])/2-3,(sL[1]+eL[1])/2+2]},["sdelt","tricep"],"m6");
+  o+=`<text x="80" y="146" class="lb2">팔꿈치는 몸 앞쪽으로 · 어깨는 귀에서 멀리</text>`;
   return o;
 }
 function smithFront(t){
@@ -1296,40 +1918,61 @@ function smithFront(t){
   const kL=[cx-kOut,kY], kR=[cx+kOut,kY];
   const sL=[cx-15,shY+4], sR=[cx+15,shY+4], barY=shY-1;
   const eL=[cx-26,shY+16], eR=[cx+26,shY+16], hL=[cx-24,barY], hR=[cx+24,barY];
-  const head=[cx,shY-11];
+  const head=[cx,shY-15];
   const ink=(a,b,w)=>seg(a,b,w);
   let o=`<g class="props"><path d="M18 -8 V126 M142 -8 V126 M14 -8 H146 M10 126 H150" class="mcl"/>
     ${[0,1,2,3,4,5,6,7].map(i=>`<path d="M18 ${4+i*14} h5 M142 ${4+i*14} h-5" class="mcl" style="stroke-width:1.4"/>`).join("")}</g>`;
   o+=`<line x1="10" y1="${barY}" x2="150" y2="${barY}" class="bar" style="stroke-width:3.4"/>`;
   o+=`<rect x="${cx-62}" y="${barY-15}" width="7" height="30" rx="2" class="db"/><rect x="${cx+55}" y="${barY-15}" width="7" height="30" rx="2" class="db"/>`;
-  o+=ink(hipL,kL,W.thigh)+ink(kL,fL,W.shin)+ink(hipR,kR,W.thigh)+ink(kR,fR,W.shin);
-  o+=`<line x1="${fL[0]}" y1="${fL[1]}" x2="${fL[0]-7}" y2="${fL[1]+1}" class="ink" stroke-width="5"/><line x1="${fR[0]}" y1="${fR[1]}" x2="${fR[0]+7}" y2="${fR[1]+1}" class="ink" stroke-width="5"/>`;
-  o+=hot(hipL,kL,W.thigh-3)+hot(hipR,kR,W.thigh-3)+hot(kL,fL,W.shin-3,.1,.55)+hot(kR,fR,W.shin-3,.1,.55);
-  o+=`<path d="M${cx-17} ${hipY+3} Q${cx} ${hipY+9} ${cx+17} ${hipY+3}" class="ink" style="fill:none" stroke-width="2"/>`;
-  o+=`<ellipse cx="${cx-10}" cy="${hipY-1}" rx="6" ry="5" class="hotm2"/><ellipse cx="${cx+10}" cy="${hipY-1}" rx="6" ry="5" class="hotm2"/>`;
-  o+=`<path d="M${cx-11} ${hipY+4} L${cx-16} ${shY+4} L${cx+16} ${shY+4} L${cx+11} ${hipY+4} Z" class="ink" style="stroke-width:2.6;stroke-linejoin:round"/>`;
-  o+=`<path d="M${cx-11} ${hipY+4} L${cx-16} ${shY+4} L${cx+16} ${shY+4} L${cx+11} ${hipY+4} Z" class="skin2"/>`;
-  o+=`<path d="M${cx} ${shY+12} V${hipY-4}" stroke="#B9AE96" stroke-width="1.2"/>`;
-  o+=ink(sL,eL,W.uarm)+ink(eL,hL,W.farm)+ink(sR,eR,W.uarm)+ink(eR,hR,W.farm);
-  o+=`<circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="skin2"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="skin2"/>`;
-  o+=`<circle cx="${head[0]}" cy="${head[1]}" r="7.5" class="ink"/><circle cx="${head[0]}" cy="${head[1]}" r="6.2" class="skin2"/>`;
+  const thL=limbD(hipL,kL,15,10,1.4,1.4),thR=limbD(hipR,kR,15,10,1.4,1.4),snL=limbD(kL,fL,9,5.5,1,1.6,.3),snR=limbD(kR,fR,9,5.5,1.6,1,.3);
+  const ftL=limbD(fL,[fL[0]-8,fL[1]+1],5.5,4,0,0),ftR=limbD(fR,[fR[0]+8,fR[1]+1],5.5,4,0,0);
+  const tor=`M${cx-11} ${hipY+5} Q${cx-14} ${(hipY+shY)/2} ${cx-19} ${shY+4} Q${cx} ${shY-2} ${cx+19} ${shY+4} Q${cx+14} ${(hipY+shY)/2} ${cx+11} ${hipY+5} Q${cx} ${hipY+9} ${cx-11} ${hipY+5}Z`;
+  const uaL=limbD(sL,eL,9,7,1.2,1.2),faL=limbD(eL,hL,7.5,5,1,.6,.3),uaR=limbD(sR,eR,9,7,1.2,1.2),faR=limbD(eR,hR,7.5,5,1,.6,.3);
+  const dL=`M${sL[0]} ${sL[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`,dR=`M${sR[0]} ${sR[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`;
+  const neckD=`M${cx-4} ${shY+2} V${shY-11} H${cx+4} V${shY+2}Z`;
+  o+=bodyGroup([thL,thR,snL,snR,ftL,ftR,tor,neckD]);
+  /* 대퇴사두근: 바깥·안쪽 두 갈래 + 가운데 */
+  [[hipL,kL,thL],[hipR,kR,thR]].forEach(([a,b,d])=>{o+=clipM(d,lensD(a,b,.06,.95,1,13),true)+clipM(d,lensD(a,b,.2,.98,-1,11),true)+`<path d="M${f2(LP(a,b,.1))} L${f2(LP(a,b,.88))}" class="fib" style="stroke-width:1"/>`});
+  /* 종아리 */
+  o+=clipM(snL,lensD(kL,fL,.05,.6,1,7),true)+clipM(snR,lensD(kR,fR,.05,.6,-1,7),true);
+  /* 복부·가슴 윤곽 */
+  o+=`<path d="M${cx} ${shY+6} V${hipY+2} M${cx-7} ${shY+24} h14 M${cx-7} ${shY+31} h14 M${cx-6} ${shY+38} h12 M${cx-16} ${shY+12} q8 8 15 2 M${cx+16} ${shY+12} q-8 8 -15 2" class="cont"/>`;
+  o+=bodyGroup([uaL,faL,uaR,faR,dL,dR]);
+  o+=`<path d="M${f2(LP(sL,eL,.2))} q-3 5 -1 10 M${f2(LP(sR,eR,.2))} q3 5 1 10" class="cont"/>`;
+  o+=`<circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="bo"/><circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="bf"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="bo"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="bf"/>`;
+  o+=`<circle cx="${head[0]}" cy="${head[1]}" r="8" class="bo"/><circle cx="${head[0]}" cy="${head[1]}" r="8" class="bf"/>`;
+  o+=tagsSVG({quad:LP(hipR,kR,.5),calf:LP(kR,fR,.3)},["quad","calf"]);
   o+=`<text x="80" y="140" class="lb2">무릎은 발끝 방향 · 엉덩이 양쪽이 멀어지게</text>`;
   return o;
 }
 function frameSVG(id,T){
-  const E=EX[id]; if(!E) return "";
-  const t=(1-Math.cos(T*2*Math.PI/2.6))/2;
+  const E=EX[id]; if(!E) return ""; CUR_EX=id;
+  const t=E.tempo?E.tempo(T):(1-Math.cos(T*2*Math.PI/2.6))/2;
   if(id==="m2") return smithFront(t);
+  if(id==="m3") return latFront(t);
+  if(id==="m5") return chestFront(t);
+  if(id==="m6") return shoulderFront(t);
   if(id==="m1") return checkupFront(T);
   const ps=E.pose(t,T);
-  if(E.breath){const b=(1-Math.cos(T*2*Math.PI/5))/2;ps.dia=b;ps.torsoW=b}
-  else ps.dia=.6+.4*t;
+  if(E.breath){const c=T%14,e=x=>(1-Math.cos(Math.PI*x))/2,b=c<4?e(c/4):c<6?1:1-e((c-6)/8);Object.assign(ps,E.pose(t,T,b));ps.dia=b;ps.torsoW=b}
+  else ps.dia=ps.dia??(.6+.4*t);
   const F=figure(ps,E.mus);
   let partner="";
   if(E.partner){const tgt=[F.J.elbow[0]-3,F.J.elbow[1]+3];const B=figure({hip:[34,62],torso:-86,feet:[[34,124],[40,124]],hands:tgt,hands2:[tgt[0]+2,tgt[1]+4],knee:FWD,elbow:DOWN},[],true);partner=`<g class="pt-partner">${B.svg}</g>`}
   const props=E.props?E.props(F.J,T):"", front=E.front&&typeof E.front==="function"?E.front(F.J):"";
-  return `${partner}<g class="props">${props}</g>${F.svg}${front}`;
+  const body=`${partner}<g class="props">${props}</g>${F.svg}${front}${tagsSVG(F.C,E.mus)}`;
+  return id==="m9"?`<g transform="translate(-1 -36) scale(1.03)">${body}</g>`:id==="m10"?`<g transform="translate(-14 -52) scale(1.2)">${body}</g>`:body;
 }
+const MNAME={sdelt:"전면·측면 삼각근",chest:"대흉근",abs:"복직근",lat:"광배근",trap:"승모근",erector:"척추기립근",glute:"대둔근",quad:"대퇴사두근",ham:"햄스트링",calf:"종아리(비복근)",bicep:"이두근",tricep:"삼두근",delt:"삼각근",fdelt:"전면 삼각근",rdelt:"후면 삼각근",dia:"횡격막"};
+let CUR_EX="";const TAGPOS={};
+function tagsSVG(C,keys,id=CUR_EX){let o="",used=[];keys.filter(k=>C[k]&&MNAME[k]).slice(0,3).forEach((k,i)=>{const [x,y]=C[k];const key=id+":"+k;
+  let P=TAGPOS[key];
+  if(!P){const right=x>=78,tw=MNAME[k].length*7.2;let tx=right?Math.min(x+30,156-tw):Math.max(x-30,4+tw),ty=Math.max(-28,Math.min(118,y-10));
+    const others=Object.keys(TAGPOS).filter(q=>q.startsWith(id+":")).map(q=>TAGPOS[q].ty);
+    while(others.concat(used).some(u=>Math.abs(u-ty)<12)) ty+=13; P=TAGPOS[key]={tx,ty,right}}
+  const {tx,ty,right}=P; used.push(ty);
+  o+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} L${(tx+(right?-2:2)).toFixed(1)} ${(ty-3).toFixed(1)}" class="lead"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" class="leadd"/>
+   <text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" class="tag" text-anchor="${right?"start":"end"}">${MNAME[k]}</text>`});return o}
 let exAnim=null;
 function startEx(){cancelAnimationFrame(exAnim);const t0=performance.now();
   const loop=now=>{const els=document.querySelectorAll(".exfig[data-ex]");if(!els.length){exAnim=null;return}
@@ -1360,17 +2003,44 @@ function bodySVG(t){
 }
 function paperHTML(m,c){
   const g=GUIDE[m.id]; if(!g) return "";
-  return `<article class="ptimes" aria-label="${m.name} 사용법">
-    <header><span>VOL.11 · ${c.no}호차</span><b>The Platform Times</b><span>오늘의 운동</span></header>
-    <h4>${m.name}</h4><p class="dek">${m.spec}</p>
-    <div class="pt-grid">
-      <figure><svg class="exfig" data-ex="${m.id}" viewBox="0 -18 160 ${m.id==="m2"||m.id==="m1"?172:146}" role="img" aria-label="${m.name} 동작 일러스트"></svg><figcaption>${g.t.map(k=>`<i>${MUS[k]}</i>`).join("")}</figcaption></figure>
-      <div><div class="pt-h">HOW TO USE</div><ol>${g.how.map(x=>`<li>${x}</li>`).join("")}</ol></div>
+  const vb=`0 ${m.id==="m1"?-34:-18} 160 ${m.id==="m1"?188:(m.id==="m2"||m.id==="m3"||m.id==="m5")?172:146}`;
+  const lines=n=>`<i class="nf-lines" style="--n:${n}"></i>`;
+  return `<div class="np-wrap folded">
+  <button type="button" class="np-fold" aria-label="${m.name} 사용법 신문 펼치기">
+    <div class="nf-sheet">
+      <div class="nf-mast">The Platform Times</div>
+      <div class="nf-rule"><span>VOL.11 · 2026. 11 · ${c.no}호차</span><span>GRAN SEOUL EXPRESS</span></div>
+      <div class="nf-cols">
+        <div><b class="nf-kick">TODAY'S WORKOUT</b>${lines(6)}</div>
+        <div class="mid"><b class="nf-big">${m.name}</b><em>${m.spec}</em>${lines(4)}</div>
+        <div><b class="nf-kick">KEY POINTS!</b>${lines(6)}</div>
+      </div>
+      <div class="nf-leaf"><div class="nf-cols back"><div><b class="nf-kick">HOW TO USE</b>${lines(7)}</div><div class="mid">${lines(8)}</div><div><b class="nf-kick">PHOTO</b>${lines(7)}</div></div><i class="nf-shade"></i></div>
     </div>
-    <div class="pt-h k">KEY POINTS</div>
-    <ul class="pt-key">${g.key.map((x,i)=>`<li><span>${i+1}</span><div>${x}</div></li>`).join("")}</ul>
-  </article>`;
+    <span class="nf-tap">탭해서 신문 펼치기 ▾</span>
+  </button>
+  <article class="ptimes np" aria-label="${m.name} 사용법">
+    <div class="np-top"><div class="np-badge"><b>TODAY'S</b><span>WORKOUT</span></div>
+      <div class="np-mast">The Platform Times</div>
+      <div class="np-price">No.${String(c.no).padStart(2,"0")}<br><small>7F</small></div></div>
+    <div class="np-date"><span>VOL.11</span><span>2026년 11월 · ${c.no}호차</span><span>GRAN SEOUL EXP.</span></div>
+    <h4 class="np-head">${m.name}</h4>
+    <p class="np-deck">${m.spec} · ${g.t.map(k=>MUS[k]).join(" · ")}</p>
+    <div class="np-body">
+      <figure class="np-photo"><svg class="exfig" data-ex="${m.id}" viewBox="${vb}" role="img" aria-label="${m.name} 동작 일러스트"></svg>
+        <figcaption>▲ 주황색으로 빛나는 곳이 이 운동에서 쓰는 근육이에요.</figcaption></figure>
+      <section class="np-sec"><h5><span>HOW TO USE</span>사용법</h5><ol>${g.how.map(x=>`<li>${x}</li>`).join("")}</ol></section>
+      <section class="np-sec"><h5><span>KEY POINTS</span>꼭 기억하세요</h5><ul class="pt-key np-key">${g.key.map((x,i)=>`<li><span>${i+1}</span><div>${x}</div></li>`).join("")}</ul></section>
+      <button type="button" class="np-close">신문 접기 ▴</button>
+    </div>
+  </article></div>`;
 }
+function wirePaper(L){const w=L.querySelector(".np-wrap");if(!w)return;
+  const fold=w.querySelector(".np-fold");
+  fold.onclick=()=>{if(!w.classList.contains("folded")||w.classList.contains("opening"))return;
+    if(reduce){w.classList.remove("folded");return}
+    w.classList.add("opening");setTimeout(()=>{w.classList.remove("folded","opening");w.classList.add("opened")},1150)};
+  w.querySelector(".np-close").onclick=()=>{w.classList.remove("opened");w.classList.add("folded")}}
 let pmode="";
 function open(id){
   mid=id; proof=null; pmode="";
@@ -1385,7 +2055,7 @@ function open(id){
     ${m.first?`<div class="gate"><span class="eb">CHECK-IN · 추천 첫 미션</span><b>체성분 측정</b><p>7층 체성분 측정기로 측정해 주세요.<br>이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> 측정하려면 <em>테크노짐 앱 회원가입</em>이 먼저 필요해요.<br>가입이 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
     <label class="drop"><input type="file" accept="image/*" id="pf"><strong>인증샷 올리기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
     <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button><button class="btn ghost" id="pc">돌아가기</button></div>`;
-  startEx();
+  startEx(); wirePaper(L);
   const ready=()=>{$("#pb").disabled=!(proof&&(!m.partner||pmode))};
   L.querySelectorAll(".chip2").forEach(c=>c.onclick=()=>{pmode=c.dataset.m;L.querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===c));ready()});
   $("#pf").onchange=e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader();
@@ -1394,7 +2064,7 @@ function open(id){
 }
 function punchSeq(){
   const n=total+1, c=CARS[cur], L=$("#layer");
-  const holes=Array.from({length:12},(_,i)=>`<span class="hole ${i<total?"on":""} ${i===total?"target":""}"></span>`).join("");
+  const holes=Array.from({length:TOTAL},(_,i)=>`<span class="hole ${i<total?"on":""} ${i===total?"target":""}"></span>`).join("");
   L.innerHTML=`<div class="box"><div class="tk" id="tk"><div><div class="brand">GRAN SEOUL EXPRESS</div>
     <div class="row">PASSENGER<b>${P.name||"승객"}</b></div><div class="row">CAR / ZONE<b>${c.no}호차 · ${c.ko}</b></div>${pmode?`<div class="row">PARTNER<b>${pmode}${P.mate?` · ${P.mate}`:""}</b></div>`:""}</div>
     <div class="holes">${holes}</div></div>${HAND}<div class="msg" id="msg">차장님이 승차권을 확인하고 있어요…</div></div>`;
@@ -1407,13 +2077,13 @@ function punchSeq(){
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
   setTimeout(()=>hand.classList.remove("click"),1400);
-  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; total=n; render();
-    const stn={3:"워밍업역",6:"중간역",9:"단단역",12:"종착역 그랑서울"}[n];
+  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=n; render();
+    const stn=STATIONS[n]&&STATIONS[n].name;
     $("#msg").innerHTML=`${n}번째 칸 승차 확인<small>${stn?`열차가 곧 ${stn}에 정차합니다.`:"내일은 다른 객차로 옮겨 타 보세요."}</small>
       <button class="btn" style="margin-top:14px" id="back">${stn?"역에 내리기 →":"객차로 돌아가기"}</button>`;
     $("#back").onclick=()=>{L.hidden=true; if(stn) showStation(n)}},2100);
 }
-$("#reset").onclick=()=>{done={};total=0;$("#layer").hidden=true;render()};
+
 document.addEventListener("keydown",e=>{if($("#layer").hidden){if(e.key==="ArrowRight")go(cur+1);if(e.key==="ArrowLeft")go(cur-1)}else if(e.key==="Escape")$("#layer").hidden=true});
 drawCar(CARS[0]);
 
@@ -1480,103 +2150,148 @@ function soap(x,y,w,delay){return `<g class="it" style="animation-delay:${delay}
   <text x="${w/2}" y="${w*.66}" font-size="${w*.13}" fill="#E9ECEF" text-anchor="middle" font-family="Arial,sans-serif" letter-spacing="1">HAEVICHI</text></g></g>`}
 function shreds(x,y,w,h,n){let o="";for(let i=0;i<n;i++){const a=(i*137.5)%360,px=x+((i*53)%w),py=y+((i*29)%h);o+=`<path d="M${px} ${py} q${6+(i%5)} ${-4+(i%7)} ${12+(i%6)} ${(i%3)-1}" stroke="${i%3?"#2A2522":"#3A332D"}" stroke-width="2" fill="none" transform="rotate(${a%40-20} ${px} ${py})"/>`}return o}
 const STATIONS={
- 3:{name:"워밍업역",en:"WARM-UP STATION",km:"3칸",sky:["#DCEAF0","#F4EEDC"],tint:"rgba(170,200,220,.10)",bg:"linear-gradient(#CFE2EA,#F1E9D6 60%)",items:"트래블 미니 2종 · 퓨리파잉 샴푸 + 컨디셔너",
-   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="190" rx="120" ry="16" fill="rgba(0,0,0,.18)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>
-     ${bottle(88,70,56,118,"PURIFYING","SHAMPOO",{delay:1.1})}${bottle(156,70,56,118,"PURIFYING","CONDITIONER",{delay:1.3})}</svg>`},
- 6:{name:"중간역",en:"HALFWAY STATION",km:"6칸",sky:["#FFF6DD","#F1DDAE"],tint:"rgba(255,230,170,.06)",bg:"linear-gradient(#E7DCC0,#F3EBD8 60%)",items:"트래블 미니 바디워시 · 바디로션 + 솝",
-   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="192" rx="130" ry="16" fill="rgba(0,0,0,.18)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>
-     ${bottle(52,72,54,116,"PERFUMED","BODY WASH",{delay:1.1})}${bottle(118,72,54,116,"PERFUMED","BODY LOTION",{delay:1.3})}${soap(192,128,50,1.5)}</svg>`},
- 9:{name:"단단역",en:"STRONG STATION",km:"9칸",sky:["#F0A57A","#F7D6A2"],tint:"rgba(240,140,80,.16)",bg:"linear-gradient(#E9A27A,#F4D3A1 55%,#F1E3C6)",items:"퍼퓸드 바디워시 500ml (펌프형)",
-   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="90" ry="14" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>
-     ${bottle(110,46,80,154,"PERFUMED","BODY WASH",{pump:true,delay:1.1})}</svg>`},
- 12:{name:"종착역 그랑서울",en:"TERMINUS · GRAN SEOUL",km:"12칸 완주",sky:["#0F1B2E","#2C4566"],bg:"linear-gradient(#0F1B2E,#263D5A 55%,#3A4C66)",items:"시그니처 4종 기프트 박스 · 샴푸 · 컨디셔너 · 바디워시 · 바디로션",final:true,
-   art:()=>`<svg viewBox="0 0 300 230">${AM_DEFS}<circle cx="150" cy="115" r="120" fill="url(#glow)"/><ellipse cx="150" cy="212" rx="140" ry="14" fill="rgba(0,0,0,.35)"/>
-     <g class="it" style="animation-delay:1s"><rect x="26" y="40" width="248" height="70" rx="3" fill="#20252A"/><rect x="26" y="40" width="248" height="6" fill="#2E343A"/></g>
-     <g class="it" style="animation-delay:1.2s"><rect x="104" y="20" width="92" height="56" rx="2" fill="#E9E7E1"/><text x="150" y="36" font-size="6.5" text-anchor="middle" fill="#3A3A3A" font-family="Arial,sans-serif" letter-spacing="1">UNIQUE AROMAS OF HAEVICHI</text>
-       <rect x="116" y="42" width="68" height="1.5" fill="#B9B6AE"/><rect x="116" y="47" width="62" height="1.5" fill="#B9B6AE"/><rect x="116" y="52" width="66" height="1.5" fill="#B9B6AE"/><text x="150" y="68" font-size="5" text-anchor="middle" fill="#5A5A5A" font-family="Arial,sans-serif" letter-spacing="1">HAEVICHI</text></g>
-     <g class="it" style="animation-delay:1.1s">${shreds(36,92,228,30,70)}</g>
-     ${bottle(44,74,48,116,"PURIFYING","SHAMPOO",{delay:1.4})}${bottle(100,74,48,116,"PURIFYING","CONDITIONER",{delay:1.55})}${bottle(156,74,48,116,"PERFUMED","BODY WASH",{delay:1.7})}${bottle(212,74,48,116,"PERFUMED","BODY LOTION",{delay:1.85})}
-     <g class="it" style="animation-delay:1s"><path d="M20 150 L280 150 L280 206 Q150 214 20 206 Z" fill="url(#gb)"/><rect x="20" y="150" width="260" height="5" fill="#3A4047"/>${shreds(26,138,248,14,40)}</g></svg>`}
+ 4:{name:"아침역",en:"MORNING STATION",time:"morning",bg:"#CFE0EA",item:"퓨리파잉 샴푸",
+   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","SHAMPOO",{pump:true,delay:1.1})}</svg>`},
+ 8:{name:"노을역",en:"SUNSET STATION",time:"sunset",bg:"#E79A6A",item:"퓨리파잉 컨디셔너",
+   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","CONDITIONER",{pump:true,delay:1.1})}</svg>`},
+ 11:{name:"종착역 그랑서울",en:"TERMINUS · GRAN SEOUL",time:"night",bg:"#0F1B2E",item:"퍼퓸드 바디워시",final:true,
+   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.3)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PERFUMED","BODY WASH",{pump:true,delay:1.1})}</svg>`}
 };
-
+const ST_ORDER=[4,8,11];
+/* 유리 지붕 기차역 (원근) — 아침 · 노을 · 밤 */
 function stationBg(S){
-  const night=!!S.final, sky=S.sky||["#F7F1E2","#D8CDB4"];
-  const ticks=Array.from({length:12},(_,i)=>`<line y1="-12" y2="${i%3?-10.5:-9.5}" transform="rotate(${i*30})"/>`).join("");
-  const teeth=Array.from({length:25},(_,i)=>`<rect x="${4+i*16}" y="318" width="8" height="5"/>`).join("");
-  const truss=Array.from({length:11},(_,i)=>`${i?"L":"M"}${i*40} ${i%2?0:44}`).join(" ");
-  const bench=(x)=>`<g transform="translate(${x} 470)"><rect x="0" y="0" width="70" height="7" rx="2" fill="#5A3520"/><rect x="0" y="10" width="70" height="6" rx="2" fill="#5A3520"/><rect x="0" y="22" width="70" height="7" rx="2" fill="#6B4428"/><path d="M6 -2 V44 M64 -2 V44" stroke="#22211F" stroke-width="4"/><path d="M2 30 H68" stroke="#22211F" stroke-width="3"/></g>`;
-  const planter=(x)=>`<g transform="translate(${x} 462)"><path d="M0 22 H30 L26 52 H4Z" fill="#3E4A44"/><rect x="-2" y="18" width="34" height="6" rx="2" fill="#C9A55C"/>
-    <g fill="#4F6A4B"><ellipse cx="15" cy="8" rx="16" ry="12"/><ellipse cx="4" cy="14" rx="9" ry="7"/><ellipse cx="26" cy="14" rx="9" ry="7"/></g><g fill="${night?"#B9C9B0":"#E9B9A0"}"><circle cx="9" cy="4" r="2.4"/><circle cx="20" cy="2" r="2.4"/><circle cx="25" cy="10" r="2.4"/></g></g>`;
+  const tm=S.time, night=tm==="night", sun=tm==="sunset";
+  const PAL={morning:{sky:["#9FC3DB","#D9E6EC","#F7E7CC"],glass:"#C9DCE6",glass2:"#E9EEEC",iron:"#2F3433",wall:"#B9876A",floor:["#DCD3C1","#B4A893"],ray:"rgba(255,248,226,.32)",tint:"rgba(190,215,235,.08)",far:"#A7BAC6"},
+           sunset:{sky:["#4E5F93","#D9806A","#F7BC72"],glass:"#C98A78",glass2:"#E9B48A",iron:"#2A2426",wall:"#A9654A",floor:["#D9B89A","#9E7C66"],ray:"rgba(255,190,120,.36)",tint:"rgba(240,130,70,.12)",far:"#4A2E3C"},
+           night:{sky:["#08122A","#16284A","#2E4468"],glass:"#1E2C48",glass2:"#2A3B5C",iron:"#14171C",wall:"#5A3A2E",floor:["#59544C","#2E2B28"],ray:"rgba(255,214,150,.10)",tint:"rgba(10,18,40,.30)",far:"#0B1220"}}[tm];
+  const L=(a,b,t)=>a+(b-a)*t, P=(a,b,t)=>[L(a[0],b[0],t),L(a[1],b[1],t)], f=p=>p[0].toFixed(1)+" "+p[1].toFixed(1);
+  const dz=t=>(1-1/(1+6*t))/(1-1/7);           /* 원근 간격 */
+  const VP=[200,400];
+  /* 지붕: 가까운 용마루/처마 → 먼 박공 */
+  const nR=[200,-460],fR=[200,150],nL=[-300,250],fL=[60,236],nRt=[700,250],fRt=[340,236];
+  const plane=(nE,fE,cls)=>{let o=`<path d="M${f(nR)} L${f(fR)} L${f(fE)} L${f(nE)}Z" fill="url(#rg${cls})"/>`;
+    let g="";for(let i=1;i<14;i++){const d=dz(i/14);g+=`M${f(P(nR,fR,d))} L${f(P(nE,fE,d))} `}
+    for(let j=1;j<10;j++){const s=j/10;g+=`M${f(P(nR,nE,s))} L${f(P(fR,fE,s))} `}
+    o+=`<path d="${g}" stroke="${PAL.iron}" stroke-width="1.1" fill="none" opacity=".28"/>`;
+    let ribs="";[.18,.42,.62,.78].forEach(t=>{const d=dz(t);ribs+=`M${f(P(nR,fR,d))} L${f(P(nE,fE,d))} `});
+    o+=`<path d="${ribs}" stroke="${PAL.iron}" stroke-width="5" fill="none"/>`;return o};
+  const lamps=[.12,.3,.46,.6,.72,.82].map((t,i)=>{const d=dz(t),side=i%2?nRt:nL,sideF=i%2?fRt:fL;
+    const top=P(P(nR,side,.34),P(fR,sideF,.34),d), r=Math.max(1.6,7*(1-d)+1.4), y=top[1]+r*7;
+    return `<path d="M${f(top)} V${y.toFixed(1)}" stroke="${PAL.iron}" stroke-width="${Math.max(.6,r*.25).toFixed(2)}"/><circle cx="${top[0].toFixed(1)}" cy="${y.toFixed(1)}" r="${(r*3.2).toFixed(1)}" fill="url(#lg)" opacity="${night?1:.55}"/><circle cx="${top[0].toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="#FFF3C8"/>`}).join("");
+  /* 양쪽 벽 */
+  const wall=(nT,fT,nB,fB)=>{let o=`<path d="M${f(nT)} L${f(fT)} L${f(fB)} L${f(nB)}Z" fill="url(#sbk2)"/><path d="M${f(nT)} L${f(fT)} L${f(fB)} L${f(nB)}Z" fill="url(#wsh)"/>`;
+    for(let i=0;i<9;i++){const d=dz(i/9),a=P(nT,fT,d),b=P(nB,fB,d),w=Math.max(1.2,14*(1-d));
+      o+=`<path d="M${f(a)} L${f(b)}" stroke="#E6D3B4" stroke-width="${w.toFixed(1)}" opacity=".55"/>`;
+      if(i%2===1){const c=P(a,b,.3),r=Math.max(1.5,8*(1-d));o+=`<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="${(r*3).toFixed(1)}" fill="url(#lg)" opacity="${night?.95:.5}"/><circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="${r.toFixed(1)}" fill="#FFF0C0"/>`}}
+    o+=`<path d="M${f(P(nT,nB,.12))} L${f(P(fT,fB,.12))}" stroke="#7A4A33" stroke-width="3"/>`;return o};
+  /* 오른쪽 열차 */
+  const tN=[530,214],tF=[300,343],bN=[530,712],bF=[300,398];
+  const tp=(d,v)=>P(P(tN,bN,v),P(tF,bF,v),d);
+  const quad=(d0,d1,v0,v1,fill,extra="")=>`<path d="M${f(tp(d0,v0))} L${f(tp(d1,v0))} L${f(tp(d1,v1))} L${f(tp(d0,v1))}Z" fill="${fill}" ${extra}/>`;
+  let train=quad(0,1,0,1,"#23392C")+quad(0,1,0,.06,"#1A2A21")+quad(0,1,.1,.44,"#EFE3C8")+quad(0,1,.46,.49,"#C9A55C");
+  for(let i=0;i<16;i++){const d0=dz(i/16)+.004,d1=dz((i+.62)/16);train+=quad(d0,d1,.15,.38,night?"#F6CF86":sun?"#F3C79A":"#BFD3DA",`stroke="#8A6A2E" stroke-width=".8"`)}
+  for(let i=0;i<4;i++){const d=dz((i*4+2.8)/16);train+=quad(d,d+.012*(1-d)+.004,.12,.94,"#1A2A21")}
+  train+=`<path d="M${f(tF)} L316 345 L316 398 L${f(bF)}Z" fill="#1A2A21"/><circle cx="309" cy="388" r="2" fill="#FFF0C0"/>`;
+  /* 바닥: 타일 줄 + 노란 점자블록 */
+  let floor=`<rect x="0" y="400" width="400" height="360" fill="url(#sfl2)"/>`;
+  let fl="";for(let i=1;i<10;i++){const d=dz(i/10),y=L(760,400,d);fl+=`M0 ${y.toFixed(1)} H400 `}
+  for(let i=-6;i<=10;i++){fl+=`M${(i*60).toFixed(0)} 760 L${(200+(i*60-200)*.04).toFixed(1)} 400 `}
+  floor+=`<path d="${fl}" stroke="rgba(0,0,0,.07)" stroke-width="1" fill="none"/>`;
+  floor+=`<path d="M290 400 L262 400 L230 760 L300 760Z" fill="none"/><path d="M286 400 L408 760" stroke="#E8C84E" stroke-width="10" stroke-dasharray="none" opacity=".9"/><path d="M286 400 L408 760" stroke="rgba(0,0,0,.25)" stroke-width="10" stroke-dasharray="2 4" opacity=".4"/>`;
+  floor+=`<path d="M298 400 L470 760" stroke="#E9E2D0" stroke-width="2" opacity=".5"/>`;
+  /* 먼 곳 풍경 (아치 너머) */
+  const stars=night?`<g fill="#fff">${Array.from({length:42},(_,i)=>`<circle cx="${(i*67)%400}" cy="${(i*41)%260+10}" r="${i%5?0.7:1.3}" opacity="${.4+(i%4)*.15}"/>`).join("")}</g><circle cx="246" cy="244" r="16" fill="url(#lg)" opacity=".5"/><circle cx="246" cy="244" r="8" fill="#F4EBCF"/>`:"";
+  const farScape=tm==="morning"
+    ?`<path d="M80 392 Q120 360 160 378 Q200 352 240 374 Q280 356 320 380 V400 H80Z" fill="${PAL.far}" opacity=".7"/><path d="M80 398 Q140 380 200 392 Q260 382 320 396 V400 H80Z" fill="#8FA3B0" opacity=".7"/><ellipse cx="200" cy="384" rx="140" ry="12" fill="#FFF6E2" opacity=".55"/>`
+    :sun?`<circle cx="200" cy="380" r="70" fill="url(#sung)"/><circle cx="200" cy="384" r="22" fill="#FFE2A6"/><path d="M80 400 V384 H96 V372 H112 V386 H128 V366 H144 V380 H162 V370 H178 V388 H222 V374 H240 V364 H256 V382 H272 V370 H288 V386 H320 V400Z" fill="${PAL.far}"/>`
+    :`<path d="M80 400 V378 H94 V360 H108 V372 H124 V352 H142 V368 H160 V346 H178 V374 H200 V356 H220 V370 H238 V344 H254 V366 H272 V354 H290 V372 H320 V400Z" fill="${PAL.far}"/><g fill="#F2C97A">${Array.from({length:26},(_,i)=>`<rect x="${98+(i*37)%214}" y="${360+(i*13)%34}" width="2.4" height="2.4" opacity="${.6+(i%3)*.2}"/>`).join("")}</g>`;
+  /* 먼 박공 벽 + 아치 창 */
+  const arch=`M88 300 A112 112 0 0 1 312 300 V400 H88Z`;
+  let farWall=`<path d="M60 236 L200 150 L340 236 V400 H60Z ${arch}" fill="${PAL.iron}" fill-rule="evenodd"/>`;
+  let mull="";for(let a=180;a<=360;a+=15){const r=rad(a);mull+=`M${(200+46*Math.cos(r)).toFixed(1)} ${(300+46*Math.sin(r)).toFixed(1)} L${(200+112*Math.cos(r)).toFixed(1)} ${(300+112*Math.sin(r)).toFixed(1)} `}
+  farWall+=`<path d="${mull}" stroke="${PAL.iron}" stroke-width="1.2" opacity=".4"/><path d="M154 300 A46 46 0 0 1 246 300" stroke="${PAL.iron}" stroke-width="3" fill="none"/>
+    <path d="M88 300 A112 112 0 0 1 312 300" stroke="${PAL.iron}" stroke-width="5" fill="none"/><path d="M84 300 H316" stroke="${PAL.iron}" stroke-width="6"/>
+    <g fill="none" stroke="${PAL.iron}" stroke-width="5">${[0,1,2].map(i=>{const x0=88+i*74.67,x1=x0+74.67;return `<path d="M${x0.toFixed(1)} 352 Q${((x0+x1)/2).toFixed(1)} 314 ${x1.toFixed(1)} 352"/>`}).join("")}</g>
+    <path d="M162.7 352 V400 M237.3 352 V400" stroke="${PAL.iron}" stroke-width="7"/>
+    <g stroke="${PAL.iron}" stroke-width="1" opacity=".4">${[100,112,124,136,148,174,186,198,210,222,250,262,274,286,298].map(x=>`<path d="M${x} 300 V${x<162||x>238?330:322}"/>`).join("")}</g>
+    <path d="M70 252 L200 172 L330 252" stroke="${PAL.iron}" stroke-width="3" fill="none" opacity=".8"/>`;
+  const people=(night?"#0B0E12":"#2A2624");
+  const ppl=[[78,378,.18],[96,382,.2],[248,388,.12]].map(([x,y,s])=>`<g transform="translate(${x} ${y}) scale(${s*5})" fill="${people}"><circle cx="0" cy="-12" r="2.4"/><path d="M-3 -9 H3 L3.4 2 H1 L.6 10 H-.6 L-1 2 H-3.4Z"/></g>`).join("");
   return `<svg class="st-bg" viewBox="0 0 400 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
   <defs>
-    <pattern id="sbk" width="20" height="10" patternUnits="userSpaceOnUse"><rect width="20" height="10" fill="#9E5638"/><path d="M0 .5H20 M0 5.5H20 M10 0V5 M0 5V10 M20 5V10" stroke="#743A23" stroke-width="1"/><rect x="1" y="1" width="8" height="3.6" fill="rgba(255,200,150,.09)"/></pattern>
-    <pattern id="smul" width="20" height="18" patternUnits="userSpaceOnUse" x="90"><rect width="20" height="18" fill="none" stroke="#3B3E3A" stroke-width="1.4"/></pattern>
-    <linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>
-    <linearGradient id="sfl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFC7B6"/><stop offset="1" stop-color="#A69C88"/></linearGradient>
-    <linearGradient id="sbm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${night?"rgba(255,226,160,.25)":"rgba(255,240,205,.5)"}"/><stop offset="1" stop-color="rgba(255,240,205,0)"/></linearGradient>
-    <radialGradient id="sgl"><stop offset="0" stop-color="#FFF7DE"/><stop offset=".45" stop-color="#FFE3A0"/><stop offset="1" stop-color="rgba(255,227,160,0)"/></radialGradient>
+    <linearGradient id="ssky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${PAL.sky[0]}"/><stop offset=".6" stop-color="${PAL.sky[1]}"/><stop offset="1" stop-color="${PAL.sky[2]}"/></linearGradient>
+    <linearGradient id="rgL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${PAL.glass}"/><stop offset="1" stop-color="${PAL.glass2}"/></linearGradient>
+    <linearGradient id="rgR" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${PAL.glass}"/><stop offset="1" stop-color="${PAL.glass2}"/></linearGradient>
+    <linearGradient id="sfl2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${PAL.floor[0]}"/><stop offset="1" stop-color="${PAL.floor[1]}"/></linearGradient>
+    <linearGradient id="wsh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(0,0,0,.35)"/><stop offset=".5" stop-color="rgba(0,0,0,.05)"/><stop offset="1" stop-color="rgba(0,0,0,.4)"/></linearGradient>
+    <radialGradient id="lg"><stop offset="0" stop-color="rgba(255,236,180,.9)"/><stop offset="1" stop-color="rgba(255,236,180,0)"/></radialGradient>
+    <radialGradient id="sung"><stop offset="0" stop-color="rgba(255,226,160,.95)"/><stop offset="1" stop-color="rgba(255,180,110,0)"/></radialGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${PAL.ray}"/><stop offset="1" stop-color="rgba(255,240,205,0)"/></linearGradient>
+    <pattern id="sbk2" width="14" height="7" patternUnits="userSpaceOnUse"><rect width="14" height="7" fill="${PAL.wall}"/><path d="M0 .5H14 M7 0V3.5 M0 3.5H14 M0 3.5V7 M14 3.5V7" stroke="rgba(0,0,0,.22)" stroke-width=".8"/></pattern>
     <linearGradient id="vel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7E2B2B"/><stop offset="1" stop-color="#4A1616"/></linearGradient>
   </defs>
-  <rect width="400" height="760" fill="url(#sbk)"/>
-  <!-- 큰 아치 창 (어메니티 뒤 역광) -->
-  <path d="M54 318 V178 A146 146 0 0 1 346 178 V318" fill="none" stroke="#C26A45" stroke-width="12"/>
-  <path d="M86 314 V178 A114 114 0 0 1 314 178 V314Z" fill="url(#ssky)"/>
-  ${night?`<g fill="#fff" opacity=".7">${Array.from({length:30},(_,i)=>`<circle cx="${96+(i*53)%210}" cy="${90+(i*37)%180}" r="${i%4?0.8:1.4}"/>`).join("")}</g><path d="M90 300 V280 H110 V262 H128 V284 H150 V256 H170 V290 H196 V270 H220 V286 H246 V250 H262 V280 H290 V266 H310 V300Z" fill="#14202E"/><g fill="#F2C97A">${Array.from({length:14},(_,i)=>`<rect x="${100+i*15}" y="${276+(i%3)*6}" width="3" height="3"/>`).join("")}</g>`:""}
-  <path d="M86 314 V178 A114 114 0 0 1 314 178 V314Z" fill="url(#smul)"/>
-  <path d="M86 178 A114 114 0 0 1 314 178" fill="none" stroke="#2F322F" stroke-width="5"/>
-  <path d="M200 64 V314 M144 80 V314 M256 80 V314 M86 240 H314" stroke="#2F322F" stroke-width="4"/>
-  <!-- 시계 -->
-  <g transform="translate(200 132)"><circle r="16" fill="#2F322F"/><circle r="13.5" fill="#FBF5E4"/><g stroke="#2A2620" stroke-width="1">${ticks}</g>
-    <line class="hh" y1="1.5" y2="-6.5" stroke="#2A2620" stroke-width="2" stroke-linecap="round"/><line class="mh" y1="2" y2="-10.5" stroke="#2A2620" stroke-width="1.4" stroke-linecap="round"/></g>
-  <!-- 코니스 -->
-  <rect x="0" y="312" width="400" height="7" fill="#C26A45"/><g fill="#C26A45">${teeth}</g>
-  <!-- 아래 패널 -->
-  <rect x="0" y="330" width="400" height="160" fill="#3E4A44"/>
-  <g fill="#2B342E"><rect x="300" y="350" width="46" height="140"/></g>
-  <g fill="${night?"#F2C97A":"#E9E2CF"}" opacity=".9"><rect x="306" y="358" width="15" height="48"/><rect x="325" y="358" width="15" height="48"/></g>
-  <rect x="122" y="348" width="156" height="30" fill="#E9DFC6" stroke="#B8913E" stroke-width="3"/>
-  <text x="200" y="361" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="9" letter-spacing="1.6" fill="#2B342E">${S.en}</text>
-  <text x="200" y="373" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-size="8" fill="#5A4A2E">${S.km} · 어메니티 수령 정차역</text>
-  <!-- 철골 유리 지붕 -->
-  <rect x="0" y="0" width="400" height="48" fill="#2B2A28"/>
-  <g fill="${night?"rgba(160,180,210,.35)":"rgba(255,244,214,.55)"}">${Array.from({length:5},(_,i)=>`<rect x="${46+i*80}" y="8" width="28" height="10"/>`).join("")}</g>
-  <path d="${truss}" fill="none" stroke="#1C1B1A" stroke-width="3"/><rect x="0" y="46" width="400" height="4" fill="#8A6A2E"/>
-  <!-- 빛줄기 -->
-  <path class="beams" d="M100 314 L30 760 L180 760 L190 314Z M210 314 L230 760 L380 760 L300 314Z" fill="url(#sbm)"/>
-  <!-- 바닥 -->
-  <rect x="0" y="490" width="400" height="270" fill="url(#sfl)"/>
-  <path d="M0 540 H400 M0 610 H400 M0 700 H400" stroke="rgba(0,0,0,.06)" stroke-width="1.5"/>
-  <path d="M0 490 H400" stroke="#E8C84E" stroke-width="5" stroke-dasharray="18 18"/>
-  <!-- 정차 중인 객차 (왼쪽) -->
-  <g><rect x="-70" y="250" width="118" height="200" rx="10" fill="#23392C"/><rect x="-70" y="250" width="118" height="70" rx="10" fill="#EFE3C8"/><rect x="-70" y="316" width="118" height="4" fill="#C9A55C"/>
-    <rect x="-60" y="266" width="44" height="38" rx="5" fill="${night?"#F2C97A":"#FFE6A6"}" stroke="#8A6A2E" stroke-width="2"/><rect x="-6" y="266" width="44" height="38" rx="5" fill="${night?"#F2C97A":"#FFE6A6"}" stroke="#8A6A2E" stroke-width="2"/>
-    <rect x="-60" y="266" width="44" height="10" fill="#F4EEDF"/><rect x="-6" y="266" width="44" height="10" fill="#F4EEDF"/>
-    <text x="-10" y="360" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="9" letter-spacing="1.5" fill="#E3C47F">FITNESS CAR</text>
-    <rect x="-70" y="410" width="118" height="3" fill="#C9A55C"/><circle cx="20" cy="452" r="12" fill="#14181A"/><circle cx="-14" cy="452" r="12" fill="#14181A"/></g>
-  <!-- 가로등 -->
-  <g><rect x="372" y="150" width="6" height="340" fill="#1F1E1C"/><circle cx="375" cy="134" r="34" fill="url(#sgl)"/><circle cx="375" cy="134" r="11" fill="#FFF6DA"/><rect x="364" y="480" width="22" height="12" fill="#1F1E1C"/></g>
-  <g><rect x="62" y="170" width="5" height="320" fill="#1F1E1C"/><circle cx="64" cy="156" r="28" fill="url(#sgl)"/><circle cx="64" cy="156" r="9" fill="#FFF6DA"/></g>
-  ${bench(296)}${planter(258)}${planter(76)}
-  <!-- 어메니티 진열대: 벨벳 천 + 황동 테두리 -->
-  <ellipse cx="200" cy="520" rx="128" ry="16" fill="rgba(0,0,0,.2)"/>
+  <rect width="400" height="760" fill="url(#ssky2)"/>${stars}
+  ${farScape}
+  ${floor}
+  ${farWall}
+  ${plane(nL,fL,"L")}${plane(nRt,fRt,"R")}
+  ${wall(nL,fL,[-300,1100],[60,400])}${wall(nRt,fRt,[700,1100],[340,400])}
+  <path d="M88 300 L-20 760 L170 760 L180 300Z M210 300 L250 760 L330 760 L290 340Z" fill="url(#ray)" class="beams"/>
+  ${ppl}
+  ${train}
+  ${lamps}
+  <rect width="400" height="760" fill="${PAL.tint}"/>
+  ${night?`<ellipse cx="200" cy="600" rx="150" ry="60" fill="url(#lg)" opacity=".35"/>`:""}
+  <!-- 어메니티 진열대 -->
+  <ellipse cx="200" cy="520" rx="128" ry="16" fill="rgba(0,0,0,.22)"/>
   <path d="M90 438 H310 L318 508 H82Z" fill="url(#vel)"/>
   <path d="M86 438 H314" stroke="#C9A55C" stroke-width="5" stroke-linecap="round"/>
   <path d="M96 444 Q110 470 104 504 M140 444 Q150 476 144 506 M200 444 Q206 478 200 508 M260 444 Q252 476 258 506 M304 444 Q292 470 298 504" stroke="rgba(0,0,0,.18)" stroke-width="2" fill="none"/>
   <path d="M82 508 H318" stroke="#8A6A2E" stroke-width="3"/>
-  ${night?"":`<rect x="0" y="0" width="400" height="760" fill="${S.tint||"transparent"}"/>`}
-  ${night?`<rect x="0" y="0" width="400" height="760" fill="rgba(14,22,40,.42)"/><circle cx="375" cy="134" r="40" fill="url(#sgl)"/><circle cx="64" cy="156" r="32" fill="url(#sgl)"/>`:""}
 </svg>`;
 }
+function hangSign(S,n){
+  const nums=Array.from({length:12},(_,i)=>{const a=rad((i+1)*30-90);return `<text x="${(36*Math.cos(a)).toFixed(1)}" y="${(36*Math.sin(a)+4).toFixed(1)}" text-anchor="middle" font-size="11" font-family="Arial,Helvetica,sans-serif" fill="#1A1A1A">${i+1}</text>`}).join("");
+  const ticks=Array.from({length:60},(_,i)=>`<line y1="-45" y2="${i%5?-42.5:-41}" transform="rotate(${i*6})" stroke="${i%5?"#B5332B":"#1A1A1A"}" stroke-width="${i%5?.9:1.6}"/>`).join("");
+  const big=S.name.length>5?20:26;
+  return `<svg viewBox="0 0 240 196" aria-hidden="true"><defs>
+    <linearGradient id="hsw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A2A1E"/><stop offset=".5" stop-color="#2A1D14"/><stop offset="1" stop-color="#1C130D"/></linearGradient>
+    <linearGradient id="hsb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9CF8E"/><stop offset=".5" stop-color="#A9823E"/><stop offset="1" stop-color="#6E5022"/></linearGradient>
+    <radialGradient id="hsf" cx=".45" cy=".4"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".8" stop-color="#F3F0E8"/><stop offset="1" stop-color="#D9D4C8"/></radialGradient></defs>
+    <!-- 체인 -->
+    <g stroke="#1C1B1A" stroke-width="2.2" fill="none">${[34,206].map(x=>Array.from({length:4},(_,i)=>`<ellipse cx="${x}" cy="${-14+i*8}" rx="2.2" ry="4.2"/>`).join("")).join("")}</g>
+    <!-- 안내판 -->
+    <rect x="8" y="14" width="224" height="66" rx="2" fill="#120C08"/>
+    <rect x="12" y="18" width="216" height="58" fill="url(#hsw)"/>
+    <path d="M12 26 H228 M12 68 H228" stroke="rgba(255,255,255,.06)"/><rect x="12" y="18" width="216" height="58" fill="none" stroke="#8A6A2E" stroke-width="1.2"/>
+    <text x="120" y="31" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7.5" letter-spacing="2" fill="#C9B48A">${n} / ${TOTAL}칸 정차</text>
+    <text x="120" y="${big>22?59:56}" text-anchor="middle" font-family="Nanum Myeongjo,Georgia,serif" font-weight="800" font-size="${big}" letter-spacing="2" fill="#F4EEDF">${S.name}</text>
+    <text x="120" y="71.5" text-anchor="middle" font-family="Gloock,Georgia,serif" font-size="8.5" letter-spacing="2.4" fill="#E3D3AE">${S.en}</text>
+    <!-- 브래킷 -->
+    <path d="M110 80 H130 L126 92 H114 Z" fill="url(#hsb)"/><rect x="116" y="92" width="8" height="6" fill="#6E5022"/>
+    <!-- 역 시계 -->
+    <g transform="translate(120 146)">
+      <circle r="51" fill="url(#hsb)"/><circle r="48" fill="#2A2420"/><circle r="46.5" fill="url(#hsf)"/>
+      <g>${ticks}</g>${nums}
+      <text y="-13" text-anchor="middle" font-size="4" font-family="Arial,sans-serif" letter-spacing=".8" fill="#555">GRAN SEOUL EXP.</text>
+      <text y="22" text-anchor="middle" font-size="4" font-family="Arial,sans-serif" letter-spacing=".8" fill="#777">SEOUL · 7F</text>
+      <line class="hh" y1="5" y2="-22" stroke="#111" stroke-width="3.6" stroke-linecap="round"/>
+      <line class="mh" y1="6" y2="-35" stroke="#111" stroke-width="2.4" stroke-linecap="round"/>
+      <g class="sh"><line y1="9" y2="-38" stroke="#B5332B" stroke-width=".9"/><circle cy="-30" r="2" fill="#B5332B"/></g>
+      <circle r="3" fill="#111"/><circle r="1.2" fill="#B5332B"/>
+      <ellipse cx="-14" cy="-20" rx="22" ry="12" fill="#fff" opacity=".18" transform="rotate(-30 -14 -20)"/>
+    </g></svg>`}
 let recv={};
 function showStation(n){
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   host.innerHTML=`<section class="station" style="--st-bg:${S.bg}" aria-label="${S.name} 정차">
     ${stationBg(S)}
-    <div class="st-sign"><div class="km">${n} / 12칸 정차</div><b>${S.name}</b><div class="en">${S.en}</div></div>
+    <div class="st-hang ${S.time}" role="img" aria-label="${S.name} 안내판과 역 시계">${hangSign(S,n)}</div>
     <div class="st-gift">${S.art()}</div>
     <div class="st-card" id="stCard"><div class="eb">AMENITY · ${S.name}</div>
       <h2 id="stTitle">${P.name||"승객"} 님, ${S.name}에 도착했어요</h2>
-      <div class="items">${S.items}<span class="tbd">구성 예시</span></div>
+      <div class="items">해비치 ${S.item} 1개</div>
+      <div class="coll">${ST_ORDER.map(k=>`<span class="${recv[k]||k===n?"on":""} ${k===n?"now":""}">${STATIONS[k].item.split(" ").pop()}</span>`).join("")}</div>
       <p id="stDesc">7층 데스크에서 이 화면을 보여주시면 어메니티를 드려요.</p>
       <div class="acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div></div>
   </section>`;
@@ -1592,12 +2307,13 @@ function showStation(n){
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
     c.style.setProperty("--dx",(Math.random()*80-40)+"px");c.style.setProperty("--r",(Math.random()*720)+"deg");st.appendChild(c)}}
 }
-$("#stBtn").onclick=()=>{const order=[3,6,9,12];const k=+($("#stBtn").dataset.k||0);showStation(order[k%4]);$("#stBtn").dataset.k=k+1};
+$("#stBtn").onclick=()=>{const k=+($("#stBtn").dataset.k||0);showStation(ST_ORDER[k%3]);$("#stBtn").dataset.k=k+1};
 
 function tickClocks(){const d=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Seoul"})),h=d.getHours()%12,m=d.getMinutes();
   document.querySelectorAll(".hh").forEach(e=>e.setAttribute("transform",`rotate(${h*30+m/2})`));
-  document.querySelectorAll(".mh").forEach(e=>e.setAttribute("transform",`rotate(${m*6})`))}
-tickClocks(); setInterval(tickClocks,15000);
+  document.querySelectorAll(".mh").forEach(e=>e.setAttribute("transform",`rotate(${m*6+d.getSeconds()/10})`));
+  document.querySelectorAll(".sh").forEach(e=>e.setAttribute("transform",`rotate(${d.getSeconds()*6})`))}
+tickClocks(); setInterval(tickClocks,1000);
 const toast=m=>{let t=document.getElementById("toast2");if(!t){t=document.createElement("div");t.id="toast2";t.style.cssText="position:absolute;left:50%;bottom:30%;transform:translateX(-50%);z-index:20;background:#1C2236;color:#F1E6CB;padding:10px 14px;border-radius:6px;font-size:13px;max-width:86%;text-align:center;box-shadow:0 10px 24px rgba(0,0,0,.4)";$("#stage").appendChild(t)}
   t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(()=>t.hidden=true,2600)};
 function openReader(kind){
@@ -1612,6 +2328,62 @@ function openReader(kind){
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){const r=document.querySelector(".reader");if(r)r.remove()}});
+
+/* ── 마이 티켓: 손으로 티켓을 꺼내 진행상황 보여주기 */
+const MHDEF=`<defs><linearGradient id="mhs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E4E0D5"/><stop offset=".55" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DAD5C8"/></linearGradient>
+  <linearGradient id="mhk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1B2F72"/><stop offset=".5" stop-color="#3556B0"/><stop offset="1" stop-color="#1F3680"/></linearGradient></defs>`;
+/* 뒤: 손바닥·손가락(티켓 뒤) + 소매 */
+const MYHAND_B=`<svg viewBox="0 0 150 200" aria-hidden="true">${MHDEF}
+  <path d="M62 64 Q60 40 68 36 Q76 34 78 46 L80 70 Z M80 62 Q80 36 90 34 Q98 34 98 50 L96 72 Z M96 66 Q98 46 106 46 Q113 48 112 60 L108 82 Z" fill="url(#mhs)" stroke="#C9C3B3" stroke-width="1.3"/>
+  <path d="M50 140 Q42 104 52 78 Q62 62 84 62 Q106 64 110 82 Q114 110 106 140 Z" fill="url(#mhs)" stroke="#C9C3B3" stroke-width="1.3"/>
+  <path d="M72 112 Q84 116 98 110" stroke="#DCD7C8" stroke-width="1.2" fill="none"/>
+  <path d="M48 136 Q44 170 40 200 H120 Q114 170 108 136 Z" fill="url(#mhk)"/>
+  <path d="M46 134 H110 L112 152 H44 Z" fill="#24408F"/><path d="M45 136 H111" stroke="#D9B565" stroke-width="2.6"/><path d="M46 156 L78 172 L110 156" stroke="#D9B565" stroke-width="2.4" fill="none"/><path d="M47 140 V200 M109 140 V200" stroke="#D9B565" stroke-width="1.4"/><circle cx="96" cy="182" r="3.6" fill="#E9CF8E" stroke="#8A6A2E" stroke-width=".8"/>
+</svg>`;
+/* 앞: 티켓을 집은 엄지 */
+const MYHAND_F=`<svg viewBox="0 0 150 200" aria-hidden="true">${MHDEF}
+  <path d="M54 120 Q42 100 48 78 Q54 58 66 54 Q76 52 78 60 Q78 70 70 78 Q64 92 70 112 Z" fill="url(#mhs)" stroke="#C9C3B3" stroke-width="1.3"/>
+  <path d="M66 57 Q73 56 76 61" stroke="#C9C3B3" stroke-width="1" fill="none"/><ellipse cx="70" cy="60" rx="4.5" ry="3" fill="#FFFFFF" opacity=".8"/>
+</svg>`;
+function myTicketHTML(){
+  const tday=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
+  const holes=Array.from({length:TOTAL},(_,i)=>`<i class="${i<total?"on":""}"></i>`).join("");
+  const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"✓":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
+  const am=ST_ORDER.map(k=>{const S=STATIONS[k],got=recv[k],ready=!got&&total>=k;
+    return `<div class="${got?"got":ready?"ready":""}"><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능":`${k-total}칸 남음`}</em></div>`}).join("");
+  const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
+  return `<div class="mtk" role="document" aria-label="나의 승차권">
+    <div class="h"><span>MY TICKET</span><span>GSX · 2026.11</span></div>
+    <div class="t">Train Ticket</div><div class="st">Fitness journey · 7F Gran Seoul</div>
+    <div class="grid">
+      <div><div class="k">PASSENGER</div><div class="v">${P.name||"승객"}</div></div>
+      <div><div class="k">TICKET NO.</div><div class="v" style="font-family:var(--f-mono);font-size:13px">${P.no||"GSX-1101-0000"}</div></div>
+      <div><div class="k">동행 승객 PARTNER</div><div class="v">${P.mate||"—"}</div></div>
+      <div><div class="k">함께한 기록</div><div class="v" style="font-size:13px">${partner}</div></div>
+    </div>
+    <div class="sec"><span>PUNCH · 승차 확인</span><b>${total} / ${TOTAL}칸</b></div>
+    <div class="holes">${holes}</div>
+    <div class="cars">${cars}</div>
+    <div class="dash"></div>
+    <div class="sec"><span>AMENITY · 어메니티 수령</span><b>${Object.keys(recv).length} / 3</b></div>
+    <div class="am">${am}</div>
+    <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주 🎉":`종착역까지 ${TOTAL-total}칸`}</div></div>
+  </div>`}
+function showMyTicket(){
+  const el=document.createElement("div"); el.className="myt"; el.setAttribute("role","dialog"); el.setAttribute("aria-label","마이 티켓");
+  el.innerHTML=`<div><div class="lift">${myTicketHTML()}<div class="mhand back">${MYHAND_B}</div><div class="mhand front">${MYHAND_F}</div></div>
+    <div class="acts"><button type="button" class="cl">닫기</button><button type="button" class="rs">기록 초기화</button></div></div>`;
+  $("#stage").appendChild(el);
+  const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
+  el.onclick=e=>{if(e.target===el)close()};
+  el.querySelector(".cl").onclick=close;
+  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};P.pmode="";$("#layer").hidden=true;render();close()};
+  if(reduce){el.classList.add("on","set");return}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
+  setTimeout(()=>el.classList.add("set"),950);
+  el.querySelector(".cl").focus({preventScroll:true});
+}
+$("#myTk").onclick=showMyTicket;
 
 showIntro();
 </script>
