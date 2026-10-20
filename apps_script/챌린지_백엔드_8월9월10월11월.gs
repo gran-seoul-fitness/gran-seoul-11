@@ -4,8 +4,8 @@
  * 【이번 업데이트: 11월 열차 사이트(gran-seoul-fitness/gran-seoul-11) 추가】
  * - 11월 사이트는 요청에 month: "11월" 을 보내요. 그 요청만 새 11월 분기로 들어가
  *   "11월 stamps"/"11월 요약" 탭에 기록돼요. 8·9·10월 코드/탭은 그대로예요.
- * - 팀 승차권(두 사람이 한 장을 함께 채움), 팀 기준 하루 1칸, 어메니티 받을 사람 기록,
- *   "팀 기록 불러오기"(GET ?month=11월&team=...)를 지원해요.
+ * - 하루 1칸 제한, 어메니티 수령일 기록, "내 기록 불러오기"(GET ?month=11월&team=...),
+ *   "탑승 순위"(GET ?month=11월&rank=1&name=..., 이름은 김*조 처럼 가려서)를 지원해요.
  * - 적용 방법은 아래와 같아요: 통째로 붙여넣기 → 저장 → 배포 관리에서 "새 버전"으로 배포
  *   (웹앱 주소 그대로 유지 · 10월 사이트는 아무 조치 필요 없음)
  *
@@ -1157,6 +1157,39 @@ function handleNovemberGet(team) {
   return { stamps: stamps, members: members, amenities: amenities };
 }
 
+// 이름 가리기: 김은조 → 김*조, 이수 → 이*, 남궁민수 → 남**수 (입주사는 보내지 않아요)
+function novemberMask(name) {
+  const n = novemberShort(name).trim();
+  if (n.length <= 1) return n + "*";
+  if (n.length === 2) return n[0] + "*";
+  return n[0] + "*".repeat(n.length - 2) + n[n.length - 1];
+}
+
+// 탑승 순위: "11월 요약" 탭의 달성 칸으로 순위를 매겨요. 이름은 가려서 보내요.
+// 같은 칸 수면 같은 순위예요(1, 2, 2, 4 …). me를 주면 그 사람의 순위도 알려줘요.
+function handleNovemberRanking(me, limit) {
+  const summary = getOrCreateNovemberSummarySheet();
+  const lastRow = summary.getLastRow();
+  const list = [];
+  if (lastRow >= 2) {
+    const vals = summary.getRange(2, 1, lastRow - 1, NOVEMBER_COL.done).getDisplayValues();
+    vals.forEach((r) => {
+      const count = parseInt(String(r[NOVEMBER_COL.done - 1]).split("/")[0], 10);
+      if (r[0] && count > 0) list.push({ key: normalizeName(r[0]), name: novemberMask(r[0]), count: count });
+    });
+  }
+  list.sort((a, b) => b.count - a.count);
+  let rank = 0;
+  list.forEach((x, i) => { if (i === 0 || x.count !== list[i - 1].count) rank = i + 1; x.rank = rank; });
+  const mine = me ? list.find((x) => x.key === normalizeName(me)) : null;
+  return {
+    total: NOVEMBER_TOTAL,
+    riders: list.length,
+    top: list.slice(0, limit || 10).map((x) => ({ rank: x.rank, name: x.name, count: x.count })),
+    me: mine ? { rank: mine.rank, name: mine.name, count: mine.count } : null,
+  };
+}
+
 // 메뉴용: stamps 탭 전체로 요약 칸을 다시 채워요(지우지 않고 칸만 채움).
 function resyncSummaryNovember() {
   const rows = getOrCreateSheetNovember().getDataRange().getValues();
@@ -1251,6 +1284,7 @@ function doGet(e) {
   // 11월 사이트: ?month=11월&team=... 로 팀 기록(칸·팀원·어메니티)을 불러와요.
   if (e && e.parameter && e.parameter.month === "11월") {
     try {
+      if (e.parameter.rank) return jsonResponse(handleNovemberRanking(e.parameter.name, 10));
       return jsonResponse(handleNovemberGet(e.parameter.team || e.parameter.name));
     } catch (err) {
       logError("doGet 11월", err, { name: e.parameter.name });
