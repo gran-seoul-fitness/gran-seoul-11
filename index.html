@@ -862,7 +862,11 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 
 /* 출발 안내판은 창 아래쪽으로 올리고, 오른쪽 벽에 퀴즈 신문을 붙임 */
 .office .flapboard{top:28.6%}
-.wallquiz{position:absolute;left:77.5%;width:17%;top:40.5%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
+/* 매표 부스를 왼쪽으로 조금 옮겨 퀴즈 신문 자리를 넓힘 */
+.booth5{left:20%;right:28%}
+.offer-clip{left:33%}
+.office .bell{left:57%}
+.wallquiz{position:absolute;left:74%;width:20%;top:40.5%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
 @keyframes wqSway{50%{transform:rotate(1deg)}}
 .wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 5px 6px;background:linear-gradient(#F7F0DF,#EDE2C8);color:#2A2622;
   box-shadow:0 6px 10px rgba(0,0,0,.35),inset 0 0 0 1px rgba(120,90,50,.18);text-align:center}
