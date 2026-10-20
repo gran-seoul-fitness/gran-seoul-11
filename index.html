@@ -535,6 +535,14 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .kiosk .paper .cols::before{content:"";position:absolute;left:0;top:0;width:44%;height:100%;background:radial-gradient(circle,#3A342C 0 .5px,transparent .75px) 0 0/1.8px 1.8px,#E8DEC4}
 .kiosk .paper .cols::after{content:"";position:absolute;left:49%;top:0;bottom:0;width:.5px;background:#7E7564}
 .kiosk .paper .ft{font-weight:800;color:#8E2B2B;border-top:.5px solid #1E1B17;padding-top:1px}
+/* 신문 글씨가 종이 밖으로 넘치지 않게: 종이 안에서 자르고, 제목은 두 줄까지만, "읽기 →"는 항상 보이게 */
+.kiosk .paper{overflow:hidden}
+.kiosk .paper .hd{font-size:5.8px;line-height:1.1;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;flex-shrink:0;margin-top:1px}
+.kiosk .paper .cols{flex:1 1 0;min-height:0}
+.kiosk .paper .dl{display:none}
+.kiosk .paper.p1 .mast.wl{font-size:3.9px;line-height:1.05}
+.kiosk .paper .ft{font-size:5.6px}
+.kiosk .paper .ft{flex-shrink:0;margin-top:auto;white-space:nowrap;overflow:hidden;text-overflow:clip}
 .office .office-ui .issue-card{padding:13px 14px;gap:8px}
 .office .issue-card .ttl b{font-size:15.5px}
 /* 이름 입력 카드: 밝은 아이보리 종이 (진한 잔노이즈 + 종이 결 + 얼룩 + 가장자리 바램 + 안쪽 테두리) */
@@ -1407,7 +1415,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <g fill="#8C8270"><rect x="25" y="154" width="14" height="2"/><rect x="49" y="156" width="14" height="2"/><rect x="73" y="154" width="14" height="2"/><rect x="97" y="156" width="12" height="2"/></g>
           <circle cx="65" cy="22" r="4" fill="#FFE3A0"/>
         </svg>
-        <button class="paper p1" type="button" id="paper1"><span class="mast wl">WELLNESS<br>LETTER</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
+        <button class="paper p1" type="button" id="paper1"><span class="mast wl">WELLNESS<br>LETTER</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">호흡을<br>제대로<br>하나요?</span><span class="cols"></span><span class="ft">읽기 →</span></button>
         <button class="paper p2" type="button" id="paper2"><span class="mast">GX TIMES</span><span class="dl">NOV 2026 · 7F STUDIO</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
       </div>
 
