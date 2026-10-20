@@ -961,7 +961,8 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .qz-close{background:rgba(244,236,219,.12);border:1px solid rgba(201,165,92,.6);color:#F1E6CB;border-radius:999px;padding:8px 22px;font-size:13px}
 /* 포스터 상태 */
 .wallquiz.done .wq-new,.wallquiz.soon .wq-new,.wallquiz.closed .wq-new{display:none}
-.wq-badge{display:none;position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) rotate(-12deg);z-index:3;padding:2px 5px;border:1.5px double #6C1F24;background:rgba(241,229,200,.92);color:#6C1F24;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;white-space:nowrap}
+/* 상태 도장: 빨간 잉크 고무도장 (잉크 번짐·빠짐 질감) */
+.wq-badge{display:none;position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-9deg);z-index:3;padding:3px 6px 2px;background:#B3261E;color:#F6ECD6;box-shadow:0 0 0 1.5px #B3261E,inset 0 0 0 1px rgba(246,236,214,.7);font-family:"Playfair Display SC","IBM Plex Sans KR",serif;font-weight:700;font-size:9px;letter-spacing:.1em;line-height:1.1;white-space:nowrap;opacity:.92;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");-webkit-mask-size:60px 30px;mask-size:60px 30px;animation:stampIn .45s cubic-bezier(.3,1.7,.5,1)}
 .wallquiz.done .wq-badge,.wallquiz.soon .wq-badge,.wallquiz.closed .wq-badge{display:block}
 
 /* 세로가 짧은 휴대폰: 이름 카드를 납작하게, 퀴즈 신문은 작게 해서 서로 가리지 않게 */
@@ -2475,7 +2476,7 @@ const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
 function paintQuizPoster(){
   const w=$("#wallQuiz"),st=quizState(),done=quizDone();
   w.classList.remove("soon","closed","done");
-  if(done){w.classList.add("done");$("#wqBadge").textContent="✓ 정답 완료"}
+  if(done){w.classList.add("done");$("#wqBadge").textContent="정답 완료"}
   else if(st!=="open"){w.classList.add(st);$("#wqBadge").textContent=st==="soon"?`${md(QUIZ.start)} OPEN`:"CLOSED"}
 }
 function openQuiz(){
