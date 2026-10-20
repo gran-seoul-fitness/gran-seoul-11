@@ -2485,7 +2485,7 @@ const quizCo=()=>P.co||($("#iCo")?.value||"");
 function syncNameToTicket(name){const i=$("#iName");if(i&&!i.value.trim())i.value=name}
 function sendQuizToSheet(name){
   try{fetch(QUIZ_SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:new URLSearchParams({action:"quiz",name,company:quizCo(),vol:QUIZ.sheetVol,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
+    body:new URLSearchParams({action:"quiz",name,company:quizCo(),vol:QUIZ.sheetVol,month:QUIZ.month,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
 }
 function paintQuizPoster(){
   const w=$("#wallQuiz"),st=quizState(),done=quizDone();
