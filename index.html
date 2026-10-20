@@ -887,27 +887,34 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .office .flapboard{top:28.6%}
 /* 매표 부스를 왼쪽으로 조금 옮겨 퀴즈 신문 자리를 넓힘 */
 .booth5{left:20%;right:28%}
+/* 매표 부스 위 갓 조명 3개: 부스 중심(46%) 기준 좌우 대칭, 아래로 은은하게 퍼지는 빛 */
+.sconce{position:absolute;top:calc(47.6% - 13px);width:22px;margin-left:-11px;height:9px;z-index:3;pointer-events:none}
+.sconce.c{left:46%}.sconce.l{left:30%}.sconce.r{left:62%}
+.sconce i{position:absolute;inset:0;background:linear-gradient(#3A2E22,#1E1712);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);box-shadow:0 1px 0 #C9A55C}
+.sconce i::after{content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;background:#FFE7B0;filter:blur(.5px)}
+.sconce::before{content:"";position:absolute;left:50%;top:-16px;width:44px;height:22px;margin-left:-22px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,150,.35),rgba(255,214,150,0));animation:scGlow 4.5s ease-in-out infinite}
+.sconce::after{content:"";position:absolute;left:50%;top:8px;width:84px;height:62px;margin-left:-42px;
+  background:radial-gradient(60% 100% at 50% 0,rgba(255,224,160,.42),rgba(255,224,160,.12) 55%,rgba(255,224,160,0) 80%);
+  clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);mix-blend-mode:screen;animation:scGlow 4.5s ease-in-out infinite}
+@keyframes scGlow{50%{opacity:.75}}
 .offer-clip{left:33%}
 .office .bell{left:57%}
 .wallquiz{position:absolute;left:74%;width:20%;top:39.8%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
 @keyframes wqSway{50%{transform:rotate(1deg)}}
-/* 퀴즈: 빈티지 철도 포스터 (크림 종이 + 네이비 띠 + 햇살 무늬 + 붉은 QUIZ) */
-.wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;padding:4px;text-align:center;color:#1F2F52;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),radial-gradient(130% 90% at 50% 40%,#F6EBCF 55%,#E3CFA2 100%);
-  box-shadow:0 7px 12px rgba(0,0,0,.4),inset 0 0 14px rgba(120,80,30,.35)}
+/* 퀴즈: 버건디 + 아이보리 신문 포스터 */
+.wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;padding:4px;text-align:center;color:#2A1D18;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(110,60,40,.10) 50%,rgba(255,255,255,.22) 51%,transparent 53%),radial-gradient(130% 90% at 50% 40%,#F8F1DF 55%,#E9DCBC 100%);
+  box-shadow:0 7px 12px rgba(0,0,0,.4),inset 0 0 12px rgba(120,80,40,.3)}
 .wallquiz .wq-paper::before,.wallquiz .wq-paper::after{content:"";position:absolute;top:-5px;width:20px;height:9px;background:rgba(232,220,180,.8);box-shadow:0 1px 1px rgba(0,0,0,.15);z-index:2}
 .wallquiz .wq-paper::before{left:-4px;transform:rotate(-28deg)}.wallquiz .wq-paper::after{right:-4px;transform:rotate(28deg)}
-.wq-frame{display:flex;flex-direction:column;align-items:center;width:100%;border:1.5px solid #1F2F52;outline:.5px solid #1F2F52;outline-offset:-4px}
-.wq-top{width:100%;background:#1F2F52;color:#F3E6C4;font-family:var(--f-mono);font-size:5.5px;letter-spacing:.14em;padding:2px 0 1.5px}
-.wq-sun{position:relative;width:100%;aspect-ratio:1.45;display:grid;place-items:center;overflow:hidden;
-  background:repeating-conic-gradient(from 0deg at 50% 62%,#E2B252 0 7deg,#F3E2B4 7deg 14deg)}
-.wq-sun::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 62%,transparent 38%,rgba(246,235,207,.55) 100%)}
-.wq-q{position:relative;z-index:1;display:grid;place-items:center;width:50%;aspect-ratio:1;margin-top:16%;border-radius:50%;background:#1F2F52;box-shadow:0 0 0 2px #F3E6C4,0 0 0 3px #1F2F52;
-  font-family:var(--f-display);font-size:21px;line-height:1;color:#E9C46A}
-.wq-title{font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:19px;line-height:1;letter-spacing:.06em;color:#A8322B;text-shadow:1px 1px 0 #1F2F52;margin:4px 0 1px}
-.wq-hd{font-family:var(--f-kr);font-weight:800;font-size:8.5px;line-height:1.2;color:#1F2F52;padding-bottom:3px}
-.wq-go{width:100%;background:#A8322B;color:#F6EBCF;font-size:7.5px;font-weight:700;padding:2.5px 0}
-.wq-new{position:absolute;right:-8px;top:12px;z-index:3;background:#A8322B;color:#F7F0DF;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;padding:2px 4px;transform:rotate(12deg);box-shadow:0 2px 3px rgba(0,0,0,.3);animation:wqBlink 1.6s ease-in-out infinite}
+.wq-frame{display:flex;flex-direction:column;align-items:center;width:100%;border:1px solid #7A2228;outline:.5px solid #7A2228;outline-offset:-3px;padding-bottom:3px}
+.wq-top{width:100%;background:#7A2228;color:#F6ECD6;font-family:"UnifrakturMaguntia",var(--f-display);font-size:13px;line-height:1.25;padding:2px 0 1px}
+.wq-dl{width:92%;white-space:nowrap;overflow:hidden;font-family:var(--f-mono);font-size:5px;letter-spacing:.06em;color:#7A2228;border-bottom:2.5px double #7A2228;padding:2px 0 1.5px}
+.wq-q{font-family:var(--f-display);font-size:28px;line-height:1;color:#7A2228;margin-top:2px}
+.wq-hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:10px;line-height:1.2;color:#2A1D18;padding:1px 0 3px;width:92%;border-bottom:.6px solid #7A2228}
+.wq-cols{width:92%;height:8px;margin-top:3px;background:linear-gradient(90deg,transparent 48%,#9C8A78 48% 52%,transparent 52%),repeating-linear-gradient(0deg,#B0A08C 0 .7px,transparent .7px 2.6px)}
+.wq-go{width:92%;margin-top:4px;background:#7A2228;color:#F6ECD6;font-size:7.5px;font-weight:700;padding:2.5px 0}
+.wq-new{position:absolute;right:-9px;top:-3px;z-index:3;background:#F6ECD6;color:#7A2228;border:1px solid #7A2228;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;padding:1.5px 4px;transform:rotate(12deg);box-shadow:0 2px 3px rgba(0,0,0,.3);animation:wqBlink 1.6s ease-in-out infinite}
 @keyframes wqBlink{50%{opacity:.55}}
 .wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.5),rgba(255,226,160,0) 70%);pointer-events:none}
 .wallquiz:hover,.wallquiz:focus-visible{animation:none;transform:rotate(0) translateY(-2px)}
@@ -921,7 +928,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
   .office .fld select{font-size:13.5px;padding:2px 18px 2px 0}
   .office .issue-card .btn{padding:9px 16px}
   .wallquiz{top:39.6%;width:18%}
-  .wq-sun{aspect-ratio:1.5}.wq-q{width:46%;font-size:18px;margin-top:14%}.wq-title{font-size:16px;margin-top:3px}.wq-hd{font-size:6.6px;padding-bottom:2px;letter-spacing:-.03em}
+  .wq-top{font-size:11px}.wq-dl{font-size:4.2px}.wq-q{font-size:22px;margin-top:1px}.wq-hd{font-size:8.5px;padding-bottom:2px}.wq-cols{display:none}
 }
 
 
@@ -1181,7 +1188,6 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <rect x="0" y="470" width="400" height="42" fill="#3E4A44"/>
         <!-- 게시판들 -->
         <g><rect x="44" y="372" width="30" height="40" fill="#E9E2CF" stroke="#2F322F" stroke-width="2"/><rect x="48" y="378" width="22" height="3" fill="#8C8270"/><rect x="48" y="384" width="18" height="2" fill="#B5AC98"/><rect x="48" y="389" width="20" height="2" fill="#B5AC98"/><rect x="48" y="394" width="14" height="2" fill="#B5AC98"/></g>
-        <g fill="#FFE3A0"><circle cx="100" cy="364" r="3"/><circle cx="300" cy="364" r="3"/><circle cx="160" cy="364" r="2.5"/><circle cx="240" cy="364" r="2.5"/></g>
         <!-- 바닥 -->
         <rect x="0" y="512" width="400" height="248" fill="url(#fl3)"/>
         <path d="M200 512 L-80 760 M200 512 L480 760 M200 512 L120 760 M200 512 L280 760" stroke="rgba(0,0,0,.07)" stroke-width="1.5"/>
@@ -1248,10 +1254,12 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
         <div class="fb-row" id="fbRow2"></div>
       </div>
 
+      <!-- 매표 부스 위 갓 조명 -->
+      <span class="sconce l" aria-hidden="true"><i></i></span><span class="sconce c" aria-hidden="true"><i></i></span><span class="sconce r" aria-hidden="true"><i></i></span>
       <!-- 오른쪽 벽에 붙인 이달의 퀴즈 신문 -->
       <button class="wallquiz" type="button" id="wallQuiz" aria-label="이달의 퀴즈 열기"><span class="wq-paper"><span class="wq-frame">
-        <span class="wq-top">GRAN SEOUL EXPRESS</span><span class="wq-sun"><span class="wq-q">?</span></span>
-        <span class="wq-title">QUIZ</span><span class="wq-hd">11월 이달의 퀴즈</span><span class="wq-go">풀러 가기 →</span></span>
+        <span class="wq-top">The Quiz</span><span class="wq-dl">VOL.04 · NOV 2026</span>
+        <span class="wq-q">?</span><span class="wq-hd">11월<br>이달의 퀴즈</span><span class="wq-cols"></span><span class="wq-go">풀러 가기 →</span></span>
         <span class="wq-new">NEW</span></span></button>
       <!-- 원목 매표 부스 3칸 -->
       <div class="booth5" aria-label="매표 부스">
