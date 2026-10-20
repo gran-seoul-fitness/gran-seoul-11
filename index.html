@@ -882,6 +882,19 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 @keyframes wqBlink{50%{opacity:.55}}
 .wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.45),rgba(255,226,160,0) 70%);pointer-events:none}
 .wallquiz:hover,.wallquiz:focus-visible{animation:none;transform:rotate(0) translateY(-2px)}
+/* 세로가 짧은 휴대폰: 이름 카드를 납작하게, 퀴즈 신문은 작게 해서 서로 가리지 않게 */
+@media (max-height:720px){
+  .office .office-ui .issue-card{padding:10px 12px;gap:6px}
+  .office .issue-card .ttl{padding-bottom:5px}
+  .office .issue-card .ttl b{font-size:14px;line-height:1.3}
+  .office .issue-card .ttl b br{display:none}
+  .office .fld input{font-size:15px;padding:2px 0}
+  .office .fld select{font-size:13.5px;padding:2px 18px 2px 0}
+  .office .issue-card .btn{padding:9px 16px}
+  .wallquiz{top:39.6%;width:18%}
+  .wallquiz .wq-paper{padding:5px 4px 5px;gap:1px}
+  .wq-mast{font-size:8.5px}.wq-q{font-size:21px;margin-top:0}.wq-hd{font-size:8px}.wq-cols{display:none}
+}
 
 
 
@@ -1280,7 +1293,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
       <form class="office-ui" id="issueForm" autocomplete="off">
         <div class="issue-card">
-          <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>그랑서울 피트니스 열차여행에<br>오신 것을 환영합니다</b></div>
+          <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>그랑서울 피트니스 열차여행에 <br>오신 것을 환영합니다</b></div>
           <div class="row2">
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
             <div class="fld"><label for="iMate">동행 승객 (선택)</label><input id="iMate" maxlength="12" placeholder="동료 이름"></div>
