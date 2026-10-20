@@ -945,6 +945,9 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .qz-q{margin:0;text-align:center;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:21px;line-height:1.4;text-wrap:balance}
 .qz-hint{margin:8px 0 0;text-align:center;font-size:12px;color:#6B5A48}
 .qz-hint button{border:0;background:none;padding:0;color:#6C1F24;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.qz-name{display:block;margin:14px 2px 0}.qz-name span{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;color:#6C1F24}
+.qz-name input{width:100%;border:0;border-bottom:1.5px solid #2A1D18;background:transparent;font:700 17px "Nanum Myeongjo",serif;color:#2A1D18;padding:4px 0}
+.qz-name input:focus{outline:none;border-bottom-color:#6C1F24}.qz-name input::placeholder{color:#B4A88E;font-weight:400}
 .qz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .qz-choice{border:1.5px solid #6C1F24;border-radius:3px;background:rgba(255,250,238,.55);padding:16px 8px 14px;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:22px;color:#2A1D18;transition:transform .15s,background .15s}
 .qz-choice small{display:block;font-family:var(--f-mono);font-weight:400;font-size:9px;letter-spacing:.16em;color:#6C1F24;margin-bottom:4px}
@@ -2462,7 +2465,9 @@ function openReader(kind){
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
 /* ── 이달의 퀴즈 (11월) ─ 매달 아래 값만 바꿔주세요 */
-const QUIZ={id:"gse_quiz_2026_11",vol:"VOL.04",month:"11월",start:"2026-11-01",end:"2026-11-15",
+/* 웰니스레터 스프레드시트 Apps Script 웹앱 (기존 퀴즈 사이트와 같은 주소 · action:"quiz" 로 구분) */
+const QUIZ_SHEET_URL="https://script.google.com/macros/s/AKfycbywp0lF9kWDiSI0GcfiqFS5EOQ0R8nXZ76mVnvSKnTPcQTEWtQDO0lAEdbKbbAyNFl7bQ/exec";
+const QUIZ={id:"gse_quiz_2026_11",vol:"VOL.04",sheetVol:"Vol.04",month:"11월",start:"2026-11-01",end:"2026-11-15",
   q:"횡격막은 막일까요?<br>근육일까요?",choices:["근육","막"],answer:"근육",
   why:"이름에 ‘막’이 붙어 있지만, 횡격막은 가슴과 배 사이를 돔처럼 가로지르는 <b>근육</b>이에요. 숨을 들이쉴 때 아래로 내려가며 폐가 부풀 공간을 만들어 주는, 호흡의 주인공이랍니다."};
 /* 날짜 확인용: 주소 끝에 ?today=2026-11-05 를 붙이면 그 날짜로 보여요 */
@@ -2472,6 +2477,11 @@ const quizState=()=>{const d=quizToday();return d<QUIZ.start?"soon":d>QUIZ.end?"
 const quizDone=()=>{try{if(localStorage.getItem(QUIZ.id))return true}catch(e){}return document.cookie.split("; ").some(c=>c.startsWith(QUIZ.id+"="))};
 const markQuizDone=()=>{const v=new Date().toISOString();try{localStorage.setItem(QUIZ.id,v)}catch(e){}document.cookie=`${QUIZ.id}=1;max-age=${60*60*24*365*5};path=/;SameSite=Lax`};
 const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
+/* 정답자 기록을 시트에 조용히 남김 (기존 퀴즈와 같은 형식: action·name·vol·timestamp). 실패해도 화면엔 영향 없음 */
+function sendQuizToSheet(name){
+  try{fetch(QUIZ_SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:new URLSearchParams({action:"quiz",name,vol:QUIZ.sheetVol,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
+}
 function paintQuizPoster(){
   const w=$("#wallQuiz"),st=quizState(),done=quizDone();
   w.classList.remove("soon","closed","done");
@@ -2488,6 +2498,7 @@ function openQuiz(){
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
   else if(st==="closed") body=`<p class="qz-kick">CLOSED</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>마감되었어요</p><p class="qz-hint">다음 달 퀴즈로 다시 만나요.</p>`;
   else body=`<p class="qz-kick">QUESTION</p><p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
+    <label class="qz-name"><span>이름 NAME</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름을 입력해 주세요" value="${(P.name||"").replace(/"/g,"&quot;")}"></label>
     <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div><p class="qz-msg" id="qzMsg" aria-live="polite"></p>`;
   el.innerHTML=`<div class="qz-paper">${head}<div id="qzBody">${body}</div></div><button type="button" class="qz-close">닫기</button>`;
   const close=()=>{el.remove();paintQuizPoster()};
@@ -2495,7 +2506,9 @@ function openQuiz(){
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelectorAll("[data-letter]").forEach(b=>b.onclick=()=>openReader("letter"));
   el.querySelectorAll(".qz-choice").forEach(b=>b.onclick=()=>{
-    if(b.dataset.c===QUIZ.answer){markQuizDone();el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
+    const nm=el.querySelector("#qzName"),name=nm.value.trim();
+    if(!name){el.querySelector("#qzMsg").textContent="이름을 먼저 입력해 주세요.";nm.focus();return}
+    if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
   $("#stage").appendChild(el);el.querySelector(".qz-close").focus();
 }
