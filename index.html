@@ -884,7 +884,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .office .kiosk{left:auto;right:0;top:55.5%;width:24%}
 
 /* 출발 안내판은 창 아래쪽으로 올리고, 오른쪽 벽에 퀴즈 신문을 붙임 */
-.office .flapboard{top:28.6%}
+.office .flapboard{top:32%}
 /* 매표 부스를 왼쪽으로 조금 옮겨 퀴즈 신문 자리를 넓힘 */
 .booth5{left:20%;right:28%}
 /* 매표 부스 위 갓 조명 3개: 부스 중심(46%) 기준 좌우 대칭, 아래로 은은하게 퍼지는 빛 */
@@ -918,6 +918,20 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 @keyframes wqBlink{50%{opacity:.55}}
 .wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.5),rgba(255,226,160,0) 70%);pointer-events:none}
 .wallquiz:hover,.wallquiz:focus-visible{animation:none;transform:rotate(0) translateY(-2px)}
+/* 벽에 반듯하게 풀로 바른 포스터: 테이프·기울기·흔들림 없이, 조금 더 바랜 톤 + 벽돌 줄눈이 살짝 비침 */
+.wallquiz{transform:none;animation:none;top:41.6%}
+.wq-cols{display:none}
+.wallquiz:hover,.wallquiz:focus-visible{transform:none;filter:brightness(1.06)}
+.wallquiz .wq-paper::before,.wallquiz .wq-paper::after{display:none}
+.wallquiz::before{opacity:.45}
+.wallquiz .wq-paper{color:#2A1D18;box-shadow:0 1px 1.5px rgba(40,20,10,.35),inset 0 0 10px rgba(100,60,30,.35);
+  background:repeating-linear-gradient(0deg,transparent 0 6.6px,rgba(110,60,35,.10) 6.6px 7.4px),
+    linear-gradient(rgba(150,95,55,.16),rgba(120,70,40,.22)),
+    radial-gradient(130% 90% at 50% 40%,#E9DBBA 50%,#D3BF95 100%)}
+.wq-frame,.wq-dl,.wq-hd{border-color:#5E1A1E}.wq-frame{outline-color:#5E1A1E}
+.wq-top,.wq-go{background:#5E1A1E;color:#EADBB8}
+.wq-dl,.wq-q{color:#5E1A1E}
+.wq-new{background:#EADBB8;color:#5E1A1E;border-color:#5E1A1E;transform:rotate(8deg);box-shadow:none}
 /* 세로가 짧은 휴대폰: 이름 카드를 납작하게, 퀴즈 신문은 작게 해서 서로 가리지 않게 */
 @media (max-height:720px){
   .office .office-ui .issue-card{padding:10px 12px;gap:6px}
@@ -927,7 +941,8 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
   .office .fld input{font-size:15px;padding:2px 0}
   .office .fld select{font-size:13.5px;padding:2px 18px 2px 0}
   .office .issue-card .btn{padding:9px 16px}
-  .wallquiz{top:39.6%;width:15%;left:76.5%}
+  .office .flapboard{top:30%}
+  .wallquiz{top:41.2%!important;width:15%;left:76.5%}
   .wq-top{font-size:7.5px}.wq-dl{font-size:3.6px}.wq-q{font-size:18px;margin-top:1px}.wq-hd{font-size:7.5px;padding-bottom:2px}.wq-cols{display:none}
 }
 
