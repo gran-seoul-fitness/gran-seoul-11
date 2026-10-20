@@ -960,6 +960,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .qz-stamp b{display:block;font-family:"Nanum Myeongjo",serif;font-size:19px;letter-spacing:0}
 .qz-ok h3{margin:4px 0 6px;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:19px}
 .qz-ok p{margin:0 0 8px;font-size:13px;line-height:1.65;color:#4A3C30}
+.qz-ok .qz-reward{margin-top:4px;font-weight:800;font-size:14px;color:#2A1D18}
 .qz-close{background:rgba(244,236,219,.12);border:1px solid rgba(201,165,92,.6);color:#F1E6CB;border-radius:999px;padding:8px 22px;font-size:13px}
 /* 포스터 상태 */
 .wallquiz.done .wq-new,.wallquiz.soon .wq-new,.wallquiz.closed .wq-new{display:none}
@@ -2496,7 +2497,7 @@ function openQuiz(){
   const st=quizState(),done=quizDone(),el=document.createElement("div");
   el.className="qz";el.setAttribute("role","dialog");el.setAttribute("aria-label",`${QUIZ.month} 이달의 퀴즈`);
   const head=`<div class="qz-mast">THE QUIZ</div><div class="qz-dl"><span>${QUIZ.vol} · ${QUIZ.month}</span><span>${md(QUIZ.start)} – ${md(QUIZ.end)}</span></div>`;
-  const ok=`<div class="qz-ok"><div class="qz-stamp">CORRECT<b>정답</b>${quizToday().slice(5).replace("-",".")}</div><h3>정답은 ‘${QUIZ.answer}’이에요!</h3><p>${QUIZ.why}</p><p>퀴즈가 마감되는 <b>${md(QUIZ.end)} 이후</b>, <b>7층 데스크</b>에 이 화면을 보여주시면 <b>리워드</b>를 받으실 수 있어요.</p></div>`;
+  const ok=`<div class="qz-ok"><div class="qz-stamp">CORRECT<b>정답</b>${quizToday().slice(5).replace("-",".")}</div><h3>정답은 ‘${QUIZ.answer}’이에요!</h3><p>${QUIZ.why}</p><p class="qz-reward">${md(QUIZ.end)} 이후 7층 데스크에서 리워드를 받아가세요!</p></div>`;
   let body;
   if(done) body=ok;
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
