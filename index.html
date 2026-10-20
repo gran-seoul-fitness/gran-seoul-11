@@ -490,8 +490,31 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .kiosk .paper .mast{font-size:5.4px}
 .kiosk .paper .hd{font-size:7px}
 .kiosk .paper .ft{font-size:6px}
+/* 가판대 신문: 누렇게 바랜 신문지 질감 + 신문 지면 구성 (제호·날짜줄·사진·단·접힌 자국) */
+.kiosk .paper{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(90,70,40,.13) 50%,rgba(255,255,255,.25) 51%,transparent 53%),linear-gradient(#F1E8D2,#E4D7B8);
+  box-shadow:0 3px 6px rgba(0,0,0,.4),inset 0 0 6px rgba(120,90,40,.3);gap:1px;align-items:stretch}
+.kiosk .paper.p2{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(90,70,40,.13) 50%,rgba(255,255,255,.25) 51%,transparent 53%),linear-gradient(#ECE2C8,#DDCFAD)}
+.kiosk .paper>*{flex-shrink:0}.kiosk .paper .cols{flex:1 1 auto;min-height:0}
+.kiosk .paper .mast{font-family:"UnifrakturMaguntia",var(--f-display);font-size:6.4px;letter-spacing:0;text-align:center;border-bottom:2.2px double #1E1B17;padding-bottom:1.5px;line-height:1.35;overflow:visible}
+.kiosk .paper .dl{display:block;font-family:var(--f-mono);font-size:3.4px;letter-spacing:.06em;text-align:center;color:#4A4236;border-bottom:.5px solid #1E1B17;padding-bottom:1px;white-space:nowrap;overflow:hidden}
+.kiosk .paper .hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:7.2px;line-height:1.15;color:#1E1B17;letter-spacing:-.02em}
+.kiosk .paper .cols{position:relative;opacity:1;background:repeating-linear-gradient(0deg,#9C9380 0 .7px,transparent .7px 2.4px)}
+.kiosk .paper .cols::before{content:"";position:absolute;left:0;top:0;width:44%;height:100%;background:radial-gradient(circle,#3A342C 0 .5px,transparent .75px) 0 0/1.8px 1.8px,#E8DEC4}
+.kiosk .paper .cols::after{content:"";position:absolute;left:49%;top:0;bottom:0;width:.5px;background:#7E7564}
+.kiosk .paper .ft{font-weight:800;color:#8E2B2B;border-top:.5px solid #1E1B17;padding-top:1px}
 .office .office-ui .issue-card{padding:13px 14px;gap:8px}
 .office .issue-card .ttl b{font-size:15.5px}
+/* 이름 입력 카드: 밝은 아이보리 종이 (진한 잔노이즈 + 종이 결 + 얼룩 + 가장자리 바램 + 안쪽 테두리) */
+.office .issue-card{position:relative;border-radius:3px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .30 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .35' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .45 0 0 0 0 .30 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    radial-gradient(18px 14px at 8% 88%,rgba(160,110,50,.14),transparent 70%),
+    radial-gradient(26px 20px at 93% 12%,rgba(160,110,50,.11),transparent 70%),
+    radial-gradient(10px 8px at 70% 80%,rgba(160,110,50,.10),transparent 70%),
+    radial-gradient(120% 90% at 50% 35%,#FFFCF2 0%,#FAF3E2 55%,#EEE1C2 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,inset 0 0 22px rgba(150,105,45,.24),0 0 0 1px rgba(150,120,80,.22),0 20px 40px -10px rgba(0,0,0,.6)}
+.office .issue-card::before{content:"";position:absolute;inset:6px;border:1px solid rgba(140,100,64,.35);border-radius:1px;pointer-events:none}
+.office .issue-card .ttl{border-bottom-color:rgba(140,100,64,.3)}
+.office .fld input::placeholder{color:#B4A88E}
 
 /* 빈티지 탑승권 */
 .new-ticket.vt{display:flex;grid-template-columns:none;width:min(92%,360px);background:#EFE4C6;border-radius:0;
@@ -866,21 +889,27 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .booth5{left:20%;right:28%}
 .offer-clip{left:33%}
 .office .bell{left:57%}
-.wallquiz{position:absolute;left:74%;width:20%;top:40.5%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
+.wallquiz{position:absolute;left:74%;width:20%;top:39.8%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
 @keyframes wqSway{50%{transform:rotate(1deg)}}
-.wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 5px 6px;background:linear-gradient(#F7F0DF,#EDE2C8);color:#2A2622;
-  box-shadow:0 6px 10px rgba(0,0,0,.35),inset 0 0 0 1px rgba(120,90,50,.18);text-align:center}
-.wallquiz .wq-paper::before,.wallquiz .wq-paper::after{content:"";position:absolute;top:-5px;width:20px;height:9px;background:rgba(232,220,180,.75);box-shadow:0 1px 1px rgba(0,0,0,.12)}
+/* 퀴즈: 빈티지 철도 포스터 (크림 종이 + 네이비 띠 + 햇살 무늬 + 붉은 QUIZ) */
+.wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;padding:4px;text-align:center;color:#1F2F52;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),radial-gradient(130% 90% at 50% 40%,#F6EBCF 55%,#E3CFA2 100%);
+  box-shadow:0 7px 12px rgba(0,0,0,.4),inset 0 0 14px rgba(120,80,30,.35)}
+.wallquiz .wq-paper::before,.wallquiz .wq-paper::after{content:"";position:absolute;top:-5px;width:20px;height:9px;background:rgba(232,220,180,.8);box-shadow:0 1px 1px rgba(0,0,0,.15);z-index:2}
 .wallquiz .wq-paper::before{left:-4px;transform:rotate(-28deg)}.wallquiz .wq-paper::after{right:-4px;transform:rotate(28deg)}
-.wq-mast{font-family:var(--f-display);font-size:9.5px;letter-spacing:.06em;line-height:1;border-bottom:1.5px solid #2A2622;padding-bottom:2px;width:100%}
-.wq-vol{font-family:var(--f-mono);font-size:5.5px;letter-spacing:.12em;color:#7A6A50;width:100%;border-bottom:.5px solid #2A2622;padding:1px 0 2px}
-.wq-q{font-family:var(--f-display);font-size:30px;line-height:1;color:#8E2B2B;margin-top:2px}
-.wq-hd{font-family:var(--f-kr);font-weight:800;font-size:9px;line-height:1.25}
-.wq-cols{width:100%;height:12px;background:repeating-linear-gradient(0deg,#B7AF9E 0 1px,transparent 1px 3px);opacity:.7}
-.wq-go{font-size:7.5px;font-weight:700;color:#8E2B2B}
-.wq-new{position:absolute;right:-7px;top:16px;background:#8E2B2B;color:#F7F0DF;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;padding:2px 4px;transform:rotate(12deg);box-shadow:0 2px 3px rgba(0,0,0,.3);animation:wqBlink 1.6s ease-in-out infinite}
+.wq-frame{display:flex;flex-direction:column;align-items:center;width:100%;border:1.5px solid #1F2F52;outline:.5px solid #1F2F52;outline-offset:-4px}
+.wq-top{width:100%;background:#1F2F52;color:#F3E6C4;font-family:var(--f-mono);font-size:5.5px;letter-spacing:.14em;padding:2px 0 1.5px}
+.wq-sun{position:relative;width:100%;aspect-ratio:1.45;display:grid;place-items:center;overflow:hidden;
+  background:repeating-conic-gradient(from 0deg at 50% 62%,#E2B252 0 7deg,#F3E2B4 7deg 14deg)}
+.wq-sun::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 62%,transparent 38%,rgba(246,235,207,.55) 100%)}
+.wq-q{position:relative;z-index:1;display:grid;place-items:center;width:50%;aspect-ratio:1;margin-top:16%;border-radius:50%;background:#1F2F52;box-shadow:0 0 0 2px #F3E6C4,0 0 0 3px #1F2F52;
+  font-family:var(--f-display);font-size:21px;line-height:1;color:#E9C46A}
+.wq-title{font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:19px;line-height:1;letter-spacing:.06em;color:#A8322B;text-shadow:1px 1px 0 #1F2F52;margin:4px 0 1px}
+.wq-hd{font-family:var(--f-kr);font-weight:800;font-size:8.5px;line-height:1.2;color:#1F2F52;padding-bottom:3px}
+.wq-go{width:100%;background:#A8322B;color:#F6EBCF;font-size:7.5px;font-weight:700;padding:2.5px 0}
+.wq-new{position:absolute;right:-8px;top:12px;z-index:3;background:#A8322B;color:#F7F0DF;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;padding:2px 4px;transform:rotate(12deg);box-shadow:0 2px 3px rgba(0,0,0,.3);animation:wqBlink 1.6s ease-in-out infinite}
 @keyframes wqBlink{50%{opacity:.55}}
-.wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:60px;height:60px;margin-left:-30px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.45),rgba(255,226,160,0) 70%);pointer-events:none}
+.wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.5),rgba(255,226,160,0) 70%);pointer-events:none}
 .wallquiz:hover,.wallquiz:focus-visible{animation:none;transform:rotate(0) translateY(-2px)}
 /* 세로가 짧은 휴대폰: 이름 카드를 납작하게, 퀴즈 신문은 작게 해서 서로 가리지 않게 */
 @media (max-height:720px){
@@ -892,8 +921,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
   .office .fld select{font-size:13.5px;padding:2px 18px 2px 0}
   .office .issue-card .btn{padding:9px 16px}
   .wallquiz{top:39.6%;width:18%}
-  .wallquiz .wq-paper{padding:5px 4px 5px;gap:1px}
-  .wq-mast{font-size:8.5px}.wq-q{font-size:21px;margin-top:0}.wq-hd{font-size:8px}.wq-cols{display:none}
+  .wq-sun{aspect-ratio:1.5}.wq-q{width:46%;font-size:18px;margin-top:14%}.wq-title{font-size:16px;margin-top:3px}.wq-hd{font-size:6.6px;padding-bottom:2px;letter-spacing:-.03em}
 }
 
 
@@ -1221,9 +1249,9 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       </div>
 
       <!-- 오른쪽 벽에 붙인 이달의 퀴즈 신문 -->
-      <button class="wallquiz" type="button" id="wallQuiz" aria-label="이달의 퀴즈 열기"><span class="wq-paper">
-        <span class="wq-mast">THE QUIZ</span><span class="wq-vol">VOL.04 · NOV</span>
-        <span class="wq-q">?</span><span class="wq-hd">이달의<br>퀴즈</span><span class="wq-cols"></span><span class="wq-go">풀러 가기 →</span>
+      <button class="wallquiz" type="button" id="wallQuiz" aria-label="이달의 퀴즈 열기"><span class="wq-paper"><span class="wq-frame">
+        <span class="wq-top">GRAN SEOUL EXPRESS</span><span class="wq-sun"><span class="wq-q">?</span></span>
+        <span class="wq-title">QUIZ</span><span class="wq-hd">11월 이달의 퀴즈</span><span class="wq-go">풀러 가기 →</span></span>
         <span class="wq-new">NEW</span></span></button>
       <!-- 원목 매표 부스 3칸 -->
       <div class="booth5" aria-label="매표 부스">
@@ -1287,8 +1315,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <g fill="#8C8270"><rect x="25" y="154" width="14" height="2"/><rect x="49" y="156" width="14" height="2"/><rect x="73" y="154" width="14" height="2"/><rect x="97" y="156" width="12" height="2"/></g>
           <circle cx="65" cy="22" r="4" fill="#FFE3A0"/>
         </svg>
-        <button class="paper p1" type="button" id="paper1"><span class="mast">THE BODY LETTER</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
-        <button class="paper p2" type="button" id="paper2"><span class="mast">GX TIMETABLE</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
+        <button class="paper p1" type="button" id="paper1"><span class="mast">Body Letter</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
+        <button class="paper p2" type="button" id="paper2"><span class="mast">GX Times</span><span class="dl">NOV 2026 · 7F STUDIO</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
       </div>
 
       <form class="office-ui" id="issueForm" autocomplete="off">
