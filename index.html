@@ -220,7 +220,16 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .fld label{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--muted)}
 .fld input{width:100%;border:0;border-bottom:1.5px solid var(--ink);background:transparent;font:700 17px var(--f-kr);color:var(--ink);padding:4px 0}
 .fld input:focus{outline:none;border-bottom-color:var(--brass-dk)}
-.fld-row{display:flex;align-items:center;justify-content:space-between;gap:4px}.fld-row label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fld-row{display:flex;align-items:center;justify-content:space-between;gap:4px}.fld-lb{display:flex;align-items:center;gap:3px;min-width:0}
+.mate-q{flex:none;width:14px;height:14px;border-radius:50%;border:1px solid #6C1F24;background:none;color:#6C1F24;font:700 9px/1 var(--f-body);padding:0;display:grid;place-items:center}
+.mate-help{position:absolute;inset:0;z-index:31;display:grid;place-items:center;padding:20px 16px;background:rgba(12,10,8,.72);backdrop-filter:blur(2px);animation:stIn .25s ease-out}
+.mate-help .qz-paper{padding-bottom:14px}
+.mate-help ol{margin:12px 0 0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.mate-help li{position:relative;padding-left:30px;font-size:13px;line-height:1.55;color:#3A2E24}
+.mate-help li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:#6C1F24;color:#F1E5C8;font:700 11px/20px var(--f-mono);text-align:center}
+.mate-help li b{color:#2A1D18}
+.mate-help .note{margin:12px 0 0;padding-top:10px;border-top:1px dashed rgba(108,31,36,.4);font-size:12px;line-height:1.55;color:#6B5A48}
+.mate-help .acts{display:flex;gap:8px;margin-top:14px}.mate-help .acts button{flex:1}.fld-row label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .send-tk{border:1px solid rgba(108,31,36,.55);border-radius:999px;background:rgba(108,31,36,.06);color:#6C1F24;font-size:10px;font-weight:700;padding:1px 7px;white-space:nowrap;line-height:1.4;flex:none}
 .send-tk:active{background:rgba(108,31,36,.14)}
 .fld select{width:100%;border:0;border-bottom:1.5px solid var(--ink);border-radius:0;background:transparent;font:700 15px var(--f-kr);color:var(--ink);padding:4px 18px 4px 0;-webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 9px) 55%,calc(100% - 4px) 55%;background-size:5px 5px;background-repeat:no-repeat}
@@ -1386,7 +1395,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>그랑서울 피트니스 열차여행에 <br>오신 것을 환영합니다</b></div>
           <div class="row2">
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
-            <div class="fld"><div class="fld-row"><label for="iMate">동행 승객 (선택)</label><button type="button" class="send-tk" id="sendTk" aria-label="동행 승차권 보내기">보내기 ↗</button></div><input id="iMate" maxlength="12" placeholder="동료 이름"></div>
+            <div class="fld"><div class="fld-row"><span class="fld-lb"><label for="iMate">동행 승객 (선택)</label><button type="button" class="mate-q" id="mateQ" aria-label="동행 승객이란?">?</button></span><button type="button" class="send-tk" id="sendTk" aria-label="동행 승차권 보내기">보내기 ↗</button></div><input id="iMate" maxlength="12" placeholder="동료 이름"></div>
           </div>
           <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사를 선택하세요</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
           <button class="btn" type="submit">승차권 발권하기</button>
@@ -2518,6 +2527,20 @@ function openReader(kind){
   $("#stage").appendChild(el); el.querySelector("button").focus();
 }
 $("#sendTk").onclick=shareInvite;
+/* 동행 승객이란? 안내 */
+$("#mateQ").onclick=()=>{
+  const el=document.createElement("div");el.className="mate-help";el.setAttribute("role","dialog");el.setAttribute("aria-label","동행 승객이란?");
+  el.innerHTML=`<div class="qz-paper"><div class="qz-mast" style="font-size:18px">COMPANION TICKET</div>
+    <p class="qz-kick">동행 승객이란?</p><p class="qz-q" style="font-size:18px">동료와 함께 타면<br>두 사람 모두 한 칸씩!</p>
+    <ol><li><b>보내기 ↗</b>를 눌러 동료에게 <b>동행 승차권</b> 링크를 카톡으로 보내요.</li>
+      <li>동료는 링크로 들어와 <b>자기 휴대폰</b>에서 승차권을 발권해요. 동행 승객 칸에 내 이름이 미리 채워져 있어요.</li>
+      <li>함께 운동한 날, 동료가 <b>6호차 파트너 운동</b>을 인증하면 <b>내 승차권에도 파트너 칸이 자동으로 찍혀요.</b></li></ol>
+    <p class="note">동행으로 받은 칸은 하루 1칸에 포함되지 않아요. 그날 내 칸도 따로 탈 수 있어요.<br>동행 승객 칸은 비워 두어도 챌린지에 참여할 수 있어요.</p>
+    <div class="acts"><button type="button" class="btn ghost" style="color:#6C1F24;border-color:rgba(108,31,36,.4)" data-x>닫기</button><button type="button" class="btn" data-send>승차권 보내기</button></div></div>`;
+  const close=()=>el.remove();
+  el.onclick=e=>{if(e.target===el)close()};el.querySelector("[data-x]").onclick=close;
+  el.querySelector("[data-send]").onclick=()=>{close();shareInvite()};
+  $("#stage").appendChild(el);el.querySelector("[data-x]").focus()};
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
 /* ── 이달의 퀴즈 (11월) ─ 매달 아래 값만 바꿔주세요 */
