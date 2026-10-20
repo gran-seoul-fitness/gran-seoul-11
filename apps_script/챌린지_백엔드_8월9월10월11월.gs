@@ -4,8 +4,8 @@
  * 【이번 업데이트: 11월 열차 사이트(gran-seoul-fitness/gran-seoul-11) 추가】
  * - 11월 사이트는 요청에 month: "11월" 을 보내요. 그 요청만 새 11월 분기로 들어가
  *   "11월 stamps"/"11월 요약" 탭에 기록돼요. 8·9·10월 코드/탭은 그대로예요.
- * - 하루 1칸 제한, 어메니티 수령일 기록, 동행 승객 자동 반영(초대한 사람에게 파트너 칸 채움),
- *   "내 기록 불러오기"(GET ?month=11월&name=...)를 지원해요.
+ * - 팀 승차권(두 사람이 한 장을 함께 채움), 팀 기준 하루 1칸, 어메니티 받을 사람 기록,
+ *   "팀 기록 불러오기"(GET ?month=11월&team=...)를 지원해요.
  * - 적용 방법은 아래와 같아요: 통째로 붙여넣기 → 저장 → 배포 관리에서 "새 버전"으로 배포
  *   (웹앱 주소 그대로 유지 · 10월 사이트는 아무 조치 필요 없음)
  *
@@ -931,13 +931,16 @@ function reportDuplicateDaysOctober() {
 
 // ══════════════════════════════════════════════════════════════════
 // 11월 (gran-seoul-fitness/gran-seoul-11 : 그랑서울 피트니스 열차,
-//        6량 객차 · 11칸(6호차는 GX·파트너 중 택1) · 동행 승객 · 어메니티 3회) — 새로 추가
+//        6량 객차 · 11칸(6호차는 GX·파트너 중 택1) · 팀 승차권 · 어메니티 3회) — 새로 추가
 // ══════════════════════════════════════════════════════════════════
+// 팀 승차권: 혼자 타면 "나 혼자 팀", 동행 승차권 링크로 들어온 동료는 초대한 사람의 팀에 들어가요.
+//  · 칸(11칸)과 어메니티는 팀이 함께 채워요. 내가 못 온 날 동료가 한 칸을 대신 탈 수 있어요.
+//  · 하루 1칸은 팀 전체 기준이에요 (팀원 중 누구든 그날 한 칸 타면 그날은 끝).
+//  · 어메니티는 역마다 팀에 1개. 정차역에서 받을 사람을 골라요.
 // 요청 구분: month === "11월" 인 요청만 이 분기로 들어와요. 8·9·10월은 그대로예요.
-//  · kind "stamp"   : 미션 인증 (사진 포함). 하루 1칸 제한을 여기서 막아요.
-//  · kind "amenity" : 정차역 어메니티 수령 확인 → "11월 요약" 탭의 수령 칸에 날짜를 남겨요.
-//  · GET ?month=11월&name=...  : 그 사람의 인증·동행·수령 기록을 돌려줘요
-//                                (동행 승객이 함께 인증한 칸이 내 휴대폰에 자동 반영되는 데 씀).
+//  · kind "stamp"   : 미션 인증 (name=인증한 사람, team=팀 대표 이름)
+//  · kind "amenity" : 어메니티 수령 (team, station, receiver)
+//  · GET ?month=11월&team=... : 팀 기록(칸·누가 탔는지·팀원·어메니티) 불러오기
 
 const NOVEMBER_SHEET_NAME = "11월 stamps";
 const NOVEMBER_SUMMARY_SHEET_NAME = "11월 요약";
@@ -959,22 +962,25 @@ const NOVEMBER_QUEST_COLUMNS = [
   { key: "m12", label: "6호차·파트너" },
 ];
 const NOVEMBER_TOTAL = 11;
-// 정차역(칸 수) → 요약 탭의 수령 칸 이름
 const NOVEMBER_AMENITIES = [
-  { station: 4, label: "아침역·샴푸 수령" },
-  { station: 8, label: "노을역·컨디셔너 수령" },
-  { station: 11, label: "종착역·바디워시 수령" },
+  { station: 4, label: "아침역·샴푸" },
+  { station: 8, label: "노을역·컨디셔너" },
+  { station: 11, label: "종착역·바디워시" },
 ];
-const NOVEMBER_STAMP_HEADER = ["시간", "이름", "호차", "미션id", "미션명", "사진링크", "동행", "출처"];
-// 요약 탭 열: 이름 | 달성 | 미션 12칸 | 함께 탄 동행 | 수령 3칸 | 수령 유무(직원 메모)
+const NOVEMBER_STAMP_HEADER = ["시간", "인증한 사람", "호차", "미션id", "미션명", "사진링크", "팀"];
+// 요약 탭 열: 팀 | 팀원 | 달성 | 미션 12칸 | 어메니티 3칸(날짜·받은 사람) | 수령 유무(직원 메모)
 const NOVEMBER_COL = {
-  mission0: 3,
-  partner: 3 + NOVEMBER_QUEST_COLUMNS.length,
+  members: 2,
+  done: 3,
+  mission0: 4,
   amenity0: 4 + NOVEMBER_QUEST_COLUMNS.length,
 };
 
 function novemberDay(d) {
   return Utilities.formatDate(d instanceof Date ? d : new Date(d), NOVEMBER_TZ, "yyyy-MM-dd");
+}
+function novemberShort(name) {
+  return String(name || "").replace(/\(.*\)$/, "");
 }
 
 function getOrCreateSheetNovember() {
@@ -993,15 +999,15 @@ function getOrCreateNovemberSummarySheet() {
   let summary = ss.getSheetByName(NOVEMBER_SUMMARY_SHEET_NAME);
   if (!summary) {
     summary = ss.insertSheet(NOVEMBER_SUMMARY_SHEET_NAME);
-    const header = ["이름", "달성", ...NOVEMBER_QUEST_COLUMNS.map((q) => q.label), "함께 탄 동행",
-      ...NOVEMBER_AMENITIES.map((a) => a.label), "수령 유무"];
+    const header = ["팀(대표)", "팀원", "달성", ...NOVEMBER_QUEST_COLUMNS.map((q) => q.label),
+      ...NOVEMBER_AMENITIES.map((a) => a.label + " 수령"), "수령 유무"];
     summary.appendRow(header);
     summary.getRange(1, 1, 1, header.length).setFontWeight("bold").setBackground("#20392C").setFontColor("#FFFFFF");
     summary.setFrozenRows(1);
-    summary.setFrozenColumns(2);
-    const range = summary.getRange(2, 3, 500, NOVEMBER_QUEST_COLUMNS.length);
+    summary.setFrozenColumns(3);
+    const range = summary.getRange(2, NOVEMBER_COL.mission0, 500, NOVEMBER_QUEST_COLUMNS.length);
     const rule = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=NOT(ISBLANK(C2))')
+      .whenFormulaSatisfied('=NOT(ISBLANK(D2))')
       .setBackground("#D9EAD3")
       .setRanges([range])
       .build();
@@ -1010,82 +1016,62 @@ function getOrCreateNovemberSummarySheet() {
   return summary;
 }
 
-// 하루 1칸: 같은 날 "본인"이 이미 다른 미션을 인증했으면 막아요.
-// (같은 미션 사진만 다시 올리는 건 허용 · 동행 승객 덕분에 자동으로 받은 칸은 세지 않아요)
-function hasOtherMissionTodayNovember(sheet, name, missionId) {
-  const values = sheet.getDataRange().getValues();
-  const targetName = normalizeName(name);
-  const todayStr = novemberDay(new Date());
-  for (let i = 1; i < values.length; i++) {
-    if (normalizeName(values[i][1]) !== targetName) continue;
-    if (values[i][3] === missionId) continue;
-    if (values[i][7] === "동행") continue;
-    if (values[i][0] && novemberDay(values[i][0]) === todayStr) return true;
-  }
-  return false;
-}
-
-// (이름, 미션) 한 줄만 유지: 있으면 덮어쓰고 없으면 추가.
-// keepSelf=true 면 이미 "본인" 기록이 있을 때 동행 기록으로 덮어쓰지 않아요.
-function upsertStampRowNovember(sheet, row, keepSelf) {
-  const values = sheet.getDataRange().getValues();
-  const targetName = normalizeName(row[1]);
-  for (let i = 1; i < values.length; i++) {
-    if (normalizeName(values[i][1]) === targetName && values[i][3] === row[3]) {
-      if (keepSelf && values[i][7] === "본인") return false;
-      sheet.getRange(i + 1, 1, 1, row.length).setValues([row]);
-      return true;
-    }
-  }
-  sheet.appendRow(row);
-  return true;
-}
-
-function findOrCreateSummaryRowNovember(summary, name) {
+// 팀 행 찾기(없으면 만들기). 팀원 칸에 이 사람이 없으면 추가해요.
+function findOrCreateTeamRowNovember(summary, team, member) {
   const lastRow = summary.getLastRow();
-  const targetName = normalizeName(name);
+  const target = normalizeName(team);
+  let row = -1;
   if (lastRow >= 2) {
     const names = summary.getRange(2, 1, lastRow - 1, 1).getValues();
     for (let i = 0; i < names.length; i++) {
-      if (normalizeName(names[i][0]) === targetName) return i + 2;
+      if (normalizeName(names[i][0]) === target) { row = i + 2; break; }
     }
   }
-  const newRow = lastRow + 1;
-  summary.getRange(newRow, 1).setValue(name);
-  return newRow;
+  if (row === -1) {
+    row = lastRow + 1;
+    summary.getRange(row, 1).setValue(team);
+  }
+  if (member) {
+    const mc = summary.getRange(row, NOVEMBER_COL.members);
+    const list = String(mc.getValue() || "").split(" · ").filter(Boolean);
+    if (list.map(normalizeName).indexOf(normalizeName(member)) === -1) {
+      list.push(member);
+      mc.setValue(list.join(" · "));
+    }
+  }
+  return row;
 }
 
-// 그 사람의 그 미션 칸 하나, "달성" 칸, (있으면) "함께 탄 동행" 칸만 채워요. 직원 메모·색칠은 안 건드려요.
-function updateSummaryNovember(name, missionId, photoUrl, partnerName) {
-  const summary = getOrCreateNovemberSummarySheet();
-  const row = findOrCreateSummaryRowNovember(summary, name);
-  const colIdx = NOVEMBER_QUEST_COLUMNS.findIndex((q) => q.key === missionId);
-  if (colIdx === -1) return;
-  const cell = summary.getRange(row, NOVEMBER_COL.mission0 + colIdx);
-  if (photoUrl) cell.setFormula(`=HYPERLINK("${photoUrl}","✓")`);
-  else cell.setValue("✓");
-
-  const vals = summary.getRange(row, NOVEMBER_COL.mission0, 1, NOVEMBER_QUEST_COLUMNS.length).getDisplayValues()[0];
-  const filled = vals.map((v) => !!(v && v.toString().trim() !== ""));
-  const doneCount = filled.slice(0, 10).filter(Boolean).length + (filled[10] || filled[11] ? 1 : 0);
-  summary.getRange(row, 2).setValue(`${doneCount}/${NOVEMBER_TOTAL}`).setNumberFormat("@");
-
-  if (partnerName) {
-    const pc = summary.getRange(row, NOVEMBER_COL.partner);
-    const prev = String(pc.getValue() || "");
-    const list = prev ? prev.split(" · ") : [];
-    if (list.map(normalizeName).indexOf(normalizeName(partnerName)) === -1) list.push(partnerName);
-    pc.setValue(list.join(" · "));
+// 하루 1칸(팀 기준): 오늘 팀원 중 누가 이미 다른 미션을 탔으면 막아요. 같은 미션 사진 재업로드는 허용.
+function teamRowsNovember(sheet, team) {
+  const values = sheet.getDataRange().getValues();
+  const target = normalizeName(team);
+  const out = [];
+  for (let i = 1; i < values.length; i++) {
+    if (normalizeName(values[i][6] || values[i][1]) === target) out.push({ i: i, row: values[i] });
   }
+  return out;
 }
 
 function handleNovemberStamp(data, lockMs) {
   const t0 = Date.now();
-  const sheet = getOrCreateSheetNovember();
   if (!data.name || !data.missionId) return { success: false, reason: "bad_request" };
+  const team = data.team || data.name;
+  const sheet = getOrCreateSheetNovember();
+  const rows = teamRowsNovember(sheet, team);
+  const todayStr = novemberDay(new Date());
 
-  if (hasOtherMissionTodayNovember(sheet, data.name, data.missionId)) {
-    return { success: false, reason: "already_certified_today" };
+  for (const r of rows) {
+    if (r.row[3] === data.missionId) {
+      // 팀의 다른 사람이 이미 탄 칸이면 막아요 (본인 사진 재업로드만 허용)
+      if (normalizeName(r.row[1]) !== normalizeName(data.name)) {
+        return { success: false, reason: "team_done", by: novemberShort(r.row[1]) };
+      }
+      continue;
+    }
+    if (r.row[0] && novemberDay(r.row[0]) === todayStr) {
+      return { success: false, reason: "already_certified_today", by: novemberShort(r.row[1]) };
+    }
   }
 
   let photoUrl = "";
@@ -1102,40 +1088,46 @@ function handleNovemberStamp(data, lockMs) {
     photoUrl = `https://drive.google.com/thumbnail?id=${file.getId()}&sz=w1000`;
   }
 
-  const now = new Date();
-  const partner = data.partner && normalizeName(data.partner) !== normalizeName(data.name) ? String(data.partner) : "";
-  upsertStampRowNovember(sheet,
-    [now, data.name, data.car || "", data.missionId, data.title || "", photoUrl, partner, "본인"], false);
-  updateSummaryNovember(data.name, data.missionId, photoUrl, partner);
+  const newRow = [new Date(), data.name, data.car || "", data.missionId, data.title || "", photoUrl, team];
+  const same = rows.find((r) => r.row[3] === data.missionId);
+  if (same) sheet.getRange(same.i + 1, 1, 1, newRow.length).setValues([newRow]);
+  else sheet.appendRow(newRow);
 
-  // 동행 승객: 초대한 사람(partner)과 함께 파트너 운동을 인증하면, 초대한 사람에게도 같은 칸을 자동으로 채워줘요.
-  // 초대한 사람이 이미 직접 인증한 칸이면 덮어쓰지 않고 "함께 탄 동행"에 이름만 남겨요.
-  let partnerCredited = false;
-  if (partner && data.missionId === "m12") {
-    partnerCredited = upsertStampRowNovember(sheet,
-      [now, partner, data.car || "", "m12", data.title || "", photoUrl, data.name, "동행"], true);
-    if (partnerCredited) updateSummaryNovember(partner, "m12", photoUrl, data.name);
-    else {
-      const summary = getOrCreateNovemberSummarySheet();
-      const row = findOrCreateSummaryRowNovember(summary, partner);
-      const pc = summary.getRange(row, NOVEMBER_COL.partner);
-      const prev = String(pc.getValue() || "");
-      if (prev.split(" · ").map(normalizeName).indexOf(normalizeName(data.name)) === -1) pc.setValue(prev ? prev + " · " + data.name : data.name);
-    }
-  }
-
+  updateSummaryNovember(team, data.name, data.missionId, photoUrl);
   logPerf({ name: data.name, missionId: "11월 " + data.missionId, lockMs: lockMs || 0, totalMs: (lockMs || 0) + (Date.now() - t0) });
-  return { success: true, photoUrl: photoUrl, partnerCredited: partnerCredited };
+  return { success: true, photoUrl: photoUrl };
+}
+
+// 그 팀의 그 미션 칸 하나, "달성" 칸, 팀원 칸만 채워요. 직원 메모·색칠은 안 건드려요.
+function updateSummaryNovember(team, member, missionId, photoUrl) {
+  const summary = getOrCreateNovemberSummarySheet();
+  const row = findOrCreateTeamRowNovember(summary, team, member);
+  const colIdx = NOVEMBER_QUEST_COLUMNS.findIndex((q) => q.key === missionId);
+  if (colIdx === -1) return;
+  const who = novemberShort(member);
+  const cell = summary.getRange(row, NOVEMBER_COL.mission0 + colIdx);
+  if (photoUrl) cell.setFormula(`=HYPERLINK("${photoUrl}","✓ ${who}")`);
+  else cell.setValue("✓ " + who);
+
+  const vals = summary.getRange(row, NOVEMBER_COL.mission0, 1, NOVEMBER_QUEST_COLUMNS.length).getDisplayValues()[0];
+  const filled = vals.map((v) => !!(v && v.toString().trim() !== ""));
+  const doneCount = filled.slice(0, 10).filter(Boolean).length + (filled[10] || filled[11] ? 1 : 0);
+  summary.getRange(row, NOVEMBER_COL.done).setValue(`${doneCount}/${NOVEMBER_TOTAL}`).setNumberFormat("@");
 }
 
 function handleNovemberAmenity(data) {
   const a = NOVEMBER_AMENITIES.findIndex((x) => Number(x.station) === Number(data.station));
-  if (!data.name || a === -1) return { success: false, reason: "bad_request" };
+  const team = data.team || data.name;
+  const receiver = data.receiver || data.name;
+  if (!team || !receiver || a === -1) return { success: false, reason: "bad_request" };
   const summary = getOrCreateNovemberSummarySheet();
-  const row = findOrCreateSummaryRowNovember(summary, data.name);
+  const row = findOrCreateTeamRowNovember(summary, team, data.name);
   const cell = summary.getRange(row, NOVEMBER_COL.amenity0 + a);
-  if (!cell.getValue()) cell.setValue(Utilities.formatDate(new Date(), NOVEMBER_TZ, "MM.dd HH:mm")).setNumberFormat("@");
-  return { success: true };
+  const prev = String(cell.getValue() || "");
+  if (prev) return { success: false, reason: "already_received", value: prev };
+  const value = Utilities.formatDate(new Date(), NOVEMBER_TZ, "MM.dd") + " " + novemberShort(receiver);
+  cell.setValue(value).setNumberFormat("@");
+  return { success: true, value: value };
 }
 
 function handleNovemberPost(data, lockMs) {
@@ -1143,29 +1135,26 @@ function handleNovemberPost(data, lockMs) {
   return handleNovemberStamp(data, lockMs);
 }
 
-// 내 기록 불러오기: 인증한 칸(본인·동행) + 어메니티 수령일
-function handleNovemberGet(name) {
-  const target = normalizeName(name);
-  const stamps = [];
-  const sheet = getOrCreateSheetNovember();
-  const rows = sheet.getDataRange().getValues();
-  for (let i = 1; i < rows.length; i++) {
-    if (normalizeName(rows[i][1]) !== target) continue;
-    stamps.push({ missionId: rows[i][3], day: rows[i][0] ? novemberDay(rows[i][0]) : "", partner: rows[i][6] || "", source: rows[i][7] || "" });
-  }
+// 팀 기록 불러오기
+function handleNovemberGet(team) {
+  const stamps = teamRowsNovember(getOrCreateSheetNovember(), team).map((r) => ({
+    missionId: r.row[3], by: r.row[1], day: r.row[0] ? novemberDay(r.row[0]) : "",
+  }));
   const amenities = {};
+  let members = [];
   const summary = getOrCreateNovemberSummarySheet();
   const lastRow = summary.getLastRow();
   if (lastRow >= 2) {
     const names = summary.getRange(2, 1, lastRow - 1, 1).getValues();
     for (let i = 0; i < names.length; i++) {
-      if (normalizeName(names[i][0]) !== target) continue;
+      if (normalizeName(names[i][0]) !== normalizeName(team)) continue;
+      members = String(summary.getRange(i + 2, NOVEMBER_COL.members).getValue() || "").split(" · ").filter(Boolean);
       const vals = summary.getRange(i + 2, NOVEMBER_COL.amenity0, 1, NOVEMBER_AMENITIES.length).getDisplayValues()[0];
-      NOVEMBER_AMENITIES.forEach((am, k) => { if (vals[k]) amenities[am.station] = String(vals[k]).slice(0, 5); });
+      NOVEMBER_AMENITIES.forEach((am, k) => { if (vals[k]) amenities[am.station] = String(vals[k]); });
       break;
     }
   }
-  return { stamps: stamps, amenities: amenities };
+  return { stamps: stamps, members: members, amenities: amenities };
 }
 
 // 메뉴용: stamps 탭 전체로 요약 칸을 다시 채워요(지우지 않고 칸만 채움).
@@ -1173,7 +1162,7 @@ function resyncSummaryNovember() {
   const rows = getOrCreateSheetNovember().getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
     if (!rows[i][1] || !rows[i][3]) continue;
-    updateSummaryNovember(rows[i][1], rows[i][3], rows[i][5], rows[i][6]);
+    updateSummaryNovember(rows[i][6] || rows[i][1], rows[i][1], rows[i][3], rows[i][5]);
   }
 }
 
@@ -1259,13 +1248,13 @@ function logPerf(p) {
 // 회원이 페이지에 접속할 때, 자신의 기존 기록을 불러올 때 (GET 요청)
 // 지금은 8월 사이트(challenge/index.html)만 이 기능을 써서 8월 기록 기준으로 조회해요.
 function doGet(e) {
-  // 11월 사이트: ?month=11월&name=... 로 내 기록(인증·동행·어메니티)을 불러와요.
+  // 11월 사이트: ?month=11월&team=... 로 팀 기록(칸·팀원·어메니티)을 불러와요.
   if (e && e.parameter && e.parameter.month === "11월") {
     try {
-      return jsonResponse(handleNovemberGet(e.parameter.name));
+      return jsonResponse(handleNovemberGet(e.parameter.team || e.parameter.name));
     } catch (err) {
       logError("doGet 11월", err, { name: e.parameter.name });
-      return jsonResponse({ stamps: [], amenities: {}, error: String(err) });
+      return jsonResponse({ stamps: [], members: [], amenities: {}, error: String(err) });
     }
   }
   try {

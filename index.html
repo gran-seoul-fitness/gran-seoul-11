@@ -221,11 +221,14 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .fld input{width:100%;border:0;border-bottom:1.5px solid var(--ink);background:transparent;font:700 17px var(--f-kr);color:var(--ink);padding:4px 0}
 .fld input:focus{outline:none;border-bottom-color:var(--brass-dk)}
 .fld-row{display:flex;align-items:center;justify-content:space-between;gap:4px}.fld-lb{display:flex;align-items:center;gap:3px;min-width:0}
+.who-get{margin:2px 0 4px}.who-get span{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;color:var(--brass-dk);margin-bottom:5px}
+.who-get div{display:flex;flex-wrap:wrap;gap:6px}
 .mate-q{flex:none;width:14px;height:14px;border-radius:50%;border:1px solid #6C1F24;background:none;color:#6C1F24;font:700 9px/1 var(--f-body);padding:0;display:grid;place-items:center}
 .mate-help{position:absolute;inset:0;z-index:31;display:grid;place-items:center;padding:20px 16px;background:rgba(12,10,8,.72);backdrop-filter:blur(2px);animation:stIn .25s ease-out}
 .mate-help .qz-paper{padding-bottom:14px}
 .mate-help ol{margin:12px 0 0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
-.mate-help li{position:relative;padding-left:30px;font-size:13px;line-height:1.55;color:#3A2E24}
+.mate-help li{position:relative;padding-left:30px;font-size:12.5px;line-height:1.5;color:#3A2E24}
+.mate-help ol{gap:8px!important}
 .mate-help li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:#6C1F24;color:#F1E5C8;font:700 11px/20px var(--f-mono);text-align:center}
 .mate-help li b{color:#2A1D18}
 .mate-help .note{margin:12px 0 0;padding-top:10px;border-top:1px dashed rgba(108,31,36,.4);font-size:12px;line-height:1.55;color:#6B5A48}
@@ -1611,6 +1614,7 @@ const CARS=[
 
 const $=s=>document.querySelector(s);
 let cur=0, done={}, total=0;
+var doneBy={};
 const need=c=>c.pick?1:c.missions.length, carDone=c=>c.missions.filter(m=>done[m.id]).length>=need(c);
 const TOTAL=CARS.reduce((a,c)=>a+need(c),0); /* 6호차는 GX·파트너 중 택1 → 총 11칸 */
 
@@ -1644,7 +1648,7 @@ function render(){
   const full=carDone(c);
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
     <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?"✓ 승차 확인":off?"이 칸은 이미 완료했어요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`✓ ${doneBy[m.id]} 님이 탐`:"✓ 승차 확인"):off?"이 칸은 이미 완료했어요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
   $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸`;
@@ -2216,11 +2220,14 @@ async function punchSeq(){
     <div class="holes">${holes}</div></div>${HAND}<div class="msg" id="msg">차장님이 승차권을 확인하고 있어요…</div></div>`;
   /* 시트에 먼저 기록하고(하루 1칸은 시트에서 확인), 통과하면 차장님이 펀칭해요 */
   let res=null;
-  try{res=await sheetPost({kind:"stamp",name:memberKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,
-    partner:(mid==="m12"&&P.inviter&&P.inviter!==memberKey())?P.inviter:"",photo:proof?await shrinkPhoto(proof):""})}catch(e){}
+  try{res=await sheetPost({kind:"stamp",name:memberKey(),team:teamKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,
+    photo:proof?await shrinkPhoto(proof):""})}catch(e){}
   if(!res||!res.success){
-    const why=res&&res.reason==="already_certified_today"?"오늘은 이미 한 칸을 탔어요<small>열차는 하루에 한 칸씩 옮겨 타요. 내일 다음 칸에서 만나요!</small>"
+    const by=res&&res.by&&shortName(res.by)!==P.name?`${shortName(res.by)} 님이 `:"";
+    const why=res&&res.reason==="already_certified_today"?`오늘은 ${by?by+"이미":"이미"} 한 칸을 탔어요<small>팀 승차권은 하루에 한 칸씩 옮겨 타요. 내일 다음 칸에서 만나요!</small>`
+      :res&&res.reason==="team_done"?`${by||"팀원이 "}이미 탄 칸이에요<small>다른 칸을 골라 주세요.</small>`
       :"승차권 확인에 실패했어요<small>인터넷 연결을 확인하고 잠시 후 다시 시도해 주세요.</small>";
+    if(res&&res.reason==="team_done")syncFromSheet();
     $("#msg").innerHTML=`${why}<button class="btn" style="margin-top:14px" id="back">객차로 돌아가기</button>`;
     $("#back").onclick=()=>{L.hidden=true};return}
   const hand=$("#hand"), tk=$("#tk"), tgt=tk.querySelector(".hole.target");
@@ -2232,7 +2239,7 @@ async function punchSeq(){
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
   setTimeout(()=>hand.classList.remove("click"),1400);
-  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; if(mid==="m12"&&pmode)P.pmode=pmode; total=calcTotal(); saveProgress(); render();
+  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; doneBy[mid]=P.name; if(mid==="m12"&&pmode)P.pmode=pmode; total=calcTotal(); saveProgress(); render();
     const stn=STATIONS[n]&&STATIONS[n].name;
     $("#msg").innerHTML=`${n}번째 칸 승차 확인<small>${stn?`열차가 곧 ${stn}에 정차합니다.`:"내일은 다른 객차로 옮겨 타 보세요."}</small>
       <button class="btn" style="margin-top:14px" id="back">${stn?"역에 내리기 →":"객차로 돌아가기"}</button>`;
@@ -2452,20 +2459,28 @@ const shrinkPhoto=src=>new Promise(res=>{const im=new Image();im.onload=()=>{con
 /* 칸 수: 6호차는 GX·파트너 중 하나만 세요 */
 const calcTotal=()=>CARS.reduce((a,c)=>a+Math.min(c.missions.filter(m=>done[m.id]).length,need(c)),0);
 /* 시트에서 내 기록 불러오기: 다른 기기에서 탄 칸, 동행 승객 덕분에 채워진 칸, 어메니티 수령일 */
+/* 팀 승차권: 동행 승차권 링크로 들어왔으면 초대한 사람의 팀, 아니면 나 혼자 팀(내 이름이 팀 대표) */
+const shortName=k=>String(k||"").replace(/\(.*\)$/,"");
+const teamKey=()=>P.inviter&&P.inviter!==memberKey()?P.inviter:memberKey();
+let team={members:[]};
+/* doneBy: 미션 id → 탄 사람 (팀 승차권에서 누가 탔는지 표시) */
+/* 시트에서 팀 기록 불러오기: 팀원이 탄 칸, 어메니티 받은 사람 */
 async function syncFromSheet(){
-  const key=memberKey();if(!key)return;
+  const key=teamKey();if(!key)return;
   try{
-    const r=await fetch(`${SHEET_URL}?month=${encodeURIComponent(MONTH)}&name=${encodeURIComponent(key)}`).then(x=>x.json());
+    const r=await fetch(`${SHEET_URL}?month=${encodeURIComponent(MONTH)}&team=${encodeURIComponent(key)}`).then(x=>x.json());
     const fresh=[];
-    (r.stamps||[]).forEach(st=>{if(!CARS.some(c=>c.missions.some(m=>m.id===st.missionId))||done[st.missionId])return;
-      done[st.missionId]=true;if(st.source==="동행"&&st.partner)fresh.push(st.partner)});
-    (r.stamps||[]).forEach(st=>{if(st.missionId==="m12"&&st.partner)P.together=st.partner.replace(/\(.*\)$/,"")});
-    Object.entries(r.amenities||{}).forEach(([k,v])=>{if(!recv[k])recv[k]=v});
+    (r.stamps||[]).forEach(st=>{if(!CARS.some(c=>c.missions.some(m=>m.id===st.missionId)))return;
+      if(!done[st.missionId]&&shortName(st.by)!==P.name)fresh.push(st);
+      done[st.missionId]=true;doneBy[st.missionId]=shortName(st.by)});
+    Object.entries(r.amenities||{}).forEach(([k,v])=>{recv[k]=v});
+    team.members=(r.members||[]).map(shortName);
     total=calcTotal();saveProgress();render();
-    if(fresh.length)toast(`${fresh[0].replace(/\(.*\)$/,"")} 님과 함께 탄 파트너 칸이 승차권에 찍혔어요!`);
+    if(fresh.length){const f=fresh[fresh.length-1],car=CARS.find(c=>c.missions.some(m=>m.id===f.missionId));
+      toast(`${shortName(f.by)} 님이 ${car?car.no+"호차 ":""}칸을 대신 탔어요! 팀 승차권에 펀칭됐어요.`)}
   }catch(e){}
 }
-/* 동행 승차권 링크로 들어온 경우: 초대한 사람을 기억해 두고, 파트너 운동 인증 때 함께 보내요 */
+/* 동행 승차권 링크로 들어온 경우: 초대한 사람의 팀 승차권에 함께 타요 */
 (()=>{const q=new URLSearchParams(location.search),w=q.get("with");if(!w)return;
   P.inviter=w;P.inviterName=q.get("wn")||w.replace(/\(.*\)$/,"");try{localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}})();
 /* 초대하는 사람: 발권했다면 승차권 이름, 아직이면 매표소 카드에 적은 이름·입주사 */
@@ -2475,7 +2490,7 @@ function inviteLink(){const me=inviter();return `${location.origin}${location.pa
 async function shareInvite(){
   const me=inviter();
   if(!me){const n=$("#iName");if(n&&!n.value.trim()){toast("내 이름과 입주사를 먼저 적어 주세요");n.focus()}else{toast("입주사를 먼저 골라 주세요");$("#iCo")?.focus()}return}
-  const url=inviteLink(),text=`${me.name} 님이 그랑서울 피트니스 열차 동행 승차권을 보냈어요. 6호차 파트너 운동을 함께해요!`;
+  const url=inviteLink(),text=`${me.name} 님이 그랑서울 피트니스 열차 동행 승차권을 보냈어요. 한 장의 팀 승차권으로 같이 타요! 못 오는 날은 서로 한 칸씩 대신 타 줄 수 있어요.`;
   try{if(navigator.share){await navigator.share({title:"동행 승차권",text,url});return}}catch(e){if(e&&e.name==="AbortError")return}
   try{await navigator.clipboard.writeText(url);toast("동행 승차권 링크를 복사했어요. 카톡으로 보내 주세요!")}catch(e){prompt("이 링크를 복사해서 보내 주세요",url)}
 }
@@ -2494,15 +2509,25 @@ function showStation(n){
       <div class="items">해비치 ${S.item} 1개</div>
       <div class="coll">${ST_ORDER.map(k=>`<span class="${recv[k]||k===n?"on":""} ${k===n?"now":""}">${STATIONS[k].item.split(" ").pop()}</span>`).join("")}</div>
       <p id="stDesc">7층 데스크에서 이 화면을 보여주시면 어메니티를 드려요.</p>
+      ${team.members.length>1&&!recv[n]?`<div class="who-get" id="whoGet"><span>팀 승차권 · 누가 받을까요?</span><div>${team.members.map(m=>`<button type="button" class="chip2" data-r="${m}" aria-pressed="${m===P.name}">${m}${m===P.name?" (나)":""}</button>`).join("")}</div></div>`:""}
       <div class="acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div></div>
   </section>`;
   const mark=()=>{const c=$("#stCard");if(c.querySelector(".received"))return;
-    c.insertAdjacentHTML("beforeend",`<div class="received">RECEIVED<b>수령 완료</b>${recv[n]}</div>`);
-    $("#stTitle").textContent="현재 어메니티를 수령하셨습니다"; $("#stDesc").textContent=`${S.name} 어메니티 수령이 확인됐어요. 다음 역까지 즐거운 여행 되세요.`;
-    $("#stRecv").hidden=true};
+    const [d,...rn]=String(recv[n]).split(" "),r=rn.join(" ");
+    c.insertAdjacentHTML("beforeend",`<div class="received">RECEIVED<b>수령 완료</b>${d}${r?`<br>${r}`:""}</div>`);
+    $("#stTitle").textContent=r&&r!==P.name?`${r} 님이 어메니티를 받았어요`:"현재 어메니티를 수령하셨습니다";
+    $("#stDesc").textContent=`${S.name} 어메니티 수령이 확인됐어요. 다음 역까지 즐거운 여행 되세요.`;
+    $("#whoGet")?.remove();$("#stRecv").hidden=true};
+  let receiver=P.name;
+  $("#whoGet")?.querySelectorAll(".chip2").forEach(b=>b.onclick=()=>{receiver=b.dataset.r;$("#whoGet").querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===b))});
   tickClocks();
   if(recv[n]) mark();
-  $("#stRecv").onclick=()=>{recv[n]=today;saveProgress();mark();if(memberKey())sheetPost({kind:"amenity",name:memberKey(),station:n}).catch(()=>{})};
+  $("#stRecv").onclick=async()=>{const b=$("#stRecv");b.disabled=true;
+    /* 팀에 역마다 1개: 시트에 먼저 기록하고, 팀원이 이미 받았으면 그 기록을 보여줘요 */
+    let res=null;if(memberKey()){const rk=team.members.length>1?receiver:P.name;
+      try{res=await sheetPost({kind:"amenity",name:memberKey(),team:teamKey(),station:n,receiver:rk})}catch(e){}}
+    recv[n]=res&&res.value?res.value:`${today} ${P.name||""}`.trim();saveProgress();mark();b.disabled=false;
+    if(res&&res.reason==="already_received")toast("팀원이 이미 받은 어메니티예요")};
   $("#stClose").onclick=()=>host.innerHTML="";
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
@@ -2531,11 +2556,12 @@ $("#sendTk").onclick=shareInvite;
 $("#mateQ").onclick=()=>{
   const el=document.createElement("div");el.className="mate-help";el.setAttribute("role","dialog");el.setAttribute("aria-label","동행 승객이란?");
   el.innerHTML=`<div class="qz-paper"><div class="qz-mast" style="font-size:18px">COMPANION TICKET</div>
-    <p class="qz-kick">동행 승객이란?</p><p class="qz-q" style="font-size:18px">동료와 함께 타면<br>두 사람 모두 한 칸씩!</p>
+    <p class="qz-kick">동행 승객이란?</p><p class="qz-q" style="font-size:18px">동료와 승차권 한 장을<br>함께 채워요</p>
     <ol><li><b>보내기 ↗</b>를 눌러 동료에게 <b>동행 승차권</b> 링크를 카톡으로 보내요.</li>
-      <li>동료는 링크로 들어와 <b>자기 휴대폰</b>에서 승차권을 발권해요. 동행 승객 칸에 내 이름이 미리 채워져 있어요.</li>
-      <li>함께 운동한 날, 동료가 <b>6호차 파트너 운동</b>을 인증하면 <b>내 승차권에도 파트너 칸이 자동으로 찍혀요.</b></li></ol>
-    <p class="note">동행으로 받은 칸은 하루 1칸에 포함되지 않아요. 그날 내 칸도 따로 탈 수 있어요.<br>동행 승객 칸은 비워 두어도 챌린지에 참여할 수 있어요.</p>
+      <li>동료가 링크로 들어와 <b>자기 휴대폰</b>에서 발권하면, 두 사람이 <b>한 장의 팀 승차권</b>(11칸)을 함께 채워요.</li>
+      <li>내가 헬스장에 못 온 날은 <b>동료가 한 칸을 대신 타 줄 수 있어요.</b> 누가 탄 칸인지도 승차권에 표시돼요.</li>
+      <li>정차역 <b>어메니티는 역마다 팀에 1개</b>예요. 역에서 이번엔 누가 받을지 골라 나눠 가져요.</li></ol>
+    <p class="note">팀 승차권도 <b>하루에 한 칸</b>만 탈 수 있어요(두 사람 합쳐서).<br>동행 승객 없이 혼자 타도 괜찮아요.</p>
     <div class="acts"><button type="button" class="btn ghost" style="color:#6C1F24;border-color:rgba(108,31,36,.4)" data-x>닫기</button><button type="button" class="btn" data-send>승차권 보내기</button></div></div>`;
   const close=()=>el.remove();
   el.onclick=e=>{if(e.target===el)close()};el.querySelector("[data-x]").onclick=close;
@@ -2623,15 +2649,17 @@ function myTicketHTML(){
   const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"✓":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
   const am=ST_ORDER.map(k=>{const S=STATIONS[k],got=recv[k],ready=!got&&total>=k;
     return `<div class="${got?"got":ready?"ready":""}"><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능":`${k-total}칸 남음`}</em></div>`}).join("");
-  const partner=done.m12?(P.together?`${P.together} 님과 파트너 운동`:(P.pmode||"파트너 운동 완료")):done.m11?"GX 수업 참여":"아직 없음";
+  const mates=team.members.filter(m=>m!==P.name);
+  const byMe=Object.keys(doneBy).filter(k=>done[k]&&doneBy[k]===P.name).length;
+  const teamRec=mates.length?`나 ${byMe}칸 · ${mates[0]} ${Object.keys(doneBy).filter(k=>done[k]&&doneBy[k]===mates[0]).length}칸`:"혼자 타는 중";
   return `<div class="mtk" role="document" aria-label="나의 승차권">
     <div class="h"><span>MY TICKET</span><span>GSX · 2026.11</span></div>
     <div class="t">Train Ticket</div><div class="st">Fitness journey · 7F Gran Seoul</div>
     <div class="grid">
       <div style="grid-column:1/-1"><div class="k">PASSENGER</div><div class="v">${who()}</div></div>
       <div><div class="k">TICKET NO.</div><div class="v" style="font-family:var(--f-mono);font-size:13px">${P.no||"GSX-1101-0000"}</div></div>
-      <div><div class="k">동행 승객 PARTNER</div><div class="v">${P.mate||"—"}</div></div>
-      <div><div class="k">함께한 기록</div><div class="v" style="font-size:13px">${partner}</div></div>
+      <div><div class="k">팀원 TEAM</div><div class="v">${mates.join(", ")||P.mate||"—"}</div></div>
+      <div><div class="k">팀 승차 기록</div><div class="v" style="font-size:13px">${teamRec}</div></div>
     </div>
     <div class="sec"><span>PUNCH · 승차 확인</span><b>${total} / ${TOTAL}칸</b></div>
     <div class="holes">${holes}</div>
@@ -2650,7 +2678,7 @@ function showMyTicket(){
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
   el.querySelector(".iv").onclick=shareInvite;
-  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
+  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};for(const k in doneBy)delete doneBy[k];P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
   setTimeout(()=>el.classList.add("set"),950);
@@ -2660,7 +2688,7 @@ $("#myTk").onclick=showMyTicket;
 
 showIntro();
 if(P.inviter&&P.inviter!==memberKey()){if(!$("#iMate").value)$("#iMate").value=P.inviterName||"";
-  if(new URLSearchParams(location.search).get("with"))setTimeout(()=>toast(`${P.inviterName} 님이 보낸 동행 승차권이에요. 6호차 파트너 운동을 함께 인증하면 두 분 모두 펀칭돼요!`),1200)}
+  if(new URLSearchParams(location.search).get("with"))setTimeout(()=>toast(`${P.inviterName} 님이 보낸 동행 승차권이에요. 발권하면 ${P.inviterName} 님과 한 장의 팀 승차권으로 함께 타요!`),1200)}
 syncFromSheet();
 </script>
 
