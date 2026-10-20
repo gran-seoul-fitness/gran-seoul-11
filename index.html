@@ -495,7 +495,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
   box-shadow:0 3px 6px rgba(0,0,0,.4),inset 0 0 6px rgba(120,90,40,.3);gap:1px;align-items:stretch}
 .kiosk .paper.p2{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(90deg,transparent 48%,rgba(90,70,40,.13) 50%,rgba(255,255,255,.25) 51%,transparent 53%),linear-gradient(#ECE2C8,#DDCFAD)}
 .kiosk .paper>*{flex-shrink:0}.kiosk .paper .cols{flex:1 1 auto;min-height:0}
-.kiosk .paper .mast{font-family:"UnifrakturMaguntia",var(--f-display);font-size:6.4px;letter-spacing:0;text-align:center;border-bottom:2.2px double #1E1B17;padding-bottom:1.5px;line-height:1.35;overflow:visible}
+.kiosk .paper .mast{font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:4.1px;letter-spacing:0;text-align:center;border-bottom:2.2px double #1E1B17;padding-bottom:1.5px;line-height:1.35;overflow:visible}
 .kiosk .paper .dl{display:block;font-family:var(--f-mono);font-size:3.4px;letter-spacing:.06em;text-align:center;color:#4A4236;border-bottom:.5px solid #1E1B17;padding-bottom:1px;white-space:nowrap;overflow:hidden}
 .kiosk .paper .hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:7.2px;line-height:1.15;color:#1E1B17;letter-spacing:-.02em}
 .kiosk .paper .cols{position:relative;opacity:1;background:repeating-linear-gradient(0deg,#9C9380 0 .7px,transparent .7px 2.4px)}
@@ -899,7 +899,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 @keyframes scGlow{50%{opacity:.75}}
 .offer-clip{left:33%}
 .office .bell{left:57%}
-.wallquiz{position:absolute;left:74%;width:20%;top:39.8%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
+.wallquiz{position:absolute;left:76%;width:16%;top:40.2%;z-index:3;border:0;padding:0;background:none;transform:rotate(2.5deg);transform-origin:50% 0;animation:wqSway 5.5s ease-in-out infinite}
 @keyframes wqSway{50%{transform:rotate(1deg)}}
 /* 퀴즈: 버건디 + 아이보리 신문 포스터 */
 .wallquiz .wq-paper{position:relative;display:flex;flex-direction:column;align-items:center;padding:4px;text-align:center;color:#2A1D18;
@@ -908,12 +908,12 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .wallquiz .wq-paper::before,.wallquiz .wq-paper::after{content:"";position:absolute;top:-5px;width:20px;height:9px;background:rgba(232,220,180,.8);box-shadow:0 1px 1px rgba(0,0,0,.15);z-index:2}
 .wallquiz .wq-paper::before{left:-4px;transform:rotate(-28deg)}.wallquiz .wq-paper::after{right:-4px;transform:rotate(28deg)}
 .wq-frame{display:flex;flex-direction:column;align-items:center;width:100%;border:1px solid #7A2228;outline:.5px solid #7A2228;outline-offset:-3px;padding-bottom:3px}
-.wq-top{width:100%;background:#7A2228;color:#F6ECD6;font-family:"UnifrakturMaguntia",var(--f-display);font-size:13px;line-height:1.25;padding:2px 0 1px}
-.wq-dl{width:92%;white-space:nowrap;overflow:hidden;font-family:var(--f-mono);font-size:5px;letter-spacing:.06em;color:#7A2228;border-bottom:2.5px double #7A2228;padding:2px 0 1.5px}
-.wq-q{font-family:var(--f-display);font-size:28px;line-height:1;color:#7A2228;margin-top:2px}
-.wq-hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:10px;line-height:1.2;color:#2A1D18;padding:1px 0 3px;width:92%;border-bottom:.6px solid #7A2228}
-.wq-cols{width:92%;height:8px;margin-top:3px;background:linear-gradient(90deg,transparent 48%,#9C8A78 48% 52%,transparent 52%),repeating-linear-gradient(0deg,#B0A08C 0 .7px,transparent .7px 2.6px)}
-.wq-go{width:92%;margin-top:4px;background:#7A2228;color:#F6ECD6;font-size:7.5px;font-weight:700;padding:2.5px 0}
+.wq-top{width:100%;background:#7A2228;color:#F6ECD6;font-family:"Playfair Display SC",Gloock,serif;font-weight:700;font-size:8.5px;letter-spacing:.14em;line-height:1.3;padding:2.5px 0 2px}
+.wq-dl{width:92%;white-space:nowrap;overflow:hidden;font-family:var(--f-mono);font-size:4.2px;letter-spacing:.06em;color:#7A2228;border-bottom:2.5px double #7A2228;padding:2px 0 1.5px}
+.wq-q{font-family:var(--f-display);font-size:22px;line-height:1;color:#7A2228;margin-top:2px}
+.wq-hd{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:8.5px;line-height:1.2;color:#2A1D18;padding:1px 0 3px;width:92%;border-bottom:.6px solid #7A2228}
+.wq-cols{width:92%;height:6px;margin-top:2px;background:linear-gradient(90deg,transparent 48%,#9C8A78 48% 52%,transparent 52%),repeating-linear-gradient(0deg,#B0A08C 0 .7px,transparent .7px 2.6px)}
+.wq-go{width:92%;margin-top:3px;background:#7A2228;color:#F6ECD6;font-size:6.5px;font-weight:700;padding:2.5px 0}
 .wq-new{position:absolute;right:-9px;top:-3px;z-index:3;background:#F6ECD6;color:#7A2228;border:1px solid #7A2228;font-family:var(--f-mono);font-size:6.5px;letter-spacing:.12em;padding:1.5px 4px;transform:rotate(12deg);box-shadow:0 2px 3px rgba(0,0,0,.3);animation:wqBlink 1.6s ease-in-out infinite}
 @keyframes wqBlink{50%{opacity:.55}}
 .wallquiz::before{content:"";position:absolute;left:50%;top:-34px;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.5),rgba(255,226,160,0) 70%);pointer-events:none}
@@ -927,8 +927,8 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
   .office .fld input{font-size:15px;padding:2px 0}
   .office .fld select{font-size:13.5px;padding:2px 18px 2px 0}
   .office .issue-card .btn{padding:9px 16px}
-  .wallquiz{top:39.6%;width:18%}
-  .wq-top{font-size:11px}.wq-dl{font-size:4.2px}.wq-q{font-size:22px;margin-top:1px}.wq-hd{font-size:8.5px;padding-bottom:2px}.wq-cols{display:none}
+  .wallquiz{top:39.6%;width:15%;left:76.5%}
+  .wq-top{font-size:7.5px}.wq-dl{font-size:3.6px}.wq-q{font-size:18px;margin-top:1px}.wq-hd{font-size:7.5px;padding-bottom:2px}.wq-cols{display:none}
 }
 
 
@@ -1258,7 +1258,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <span class="sconce l" aria-hidden="true"><i></i></span><span class="sconce c" aria-hidden="true"><i></i></span><span class="sconce r" aria-hidden="true"><i></i></span>
       <!-- 오른쪽 벽에 붙인 이달의 퀴즈 신문 -->
       <button class="wallquiz" type="button" id="wallQuiz" aria-label="이달의 퀴즈 열기"><span class="wq-paper"><span class="wq-frame">
-        <span class="wq-top">The Quiz</span><span class="wq-dl">VOL.04 · NOV 2026</span>
+        <span class="wq-top">THE QUIZ</span><span class="wq-dl">VOL.04 · NOV 2026</span>
         <span class="wq-q">?</span><span class="wq-hd">11월<br>이달의 퀴즈</span><span class="wq-cols"></span><span class="wq-go">풀러 가기 →</span></span>
         <span class="wq-new">NEW</span></span></button>
       <!-- 원목 매표 부스 3칸 -->
@@ -1323,8 +1323,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <g fill="#8C8270"><rect x="25" y="154" width="14" height="2"/><rect x="49" y="156" width="14" height="2"/><rect x="73" y="154" width="14" height="2"/><rect x="97" y="156" width="12" height="2"/></g>
           <circle cx="65" cy="22" r="4" fill="#FFE3A0"/>
         </svg>
-        <button class="paper p1" type="button" id="paper1"><span class="mast">Body Letter</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
-        <button class="paper p2" type="button" id="paper2"><span class="mast">GX Times</span><span class="dl">NOV 2026 · 7F STUDIO</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
+        <button class="paper p1" type="button" id="paper1"><span class="mast">BODY LETTER</span><span class="dl">VOL.04 · NOV 2026 · 그랑서울</span><span class="hd">나는 호흡을 제대로 하고 있을까?</span><span class="cols"></span><span class="ft">11월호 읽기 →</span></button>
+        <button class="paper p2" type="button" id="paper2"><span class="mast">GX TIMES</span><span class="dl">NOV 2026 · 7F STUDIO</span><span class="hd">11월 시간표</span><span class="cols"></span><span class="ft">보기 →</span></button>
       </div>
 
       <form class="office-ui" id="issueForm" autocomplete="off">
