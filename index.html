@@ -2225,7 +2225,7 @@ function open(id){
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
     ${m.first?`<div class="gate"><span class="eb">CHECK-IN · 추천 첫 미션</span><b>체성분 측정</b><p>7층 체성분 측정기로 측정해 주세요.<br>이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> 측정하려면 <em>테크노짐 앱 회원가입</em>이 먼저 필요해요.<br>가입이 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
-    <label class="drop"><input type="file" accept="image/*" id="pf"><strong>인증샷 올리기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
+    <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>📷 인증샷 찍기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
     <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button><button class="btn ghost" id="pc">돌아가기</button></div>`;
   startEx(); wirePaper(L);
   const ready=()=>{$("#pb").disabled=!(proof&&(!m.partner||pmode))};
@@ -2243,18 +2243,13 @@ async function punchSeq(){
   L.innerHTML=`<div class="box"><div class="tk" id="tk"><div><div class="brand">GRAN SEOUL EXPRESS</div>
     <div class="row">PASSENGER<b>${who()}</b></div><div class="row">CAR / ZONE<b>${c.no}호차 · ${c.ko}</b></div>${pmode?`<div class="row">PARTNER<b>${pmode}${P.mate?` · ${P.mate}`:""}</b></div>`:""}</div>
     <div class="holes">${holes}</div></div>${HAND}<div class="msg" id="msg">차장님이 승차권을 확인하고 있어요…</div></div>`;
-  /* 시트에 먼저 기록하고(하루 1칸은 시트에서 확인), 통과하면 차장님이 펀칭해요 */
-  let res=null;
-  try{res=await sheetPost({kind:"stamp",name:memberKey(),team:teamKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,
-    photo:proof?await shrinkPhoto(proof):""})}catch(e){}
-  if(!res||!res.success){
-    const by=res&&res.by&&shortName(res.by)!==P.name?`${shortName(res.by)} 님이 `:"";
-    const why=res&&res.reason==="already_certified_today"?`오늘은 ${by?by+"이미":"이미"} 한 칸을 탔어요<small>열차는 하루에 한 칸씩 옮겨 타요. 내일 다음 칸에서 만나요!</small>`
-      :res&&res.reason==="team_done"?`${by||"팀원이 "}이미 탄 칸이에요<small>다른 칸을 골라 주세요.</small>`
-      :"승차권 확인에 실패했어요<small>인터넷 연결을 확인하고 잠시 후 다시 시도해 주세요.</small>";
-    if(res&&res.reason==="team_done")syncFromSheet();
-    $("#msg").innerHTML=`${why}<button class="btn" style="margin-top:14px" id="back">객차로 돌아가기</button>`;
+  /* 9·10월처럼: 하루 1칸은 이 휴대폰에서 바로 확인하고, 펀칭은 기다리지 않고 바로!
+     시트 전송은 뒤에서 조용히 해요(실패하면 다음에 사이트를 열 때 다시 보내요). */
+  const doneToday=lastRideDay()===kstToday()&&!done[mid];
+  if(doneToday){$("#msg").innerHTML=`오늘은 이미 한 칸을 탔어요<small>열차는 하루에 한 칸씩 옮겨 타요. 내일 다음 칸에서 만나요!</small><button class="btn" style="margin-top:14px" id="back">객차로 돌아가기</button>`;
     $("#back").onclick=()=>{L.hidden=true};return}
+  markRideDay();
+  queueStamp({kind:"stamp",name:memberKey(),team:teamKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,photo:proof||""});
   const hand=$("#hand"), tk=$("#tk"), tgt=tk.querySelector(".hole.target");
   setTimeout(()=>{const hr=tgt.getBoundingClientRect(), br=hand.parentElement.getBoundingClientRect();
     hand.style.setProperty("--hx",(hr.left+hr.width/2-(br.right+8-370+15.9))+"px");
@@ -2264,7 +2259,7 @@ async function punchSeq(){
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
   setTimeout(()=>hand.classList.remove("click"),1400);
-  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; doneBy[mid]=P.name; if(mid==="m12"&&pmode)P.pmode=pmode; total=calcTotal(); saveProgress(); render(); loadRanking();
+  setTimeout(()=>{hand.classList.remove("in"); done[mid]=true; doneBy[mid]=P.name; if(mid==="m12"&&pmode)P.pmode=pmode; total=calcTotal(); saveProgress(); render();
     const stn=STATIONS[n]&&STATIONS[n].name;
     $("#msg").innerHTML=`${n}번째 칸 승차 확인<small>${stn?`열차가 곧 ${stn}에 정차합니다.`:"내일은 다른 객차로 옮겨 타 보세요."}</small>
       <button class="btn" style="margin-top:14px" id="back">${stn?"역에 내리기 →":"객차로 돌아가기"}</button>`;
@@ -2495,9 +2490,35 @@ const MONTH="11월";
 /* 시트에서 사람을 구분하는 이름: 10월처럼 이름(입주사) */
 const memberKey=()=>P.name?(P.co?`${P.name}(${P.co})`:P.name):"";
 const sheetPost=o=>fetch(SHEET_URL,{method:"POST",body:JSON.stringify({month:MONTH,...o})}).then(r=>r.json());
-/* 인증샷은 긴 변 1280px JPEG로 줄여서 보내요 (전송 시간·드라이브 용량 절약) */
-const shrinkPhoto=src=>new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),cv=document.createElement("canvas");
-  cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.82))};im.onerror=()=>res(src);im.src=src});
+/* 인증샷은 긴 변 1024px JPEG로 줄여서 보내요 (전송 시간·드라이브 용량 절약) */
+/* 하루 1칸: 이 휴대폰에 마지막으로 탄 날(한국 시간)을 기억 */
+const kstToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date());
+const lastRideDay=()=>{try{return localStorage.getItem("gse-ride-day")||""}catch(e){return ""}};
+const markRideDay=()=>{try{localStorage.setItem("gse-ride-day",kstToday())}catch(e){}};
+/* 보낼 인증 대기열: 화면은 바로 펀칭하고, 시트 전송은 뒤에서. 실패하면 다음에 열 때 다시 보내요 */
+const PENDING_KEY="gse-pending";
+const readPending=()=>{try{return JSON.parse(localStorage.getItem(PENDING_KEY)||"[]")}catch(e){return []}};
+const writePending=a=>{try{localStorage.setItem(PENDING_KEY,JSON.stringify(a))}catch(e){}};
+async function queueStamp(item){
+  item.photo=item.photo?await shrinkPhoto(item.photo):"";
+  const list=readPending().filter(x=>x.missionId!==item.missionId);list.push(item);writePending(list);
+  setTimeout(flushPending,2300); /* 펀칭 애니메이션이 끝난 뒤 보내요 */
+}
+let flushing=false;
+async function flushPending(){
+  if(flushing)return;flushing=true;
+  try{for(const item of readPending()){
+    let res=null;try{res=await sheetPost(item)}catch(e){break}
+    writePending(readPending().filter(x=>x.missionId!==item.missionId));
+    if(res&&!res.success&&res.reason==="already_certified_today"){
+      /* 다른 휴대폰에서 이미 오늘 칸을 탔던 경우: 이 칸은 되돌려요 */
+      delete done[item.missionId];delete doneBy[item.missionId];total=calcTotal();saveProgress();render();
+      toast("오늘은 다른 기기에서 이미 한 칸을 탔어요. 이 칸은 내일 다시 타 주세요!")}
+  }}finally{flushing=false}
+  loadRanking();
+}
+const shrinkPhoto=src=>new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1024/Math.max(im.width,im.height)),cv=document.createElement("canvas");
+  cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.75))};im.onerror=()=>res(src);im.src=src});
 /* 칸 수: 6호차는 GX·파트너 중 하나만 세요 */
 const calcTotal=()=>CARS.reduce((a,c)=>a+Math.min(c.missions.filter(m=>done[m.id]).length,need(c)),0);
 /* 시트에서 내 기록 불러오기: 다른 기기에서 탄 칸, 어메니티 수령일 */
@@ -2550,12 +2571,10 @@ function showStation(n){
   $("#whoGet")?.querySelectorAll(".chip2").forEach(b=>b.onclick=()=>{receiver=b.dataset.r;$("#whoGet").querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===b))});
   tickClocks();
   if(recv[n]) mark();
-  $("#stRecv").onclick=async()=>{const b=$("#stRecv");b.disabled=true;
-    /* 팀에 역마다 1개: 시트에 먼저 기록하고, 팀원이 이미 받았으면 그 기록을 보여줘요 */
-    let res=null;if(memberKey()){const rk=team.members.length>1?receiver:P.name;
-      try{res=await sheetPost({kind:"amenity",name:memberKey(),team:teamKey(),station:n,receiver:rk})}catch(e){}}
-    recv[n]=res&&res.value?res.value:`${today} ${P.name||""}`.trim();saveProgress();mark();b.disabled=false;
-    if(res&&res.reason==="already_received")toast("팀원이 이미 받은 어메니티예요")};
+  $("#stRecv").onclick=()=>{
+    /* 바로 수령 완료로 바꾸고, 시트 기록은 뒤에서 보내요 */
+    recv[n]=today;saveProgress();mark();
+    if(memberKey())sheetPost({kind:"amenity",name:memberKey(),team:teamKey(),station:n,receiver:P.name}).catch(()=>{})};
   $("#stClose").onclick=()=>host.innerHTML="";
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
@@ -2686,7 +2705,7 @@ function showMyTicket(){
   const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
-  el.querySelector(".rs").onclick=()=>{done={};total=0;recv={};for(const k in doneBy)delete doneBy[k];P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
+  el.querySelector(".rs").onclick=()=>{try{localStorage.removeItem("gse-ride-day");localStorage.removeItem(PENDING_KEY)}catch(e){}done={};total=0;recv={};for(const k in doneBy)delete doneBy[k];P.pmode="";saveProgress();$("#layer").hidden=true;render();close()};
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
   setTimeout(()=>el.classList.add("set"),950);
@@ -2695,7 +2714,7 @@ function showMyTicket(){
 $("#myTk").onclick=showMyTicket;
 
 showIntro();
-syncFromSheet();
+flushPending().then(syncFromSheet);
 loadRanking();
 </script>
 
