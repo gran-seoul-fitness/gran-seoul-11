@@ -1210,8 +1210,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .day-lock{padding:16px;border-radius:6px;background:rgba(244,236,219,.96);color:var(--ink);text-align:center;font-size:13px;line-height:1.6}
 .day-lock b{display:block;font-size:16px;color:#B3261E;margin-bottom:4px}
 .office .flapboard{cursor:pointer}
-.office .trolley{cursor:pointer;pointer-events:auto;z-index:5;transition:transform .7s cubic-bezier(.3,1.25,.5,1)}
-.office .trolley.out{transform:translate(18%,10%) scale(1.22) rotate(-2deg)}
+.office .trolley{cursor:pointer;pointer-events:auto;z-index:5;transition:transform .8s cubic-bezier(.45,1.35,.55,1)}
+.office .trolley.out{transform:translateX(42%) rotate(-1.5deg)}
 .office .trolley.out .wh,.office .trolley circle{transform-box:fill-box;transform-origin:center}
 /* ── 글씨체 통일: 출발 안내판(스플릿플랩)만 빼고 전부 나눔명조 */
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
@@ -2612,7 +2612,7 @@ function openReader(kind){
   $("#stage").appendChild(el); el.querySelector("button").focus();
 }
 $("#flapboard").onclick=()=>boardNext();
-/* 여행가방 카트: 누르면 앞으로 굴러 나왔다가, 다시 누르면 제자리로 */
+/* 여행가방 카트: 누르면 오른쪽으로 굴러갔다가, 다시 누르면 제자리(왼쪽)로 */
 document.querySelector(".trolley")?.addEventListener("click",e=>e.currentTarget.classList.toggle("out"));
 $("#paper1").onclick=()=>openReader("letter");
 $("#paper2").onclick=()=>openReader("gx");
