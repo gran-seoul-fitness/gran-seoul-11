@@ -1681,7 +1681,7 @@ function render(){
   const full=carDone(c);
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
     <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`✓ ${doneBy[m.id]} 님이 탐`:"✓ 승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
   $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸${rodeToday()?" · 오늘 완료":""}`;
@@ -2692,7 +2692,7 @@ const MYHAND_F=`<svg viewBox="0 0 150 200" aria-hidden="true">${MHDEF}
 function myTicketHTML(){
   const tday=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   const holes=Array.from({length:TOTAL},(_,i)=>`<i class="${i<total?"on":""}"></i>`).join("");
-  const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"✓":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
+  const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"완료":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
   const am=ST_ORDER.map(k=>{const S=STATIONS[k],got=recv[k],ready=!got&&total>=k;
     return `<div class="${got?"got":ready?"ready":""}"${got||ready?` data-st="${k}" role="button" tabindex="0"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능 ›":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
@@ -2710,7 +2710,7 @@ function myTicketHTML(){
     <div class="dash"></div>
     <div class="sec"><span>AMENITY · 어메니티 수령</span><b>${Object.keys(recv).length} / 3</b></div>
     <div class="am">${am}</div>
-    <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주 🎉":`종착역까지 ${TOTAL-total}칸`}</div></div>
+    <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</div></div>
   </div>`}
 function showMyTicket(){
   const el=document.createElement("div"); el.className="myt"; el.setAttribute("role","dialog"); el.setAttribute("aria-label","마이 티켓");
