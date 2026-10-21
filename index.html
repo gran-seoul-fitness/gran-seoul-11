@@ -1204,6 +1204,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
   background:#B3261E;color:#F6ECD6;box-shadow:0 0 0 1.5px #B3261E,inset 0 0 0 1px rgba(246,236,214,.7);
   font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:11px;letter-spacing:.08em;line-height:1.2;white-space:nowrap;opacity:.9;transform:rotate(8deg);
   -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");-webkit-mask-size:60px 30px;mask-size:60px 30px}
+.day-note{margin:0;padding:8px 12px;border-radius:4px;background:rgba(244,236,219,.92);color:var(--ink);font-size:12.5px;line-height:1.5;text-align:center}
+.day-note b{color:#B3261E}
+.day-lock{padding:16px;border-radius:6px;background:rgba(244,236,219,.96);color:var(--ink);text-align:center;font-size:13px;line-height:1.6}
+.day-lock b{display:block;font-size:16px;color:#B3261E;margin-bottom:4px}
 /* ── 글씨체 통일: 출발 안내판(스플릿플랩)만 빼고 전부 나눔명조 */
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
 body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *){font-family:"Nanum Myeongjo",serif!important}
@@ -1672,10 +1676,10 @@ function render(){
   const full=carDone(c);
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
     <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`✓ ${doneBy[m.id]} 님이 탐`:"✓ 승차 확인"):off?"이 칸은 이미 완료했어요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`✓ ${doneBy[m.id]} 님이 탐`:"✓ 승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
-  $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸`;
+  $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸${rodeToday()?" · 오늘 완료":""}`;
   $("#dots").innerHTML=CARS.map((x,i)=>`<button type="button" aria-label="${x.no}호차" aria-current="${i===cur}" class="${carDone(x)?"full":""}" data-i="${i}">${x.no}</button>`).join("");
   $("#dots").querySelectorAll("button").forEach(b=>b.onclick=()=>go(+b.dataset.i));
 }
@@ -2224,14 +2228,16 @@ function open(id){
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
     ${m.first?`<div class="gate"><span class="eb">CHECK-IN · 추천 첫 미션</span><b>체성분 측정</b><p>7층 체성분 측정기로 측정해 주세요.<br>이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> 측정하려면 <em>테크노짐 앱 회원가입</em>이 먼저 필요해요.<br>가입이 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
+    ${rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
+    :`<p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인하고 찍어 주세요.</p>
     <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
-    <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button><button class="btn ghost" id="pc">돌아가기</button></div>`;
+    <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button><button class="btn ghost" id="pc">돌아가기</button></div>`}`;
   startEx(); wirePaper(L);
-  const ready=()=>{$("#pb").disabled=!(proof&&(!m.partner||pmode))};
+  const ready=()=>{if($("#pb"))$("#pb").disabled=!(proof&&(!m.partner||pmode))};
   L.querySelectorAll(".chip2").forEach(c=>c.onclick=()=>{pmode=c.dataset.m;L.querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===c));ready()});
-  $("#pf").onchange=e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader();
+  if($("#pf"))$("#pf").onchange=e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader();
     r.onload=()=>{proof=r.result; $("#pv").innerHTML=`<img class="proof" src="${proof}" alt="인증샷 미리보기">`; ready()}; r.readAsDataURL(f)};
-  $("#pb").onclick=punchSeq; $("#pc").onclick=()=>L.hidden=true;
+  if($("#pb"))$("#pb").onclick=punchSeq; $("#pc").onclick=()=>L.hidden=true;
 }
 async function punchSeq(){
   const c=CARS[cur], L=$("#layer"), m=c.missions.find(x=>x.id===mid);
@@ -2491,6 +2497,7 @@ const memberKey=()=>P.name?(P.co?`${P.name}(${P.co})`:P.name):"";
 const sheetPost=o=>fetch(SHEET_URL,{method:"POST",body:JSON.stringify({month:MONTH,...o})}).then(r=>r.json());
 /* 인증샷은 긴 변 1024px JPEG로 줄여서 보내요 (전송 시간·드라이브 용량 절약) */
 /* 하루 1칸: 이 휴대폰에 마지막으로 탄 날(한국 시간)을 기억 */
+function rodeToday(){try{return localStorage.getItem("gse-ride-day")===new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date())}catch(e){return false}}
 const kstToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date());
 const lastRideDay=()=>{try{return localStorage.getItem("gse-ride-day")||""}catch(e){return ""}};
 const markRideDay=()=>{try{localStorage.setItem("gse-ride-day",kstToday())}catch(e){}};
