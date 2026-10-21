@@ -1199,6 +1199,11 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
+/* 승차 확인 도장: 퀴즈 포스터 도장과 같은 빨간 잉크 고무도장 */
+.menu.done::after{content:"승차 확인";right:10px;top:12px;width:auto;height:auto;border:0;border-radius:0;padding:3px 7px 2px;
+  background:#B3261E;color:#F6ECD6;box-shadow:0 0 0 1.5px #B3261E,inset 0 0 0 1px rgba(246,236,214,.7);
+  font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:11px;letter-spacing:.08em;line-height:1.2;white-space:nowrap;opacity:.9;transform:rotate(8deg);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.5 1.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");-webkit-mask-size:60px 30px;mask-size:60px 30px}
 /* ── 글씨체 통일: 출발 안내판(스플릿플랩)만 빼고 전부 나눔명조 */
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
 body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *){font-family:"Nanum Myeongjo",serif!important}
