@@ -1226,7 +1226,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .gate .eb,.gate p,.gate p *,.gate .chip2,.shot .drop,.day-note,.day-note *,.day-lock,.msg small,
 .nf-tap,.np-deck,.np-photo figcaption,.np-sec h5,.np-sec ol,.np-key li,.np-key li *,.np-close,
 .st-card .eb,.st-card p,.st-card .items,.coll span,
-.qz-hint,.qz-hint *,.qz-msg,.qz-ok p,.qz-close{font-family:var(--f-sans)!important;letter-spacing:0}
+.qz-hint,.qz-hint *,.qz-msg,.qz-ok p,.qz-close,
+.btn *,.menu .spec *,.shot .drop *,.day-lock *,.msg small *,.np-sec ol *,.st-card p *,.st-card .items *,.qz-ok p *{font-family:var(--f-sans)!important;letter-spacing:0}
 .shot .drop strong,.gate b.t{font-family:"Nanum Myeongjo",serif!important}
 .btn{font-size:16px;font-weight:600}
 .btn.ghost{border:0;background:none;color:rgba(244,236,219,.8);font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:4px;padding:6px}
@@ -1256,6 +1257,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .np-sec h5{font-size:16px;justify-content:flex-start}
 .np-sec ol,.np-key li{font-size:14px;line-height:1.65}
 .np-key li em,.np-key li b{color:inherit}
+.np-sec ol .note{display:block;margin-top:3px;font-size:12px;line-height:1.5;color:#6B6252}
 /* 차장님 확인 · 역 정차 · 퀴즈 */
 .msg small{font-size:14px}
 .st-card p,.st-card .items{font-size:14px}
@@ -1798,7 +1800,7 @@ const GUIDE={
  m1:{t:["all"],how:["측정 2~3시간 전부터 공복, 화장실 먼저 다녀오기","맨발로 발판의 앞·뒤 전극에 발을 맞춰 올라서기","양쪽 손잡이를 쥐고 팔을 몸통에서 살짝 떨어뜨린 채 화면 안내가 끝날 때까지 가만히"],
    key:["운동·샤워 직후는 수분 변화로 결과가 흔들려요","매번 같은 시간대, 비슷한 옷차림으로 재야 비교가 정확해요","체중보다 골격근량과 체지방률을 중심으로 비교해 보세요"]},
  m2:{t:["qd","gl","ca"],
-   how:["고개를 숙이면 튀어나오는 목뼈 바로 아래, 승모근 위에 바 얹기","어깨에서 주먹 하나 바깥쪽으로 바 잡기","발은 어깨너비 1.5배, 발끝과 무릎 방향 맞추기","가슴을 들고 복압을 잡은 뒤 고관절부터 접으며 앉았다 일어서기"],
+   how:["고개를 숙이면 튀어나오는 목뼈 바로 아래, 승모근 위에 바 얹기","어깨에서 주먹 하나 바깥쪽으로 바 잡기","발은 어깨너비 1.5배, 발끝과 무릎 방향 맞추기<span class=\"note\">참고: 타겟 부위에 따라 발 너비를 조절할 수 있어요. 넓게 서면 엉덩이·안쪽 허벅지, 좁게 서면 허벅지 앞쪽에 더 집중돼요.</span>","가슴을 들고 복압을 잡은 뒤 고관절부터 접으며 앉았다 일어서기"],
    key:["<b>무릎 앞으로 5 : 고관절 뒤로 5</b>, 둘이 함께 나가며 앉기.<br><small class='soft'>무릎이 발끝을 넘으면 안 된다며 무릎만 뒤로 빼면 상체가 숙여져 허리에 부담이 가요</small>","무릎은 항상 발끝 방향을 따라가게","앉을 때 엉덩이 양쪽이 멀어지는 느낌으로","발바닥 3점 지지, 갈비뼈를 닫고 허벅지·종아리·엉덩이 힘 유지","앉을 때 <b>뒤꿈치가 뜬다면</b> 뒤꿈치 아래에 원판(플레이트)을 대고 해도 좋아요"]},
  m3:{t:["lat","bi","sh"],
    how:["발로 지면을 밀어 하체에 단단히 힘이 들어가게 세팅","바를 잡고 쇄골 중앙이 사선 위로 올라가는 느낌, 명치 뒤(등)를 살짝 받쳐 올리기","날개뼈가 빠지지 않고 고정된 느낌 유지하기","바 중앙을 턱 밑으로 당긴다는 느낌으로 내리기"],
@@ -2344,13 +2346,18 @@ let ranking=null,boardTimer=null;
 const fbLine=(left,right="")=>left.slice(0,20-right.length-(right?1:0)).padEnd(20-right.length," ")+right;
 async function loadRanking(){
   try{const r=await fetch(`${SHEET_URL}?month=${encodeURIComponent(MONTH)}&rank=1&name=${encodeURIComponent(memberKey())}`).then(x=>x.json());
-    if(r&&typeof r.riders==="number"){ranking=r;startBoardCycle()}}catch(e){}
+    if(r&&typeof r.riders==="number")ranking=r}catch(e){}
+  startBoardCycle();
 }
 function startBoardCycle(){
-  clearInterval(boardTimer);if(!ranking||!ranking.riders)return;
+  clearInterval(boardTimer);
+  /* 기록이 아직 없거나(첫 탑승 전) 시트에 연결되지 않아도 전광판은 계속 돌아가요 */
+  const R=ranking||{};
   const frames=[{t:"DEPARTURES",a:"11:01 GRAN SEOUL EXP",b:"PLATFORM 7F  ON TIME"},
-    {t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${ranking.cars}칸`),b:fbLine("완주한 승객",`${ranking.finishers}명`)}];
-  if(ranking.me){const m=ranking.me;
+    R.riders?{t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${R.cars}칸`),b:fbLine("완주한 승객",`${R.finishers}명`)}
+      :{t:"ALL ABOARD · 모두의 기록",a:fbLine("첫 열차 출발","11.01"),b:fbLine("첫 승객을 기다려요")}];
+  if(!R.me&&memberKey())frames.push({t:"MY RANK · 나의 순위",a:fbLine("아직 탑승 기록 없음"),b:fbLine("첫 칸을 타 보세요")});
+  if(R.me){const m=ranking.me;
     /* 전체 인원 대신 '다음 목표'만 보여줘요. gap이 없으면(시트 코드 갱신 전) 응원 문구 */
     const next=typeof m.gap!=="number"?"오늘도 한 칸 더!":m.gap>0?`다음 순위까지 ${m.gap}칸`:"1위를 지키는 중";
     frames.push({t:"MY RANK · 나의 순위",a:fbLine(`나의 순위 ${m.rank}위`,`${m.count}/${ranking.total}칸`),b:fbLine(next)})}
