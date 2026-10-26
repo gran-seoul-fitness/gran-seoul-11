@@ -1168,12 +1168,15 @@ function handleNovemberRanking(me) {
   let rank = 0;
   list.forEach((x, i) => { if (i === 0 || x.count !== list[i - 1].count) rank = i + 1; x.rank = rank; });
   const mine = me ? list.find((x) => x.key === normalizeName(me)) : null;
+  // 다음 순위까지 남은 칸: 나보다 많이 탄 사람 중 가장 적게 탄 사람과의 차이 (1위면 0)
+  const above = mine ? list.filter((x) => x.count > mine.count) : [];
+  const gap = above.length ? Math.min(...above.map((x) => x.count)) - mine.count : 0;
   return {
     total: NOVEMBER_TOTAL,
     riders: list.length,
     cars: list.reduce((a, x) => a + x.count, 0),
     finishers: list.filter((x) => x.count >= NOVEMBER_TOTAL).length,
-    me: mine ? { rank: mine.rank, count: mine.count } : null,
+    me: mine ? { rank: mine.rank, count: mine.count, gap: gap } : null,
   };
 }
 

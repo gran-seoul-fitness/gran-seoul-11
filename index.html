@@ -2350,7 +2350,10 @@ function startBoardCycle(){
   clearInterval(boardTimer);if(!ranking||!ranking.riders)return;
   const frames=[{t:"DEPARTURES",a:"11:01 GRAN SEOUL EXP",b:"PLATFORM 7F  ON TIME"},
     {t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${ranking.cars}칸`),b:fbLine("완주한 승객",`${ranking.finishers}명`)}];
-  if(ranking.me)frames.push({t:"MY RANK · 나의 순위",a:fbLine(`나의 순위 ${ranking.me.rank}위`,`${ranking.me.count}/${ranking.total}`),b:fbLine(`탑승객 ${ranking.riders}명 중`)});
+  if(ranking.me){const m=ranking.me;
+    /* 전체 인원 대신 '다음 목표'만 보여줘요. gap이 없으면(시트 코드 갱신 전) 응원 문구 */
+    const next=typeof m.gap!=="number"?"오늘도 한 칸 더!":m.gap>0?`다음 순위까지 ${m.gap}칸`:"1위를 지키는 중";
+    frames.push({t:"MY RANK · 나의 순위",a:fbLine(`나의 순위 ${m.rank}위`,`${m.count}/${ranking.total}칸`),b:fbLine(next)})}
   let k=1;
   const show=()=>{const f=frames[k%frames.length];$("#fbTitle").textContent=f.t;flap("#fbRow1",f.a);flap("#fbRow2",f.b);k++};
   boardTimer=setInterval(show,reduce?8000:5500);
