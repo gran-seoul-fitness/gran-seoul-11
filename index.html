@@ -1215,8 +1215,51 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .office .trolley.out .wh,.office .trolley circle{transform-box:fill-box;transform-origin:center}
 /* ── 글씨체 통일: 출발 안내판(스플릿플랩)만 빼고 전부 나눔명조 */
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
-body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *){font-family:"Nanum Myeongjo",serif!important}
+:where(body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *)){font-family:"Nanum Myeongjo",serif!important}
 .fb-row span,.fb-head{font-family:"IBM Plex Mono",ui-monospace,monospace!important}
+
+/* ── 읽기 정리: 제목·장식은 명조, 읽는 글(설명·안내·버튼)은 고딕
+   글씨 크기는 12(보조) / 14(본문) / 16(소제목·버튼) / 22(제목) 네 단계 */
+:root{--f-sans:"IBM Plex Sans KR",system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.btn,.skip,.bar,.bar *,input,select,.plat-msg span,
+.menu .cat,.menu .spec,.menu .go,
+.gate .eb,.gate p,.gate p *,.gate .chip2,.shot .drop,.day-note,.day-note *,.day-lock,.msg small,
+.nf-tap,.np-deck,.np-photo figcaption,.np-sec h5,.np-sec ol,.np-key li,.np-key li *,.np-close,
+.st-card .eb,.st-card p,.st-card .items,.coll span,
+.qz-hint,.qz-hint *,.qz-msg,.qz-ok p,.qz-close{font-family:var(--f-sans)!important;letter-spacing:0}
+.shot .drop strong,.gate b.t{font-family:"Nanum Myeongjo",serif!important}
+.btn{font-size:16px;font-weight:600}
+.btn.ghost{border:0;background:none;color:rgba(244,236,219,.8);font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:4px;padding:6px}
+.plat-msg span{font-size:14px;font-weight:500}
+.menu .cat{font-size:12px;font-weight:600}
+.menu .spec{font-size:12px}
+.menu .go{font-size:14px;font-weight:600;color:var(--ink)}
+/* 미션 화면: 신문 / 안내 / 인증 세 덩어리 */
+.gate{padding:16px;gap:6px;border-radius:8px}
+.gate .eb{font-size:12px;font-weight:600;color:var(--brass-dk)}
+.gate b.t{font-size:22px}
+.gate p{font-size:14px;line-height:1.6;color:#4A4A40}
+.gate .need{margin-top:4px;background:none;border:0;border-top:1px solid #D8CDB4;border-radius:0;padding:10px 0 0;color:#4A4A40}
+.gate .need b{display:inline;margin:0 4px 0 0;font-size:14px;font-weight:700;letter-spacing:0;color:var(--ink)}
+.gate .need em{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--brass);text-decoration-thickness:2px;text-underline-offset:3px}
+.shot{background:var(--paper);color:var(--ink);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 14px 30px rgba(0,0,0,.4)}
+.shot .day-note{background:none;padding:0;font-size:12px;color:#6B6A5C}
+.shot .day-note b{color:var(--ink);font-weight:700}
+.shot .drop{background:#EFE6D2;border:1.5px dashed #B9A67C;border-radius:6px;padding:18px 12px;font-size:14px;color:#4A4A40}
+.shot .drop strong{font-size:16px;color:var(--ink);margin-bottom:2px}
+.shot .btn{padding:14px;border-radius:6px}
+.day-lock{font-size:14px}
+.day-lock b{font-size:16px;color:var(--ink)}
+/* 신문 속 운동법 */
+.np-deck{font-size:14px;font-weight:600;color:#1A1714}
+.np-photo figcaption{font-size:12px}
+.np-sec h5{font-size:16px;justify-content:flex-start}
+.np-sec ol,.np-key li{font-size:14px;line-height:1.65}
+.np-key li em,.np-key li b{color:inherit}
+/* 차장님 확인 · 역 정차 · 퀴즈 */
+.msg small{font-size:14px}
+.st-card p,.st-card .items{font-size:14px}
+.qz-ok p{font-size:14px}
 </style>
 </head>
 <body>
@@ -1680,7 +1723,7 @@ function render(){
   const c=CARS[cur];
   const full=carDone(c);
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
-    <div class="cat">${m.cat}${m.first?" · 추천 첫 미션":""}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
+    <div class="cat">${m.first?"추천 첫 미션":m.cat}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
     <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
@@ -2209,8 +2252,8 @@ function paperHTML(m,c){
     <div class="np-body">
       <figure class="np-photo"><svg class="exfig" data-ex="${m.id}" viewBox="${vb}" role="img" aria-label="${m.name} 동작 일러스트"></svg>
         <figcaption>▲ 주황색으로 빛나는 곳이 이 운동에서 쓰는 근육이에요.</figcaption></figure>
-      <section class="np-sec"><h5><span>HOW TO USE</span>사용법</h5><ol>${g.how.map(x=>`<li>${x}</li>`).join("")}</ol></section>
-      <section class="np-sec"><h5><span>KEY POINTS</span>꼭 기억하세요</h5><ul class="pt-key np-key">${g.key.map((x,i)=>`<li><span>${i+1}</span><div>${x}</div></li>`).join("")}</ul></section>
+      <section class="np-sec"><h5>사용법</h5><ol>${g.how.map(x=>`<li>${x}</li>`).join("")}</ol></section>
+      <section class="np-sec"><h5>꼭 기억하세요</h5><ul class="pt-key np-key">${g.key.map((x,i)=>`<li><span>${i+1}</span><div>${x}</div></li>`).join("")}</ul></section>
       <button type="button" class="np-close">신문 접기 ▴</button>
     </div>
   </article></div>`;
@@ -2229,14 +2272,14 @@ function open(id){
   const mate="함께 운동하는 동료";
   L.innerHTML=`<div class="box">
     ${paperHTML(m,CARS[cur])}
-    ${m.partner?`<div class="gate"><span class="eb">PARTNER · 함께 타는 운동</span><b>오늘은 어느 쪽인가요?</b>
+    ${m.partner?`<div class="gate"><span class="eb">함께 타는 운동</span><b class="t">오늘은 어느 쪽인가요?</b>
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
-    ${m.first?`<div class="gate"><span class="eb">CHECK-IN · 추천 첫 미션</span><b>체성분 측정</b><p>7층 체성분 측정기로 측정해 주세요.<br>이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> 측정하려면 <em>테크노짐 앱 회원가입</em>이 먼저 필요해요.<br>가입이 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
+    ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 결과를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
     ${rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
-    :`<p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인하고 찍어 주세요.</p>
+    :`<div class="shot"><p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인해 주세요.</p>
     <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
-    <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button><button class="btn ghost" id="pc">돌아가기</button></div>`}`;
+    <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button></div><button class="btn ghost" id="pc">돌아가기</button></div>`}`;
   startEx(); wirePaper(L);
   const ready=()=>{if($("#pb"))$("#pb").disabled=!(proof&&(!m.partner||pmode))};
   L.querySelectorAll(".chip2").forEach(c=>c.onclick=()=>{pmode=c.dataset.m;L.querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===c));ready()});
