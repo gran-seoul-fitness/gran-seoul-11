@@ -1684,7 +1684,7 @@ const CARS=[
  {no:1,en:"BURGUNDY CAR",ko:"체성분·하체 칸",zone:"하체존",view:"산골짜기 · 오후",wall:"w1",win:"rect",sky:["#E8D3A6","#F3E5C3"],sun:{c:"#F6E2A8",x:62,y:16,s:34},lamp:"#F7D88A",
   layers:[["peaks","#A7B48A",62,30],["rolling","#71895F",40,14],["trees","#3E5A40",22,4.5]],
   left:["inbody","left:6%;bottom:27%;width:34%"],right:["smith","right:3%;bottom:29%;width:30%"],
-  missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"결과지·결과 화면 또는 측정기 앞에서 찍은 사진<br>둘 중 하나면 돼요"},{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"}]},
+  missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"측정한 체성분 측정기를 찍어 주세요<br>결과지·결과 화면은 찍지 않아도 돼요"},{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"}]},
  {no:2,en:"VELVET CAR",ko:"등 칸",zone:"등존",view:"호숫가 초원 · 아침",wall:"w2",win:"rect",sky:["#CFE0E6","#EEF2E6"],sun:{c:"#FFF4D6",x:18,y:14,s:28},lamp:"#FBE6B0",
   layers:[["peaks","#B4C6C9",56,40],["flat","#8FB3B8",18,16],["rolling","#7FA36B",22,9],["shrubs","#4E7A4A",12,3.5]],
   left:["latpull","left:2%;bottom:29%;width:40%"],right:["row","right:1%;bottom:28%;width:48%"],
@@ -2302,7 +2302,7 @@ function open(id){
     ${m.partner?`<div class="gate"><span class="eb">함께 타는 운동</span><b class="t">오늘은 어느 쪽인가요?</b>
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
-    ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 결과를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
+    ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 측정기를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
     ${rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
     :`<div class="shot"><p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인해 주세요.</p>
     <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||SHOT[m.id]||"운동한 기구를 찍어 주세요"}${m.partner?"":`<small class="me-free">운동하는 내 모습은 안 찍어도 돼요</small>`}</label>
