@@ -13,6 +13,8 @@
   gtag('config','G-EFGZQXF27S');
   /* 버튼별 이벤트. 이름 같은 개인정보는 보내지 않아요 */
   function track(name,params){try{gtag('event',name,params||{})}catch(e){}}
+  /* 보고서용: 운영자만 보는 GA에 입주사를 붙여요(회원 화면에는 표시 안 함). 이름은 보내지 않아요 */
+  function trackCompany(co){try{if(co)gtag('set','user_properties',{company:co})}catch(e){}}
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=UnifrakturMaguntia&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital@1&family=Nanum+Myeongjo:wght@400;700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -2322,7 +2324,7 @@ async function punchSeq(){
     $("#back").onclick=()=>{L.hidden=true};return}
   markRideDay();
   queueStamp({kind:"stamp",name:memberKey(),team:teamKey(),missionId:mid,car:`${c.no}호차`,title:m?m.name:"",pmode,photo:proof||""});
-  track("mission_complete",{mission_id:mid,mission_name:m?m.name:"",car_no:c.no,ride_count:n});
+  track("mission_complete",{mission_id:mid,mission_name:m?m.name:"",car_no:c.no,ride_count:n,company:P.co||""});
   const hand=$("#hand"), tk=$("#tk"), tgt=tk.querySelector(".hole.target");
   setTimeout(()=>{const hr=tgt.getBoundingClientRect(), br=hand.parentElement.getBoundingClientRect();
     hand.style.setProperty("--hx",(hr.left+hr.width/2-(br.right+8-370+15.9))+"px");
@@ -2393,6 +2395,7 @@ const P={name:"",mate:"",co:""};
 /* 승객 표기: 이름-입주사 */
 const who=()=>(P.name||"승객")+(P.co?`-${P.co}`:"");
 try{Object.assign(P,JSON.parse(localStorage.getItem("gse-pass")||"{}"))}catch(e){}
+trackCompany(P.co);
 const intro=$("#intro"), office=$("#office"), plat=$("#platform"), fade=$("#fade");
 function showIntro(){boardText();intro.hidden=false;office.hidden=false;office.classList.remove("issued");plat.hidden=true;plat.classList.remove("departing","waiting");
   $("#iName").value=P.name||"";$("#iCo").value=P.co||"";fade.classList.remove("on");syncIssue()}
@@ -2408,7 +2411,7 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   if(returning()){track("continue_boarding");board();return}
   const n=$("#iName").value.trim(); if(!n){$("#iName").focus();return}
   const co=$("#iCo").value; if(!co){$("#iCo").focus();return}
-  P.name=n; P.co=co; P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000)); track("ticket_issue");
+  P.name=n; P.co=co; P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000)); trackCompany(co); track("ticket_issue",{company:co});
   try{localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}
   $("#giver").innerHTML=GIVER; $("#ntName").textContent=P.name; $("#ntCo").textContent=P.co?`-${P.co}`:""; $("#ntName2").textContent=P.name; $("#ntMate").textContent=P.mate||"—"; $("#ntNo").textContent="No."+P.no.slice(-4);
   /* 승차권 주는 손이 짐수레에 가리지 않게: 발권할 때 수레는 제자리로, 손이 들어갈 때까지 잠깐 고정 */
