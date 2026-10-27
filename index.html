@@ -2408,7 +2408,7 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   if(returning()){track("continue_boarding");board();return}
   const n=$("#iName").value.trim(); if(!n){$("#iName").focus();return}
   const co=$("#iCo").value; if(!co){$("#iCo").focus();return}
-  P.name=n; P.co=co; P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000)); track("ticket_issue",{company:co});
+  P.name=n; P.co=co; P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000)); track("ticket_issue");
   try{localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}
   $("#giver").innerHTML=GIVER; $("#ntName").textContent=P.name; $("#ntCo").textContent=P.co?`-${P.co}`:""; $("#ntName2").textContent=P.name; $("#ntMate").textContent=P.mate||"—"; $("#ntNo").textContent="No."+P.no.slice(-4);
   /* 승차권 주는 손이 짐수레에 가리지 않게: 발권할 때 수레는 제자리로, 손이 들어갈 때까지 잠깐 고정 */

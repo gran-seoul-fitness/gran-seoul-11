@@ -19,8 +19,8 @@
 - 챌린지: `MONTH`, 미션(`CARS`), 시트 코드의 11월 분기
 
 ## GA4 (구글 애널리틱스)
-- 측정 ID `G-EFGZQXF27S` (10월 챌린지와 같은 속성). 이름 같은 개인정보는 보내지 않아요.
-- 이벤트: `ticket_issue`(입주사) · `continue_boarding` · `car_view` · `mission_open` · `guide_open` · `mission_complete` · `station_arrive` · `amenity_receive` · `quiz_open` · `quiz_answer` · `letter_open` · `gx_open` · `myticket_open` · `board_tap`
+- 측정 ID `G-EFGZQXF27S` (10월 챌린지와 같은 속성). 이름·입주사 등 회원을 알 수 있는 정보는 보내지 않아요(행동 횟수만 집계).
+- 이벤트: `ticket_issue` · `continue_boarding` · `car_view` · `mission_open` · `guide_open` · `mission_complete` · `station_arrive` · `amenity_receive` · `quiz_open` · `quiz_answer` · `letter_open` · `gx_open` · `myticket_open` · `board_tap`
 - 홍보 링크(유입 경로 구분용)
   - 공지 메일: `https://gran-seoul-fitness.github.io/gran-seoul-11/?utm_source=mail&utm_medium=email&utm_campaign=nov_challenge`
   - 7층 배너 QR: `https://gran-seoul-fitness.github.io/gran-seoul-11/?utm_source=banner&utm_medium=qr&utm_campaign=nov_challenge`
