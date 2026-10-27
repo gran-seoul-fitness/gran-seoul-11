@@ -1490,7 +1490,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
             <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
           </div>
-          <button class="btn" type="submit">승차권 발권하기</button>
+          <button class="btn" type="submit" id="issueBtn">승차권 발권하기</button>
         </div>
       </form>
 
@@ -2377,8 +2377,14 @@ const who=()=>(P.name||"승객")+(P.co?`-${P.co}`:"");
 try{Object.assign(P,JSON.parse(localStorage.getItem("gse-pass")||"{}"))}catch(e){}
 const intro=$("#intro"), office=$("#office"), plat=$("#platform"), fade=$("#fade");
 function showIntro(){boardText();intro.hidden=false;office.hidden=false;office.classList.remove("issued");plat.hidden=true;plat.classList.remove("departing","waiting");
-  $("#iName").value=P.name||"";$("#iCo").value=P.co||"";fade.classList.remove("on")}
+  $("#iName").value=P.name||"";$("#iCo").value=P.co||"";fade.classList.remove("on");syncIssue()}
+/* 이미 발권한 승객이 다시 오면 큰 버튼 하나로 바로 열차로. 이름·입주사를 바꾸면 다시 '발권하기' */
+const returning=()=>!!(P.name&&P.co&&P.no&&$("#iName").value.trim()===P.name&&$("#iCo").value===P.co);
+function syncIssue(){$("#issueBtn").textContent=returning()?"이어서 탑승하기 →":"승차권 발권하기";
+  $("#skip").hidden=!office.hidden}
+$("#iName").addEventListener("input",syncIssue);$("#iCo").addEventListener("change",syncIssue);
 $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
+  if(returning()){board();return}
   const n=$("#iName").value.trim(); if(!n){$("#iName").focus();return}
   const co=$("#iCo").value; if(!co){$("#iCo").focus();return}
   P.name=n; P.co=co; P.no="GSX-1101-"+(1000+Math.floor(Math.random()*9000));
@@ -2387,7 +2393,7 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   /* 승차권 주는 손이 짐수레에 가리지 않게: 발권할 때 수레는 제자리로, 손이 들어갈 때까지 잠깐 고정 */
   const trol=document.querySelector(".office .trolley"); if(trol){trol.classList.remove("out"); trol.dataset.hold="1"; setTimeout(()=>delete trol.dataset.hold,2500)}
   office.classList.add("issued");syncFromSheet();loadRanking()});
-$("#toPlatform").onclick=()=>{office.hidden=true;plat.hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
+$("#toPlatform").onclick=()=>{office.hidden=true;plat.hidden=false;$("#skip").hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
   plat.classList.add("waiting");
   setTimeout(()=>plat.classList.add("departing"),reduce?0:1300);
   setTimeout(board,reduce?300:5000)};
