@@ -1263,6 +1263,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .shot .day-note b{color:var(--ink);font-weight:700}
 .shot .drop{background:#EFE6D2;border:1.5px dashed #B9A67C;border-radius:6px;padding:18px 12px;font-size:14px;color:#4A4A40}
 .shot .drop strong{font-size:16px;color:var(--ink);margin-bottom:2px}
+.shot .drop .me-free{display:block;margin-top:6px;font-size:12px;color:#8A7A5A}
 .shot .btn{padding:14px;border-radius:6px}
 .day-lock{font-size:14px}
 .day-lock b{font-size:16px;color:var(--ink)}
@@ -2285,6 +2286,11 @@ function wirePaper(L){const w=L.querySelector(".np-wrap");if(!w)return;
     w.classList.add("opening");setTimeout(()=>{w.classList.remove("folded","opening");w.classList.add("opened")},1150)};
   w.querySelector(".np-close").onclick=()=>{w.classList.remove("opened");w.classList.add("folded")}}
 let pmode="";
+/* 인증샷: 내 모습 대신 운동한 기구·매트를 찍어요 */
+const SHOT={m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
+  m5:"운동한 체스트 프레스 머신을 찍어 주세요",m6:"운동한 덤벨을 찍어 주세요",m7:"운동한 트레드밀을 찍어 주세요<br>화면에 시간·경사가 보이면 더 좋아요",
+  m8:"운동한 실내 사이클을 찍어 주세요<br>화면에 운동 시간이 보이면 더 좋아요",m9:"운동한 매트가 보이게 찍어 주세요",m10:"호흡한 매트가 보이게 찍어 주세요",
+  m11:"GX 수업에서 쓴 매트가 보이게 찍어 주세요"};
 function open(id){
   mid=id; proof=null; pmode="";
   const m=CARS[cur].missions.find(x=>x.id===id), L=$("#layer"); L.hidden=false;
@@ -2299,7 +2305,7 @@ function open(id){
     ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 결과를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
     ${rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
     :`<div class="shot"><p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인해 주세요.</p>
-    <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||`${m.name} 장면이 보이게 찍어 주세요`}</label>
+    <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||SHOT[m.id]||"운동한 기구를 찍어 주세요"}${m.partner?"":`<small class="me-free">운동하는 내 모습은 안 찍어도 돼요</small>`}</label>
     <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button></div><button class="btn ghost" id="pc">돌아가기</button></div>`}`;
   startEx(); wirePaper(L);
   const ready=()=>{if($("#pb"))$("#pb").disabled=!(proof&&(!m.partner||pmode))};
