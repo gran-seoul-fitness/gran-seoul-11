@@ -1217,6 +1217,9 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
 :where(body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *)){font-family:"Nanum Myeongjo",serif!important}
 .fb-row span,.fb-head{font-family:"IBM Plex Mono",ui-monospace,monospace!important}
+.lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
+#iCo:disabled{background-image:none!important}
+#iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
 
 /* ── 읽기 정리: 제목·장식은 명조, 읽는 글(설명·안내·버튼)은 고딕
    글씨 크기는 12(보조) / 14(본문) / 16(소제목·버튼) / 22(제목) 네 단계 */
@@ -1490,6 +1493,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
             <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
           </div>
+          <p class="lock-note" id="lockNote" hidden>발권한 승차권의 이름·입주사는 바꿀 수 없어요</p>
           <button class="btn" type="submit" id="issueBtn">승차권 발권하기</button>
         </div>
       </form>
@@ -2380,7 +2384,10 @@ function showIntro(){boardText();intro.hidden=false;office.hidden=false;office.c
   $("#iName").value=P.name||"";$("#iCo").value=P.co||"";fade.classList.remove("on");syncIssue()}
 /* 이미 발권한 승객이 다시 오면 큰 버튼 하나로 바로 열차로. 이름·입주사를 바꾸면 다시 '발권하기' */
 const returning=()=>!!(P.name&&P.co&&P.no&&$("#iName").value.trim()===P.name&&$("#iCo").value===P.co);
-function syncIssue(){$("#issueBtn").textContent=returning()?"이어서 탑승하기 →":"승차권 발권하기";
+function syncIssue(){
+  /* 한 번 발권하면 이름·입주사 고정: 시트 기록이 '이름(입주사)'로 이어지기 때문 */
+  const locked=!!(P.name&&P.co&&P.no);$("#iName").readOnly=locked;$("#iCo").disabled=locked;$("#lockNote").hidden=!locked;
+  $("#issueBtn").textContent=returning()?"이어서 탑승하기 →":"승차권 발권하기";
   $("#skip").hidden=!office.hidden}
 $("#iName").addEventListener("input",syncIssue);$("#iCo").addEventListener("change",syncIssue);
 $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
