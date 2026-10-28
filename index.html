@@ -356,7 +356,10 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .mtk .am div{border:1px solid rgba(31,59,45,.35);border-radius:6px;padding:6px 4px;text-align:center;font-size:10.5px;line-height:1.35;position:relative}
 .mtk .am div b{display:block;font-family:var(--f-kr);font-size:12.5px}
 .mtk .am div em{font-style:normal;font-family:var(--f-mono);font-size:8.5px;opacity:.75}
-.mtk .am div[data-st]{cursor:pointer}
+.mtk .am div[data-gift]{cursor:pointer}
+.mtk .am div.nogift{background:transparent;border-style:dashed;color:#8A8274;text-decoration:line-through}
+.mtk .gift-note{margin:-2px 0 8px;font-size:12px;line-height:1.55;color:#4A4A40;font-family:var(--f-sans)!important}
+.mtk .gift-note b{display:block;font-family:"Nanum Myeongjo",serif!important;font-size:14px;color:#1F3B2D;margin-bottom:1px}
 .mtk .am div.ready{border-color:#B8913E;background:#F7E7B9}
 .mtk .am div.got{background:#1F3B2D;color:#F3EDE0;border-color:#1F3B2D}
 .mtk .am div.got::after{content:"RECEIVED";position:absolute;right:-6px;top:-8px;font-family:var(--f-mono);font-size:7px;letter-spacing:.1em;color:#6E2626;border:1.5px solid #6E2626;border-radius:3px;padding:1px 3px;background:#F3EDE0;transform:rotate(8deg)}
@@ -1301,6 +1304,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .gv-tap{position:relative;z-index:1;display:block;width:100%;padding:40px 16px 18px;background:linear-gradient(transparent,rgba(10,14,32,.75));text-shadow:0 1px 6px rgba(0,0,0,.6);text-align:center;color:#F1E6CB;font-family:var(--f-sans)!important;font-size:13px;line-height:1.5;opacity:0;animation:fadeUp .5s ease-out 2.7s forwards;padding-bottom:6px}
 .gv-tap b{display:block;font-family:"Nanum Myeongjo",serif!important;font-size:18px;font-weight:800;color:#F3E2B0;margin-bottom:2px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.gv-skip{border:0;background:none;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 10px}
+.gv-skipped{display:none;position:absolute;right:14px;top:14px;padding:3px 9px;border:1.5px solid #8A8274;border-radius:3px;color:#6B6A5C;font-family:var(--f-sans)!important;font-size:12px;transform:rotate(-6deg);background:#F6F0E2}
+.gv-card.nogift .gv-skipped{display:block}
+.gv-card.nogift .gv-art,.gv-card.nogift .items{opacity:.4;filter:grayscale(1)}
 .gv-note{position:relative;z-index:2;margin:6px 0 0;font-family:var(--f-sans)!important;font-size:12px;color:rgba(233,215,166,.85);text-align:center}
 .gv-acts{position:relative;z-index:2;display:flex;gap:8px;width:100%;max-width:400px}
 .gv-acts .btn{flex:1}
@@ -2368,7 +2375,7 @@ let pmode="";
 const RUN={start:"2026-11-01",end:"2026-11-30"};
 const runState=()=>{const d=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date());return d<RUN.start?"before":d>RUN.end?"after":"on"};
 const RUN_LOCK={before:`<b>11월 1일에 출발해요</b>지금은 운동 방법만 미리 볼 수 있어요.<br>11월 1일부터 하루 한 칸씩 인증해 주세요!`,
-  after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>내 기록은 마이 티켓에서 볼 수 있어요.`};
+  after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>모은 선물은 12월 1일부터 7층 데스크에서 받아요.`};
 /* 인증샷: 내 모습 대신 운동한 기구·매트를 찍어요 */
 const SHOT={m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
   m5:"운동한 체스트 프레스 머신을 찍어 주세요",m6:"운동한 덤벨을 찍어 주세요",m7:"운동한 트레드밀을 찍어 주세요<br>화면에 시간·경사가 보이면 더 좋아요",
@@ -2726,7 +2733,8 @@ async function syncFromSheet(){
     (r.stamps||[]).forEach(st=>{if(!CARS.some(c=>c.missions.some(m=>m.id===st.missionId)))return;
       if(!done[st.missionId]&&shortName(st.by)!==P.name)fresh.push(st);
       done[st.missionId]=true;doneBy[st.missionId]=shortName(st.by)});
-    Object.entries(r.amenities||{}).forEach(([k,v])=>{recv[k]=v});
+    /* 시트의 선물 칸: "필요 없음"이면 빼 둔 선물 */
+    ST_ORDER.forEach(k=>{if((r.amenities||{})[k]==="필요 없음")recv[k]="필요 없음";else delete recv[k]});
     team.members=(r.members||[]).map(shortName);
     total=calcTotal();saveProgress();render();
     if(fresh.length){const f=fresh[fresh.length-1],car=CARS.find(c=>c.missions.some(m=>m.id===f.missionId));
@@ -2761,12 +2769,16 @@ const GV_COND=`<svg class="gv-cond-svg" viewBox="0 130 360 560" preserveAspectRa
   <path d="M290 446 Q270 444 250 449" stroke="#CFCAB9" stroke-width="15.6" stroke-linecap="round" fill="none"/><path d="M290 446 Q270 444 250 449" stroke="url(#gv)" stroke-width="13" stroke-linecap="round" fill="none"/><path d="M290 462 Q265 460 240 465" stroke="#CFCAB9" stroke-width="16.6" stroke-linecap="round" fill="none"/><path d="M290 462 Q265 460 240 465" stroke="url(#gv)" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M290 478 Q267 476 244 481" stroke="#CFCAB9" stroke-width="16.6" stroke-linecap="round" fill="none"/><path d="M290 478 Q267 476 244 481" stroke="url(#gv)" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M290 493 Q272 491 254 496" stroke="#CFCAB9" stroke-width="14.6" stroke-linecap="round" fill="none"/><path d="M290 493 Q272 491 254 496" stroke="url(#gv)" stroke-width="12" stroke-linecap="round" fill="none"/>
 </svg>`;
 /* 흰 장갑 손: 아래에서 봉투를 받쳐 건네요 */
+const SKIP="필요 없음";
+const isSkip=k=>recv[k]===SKIP;
+function setSkip(k,v){if(v)recv[k]=SKIP;else delete recv[k];saveProgress();track("gift_pref",{station:STATIONS[k].name,skip:v});
+  if(memberKey())sheetPost({kind:"gift_pref",name:memberKey(),team:teamKey(),station:k,skip:v}).catch(()=>{})}
 function showStation(n,{direct=false}={}){
   track("station_arrive",{station:STATIONS[n].name});
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   const gi=ST_ORDER.indexOf(+n)+1;
   /* 선물 교환권: 남색 벨벳 위, 장갑 낀 손이 봉투에서 꺼낸 교환권을 건네요 (어메니티 그림은 그대로) */
-  const intro=!direct&&!recv[n]&&!reduce;
+  const intro=!direct&&!reduce;
   host.innerHTML=`<section class="station gv${intro?" intro":""}" aria-label="${S.name} 정차 · 선물 교환권">
     <div class="gv-top"><span>${n} / ${TOTAL}칸 · ${S.name} 정차</span><b>FOR YOU · MERCI</b></div>
     ${intro?`<div class="gv-show" aria-hidden="true"><i class="gv-dark"></i><i class="gv-spot"></i><i class="gv-cur l"></i><i class="gv-cur r"></i></div>`:""}
@@ -2782,7 +2794,8 @@ function showStation(n,{direct=false}={}){
           <div class="gv-art">${S.art()}</div>
           <div class="items">해비치 ${S.item} 1개</div>
           <p id="stDesc">${S.final?`11칸을 모두 달려온 ${P.name||"승객"} 님께<br>마지막 선물을 드려요.`:`열심히 달려온 ${P.name||"승객"} 님을 위해<br>준비한 선물이에요.`}</p>
-          <div class="gv-foot">7층 데스크에서 이 교환권을 보여 주세요</div>
+          <div class="gv-foot">12월 1일부터 7층 데스크에서<br>모은 선물을 한꺼번에 받아요</div>
+          <div class="gv-skipped">필요 없음</div>
         </div>
         <svg class="gv-pocket" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L120 64 L0 90Z" fill="#1C2A5C"/><path d="M300 0 L180 64 L300 90Z" fill="#1C2A5C"/>
           <path d="M0 90 L0 30 L150 70 L300 30 L300 90Z" fill="#22336E"/><path d="M0 30 L150 70 L300 30" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".55"/><path d="M0 0 L120 64 M300 0 L180 64" stroke="#0F1838" stroke-width="1" opacity=".5"/></svg>
@@ -2790,30 +2803,14 @@ function showStation(n,{direct=false}={}){
         <svg class="gv-flipflap" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L150 104 L300 0Z" fill="#26397A"/><path d="M0 0 L150 104 L300 0" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".6"/></svg>
       </div>
     </div>
-    <p class="gv-note" id="gvNote">수령 확인은 데스크 직원이 눌러 드려요</p>
-    <div class="acts gv-acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div>
+    <button type="button" class="gv-note gv-skip" id="stSkip"></button>
+    <div class="acts gv-acts"><button class="btn" type="button" id="stClose">객차로 돌아가기</button></div>
   </section>`;
-  const mark=()=>{const c=$("#stCard");if(c.querySelector(".received"))return;
-    /* recv[n]은 수령 날짜("11. 05.")예요 */
-    const [mm,dd]=String(recv[n]).split(" ");
-    c.insertAdjacentHTML("beforeend",`<div class="received gv-rcv" role="img" aria-label="교환 완료 ${mm||""} ${dd||""}"><svg class="gv-stamp" viewBox="0 0 120 140" aria-hidden="true"><defs><filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.4" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
-<g filter="url(#ink)" fill="#B3261E">
-<path d="M42 82 L30 134 L42 126 L50 138 L58 92Z"/><path d="M78 82 L90 134 L78 126 L70 138 L62 92Z"/>
-<path d="M60.0 6.0 Q64.8 6.3 68.9 13.0 Q75.5 8.8 80.0 10.6 Q84.1 12.9 84.9 20.7 Q92.7 19.8 96.0 23.3 Q98.7 27.3 96.0 34.6 Q103.5 37.2 104.8 41.8 Q105.6 46.5 100.0 52.0 Q105.6 57.5 104.8 62.2 Q103.5 66.8 96.0 69.4 Q98.7 76.7 96.0 80.7 Q92.7 84.2 84.9 83.3 Q84.1 91.1 80.0 93.4 Q75.5 95.2 68.9 91.0 Q64.8 97.7 60.0 98.0 Q55.2 97.7 51.1 91.0 Q44.5 95.2 40.0 93.4 Q35.9 91.1 35.1 83.3 Q27.3 84.2 24.0 80.7 Q21.3 76.7 24.0 69.4 Q16.5 66.8 15.2 62.2 Q14.4 57.5 20.0 52.0 Q14.4 46.5 15.2 41.8 Q16.5 37.2 24.0 34.6 Q21.3 27.3 24.0 23.3 Q27.3 19.8 35.1 20.7 Q35.9 12.9 40.0 10.6 Q44.5 8.8 51.1 13.0 Q55.2 6.3 60.0 6.0 Z"/>
-<circle cx="60" cy="52" r="33" fill="none" stroke="#F6F0E2" stroke-width="1.6"/>
-<path d="M60.0 23.0 L61.7 27.6 L66.7 27.8 L62.8 30.9 L64.1 35.7 L60.0 32.9 L55.9 35.7 L57.2 30.9 L53.3 27.8 L58.3 27.6Z" fill="#F6F0E2"/>
-<rect x="22" y="41" width="76" height="22" fill="#B3261E" stroke="#F6F0E2" stroke-width="1.6"/>
-<text x="60" y="57.5" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-weight="700" font-size="13.5" fill="#F6F0E2" letter-spacing="1">교환 완료</text>
-<path d="M46.0 68.6 L46.8 70.8 L49.2 70.9 L47.4 72.4 L48.0 74.8 L46.0 73.4 L44.0 74.8 L44.6 72.4 L42.8 70.9 L45.2 70.8Z" fill="#F6F0E2"/><path d="M74.0 68.6 L74.8 70.8 L77.2 70.9 L75.4 72.4 L76.0 74.8 L74.0 73.4 L72.0 74.8 L72.6 72.4 L70.8 70.9 L73.2 70.8Z" fill="#F6F0E2"/>
-<text x="60" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#F6F0E2">${(mm||"")+(dd?" "+dd:"")}</text>
-</g></svg></div>`);
-    $("#stDesc").innerHTML=S.final?`완주를 축하드려요.<br>함께 달려 주셔서 고마워요.`:`선물을 받으셨어요.<br>다음 정차역에서 또 만나요.`;
-    $(".gv-foot").textContent="교환이 완료된 교환권이에요";$("#gvNote").hidden=true;$("#stRecv").hidden=true};
-  if(recv[n]) mark();
-  $("#stRecv").onclick=()=>{
-    /* 바로 수령 완료로 바꾸고, 시트 기록은 뒤에서 보내요 */
-    recv[n]=today;saveProgress();mark();track("amenity_receive",{station:S.name});
-    if(memberKey())sheetPost({kind:"amenity",name:memberKey(),team:teamKey(),station:n,receiver:P.name}).catch(()=>{})};
+  /* 받고 싶지 않은 선물은 빼 둘 수 있어요 (시트에 "필요 없음"으로 남아요) */
+  const paintSkip=()=>{const s=isSkip(n);$("#stCard").classList.toggle("nogift",s);
+    $("#stSkip").innerHTML=s?"다시 받을게요":"이 선물은 필요 없어요"};
+  paintSkip();
+  $("#stSkip").onclick=()=>{setSkip(n,!isSkip(n));paintSkip()};
   $("#stClose").onclick=()=>host.innerHTML="";
   /* 차장님 등장 → 봉투(또는 화면 아무 곳) 누르면 교환권이 올라와요 */
   const sec=host.firstElementChild;
@@ -2923,8 +2920,9 @@ function myTicketHTML(){
   const tday=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   const holes=Array.from({length:TOTAL},(_,i)=>`<i class="${i<total?"on":""}"></i>`).join("");
   const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"완료":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
-  const am=ST_ORDER.map(k=>{const S=STATIONS[k],got=recv[k],ready=!got&&total>=k;
-    return `<div class="${got?"got":ready?"ready":""}"${got||ready?` data-st="${k}" role="button" tabindex="0"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능 ›":`${k-total}칸 남음`}</em></div>`}).join("");
+  const earned=ST_ORDER.filter(k=>total>=k), keep=earned.filter(k=>!isSkip(k));
+  const am=ST_ORDER.map(k=>{const S=STATIONS[k],ok=total>=k,sk=ok&&isSkip(k);
+    return `<div class="${sk?"nogift":ok?"ready":""}"${ok?` data-gift="${k}" role="button" tabindex="0" aria-pressed="${!sk}"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${sk?"필요 없음":ok?"받을 예정":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
   return `<div class="mtk" role="document" aria-label="나의 승차권">
     <div class="h"><span>MY TICKET</span><span>운행 11.1 – 11.30</span></div>
@@ -2938,7 +2936,8 @@ function myTicketHTML(){
     <div class="holes">${holes}</div>
     <div class="cars">${cars}</div>
     <div class="dash"></div>
-    <div class="sec"><span>AMENITY · 어메니티 수령</span><b>${Object.keys(recv).length} / 3</b></div>
+    <div class="sec"><span>GIFT · 선물 수령</span><b>${keep.length}개 받을 예정</b></div>
+    <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>12월 1일부터 7층 데스크에서 한꺼번에 받아요.<br>필요 없는 선물은 눌러서 빼 주세요.`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요.`}</div>
     <div class="am">${am}</div>
     <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</div></div>
   </div>`}
@@ -2951,7 +2950,9 @@ function showMyTicket(){
   const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
-  el.querySelectorAll("[data-st]").forEach(d=>d.onclick=()=>{el.remove();showStation(+d.dataset.st,{direct:true})});
+  const wireGifts=()=>el.querySelectorAll("[data-gift]").forEach(d=>d.onclick=()=>{const k=+d.dataset.gift;setSkip(k,!isSkip(k));
+    const t=el.querySelector(".mtk");t.outerHTML=myTicketHTML();wireGifts()});
+  wireGifts();
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
   setTimeout(()=>el.classList.add("set"),950);

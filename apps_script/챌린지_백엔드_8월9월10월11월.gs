@@ -936,7 +936,8 @@ function reportDuplicateDaysOctober() {
 // 한 사람 = 승차권 한 장(이름(입주사)로 구분). 하루 1칸 · 어메니티 3회.
 // 요청 구분: month === "11월" 인 요청만 이 분기로 들어와요. 8·9·10월은 그대로예요.
 //  · kind "stamp"   : 미션 인증 (name=이름(입주사))
-//  · kind "amenity" : 어메니티 수령 (name, station)
+//  · kind "gift_pref" : 받지 않을 선물 표시 (name, station, skip)
+//  · kind "amenity" : (예전) 어메니티 수령일 기록
 //  · GET ?month=11월&team=... : 내 기록(칸·어메니티) 불러오기 · &rank=1 이면 나의 순위·전체 합계
 
 const NOVEMBER_SHEET_NAME = "11월 stamps";
@@ -965,7 +966,7 @@ const NOVEMBER_AMENITIES = [
   { station: 11, label: "종착역·바디워시" },
 ];
 const NOVEMBER_STAMP_HEADER = ["시간", "이름", "호차", "미션id", "미션명", "사진링크"];
-// 요약 탭 열: 이름 | 달성 | 미션 12칸 | 어메니티 3칸(수령일) | 수령 유무(직원 메모)
+// 요약 탭 열: 이름 | 달성 | 미션 12칸 | 선물 3칸(받지 않을 선물은 "필요 없음") | 수령 유무(직원 메모)
 const NOVEMBER_COL = {
   done: 2,
   mission0: 3,
@@ -996,7 +997,7 @@ function getOrCreateNovemberSummarySheet() {
   if (!summary) {
     summary = ss.insertSheet(NOVEMBER_SUMMARY_SHEET_NAME);
     const header = ["이름", "달성", ...NOVEMBER_QUEST_COLUMNS.map((q) => q.label),
-      ...NOVEMBER_AMENITIES.map((a) => a.label + " 수령"), "수령 유무"];
+      ...NOVEMBER_AMENITIES.map((a) => a.label), "수령 유무"];
     summary.appendRow(header);
     summary.getRange(1, 1, 1, header.length).setFontWeight("bold").setBackground("#20392C").setFontColor("#FFFFFF");
     summary.setFrozenRows(1);
@@ -1117,7 +1118,21 @@ function handleNovemberAmenity(data) {
   return { success: true, value: value };
 }
 
+// 선물 선택: 받고 싶지 않은 선물은 "필요 없음", 다시 받기로 하면 빈 칸
+// (선물은 12월에 데스크에서 '달성' 칸 수를 보고 한꺼번에 드려요)
+function handleNovemberGiftPref(data) {
+  const a = NOVEMBER_AMENITIES.findIndex((x) => Number(x.station) === Number(data.station));
+  const team = data.team || data.name;
+  if (!team || a === -1) return { success: false, reason: "bad_request" };
+  const summary = getOrCreateNovemberSummarySheet();
+  const row = findOrCreateTeamRowNovember(summary, team, data.name);
+  const cell = summary.getRange(row, NOVEMBER_COL.amenity0 + a);
+  cell.setValue(data.skip ? "필요 없음" : "").setNumberFormat("@");
+  return { success: true };
+}
+
 function handleNovemberPost(data, lockMs) {
+  if (data.kind === "gift_pref") return handleNovemberGiftPref(data);
   if (data.kind === "amenity") return handleNovemberAmenity(data);
   return handleNovemberStamp(data, lockMs);
 }
