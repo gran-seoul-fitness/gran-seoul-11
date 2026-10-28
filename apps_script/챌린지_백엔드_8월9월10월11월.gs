@@ -960,8 +960,8 @@ const NOVEMBER_QUEST_COLUMNS = [
 ];
 const NOVEMBER_TOTAL = 11;
 const NOVEMBER_AMENITIES = [
-  { station: 4, label: "아침역·샴푸" },
-  { station: 8, label: "노을역·컨디셔너" },
+  { station: 4, label: "첫 번째 역·샴푸" },
+  { station: 8, label: "두 번째 역·컨디셔너" },
   { station: 11, label: "종착역·바디워시" },
 ];
 const NOVEMBER_STAMP_HEADER = ["시간", "이름", "호차", "미션id", "미션명", "사진링크"];

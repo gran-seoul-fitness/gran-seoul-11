@@ -2541,9 +2541,9 @@ function soap(x,y,w,delay){return `<g class="it" style="animation-delay:${delay}
   <text x="${w/2}" y="${w*.66}" font-size="${w*.13}" fill="#E9ECEF" text-anchor="middle" font-family="Arial,sans-serif" letter-spacing="1">HAEVICHI</text></g></g>`}
 function shreds(x,y,w,h,n){let o="";for(let i=0;i<n;i++){const a=(i*137.5)%360,px=x+((i*53)%w),py=y+((i*29)%h);o+=`<path d="M${px} ${py} q${6+(i%5)} ${-4+(i%7)} ${12+(i%6)} ${(i%3)-1}" stroke="${i%3?"#2A2522":"#3A332D"}" stroke-width="2" fill="none" transform="rotate(${a%40-20} ${px} ${py})"/>`}return o}
 const STATIONS={
- 4:{name:"아침역",en:"MORNING STATION",time:"morning",bg:"#CFE0EA",item:"퓨리파잉 샴푸",
+ 4:{name:"첫 번째 역",en:"FIRST STATION",time:"morning",bg:"#CFE0EA",item:"퓨리파잉 샴푸",
    art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","SHAMPOO",{pump:true,delay:1.1})}</svg>`},
- 8:{name:"노을역",en:"SUNSET STATION",time:"sunset",bg:"#E79A6A",item:"퓨리파잉 컨디셔너",
+ 8:{name:"두 번째 역",en:"SECOND STATION",time:"sunset",bg:"#E79A6A",item:"퓨리파잉 컨디셔너",
    art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","CONDITIONER",{pump:true,delay:1.1})}</svg>`},
  11:{name:"종착역 그랑서울",en:"TERMINUS · GRAN SEOUL",time:"night",bg:"#0F1B2E",item:"퍼퓸드 바디워시",final:true,
    art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.3)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PERFUMED","BODY WASH",{pump:true,delay:1.1})}</svg>`}
