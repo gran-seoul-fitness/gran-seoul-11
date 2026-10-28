@@ -1339,6 +1339,33 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .t2-admit{font-weight:700;font-size:3.4cqw;line-height:1.1;letter-spacing:.08em;color:#8A6A2E;border:1px solid #B08A3E;padding:.8cqw 1.6cqw}
 .t2-no{font-family:var(--f-mono)!important;font-size:2.6cqw;letter-spacing:.06em;color:#1C2A5A}
 .t2-run{font-size:2.1cqw;letter-spacing:.06em;color:#4A5478}
+/* ── 승차권 v3: 기차 보딩패스 (딥블루 + 아이보리) */
+.new-ticket.tt.tt3{container-type:inline-size;aspect-ratio:372/166;padding:0;background:none;border-radius:0;filter:drop-shadow(0 18px 28px rgba(0,0,0,.55))}
+.t3{display:grid;grid-template-columns:1fr 34%;height:100%;background:#F4ECDA;border-radius:2px;overflow:hidden;color:#1C2A5A;
+  background-image:radial-gradient(circle at 25% 25%,rgba(255,255,255,.55),transparent 50%),repeating-linear-gradient(0deg,rgba(120,100,60,.03) 0 1px,transparent 1px 3px)}
+.t3-main{position:relative;border-right:1.5px dashed rgba(28,42,90,.55)}
+.t3-band{position:absolute;left:0;top:5cqw;padding:1.1cqw 5cqw 1.1cqw 3.4cqw;background:#1C2A5A;color:#F4ECDA;font-family:var(--f-sans)!important;font-weight:700;font-size:3.2cqw;letter-spacing:.08em;clip-path:polygon(0 0,100% 0,90% 100%,0 100%)}
+.t3-stripe{position:absolute;right:3cqw;top:4cqw;width:20cqw;height:2.4cqw;background:repeating-linear-gradient(-55deg,#1C2A5A 0 1.2cqw,transparent 1.2cqw 2.6cqw)}
+.t3-copy{position:absolute;left:3.4cqw;top:13.5cqw;width:38cqw;line-height:1}
+.t3-copy small{display:block;font-family:"Playfair Display SC",Georgia,serif!important;font-size:2.8cqw;letter-spacing:.06em}
+.t3-copy b{display:block;font-family:"Playfair Display SC",Georgia,serif!important;font-weight:700;font-size:6.2cqw;letter-spacing:0;margin:.8cqw 0 1.2cqw;white-space:nowrap}
+.t3-copy span{display:block;border-top:1.5px solid #1C2A5A;padding-top:1cqw;font-family:"Playfair Display SC",Georgia,serif!important;font-size:2.3cqw;letter-spacing:.06em;white-space:nowrap}
+.t3-train{position:absolute;right:1.6cqw;top:10cqw;width:23cqw}
+.t3-who{position:absolute;left:3.4cqw;right:2cqw;bottom:3.4cqw;display:grid;grid-template-columns:1fr 1.3fr;border-top:1px solid rgba(28,42,90,.5);padding-top:1.2cqw}
+.t3-who div{display:flex;align-items:baseline;gap:1.4cqw;min-width:0}.t3-who div+div{border-left:1px solid rgba(28,42,90,.5);padding-left:1.8cqw}
+.t3-who small{font-family:"Playfair Display SC",Georgia,serif!important;font-size:2.2cqw}
+.t3-who em{font-style:normal;font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:3.6cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t3-who div+div em{font-family:var(--f-sans)!important;font-weight:500;font-size:2.7cqw}
+.t3-stub{position:relative;display:flex;flex-direction:column;padding:3cqw 3cqw 0}
+.t3-stub small{display:block;font-family:var(--f-sans)!important;font-size:2cqw;color:#6B7392}
+.t3-stub b{display:block;font-family:var(--f-sans)!important;font-weight:700;font-size:2.7cqw;white-space:nowrap}
+.t3-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1cqw}
+.t3-top b{font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:3.6cqw}
+.t3-admit{background:#1C2A5A;color:#F4ECDA;font-family:var(--f-sans)!important;font-weight:700;font-size:2.2cqw;line-height:1.15;text-align:center;padding:1cqw 1.6cqw}
+.t3-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8cqw 1.6cqw;margin-top:1.4cqw}
+.t3-grid #ntNo{font-family:var(--f-mono)!important;font-size:2.4cqw}
+.t3-code{display:block;height:4cqw;margin:1.4cqw 0 1.6cqw;background:repeating-linear-gradient(90deg,#1C2A5A 0 .4cqw,transparent .4cqw .7cqw,#1C2A5A .7cqw 1cqw,transparent 1cqw 1.6cqw,#1C2A5A 1.6cqw 2.3cqw,transparent 2.3cqw 2.6cqw)}
+.t3-foot{margin:auto -3cqw 0;background:#1C2A5A;color:#F4ECDA;text-align:center;font-family:var(--f-sans)!important;font-weight:700;font-size:2.8cqw;letter-spacing:.08em;padding:1.4cqw 0;border-radius:2.4cqw 2.4cqw 0 0}
 /* ── 마이 티켓도 같은 톤 */
 .mtk{background:#F6F0E2;color:#1C2A5A;box-shadow:0 0 0 1.5px #B08A3E,0 24px 40px rgba(0,0,0,.55)}
 .mtk::before{border-color:rgba(176,138,62,.75)}
@@ -1356,6 +1383,33 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .mtk .gift-note b{color:#1C2A5A}
 .mtk .code{background:repeating-linear-gradient(90deg,#1C2A5A 0 2px,transparent 2px 3px,#1C2A5A 3px 4px,transparent 4px 7px,#1C2A5A 7px 10px,transparent 10px 11px)}
 .mtk .no{color:#1C2A5A}
+/* ── 마이 티켓 v2: 세로 오리지널 티켓 (톱니 가장자리 + 선 표) */
+.myt .lift{filter:drop-shadow(0 24px 36px rgba(0,0,0,.55))}
+.mtk.v2{background:#F6F0E2;color:#1C2A5A;border-radius:0;padding:22px 16px 20px;box-shadow:none;
+  -webkit-mask:radial-gradient(circle 7px at 50% 0,#0000 97%,#000) 0 0/22px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 97%,#000) 0 100%/22px 51% repeat-x;
+  mask:radial-gradient(circle 7px at 50% 0,#0000 97%,#000) 0 0/22px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 97%,#000) 0 100%/22px 51% repeat-x}
+.mtk.v2::before{display:none}
+.v2-h,.v2-f{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-sans)!important;font-weight:700;font-size:10.5px;letter-spacing:.04em}
+.v2-h{margin-bottom:8px}.v2-f{margin-top:8px}
+.v2-logo{display:flex;gap:1px}.v2-logo i{font-style:normal;background:#1C2A5A;color:#F6F0E2;width:15px;text-align:center;font-size:10px;line-height:15px}
+.v2-box{border:1.4px solid #1C2A5A}
+.v2-row{padding:8px 10px;border-top:1.4px solid #1C2A5A}.v2-row:first-child{border-top:0}
+.v2-k{display:flex;justify-content:space-between;font-family:var(--f-sans)!important;font-size:11px;font-weight:600;margin-bottom:6px}
+.v2-k span:last-child{font-weight:700;letter-spacing:.02em}
+.v2-title{text-align:center}.v2-title .v2-k{text-align:left}
+.v2-title b{display:block;font-family:"Playfair Display SC",Georgia,serif!important;font-weight:700;font-size:20px;letter-spacing:.12em;line-height:1.1;margin-top:2px}
+.v2-title small{display:block;font-family:var(--f-sans)!important;font-size:12px;margin-top:3px;opacity:.85}
+.v2-list div{display:grid;grid-template-columns:76px 1fr;align-items:baseline;padding:2px 0}
+.v2-list span,.v2-split span{font-family:var(--f-sans)!important;font-size:11px;font-weight:600;opacity:.8}
+.v2-list b,.v2-split b{font-family:var(--f-sans)!important;font-weight:500;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v2-list b.mono{font-family:var(--f-mono)!important;letter-spacing:.02em}
+.v2-split{display:grid;grid-template-columns:1fr 1fr;padding:0}.v2-split div{padding:8px 10px}.v2-split div+div{border-left:1.4px dashed #1C2A5A}
+.v2-split b{display:block;margin-top:2px}
+.mtk.v2 .cars{margin-top:6px}
+.mtk.v2 .gift-note{margin:0 0 7px}
+.myt{display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain}
+.myt>div{margin:auto 0;padding:26px 0 22px}
+.v2-title b{font-size:clamp(16px,5.2vw,20px);white-space:nowrap}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -1639,18 +1693,37 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       </form>
 
       <!-- 빈티지 탑승권 -->
-      <div class="new-ticket tt tt2" id="newTicket" aria-live="polite"><span class="giver" id="giver"></span>
-        <div class="t2">
-          <div class="t2-p t2-main">
-            <div class="t2-kick">◆ &nbsp;YOU ARE INVITED TO&nbsp; ◆</div>
-            <div class="t2-ribbon"><svg class="t2-rib" viewBox="0 0 240 44" preserveAspectRatio="none" aria-hidden="true"><path d="M2 12 L26 12 L20 22 L26 32 L2 32 L10 22Z" fill="#E9DDBE" stroke="#B08A3E"/><path d="M238 12 L214 12 L220 22 L214 32 L238 32 L230 22Z" fill="#E9DDBE" stroke="#B08A3E"/><path d="M18 6 L222 6 L222 38 L18 38Z" fill="#F6F0E2" stroke="#B08A3E" stroke-width="1.4"/><path d="M23 10 L217 10 L217 34 L23 34Z" fill="none" stroke="#B08A3E" stroke-width=".7"/></svg><span>GRAN SEOUL EXPRESS</span></div>
-            <div class="t2-name"><em id="ntName"></em><small id="ntCo"></small></div>
-            <div class="t2-meta"><span>TRAIN · GSX 7F</span><i>✦</i><span>CAR · 01 – 06</span></div>
+      <div class="new-ticket tt tt3" id="newTicket" aria-live="polite"><span class="giver" id="giver"></span>
+        <div class="t3">
+          <div class="t3-main">
+            <div class="t3-band">BOARDING PASS</div><i class="t3-stripe"></i>
+            <div class="t3-copy"><small>YOU'RE GOING ON A</small><b>TRAIN TRIP</b><span>GRAN SEOUL EXPRESS · 7F</span></div>
+            <svg class="t3-train" viewBox="0 0 210 120" aria-hidden="true"><g fill="none" stroke="#1C2A5A" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="150" cy="14" r="7" fill="#F6F0E2"/><circle cx="162" cy="8" r="5" fill="#F6F0E2"/><circle cx="139" cy="9" r="4" fill="#F6F0E2"/>
+<path d="M4 108 H206" stroke-width="2"/><path d="M10 113 H200" stroke-width="1" stroke-dasharray="6 5"/>
+<rect x="8" y="54" width="40" height="40" rx="2" fill="#E7DDC6"/><path d="M8 62 H48 M8 70 H48" stroke-width=".9"/>
+<path d="M48 96 V34 H86 V96Z" fill="#F6F0E2"/><path d="M44 30 H90 L88 36 H46Z" fill="#1C2A5A"/><rect x="56" y="42" width="20" height="18" rx="2"/>
+<path d="M86 56 H168 C176 56 178 62 178 72 C178 84 176 92 168 92 H86Z" fill="#F6F0E2"/>
+<path d="M98 56 V92 M118 56 V92 M138 56 V92 M158 56 V92" stroke-width="1"/><path d="M90 64 H170 M90 84 H172" stroke-width=".7"/>
+<path d="M144 56 V30 H140 L137 22 H160 L157 30 H154 V56Z" fill="#E7DDC6"/>
+<path d="M108 56 C108 46 124 46 124 56" fill="#E7DDC6"/>
+<rect x="166" y="40" width="12" height="12" rx="1.5" fill="#E7DDC6"/><circle cx="172" cy="46" r="3"/>
+<path d="M176 92 L196 104 H170Z" fill="#E7DDC6"/><path d="M180 94 L178 104 M186 98 L186 104 M192 101 L194 104" stroke-width="1"/>
+<path d="M50 96 H178" stroke-width="2"/>
+<g fill="#F6F0E2"><circle cx="20" cy="100" r="7"/><circle cx="38" cy="100" r="7"/><circle cx="66" cy="99" r="9"/><circle cx="104" cy="94" r="14"/><circle cx="134" cy="94" r="14"/><circle cx="163" cy="100" r="8"/></g>
+<path d="M104 80 V108 M90 94 H118 M94 84 L114 104 M94 104 L114 84 M134 80 V108 M120 94 H148 M124 84 L144 104 M124 104 L144 84" stroke-width=".8"/>
+<circle cx="104" cy="94" r="3" fill="#1C2A5A"/><circle cx="134" cy="94" r="3" fill="#1C2A5A"/><path d="M104 101 H134" stroke-width="2.4"/>
+</g></svg>
+            <div class="t3-who"><div><small>TO</small><em id="ntName"></em></div><div><small>FROM</small><em id="ntCo"></em></div></div>
           </div>
-          <div class="t2-p t2-date"><small>NOVEMBER</small><b>11</b><small>2026</small><i>FITNESS TICKET</i></div>
-          <div class="t2-p t2-stub"><div class="t2-admit">ADMIT<br>ONE</div><div class="t2-no" id="ntNo"></div><div class="t2-run">11.1 – 11.30</div></div>
+          <div class="t3-stub">
+            <div class="t3-top"><div><small>Passenger</small><b id="ntName2"></b></div><div class="t3-admit">ADMIT<br>ONE</div></div>
+            <div class="t3-grid"><div><small>Train</small><b>GSX 7F</b></div><div><small>Car</small><b>01–06</b></div><div><small>Date</small><b>11.1–11.30</b></div><div><small>Ticket</small><b id="ntNo"></b></div></div>
+            <i class="t3-code"></i>
+            <div class="t3-foot">BOARDING PASS</div>
+          </div>
         </div>
-        <span hidden id="ntName2"></span><span hidden id="ntMate"></span>
+        <span hidden id="ntMate"></span>
       </div>
       <button class="btn board-btn" type="button" id="toPlatform">승강장으로 이동 →</button>
     </section>
@@ -2963,22 +3036,23 @@ function myTicketHTML(){
   const am=ST_ORDER.map(k=>{const S=STATIONS[k],ok=total>=k,sk=ok&&isSkip(k);
     return `<div class="${sk?"nogift":ok?"ready":""}"${ok?` data-gift="${k}" role="button" tabindex="0" aria-pressed="${!sk}"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${sk?"필요 없음":ok?"받을 예정":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
-  return `<div class="mtk" role="document" aria-label="나의 승차권">
-    <div class="h"><span>MY TICKET</span><span>운행 11.1 – 11.30</span></div>
-    <div class="t">Train Ticket</div><div class="st">Fitness journey · 7F Gran Seoul</div>
-    <div class="grid">
-      <div style="grid-column:1/-1"><div class="k">PASSENGER</div><div class="v">${who()}</div></div>
-      <div><div class="k">TICKET NO.</div><div class="v" style="font-family:var(--f-mono);font-size:13px">${P.no||"GSX-1101-0000"}</div></div>
-      <div><div class="k">6호차 기록</div><div class="v" style="font-size:13px">${partner}</div></div>
+  return `<div class="mtk v2" role="document" aria-label="나의 승차권">
+    <div class="v2-h"><span>GRAN SEOUL ORIGINAL TICKET</span><span>No.${(P.no||"0000").slice(-4)}</span></div>
+    <div class="v2-box">
+      <div class="v2-row v2-title"><div class="v2-k"><span>Title</span><span>(2026.11)</span></div><b>GRAN SEOUL EXPRESS</b><small>그랑서울 피트니스 열차</small></div>
+      <div class="v2-row v2-list">
+        <div><span>Passenger</span><b>${who()}</b></div>
+        <div><span>Ticket</span><b class="mono">${P.no||"GSX-1101-0000"}</b></div>
+        <div><span>Period</span><b>11.1 – 11.30</b></div>
+        <div><span>6호차</span><b>${partner}</b></div>
+      </div>
+      <div class="v2-row"><div class="v2-k"><span>Punch</span><span>${total} / ${TOTAL}칸</span></div><div class="holes">${holes}</div><div class="cars">${cars}</div></div>
+      <div class="v2-row"><div class="v2-k"><span>Gift</span><span>${keep.length}개 받을 예정</span></div>
+        <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요!<br>필요 없는 선물은 눌러서 빼 주세요.`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요.`}</div>
+        <div class="am">${am}</div></div>
+      <div class="v2-row v2-split"><div><span>Date</span><b>${tday}</b></div><div><span>Remaining</span><b>${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</b></div></div>
     </div>
-    <div class="sec"><span>PUNCH · 승차 확인</span><b>${total} / ${TOTAL}칸</b></div>
-    <div class="holes">${holes}</div>
-    <div class="cars">${cars}</div>
-    <div class="dash"></div>
-    <div class="sec"><span>GIFT · 선물 수령</span><b>${keep.length}개 받을 예정</b></div>
-    <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요!<br>필요 없는 선물은 눌러서 빼 주세요.`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요.`}</div>
-    <div class="am">${am}</div>
-    <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</div></div>
+    <div class="v2-f"><span>7F GRAN SEOUL</span><span class="v2-logo">${"GSX".split("").map(c=>`<i>${c}</i>`).join("")}</span></div>
   </div>`}
 function showMyTicket(){
   track("myticket_open");
