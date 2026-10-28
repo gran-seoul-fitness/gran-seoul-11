@@ -1261,8 +1261,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .gv-acts{position:relative;z-index:2;display:flex;gap:8px;width:100%;max-width:400px}
 .gv-acts .btn{flex:1}
 .gv-acts .btn.line{background:transparent;color:#F1E6CB;border:1px solid rgba(201,165,92,.6)}
-.gv .received{right:14px;top:14px;width:84px;height:84px;border-color:#9E2A22;color:#9E2A22;background:rgba(246,240,226,.6);font-size:8.5px;transform:rotate(-14deg);z-index:4}
-.gv .received b{font-size:14px;margin:1px 0}
+.gv .received.gv-rcv{right:2px;top:2px;width:104px;height:auto;border:0;border-radius:0;background:none;display:block;transform:rotate(-12deg);z-index:4;opacity:.92;animation:stampIn .45s cubic-bezier(.3,1.7,.5,1)}
+.gv-rcv svg{display:block;width:100%}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -2739,7 +2739,17 @@ function showStation(n){
   const mark=()=>{const c=$("#stCard");if(c.querySelector(".received"))return;
     /* recv[n]은 수령 날짜("11. 05.")예요 */
     const [mm,dd]=String(recv[n]).split(" ");
-    c.insertAdjacentHTML("beforeend",`<div class="received">EXCHANGED<b>교환 완료</b>${mm}${dd?` ${dd}`:""}</div>`);
+    c.insertAdjacentHTML("beforeend",`<div class="received gv-rcv" role="img" aria-label="교환 완료 ${mm||""} ${dd||""}"><svg class="gv-stamp" viewBox="0 0 120 140" aria-hidden="true"><defs><filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 6.4" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
+<g filter="url(#ink)" fill="#B3261E">
+<path d="M42 82 L30 134 L42 126 L50 138 L58 92Z"/><path d="M78 82 L90 134 L78 126 L70 138 L62 92Z"/>
+<path d="M60.0 6.0 Q64.8 6.3 68.9 13.0 Q75.5 8.8 80.0 10.6 Q84.1 12.9 84.9 20.7 Q92.7 19.8 96.0 23.3 Q98.7 27.3 96.0 34.6 Q103.5 37.2 104.8 41.8 Q105.6 46.5 100.0 52.0 Q105.6 57.5 104.8 62.2 Q103.5 66.8 96.0 69.4 Q98.7 76.7 96.0 80.7 Q92.7 84.2 84.9 83.3 Q84.1 91.1 80.0 93.4 Q75.5 95.2 68.9 91.0 Q64.8 97.7 60.0 98.0 Q55.2 97.7 51.1 91.0 Q44.5 95.2 40.0 93.4 Q35.9 91.1 35.1 83.3 Q27.3 84.2 24.0 80.7 Q21.3 76.7 24.0 69.4 Q16.5 66.8 15.2 62.2 Q14.4 57.5 20.0 52.0 Q14.4 46.5 15.2 41.8 Q16.5 37.2 24.0 34.6 Q21.3 27.3 24.0 23.3 Q27.3 19.8 35.1 20.7 Q35.9 12.9 40.0 10.6 Q44.5 8.8 51.1 13.0 Q55.2 6.3 60.0 6.0 Z"/>
+<circle cx="60" cy="52" r="33" fill="none" stroke="#F6F0E2" stroke-width="1.6"/>
+<path d="M60.0 23.0 L61.7 27.6 L66.7 27.8 L62.8 30.9 L64.1 35.7 L60.0 32.9 L55.9 35.7 L57.2 30.9 L53.3 27.8 L58.3 27.6Z" fill="#F6F0E2"/>
+<rect x="22" y="41" width="76" height="22" fill="#B3261E" stroke="#F6F0E2" stroke-width="1.6"/>
+<text x="60" y="57.5" text-anchor="middle" font-family="IBM Plex Sans KR,sans-serif" font-weight="700" font-size="13.5" fill="#F6F0E2" letter-spacing="1">교환 완료</text>
+<path d="M46.0 68.6 L46.8 70.8 L49.2 70.9 L47.4 72.4 L48.0 74.8 L46.0 73.4 L44.0 74.8 L44.6 72.4 L42.8 70.9 L45.2 70.8Z" fill="#F6F0E2"/><path d="M74.0 68.6 L74.8 70.8 L77.2 70.9 L75.4 72.4 L76.0 74.8 L74.0 73.4 L72.0 74.8 L72.6 72.4 L70.8 70.9 L73.2 70.8Z" fill="#F6F0E2"/>
+<text x="60" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#F6F0E2">${(mm||"")+(dd?" "+dd:"")}</text>
+</g></svg></div>`);
     $("#stDesc").innerHTML=S.final?`완주를 축하드려요.<br>함께 달려 주셔서 고마워요.`:`선물을 받으셨어요.<br>다음 정차역에서 또 만나요.`;
     $(".gv-foot").textContent="교환이 완료된 교환권이에요";$("#gvNote").hidden=true;$("#stRecv").hidden=true};
   if(recv[n]) mark();
