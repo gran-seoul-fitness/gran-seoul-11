@@ -1229,6 +1229,40 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
 :where(body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *)){font-family:"Nanum Myeongjo",serif!important}
 .fb-row span,.fb-head{font-family:"IBM Plex Mono",ui-monospace,monospace!important}
+/* ── 정차역: 선물 교환권 (남색 벨벳 · 아이보리 카드 · 금색 왁스 실 · 흰 장갑) */
+.station.gv{background:radial-gradient(70% 45% at 50% 18%,rgba(120,140,220,.22),transparent 70%),radial-gradient(120% 80% at 50% 50%,transparent 55%,rgba(0,0,0,.55)),
+  repeating-linear-gradient(90deg,#0B1636 0,#1A2A5E 3.2%,#22357A 4.4%,#16255A 6%,#0B1636 8%);justify-content:flex-start;padding:max(18px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));gap:10px}
+.gv-top{position:relative;z-index:2;text-align:center;color:#E9D7A6;line-height:1.3}
+.gv-top span{display:block;font-family:var(--f-sans)!important;font-size:12px;color:rgba(233,215,166,.75)}
+.gv-top b{display:block;margin-top:2px;font-family:"Nanum Myeongjo",serif!important;font-weight:400;font-size:13px;letter-spacing:.32em}
+.gv-stage{position:relative;z-index:2;flex:1;min-height:0;width:100%;max-width:340px;display:flex;align-items:center;justify-content:center}
+.gv-env{position:relative;width:100%;max-height:100%;padding:58px 16px 0;animation:gvIn .7s cubic-bezier(.2,.9,.3,1.1) both}
+@keyframes gvIn{from{transform:translateY(40px);opacity:0}}
+.gv-flap{position:absolute;left:0;right:0;top:0;width:100%;height:150px;z-index:0;filter:drop-shadow(0 -2px 0 rgba(255,255,255,.04))}
+.gv-env::before{content:"";position:absolute;left:0;right:0;top:148px;bottom:0;background:#14234F;border-radius:0 0 4px 4px;z-index:0;box-shadow:0 30px 50px -10px rgba(0,0,0,.6)}
+.gv-card{position:relative;z-index:1;background:#F6F0E2;color:#16224A;text-align:center;padding:30px 18px 64px;border-radius:2px;
+  box-shadow:inset 0 0 0 7px #F6F0E2,inset 0 0 0 8px rgba(176,138,62,.55),inset 0 0 0 11px #F6F0E2,inset 0 0 0 11.6px rgba(176,138,62,.35),0 10px 24px rgba(0,0,0,.35);
+  animation:gvCard .9s cubic-bezier(.2,.9,.3,1) .35s both;
+  background-image:radial-gradient(circle at 30% 20%,rgba(255,255,255,.6),transparent 40%),repeating-linear-gradient(0deg,rgba(120,100,60,.025) 0 1px,transparent 1px 3px)}
+@keyframes gvCard{from{transform:translateY(60px)}}
+.gv-seal{position:absolute;left:50%;top:-24px;width:54px;transform:translateX(-50%) rotate(-8deg);filter:drop-shadow(0 3px 3px rgba(60,40,10,.35))}
+.gv-k{font-family:"Nanum Myeongjo",serif!important;font-size:11px;letter-spacing:.28em;color:#8A6A2E;margin-top:8px}
+.gv-card h2{margin:4px 0 0;font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:26px;letter-spacing:.06em;color:#16224A}
+.gv-rule{display:flex;align-items:center;gap:8px;margin:8px auto 4px;width:70%}.gv-rule i{flex:1;height:1px;background:rgba(176,138,62,.6)}.gv-rule svg{width:11px}
+.gv-art svg{display:block;margin:0 auto;width:100%;max-height:clamp(84px,19vh,170px)}
+.gv-art svg>ellipse:first-of-type{display:none}
+.gv-card .items{font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:16px;color:#16224A;margin-top:2px}
+.gv-card p{margin:6px 0 0;font-family:var(--f-sans)!important;font-size:14px;line-height:1.6;color:#3A4366}
+.gv-foot{margin-top:8px;font-family:var(--f-sans)!important;font-size:12px;color:#8A6A2E;letter-spacing:.02em}
+.gv-pocket{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:58px;z-index:2;filter:drop-shadow(0 -3px 4px rgba(0,0,0,.25))}
+.gv-hand{position:absolute;right:-30px;bottom:-46px;width:112px;z-index:3;transform:rotate(-6deg);animation:gvHand .8s cubic-bezier(.2,.9,.3,1.1) .2s both;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+@keyframes gvHand{from{transform:translate(30px,40px) rotate(-6deg);opacity:0}}
+.gv-note{position:relative;z-index:2;margin:6px 0 0;font-family:var(--f-sans)!important;font-size:12px;color:rgba(233,215,166,.85);text-align:center}
+.gv-acts{position:relative;z-index:2;display:flex;gap:8px;width:100%;max-width:400px}
+.gv-acts .btn{flex:1}
+.gv-acts .btn.line{background:transparent;color:#F1E6CB;border:1px solid rgba(201,165,92,.6)}
+.gv .received{right:14px;top:14px;width:84px;height:84px;border-color:#9E2A22;color:#9E2A22;background:rgba(246,240,226,.6);font-size:8.5px;transform:rotate(-14deg);z-index:4}
+.gv .received b{font-size:14px;margin:1px 0}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -2659,31 +2693,55 @@ async function syncFromSheet(){
 const SAVE_KEY="gse-progress";
 function saveProgress(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({done,recv}));localStorage.setItem("gse-pass",JSON.stringify(P))}catch(e){}}
 try{const sv=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(sv){done=sv.done||{};recv=sv.recv||{};total=calcTotal();render()}}catch(e){}
+/* 금색 왁스 실 (GS 모노그램) */
+const SEAL=`<svg class="gv-seal" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="wx" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#F3DC9A"/><stop offset=".45" stop-color="#C9A04A"/><stop offset="1" stop-color="#8A6424"/></radialGradient>
+  <radialGradient id="wx2" cx=".6" cy=".65" r=".6"><stop offset="0" stop-color="#B8903C"/><stop offset="1" stop-color="#E6C77A"/></radialGradient></defs>
+  <path d="M50 4 C60 3 64 9 72 10 C81 12 84 19 89 26 C95 34 93 41 96 50 C98 60 92 65 90 73 C87 82 79 84 72 90 C64 96 57 94 49 97 C40 99 35 93 27 90 C18 87 15 79 10 72 C4 64 6 57 4 49 C2 40 8 35 11 27 C15 18 22 15 29 10 C37 5 42 5 50 4Z" fill="url(#wx)"/>
+  <circle cx="50" cy="51" r="31" fill="url(#wx2)" stroke="#8A6424" stroke-width="1.2" opacity=".95"/><circle cx="50" cy="51" r="26.5" fill="none" stroke="#F3DC9A" stroke-width=".8" opacity=".7"/>
+  <text x="50" y="61" text-anchor="middle" font-family="Nanum Myeongjo,serif" font-weight="800" font-size="27" fill="#7A5518" opacity=".9">GS</text></svg>`;
+/* 흰 장갑 손: 아래에서 봉투를 받쳐 건네요 */
+const GV_HAND=`<svg class="gv-hand" viewBox="0 0 160 170" aria-hidden="true">${GLOVE_DEFS}
+  <path d="M104 170 L160 170 L160 118 L120 104Z" fill="#1F2F52"/><path d="M118 108 L160 122" stroke="#C9A55C" stroke-width="3"/><path d="M114 116 L160 131" stroke="#C9A55C" stroke-width="1.5"/>
+  <path d="M96 116 L124 100 L132 112 L104 130Z" fill="#F4F2EC" stroke="#D9D5C9"/>
+  <path d="M40 74 C52 66 76 70 94 84 C108 94 112 112 100 124 C88 134 66 128 52 116 C40 106 30 84 40 74Z" fill="url(#gv)" stroke="#CFCAB9"/>
+  <rect x="12" y="44" width="58" height="17" rx="8.5" transform="rotate(-28 40 52)" fill="url(#gv)" stroke="#CFCAB9"/>
+  <rect x="10" y="60" width="60" height="17" rx="8.5" transform="rotate(-22 40 68)" fill="url(#gv)" stroke="#CFCAB9"/>
+  <rect x="14" y="77" width="56" height="16" rx="8" transform="rotate(-16 42 85)" fill="url(#gv)" stroke="#CFCAB9"/>
+  <rect x="22" y="93" width="48" height="15" rx="7.5" transform="rotate(-10 46 100)" fill="url(#gv)" stroke="#CFCAB9"/>
+  <path d="M30 50 l14 -6 M28 66 l16 -6 M32 83 l14 -4" stroke="#E2DED2" stroke-width="1.2"/></svg>`;
 function showStation(n){
   track("station_arrive",{station:STATIONS[n].name});
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
-  host.innerHTML=`<section class="station" style="--st-bg:${S.bg}" aria-label="${S.name} 정차">
-    ${stationBg(S)}
-    <div class="st-hang ${S.time}" role="img" aria-label="${S.name} 안내판과 역 시계">${hangSign(S,n)}</div>
-    <div class="st-gift">${S.art()}</div>
-    <div class="st-card" id="stCard"><div class="eb">AMENITY · ${S.name}</div>
-      <h2 id="stTitle">${P.name||"승객"} 님, ${S.name}에 도착했어요</h2>
-      <div class="items">해비치 ${S.item} 1개</div>
-      <div class="coll">${ST_ORDER.map(k=>`<span class="${recv[k]||k===n?"on":""} ${k===n?"now":""}">${STATIONS[k].item.split(" ").pop()}</span>`).join("")}</div>
-      <p id="stDesc">7층 데스크에서 이 화면을 보여주시면 어메니티를 드려요.<br><b>수령 확인은 데스크 직원이 눌러 드려요.</b></p>
-      ${team.members.length>1&&!recv[n]?`<div class="who-get" id="whoGet"><span>누가 받을까요?</span><div>${team.members.map(m=>`<button type="button" class="chip2" data-r="${m}" aria-pressed="${m===P.name}">${m}${m===P.name?" (나)":""}</button>`).join("")}</div></div>`:""}
-      <div class="acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div></div>
+  const gi=ST_ORDER.indexOf(+n)+1;
+  /* 선물 교환권: 남색 벨벳 위, 장갑 낀 손이 봉투에서 꺼낸 교환권을 건네요 (어메니티 그림은 그대로) */
+  host.innerHTML=`<section class="station gv" aria-label="${S.name} 정차 · 선물 교환권">
+    <div class="gv-top"><span>${n} / ${TOTAL}칸 · ${S.name} 정차</span><b>FOR YOU · MERCI</b></div>
+    <div class="gv-stage">
+      <div class="gv-env">
+        <svg class="gv-flap" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L150 6 L300 120Z" fill="#14234F"/><path d="M0 120 L150 6 L300 120" fill="none" stroke="#C9A55C" stroke-width="1.2" opacity=".5"/></svg>
+        <div class="gv-card" id="stCard">
+          ${SEAL}
+          <div class="gv-k">GIFT VOUCHER · No.${gi}</div>
+          <h2 id="stTitle">선물 교환권</h2>
+          <div class="gv-rule"><i></i><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="#B08A3E"/></svg><i></i></div>
+          <div class="gv-art">${S.art()}</div>
+          <div class="items">해비치 ${S.item} 1개</div>
+          <p id="stDesc">${S.final?`11칸을 모두 달려온 ${P.name||"승객"} 님께<br>마지막 선물을 드려요.`:`열심히 달려온 ${P.name||"승객"} 님을 위해<br>준비한 선물이에요.`}</p>
+          <div class="gv-foot">7층 데스크에서 이 교환권을 보여 주세요</div>
+        </div>
+        <svg class="gv-pocket" viewBox="0 0 300 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L150 52 L300 0 L300 70 L0 70Z" fill="#1B2D63"/><path d="M0 0 L150 52 L300 0" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".55"/></svg>
+        ${GV_HAND}
+      </div>
+    </div>
+    <p class="gv-note" id="gvNote">수령 확인은 데스크 직원이 눌러 드려요</p>
+    <div class="acts gv-acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div>
   </section>`;
   const mark=()=>{const c=$("#stCard");if(c.querySelector(".received"))return;
     /* recv[n]은 수령 날짜("11. 05.")예요 */
     const [mm,dd]=String(recv[n]).split(" ");
-    c.insertAdjacentHTML("beforeend",`<div class="received">RECEIVED<b>수령 완료</b>${mm}${dd?`<br>${dd}`:""}</div>`);
-    $("#stTitle").textContent=`${P.name||"승객"} 님, ${S.name} 어메니티를 받았어요`;
-    $("#stDesc").textContent=`${S.name} 어메니티 수령이 확인됐어요. 다음 역까지 즐거운 여행 되세요.`;
-    $("#whoGet")?.remove();$("#stRecv").hidden=true};
-  let receiver=P.name;
-  $("#whoGet")?.querySelectorAll(".chip2").forEach(b=>b.onclick=()=>{receiver=b.dataset.r;$("#whoGet").querySelectorAll(".chip2").forEach(x=>x.setAttribute("aria-pressed",x===b))});
-  tickClocks();
+    c.insertAdjacentHTML("beforeend",`<div class="received">EXCHANGED<b>교환 완료</b>${mm}${dd?` ${dd}`:""}</div>`);
+    $("#stDesc").innerHTML=S.final?`완주를 축하드려요.<br>함께 달려 주셔서 고마워요.`:`선물을 받으셨어요.<br>다음 정차역에서 또 만나요.`;
+    $(".gv-foot").textContent="교환이 완료된 교환권이에요";$("#gvNote").hidden=true;$("#stRecv").hidden=true};
   if(recv[n]) mark();
   $("#stRecv").onclick=()=>{
     /* 바로 수령 완료로 바꾸고, 시트 기록은 뒤에서 보내요 */
