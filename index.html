@@ -1613,7 +1613,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <div class="edge"></div>
       
       
-      <div class="plat-msg"><b id="platTitle">탑승을 환영합니다</b><span>1호차부터 하루 한 칸씩 옮겨 타며 운동을 인증해요</span></div>
+      <div class="plat-msg"><b id="platTitle">탑승을 환영합니다</b><span>11.1 – 11.30 · 원하는 칸부터 하루 한 칸씩 운동을 인증해요</span></div>
     </section>
     <button class="skip" type="button" id="skip">바로 탑승</button>
     <div class="fade" id="fade"></div>
@@ -2286,6 +2286,11 @@ function wirePaper(L){const w=L.querySelector(".np-wrap");if(!w)return;
     w.classList.add("opening");setTimeout(()=>{w.classList.remove("folded","opening");w.classList.add("opened")},1150)};
   w.querySelector(".np-close").onclick=()=>{w.classList.remove("opened");w.classList.add("folded")}}
 let pmode="";
+/* 챌린지 운행 기간(한국 시간). 이 기간 밖에는 운동 방법만 볼 수 있고 인증은 막아요 */
+const RUN={start:"2026-11-01",end:"2026-11-30"};
+const runState=()=>{const d=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date());return d<RUN.start?"before":d>RUN.end?"after":"on"};
+const RUN_LOCK={before:`<b>11월 1일에 출발해요</b>지금은 운동 방법만 미리 볼 수 있어요.<br>11월 1일부터 하루 한 칸씩 인증해 주세요!`,
+  after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>내 기록은 마이 티켓에서 볼 수 있어요.`};
 /* 인증샷: 내 모습 대신 운동한 기구·매트를 찍어요 */
 const SHOT={m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
   m5:"운동한 체스트 프레스 머신을 찍어 주세요",m6:"운동한 덤벨을 찍어 주세요",m7:"운동한 트레드밀을 찍어 주세요<br>화면에 시간·경사가 보이면 더 좋아요",
@@ -2303,7 +2308,8 @@ function open(id){
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
     ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 측정기를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
-    ${rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
+    ${runState()!=="on"?`<div class="day-lock">${RUN_LOCK[runState()]}</div><button class="btn ghost" id="pc">돌아가기</button></div>`
+    :rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
     :`<div class="shot"><p class="day-note">열차는 <b>하루에 한 칸</b>만 탈 수 있어요. 오늘 탈 칸이 맞는지 확인해 주세요.</p>
     <label class="drop"><input type="file" accept="image/*" capture="environment" id="pf"><strong>인증샷 찍기</strong>${m.hint||SHOT[m.id]||"운동한 기구를 찍어 주세요"}${m.partner?"":`<small class="me-free">운동하는 내 모습은 안 찍어도 돼요</small>`}</label>
     <div id="pv"></div><button class="btn" id="pb" disabled>차장님께 승차권 내밀기</button></div><button class="btn ghost" id="pc">돌아가기</button></div>`}`;
@@ -2315,6 +2321,7 @@ function open(id){
   if($("#pb"))$("#pb").onclick=punchSeq; $("#pc").onclick=()=>L.hidden=true;
 }
 async function punchSeq(){
+  if(runState()!=="on")return;
   const c=CARS[cur], L=$("#layer"), m=c.missions.find(x=>x.id===mid);
   if(!memberKey()){L.innerHTML=`<div class="box"><div class="msg">먼저 매표소에서 승차권을 발권해 주세요<small>이름·입주사가 있어야 시트에 기록돼요.</small><button class="btn" style="margin-top:14px" id="toOffice">매표소로 가기</button></div></div>`;
     $("#toOffice").onclick=()=>{L.hidden=true;showIntro()};return}
@@ -2663,14 +2670,15 @@ function showStation(n){
       <h2 id="stTitle">${P.name||"승객"} 님, ${S.name}에 도착했어요</h2>
       <div class="items">해비치 ${S.item} 1개</div>
       <div class="coll">${ST_ORDER.map(k=>`<span class="${recv[k]||k===n?"on":""} ${k===n?"now":""}">${STATIONS[k].item.split(" ").pop()}</span>`).join("")}</div>
-      <p id="stDesc">7층 데스크에서 이 화면을 보여주시면 어메니티를 드려요.</p>
+      <p id="stDesc">7층 데스크에서 이 화면을 보여주시면 어메니티를 드려요.<br><b>수령 확인은 데스크 직원이 눌러 드려요.</b></p>
       ${team.members.length>1&&!recv[n]?`<div class="who-get" id="whoGet"><span>누가 받을까요?</span><div>${team.members.map(m=>`<button type="button" class="chip2" data-r="${m}" aria-pressed="${m===P.name}">${m}${m===P.name?" (나)":""}</button>`).join("")}</div></div>`:""}
       <div class="acts"><button class="btn line" type="button" id="stClose">객차로 돌아가기</button><button class="btn" type="button" id="stRecv">수령 확인</button></div></div>
   </section>`;
   const mark=()=>{const c=$("#stCard");if(c.querySelector(".received"))return;
-    const [d,...rn]=String(recv[n]).split(" "),r=rn.join(" ");
-    c.insertAdjacentHTML("beforeend",`<div class="received">RECEIVED<b>수령 완료</b>${d}${r?`<br>${r}`:""}</div>`);
-    $("#stTitle").textContent=r&&r!==P.name?`${r} 님이 어메니티를 받았어요`:"현재 어메니티를 수령하셨습니다";
+    /* recv[n]은 수령 날짜("11. 05.")예요 */
+    const [mm,dd]=String(recv[n]).split(" ");
+    c.insertAdjacentHTML("beforeend",`<div class="received">RECEIVED<b>수령 완료</b>${mm}${dd?`<br>${dd}`:""}</div>`);
+    $("#stTitle").textContent=`${P.name||"승객"} 님, ${S.name} 어메니티를 받았어요`;
     $("#stDesc").textContent=`${S.name} 어메니티 수령이 확인됐어요. 다음 역까지 즐거운 여행 되세요.`;
     $("#whoGet")?.remove();$("#stRecv").hidden=true};
   let receiver=P.name;
@@ -2791,7 +2799,7 @@ function myTicketHTML(){
     return `<div class="${got?"got":ready?"ready":""}"${got||ready?` data-st="${k}" role="button" tabindex="0"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${got?got+" 수령":ready?"수령 가능 ›":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
   return `<div class="mtk" role="document" aria-label="나의 승차권">
-    <div class="h"><span>MY TICKET</span><span>GSX · 2026.11</span></div>
+    <div class="h"><span>MY TICKET</span><span>운행 11.1 – 11.30</span></div>
     <div class="t">Train Ticket</div><div class="st">Fitness journey · 7F Gran Seoul</div>
     <div class="grid">
       <div style="grid-column:1/-1"><div class="k">PASSENGER</div><div class="v">${who()}</div></div>
