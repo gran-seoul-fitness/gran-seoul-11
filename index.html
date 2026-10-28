@@ -2375,7 +2375,7 @@ let pmode="";
 const RUN={start:"2026-11-01",end:"2026-11-30"};
 const runState=()=>{const d=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date());return d<RUN.start?"before":d>RUN.end?"after":"on"};
 const RUN_LOCK={before:`<b>11월 1일에 출발해요</b>지금은 운동 방법만 미리 볼 수 있어요.<br>11월 1일부터 하루 한 칸씩 인증해 주세요!`,
-  after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>모은 선물은 12월 1일부터 7층 데스크에서 받아요.`};
+  after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>수집한 선물 교환권은 7층 데스크에서 받아 가세요!`};
 /* 인증샷: 내 모습 대신 운동한 기구·매트를 찍어요 */
 const SHOT={m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
   m5:"운동한 체스트 프레스 머신을 찍어 주세요",m6:"운동한 덤벨을 찍어 주세요",m7:"운동한 트레드밀을 찍어 주세요<br>화면에 시간·경사가 보이면 더 좋아요",
@@ -2794,7 +2794,7 @@ function showStation(n,{direct=false}={}){
           <div class="gv-art">${S.art()}</div>
           <div class="items">해비치 ${S.item} 1개</div>
           <p id="stDesc">${S.final?`11칸을 모두 달려온 ${P.name||"승객"} 님께<br>마지막 선물을 드려요.`:`열심히 달려온 ${P.name||"승객"} 님을 위해<br>준비한 선물이에요.`}</p>
-          <div class="gv-foot">12월 1일부터 7층 데스크에서<br>모은 선물을 한꺼번에 받아요</div>
+          <div class="gv-foot">수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요!</div>
           <div class="gv-skipped">필요 없음</div>
         </div>
         <svg class="gv-pocket" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L120 64 L0 90Z" fill="#1C2A5C"/><path d="M300 0 L180 64 L300 90Z" fill="#1C2A5C"/>
@@ -2937,7 +2937,7 @@ function myTicketHTML(){
     <div class="cars">${cars}</div>
     <div class="dash"></div>
     <div class="sec"><span>GIFT · 선물 수령</span><b>${keep.length}개 받을 예정</b></div>
-    <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>12월 1일부터 7층 데스크에서 한꺼번에 받아요.<br>필요 없는 선물은 눌러서 빼 주세요.`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요.`}</div>
+    <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요!<br>필요 없는 선물은 눌러서 빼 주세요.`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요.`}</div>
     <div class="am">${am}</div>
     <div class="bar"><div class="code"></div><div class="no">조회 ${tday}<br>${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</div></div>
   </div>`}
