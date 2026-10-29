@@ -1525,6 +1525,12 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .menu.wait .go{background:transparent;color:#6B6A5C!important;box-shadow:inset 0 0 0 1px #CFC5B0}
 .menu.off .go{background:#CFC5B0;color:#6B6A5C!important;box-shadow:none}
 .menu h3{font-size:17px}.menu .spec{font-size:13px;color:#4A4A40}.menu .cat{font-size:12.5px}
+/* 미션 카드: 두 카드 높이를 맞추고 인증 버튼은 항상 카드 맨 아래 */
+.cards{align-items:stretch}
+.cards .menu{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;height:100%}
+.cards .menu .go{margin-top:auto}
+.cards .menu .spec{margin-bottom:12px}
+.cards .menu .gxlink{align-self:flex-start;margin:-6px 0 10px}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -2041,7 +2047,7 @@ function render(){
   const full=carDone(c);
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""} ${!done[m.id]&&!off&&rodeToday()?"wait":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
     <div class="cat">${m.first?"추천 첫 미션":m.cat}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"인증하러 가기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+    ${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}<div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"인증하러 가기 →"}</div></button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
   $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸${rodeToday()?" · 오늘 완료":""}`;
