@@ -1556,10 +1556,11 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .alp-sunbeam{position:absolute;left:30%;right:22%;top:60%;bottom:4%;background:linear-gradient(170deg,rgba(255,236,190,.28),rgba(255,236,190,0) 70%);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);pointer-events:none}
 .alp-table{position:absolute;left:43%;width:14%;top:57%;height:6%;background:linear-gradient(#D49A58,#A86A32);border-radius:3px;box-shadow:0 4px 6px rgba(0,0,0,.35)}
 .alp-table i{position:absolute;left:46%;top:100%;width:8%;height:200%;background:linear-gradient(90deg,#9A7230,#E3C27A,#9A7230)}
-.alp-seat{position:absolute;bottom:22%;width:36%}
+.alp-seat{position:absolute;bottom:22%;width:36%;z-index:2}
 .alp-seat svg{display:block;width:100%}
 .alp-seat.l{left:-4%}.alp-seat.r{right:-4%;transform:scaleX(-1)}
-.w7 .machine{display:none}
+.w7 .machine.alp-inbody{display:block;left:auto!important;right:29.5%!important;bottom:30%!important;width:15%!important;z-index:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
+.w7 .machine:not(.alp-inbody){display:none}
 /* 한 칸에 미션 하나면 카드 하나를 가운데 넓게 */
 .cards .menu:only-child{grid-column:1/-1;max-width:72%;justify-self:center;width:100%}
 /* 둘 중 하나 안내 */
@@ -2033,7 +2034,7 @@ const CARS=[
   missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"측정한 체성분 측정기를 찍어 주세요<br>결과지·결과 화면은 찍지 않아도 돼요"}]},
  {no:2,en:"BURGUNDY CAR",ko:"하체 칸",zone:"하체존",view:"산골짜기 · 오후",wall:"w1",win:"rect",sky:["#E8D3A6","#F3E5C3"],sun:{c:"#F6E2A8",x:62,y:16,s:34},lamp:"#F7D88A",
   layers:[["peaks","#A7B48A",62,30],["rolling","#71895F",40,14],["trees","#3E5A40",22,4.5]],
-  left:["mat","left:6%;bottom:27%;width:40%"],right:["smith","right:3%;bottom:29%;width:30%"],
+  left:["smith","left:4%;bottom:29%;width:30%"],right:["mat","right:4%;bottom:27%;width:42%"],
   missions:[{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"},{id:"m13",cat:"LOWER",name:"스플릿 스쿼트",spec:"3세트 × 좌우 10회"}]},
  {no:3,en:"VELVET CAR",ko:"등 칸",zone:"등존",view:"호숫가 초원 · 아침",wall:"w2",win:"rect",sky:["#CFE0E6","#EEF2E6"],sun:{c:"#FFF4D6",x:18,y:14,s:28},lamp:"#FBE6B0",
   layers:[["peaks","#B4C6C9",56,40],["flat","#8FB3B8",18,16],["rolling","#7FA36B",22,9],["shrubs","#4E7A4A",12,3.5]],
@@ -2081,7 +2082,7 @@ function alpineHTML(c){
     <div class="alp-floor"></div><div class="alp-sunbeam"></div>
     <div class="alp-table"><i></i></div>
     <div class="alp-seat l">${ALP_SEAT("l")}</div><div class="alp-seat r">${ALP_SEAT("r")}</div>
-    <div class="machine" style="${c.left[1]}">${M[c.left[0]]}</div>`}
+    <div class="machine alp-inbody">${M.inbody}</div>`}
 function interiorHTML(c){
   if(c.alpine) return alpineHTML(c);
   const hills=c.layers.map(([s,col,h,dur])=>{const S=SHAPES[s],[, ,vw,vh]=S.vb.split(" ").map(Number),k=Math.ceil(520/S.w)+1;
