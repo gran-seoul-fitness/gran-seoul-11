@@ -2249,9 +2249,9 @@ function checkupFront(T){
     <line x1="70" x2="90" y1="${(-24+36*scan).toFixed(1)}" y2="${(-24+36*scan).toFixed(1)}" stroke="#C9C3B4" stroke-width=".8" opacity=".6"/>
   </g>`;
   /* 뒤에서 본 사람: 다른 운동 그림과 같은 선·면 스타일 */
-  const hipY=88+br*.2, shY=hipY-42, hw=9;
-  const hipL=[cx-hw,hipY], hipR=[cx+hw,hipY], fL=[cx-14,124], fR=[cx+14,124], kL=[cx-12,106], kR=[cx+12,106];
-  const sL=[cx-15,shY+4], sR=[cx+15,shY+4], eL=[cx-27,shY+20], eR=[cx+27,shY+20], hL=[40,84], hR=[120,84], head=[cx,shY-15];
+  const hipY=68+br*.2, shY=hipY-44, hw=9;
+  const hipL=[cx-hw,hipY], hipR=[cx+hw,hipY], fL=[cx-15,124], fR=[cx+15,124], kL=[cx-13,96], kR=[cx+13,96];
+  const sL=[cx-15,shY+4], sR=[cx+15,shY+4], eL=[cx-30,shY+26], eR=[cx+30,shY+26], hL=[42,74], hR=[118,74], head=[cx,shY-15];
   const thL=limbD(hipL,kL,15,10,1.4,1.4),thR=limbD(hipR,kR,15,10,1.4,1.4),snL=limbD(kL,fL,9,5.5,1,1.6,.3),snR=limbD(kR,fR,9,5.5,1.6,1,.3);
   const ftL=limbD(fL,[fL[0]-6,fL[1]+1],5.5,4,0,0),ftR=limbD(fR,[fR[0]+6,fR[1]+1],5.5,4,0,0);
   const tor=`M${cx-11} ${hipY+5} Q${cx-14} ${(hipY+shY)/2} ${cx-19} ${shY+4} Q${cx} ${shY-2} ${cx+19} ${shY+4} Q${cx+14} ${(hipY+shY)/2} ${cx+11} ${hipY+5} Q${cx} ${hipY+9} ${cx-11} ${hipY+5}Z`;
