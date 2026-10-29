@@ -1507,6 +1507,24 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .mtk.v2 .am{gap:5px}.mtk.v2 .am div{padding:4px 3px;font-size:9.5px;line-height:1.3}.mtk.v2 .am div b{font-size:11.5px}
 .np-sec ol .note.foot{display:flex;align-items:center;gap:8px;margin-top:5px}
 .foot-fig{flex:none;width:112px;height:auto;font-family:var(--f-sans);font-weight:600}
+/* ── 읽기 보완 (호텔 안내문처럼: 작아도 또렷하게) */
+.issue-card .ttl .eb{font-size:12px;letter-spacing:.12em;font-weight:600}
+.fld label{font-size:12.5px;letter-spacing:.06em;color:#4A4A40;font-weight:600}
+.fld select:invalid{color:#6B6A5C}
+.fld input::placeholder{color:#8A8274;opacity:1}
+.office .issue-card .fld select{font-size:15px}
+.plate .t span{font-size:11.5px;letter-spacing:.1em}
+.plate .t b{font-size:16px}
+.dots button{width:30px;height:28px;font-size:13px;color:#F1E6CB;font-weight:600}
+.view{font-size:12px;color:#F1E6CB}
+.bar span{font-size:13.5px;color:#F6EEDC;font-weight:500}
+.bar button{font-size:14px;padding:8px 14px;color:#FFF8E6;font-weight:600}
+/* 인증 버튼: 카드 아래 금장 버튼 */
+.menu .go{margin:12px -2px 0;padding:10px 12px;border-radius:5px;background:linear-gradient(#D9B76A,#C29A4E);color:#1E1608!important;font-size:15px;font-weight:700;text-align:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 2px 0 #8A6A2E}
+.menu.done .go{background:#1F3B2D;color:#F6EEDC!important;box-shadow:none}
+.menu.wait .go{background:transparent;color:#6B6A5C!important;box-shadow:inset 0 0 0 1px #CFC5B0}
+.menu.off .go{background:#CFC5B0;color:#6B6A5C!important;box-shadow:none}
+.menu h3{font-size:17px}.menu .spec{font-size:13px;color:#4A4A40}.menu .cat{font-size:12.5px}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -1782,7 +1800,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
           <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>11월 열차여행에 오신 것을 환영합니다</b></div>
           <div class="row2 nameco">
             <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
-            <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>유미개발(주)</option><option>케이지트레이딩(주)</option><option>엑시스아이티(서린정보기술)(주)</option><option>켐코(주)</option><option>한국전구체(주)</option><option>(주)알란텀</option><option>미래에셋자산운용(주)</option><option>동양생명보험(주)</option><option>엠에스씨아이코리아</option><option>하버베스트파트너스</option><option>지씨엠인베스트먼트코리아</option><option>에네오스코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>지베스코자산운용</option><option>라이엇게임즈코리아 유한회사</option><option>에미레이트(영업소)</option><option>하나로의료재단</option><option>맥스웰피부과</option><option>블랙록자산운용</option><option>한국이토추</option><option>법무법인 세종</option><option>아멕스(서울역센터)</option><option>SGI서울보증</option></select></div>
+            <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>동양생명보험(주)</option><option>라이엇게임즈코리아 유한회사</option><option>맥스웰피부과</option><option>미래에셋자산운용(주)</option><option>법무법인 세종</option><option>블랙록자산운용</option><option>아멕스(서울역센터)</option><option>(주)알란텀</option><option>에네오스코리아</option><option>에미레이트(영업소)</option><option>엑시스아이티(서린정보기술)(주)</option><option>엠에스씨아이코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>유미개발(주)</option><option>지베스코자산운용</option><option>지씨엠인베스트먼트코리아</option><option>케이지트레이딩(주)</option><option>켐코(주)</option><option>하나로의료재단</option><option>하버베스트파트너스</option><option>한국이토추</option><option>한국전구체(주)</option><option>SGI서울보증</option></select></div>
           </div>
           <p class="lock-note" id="lockNote" hidden>발권한 승차권의 이름·입주사는 바꿀 수 없어요</p>
           <button class="btn" type="submit" id="issueBtn">승차권 발권하기</button>
@@ -2021,9 +2039,9 @@ function drawCar(c){
 function render(){
   const c=CARS[cur];
   const full=carDone(c);
-  $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
+  $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""} ${!done[m.id]&&!off&&rodeToday()?"wait":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
     <div class="cat">${m.first?"추천 첫 미션":m.cat}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
-    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"이 칸에서 인증하기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
+    <div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"인증하러 가기 →"}</div>${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}</button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
   $("#stat").textContent=`${c.zone} ${Math.min(n,need(c))} / ${need(c)}${c.pick?" (택1)":""} · 전체 ${total} / ${TOTAL}칸${rodeToday()?" · 오늘 완료":""}`;
