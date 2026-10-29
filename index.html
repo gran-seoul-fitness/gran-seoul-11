@@ -2260,8 +2260,8 @@ const EX={
  m6:{mus:["delt","tricep","trap"],tempo:T=>{const c=T%6.5;const e=x=>(1-Math.cos(Math.PI*x))/2;return c<2?e(c/2):c<3?1:c<6?1-e((c-3)/3):0},pose:t=>({hip:[60,96],torso:-92,feet:[[94,124],[98,124]],hands:LP([66,32],[64,4],t),knee:UP,elbow:DOWN}),
    props:(J)=>`<rect x="44" y="98" width="32" height="6" rx="2" class="mc"/><path d="M48 50 L52 100" class="mc" style="stroke-width:9;stroke-linecap:round"/><path d="M58 104 V126 M40 126 H84" class="mcl"/>`,
    front:(J)=>`<rect x="${J.hand[0]-9}" y="${J.hand[1]-3}" width="18" height="6" rx="2" class="db"/><rect x="${J.hand[0]-11}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/><rect x="${J.hand[0]+6}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/>`},
- m13:{mus:["glute","quad","ham"],pose:t=>{/* 앞무릎은 발목 바로 위에 고정 → 엉덩이는 무릎을 중심으로 사선 아래로 */const th=L(50,20,t)*Math.PI/180,hip=[100-34*Math.cos(th),92-34*Math.sin(th)];
-     return {hip,torso:L(-82,-70,t),feet:[[100,124],[50,123]],hands:[hip[0]+7,hip[1]+3],hands2:[hip[0]+9,hip[1]+4],knee:FWD,elbow:DOWN,two:true}},
+ m13:{mus:["glute","quad","ham"],pose:t=>{/* 앞무릎은 발목보다 살짝 앞에 고정 → 엉덩이는 무릎을 중심으로 사선 아래로 */const th=L(50,20,t)*Math.PI/180,hip=[106-34*Math.cos(th),92.6-34*Math.sin(th)];
+     return {hip,torso:L(-82,-70,t),feet:[[100,124],[54,123]],hands:[hip[0]+7,hip[1]+3],hands2:[hip[0]+9,hip[1]+4],knee:FWD,elbow:DOWN,two:true}},
    props:()=>`<path d="M14 127 H150" class="mcl"/>`},
  m7:{mus:["glute","ham","calf","quad"],cyc:true,pose:(t,T)=>{const ph=T*3.2,g=x=>126-(x-10)*.09;
      const ft=k=>{const a=ph+k*Math.PI,x=74+18*Math.sin(a);return [x,g(x)-Math.max(0,7*Math.cos(a))]};
