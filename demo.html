@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>그랑서울 피트니스 열차 · 선물 수령 데모</title>
+<title>그랑서울 피트니스 열차 · 데모</title>
 <script>
 /* ── 데모 전용: 실제 시트·GA·저장 기록과 완전히 분리 ── */
 (function(){
-  const mem={"gse-pass":JSON.stringify({name:"김은조",co:"하나로의료재단",no:"GSX-1101-2747"}),
-             "gse-progress":JSON.stringify({done:{m1:1,m2:1,m3:1,m4:1,m5:1,m6:1,m7:1,m8:1},recv:{}})};
+  const mem={};
   const S={getItem:k=>k in mem?mem[k]:null,setItem:(k,v)=>{mem[k]=String(v)},removeItem:k=>{delete mem[k]},clear:()=>{for(const k in mem)delete mem[k]},key:i=>Object.keys(mem)[i]||null,get length(){return Object.keys(mem).length}};
   try{Object.defineProperty(window,"localStorage",{value:S,configurable:true})}catch(e){}
   document.cookie="";Object.defineProperty(document,"cookie",{get:()=>"",set:()=>{},configurable:true});
-  const RD=Date,off=new RD("2026-11-12T10:00:00+09:00").getTime()-RD.now();
+  const RD=Date;let off=new RD("2026-11-01T10:00:00+09:00").getTime()-RD.now();
+  window.__demoDay=n=>{off+=n*86400000};
   class FD extends RD{constructor(...a){a.length?super(...a):super(RD.now()+off)}static now(){return RD.now()+off}}window.Date=FD;
-  const of=window.fetch;window.fetch=(u,o)=>String(u).includes("script.google")?Promise.resolve(new Response(JSON.stringify(String(u).includes("rank=1")?{total:11,riders:42,cars:186,finishers:3,me:{rank:7,count:8,gap:1}}:{success:true,stamps:[],amenities:{}}),{headers:{"Content-Type":"application/json"}})):of(u,o);
+  const of=window.fetch;window.fetch=(u,o)=>String(u).includes("script.google")?Promise.resolve(new Response(JSON.stringify(String(u).includes("rank=1")?{total:11,riders:42,cars:186,finishers:3,me:null}:{success:true,stamps:[],amenities:{}}),{headers:{"Content-Type":"application/json"}})):of(u,o);
   window.gtag=function(){};window.track=function(){};window.trackCompany=function(){};
 })();
 </script>
@@ -3196,18 +3196,23 @@ loadRanking();
 </script>
 
 
-<div id="demoBar" style="position:fixed;left:50%;top:max(6px,env(safe-area-inset-top));transform:translateX(-50%);z-index:999;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:94vw;padding:6px;border-radius:10px;background:rgba(10,14,32,.82);box-shadow:0 6px 18px rgba(0,0,0,.4);font-family:system-ui,sans-serif">
-  <span style="color:#E9D7A6;font-size:12px;font-weight:700;align-self:center;padding:0 4px">DEMO</span>
-  <button data-d="4">첫 번째 역</button><button data-d="8">두 번째 역</button><button data-d="11">종착역</button><button data-d="tk">마이 티켓</button>
+<div id="demoBar" style="position:fixed;left:50%;top:max(6px,env(safe-area-inset-top));transform:translateX(-50%);z-index:999;display:flex;align-items:center;max-width:96vw;border-radius:10px;background:rgba(10,14,32,.85);box-shadow:0 6px 18px rgba(0,0,0,.4)">
+  <span class="dl">DEMO</span><span class="dd" id="demoDate"></span>
+  <button data-d="next">다음 날 →</button><button data-d="tk">마이 티켓</button><button data-d="reset">처음부터</button>
 </div>
-<style>.station.gv{padding-top:calc(max(18px,env(safe-area-inset-top)) + 44px)!important}.myt>div{padding-top:52px!important}#demoBar{flex-wrap:nowrap!important;gap:4px!important;padding:5px!important}#demoBar,#demoBar *{font-family:system-ui,-apple-system,sans-serif!important}#demoBar button{border:1px solid #C9A55C;background:#1C2A5A;color:#F6F0E2;border-radius:6px;padding:6px 8px;font-size:12px;font-weight:600;white-space:nowrap}</style>
+<style>
+#demoBar{gap:5px;padding:5px 6px}#demoBar,#demoBar *{font-family:system-ui,-apple-system,sans-serif!important}
+#demoBar .dl{color:#E9D7A6;font-size:11px;font-weight:800;padding:0 2px}#demoBar .dd{color:#F6F0E2;font-size:12px;font-weight:600;padding:0 4px;white-space:nowrap}
+#demoBar button{border:1px solid #C9A55C;background:#1C2A5A;color:#F6F0E2;border-radius:6px;padding:6px 8px;font-size:12px;font-weight:600;white-space:nowrap}
+.ui .top{padding-top:38px}
+</style>
 <script>
 (function(){
-  const close=()=>{document.querySelector("#stationHost").innerHTML="";document.querySelectorAll(".myt").forEach(e=>e.remove());document.querySelector("#layer").hidden=true};
-  const ride=n=>{const ids=["m1","m2","m3","m4","m5","m6","m7","m8","m9","m10","m11"];ids.forEach((id,i)=>{if(i<n)done[id]=true;else delete done[id]});total=calcTotal();saveProgress();render()};
-  document.querySelectorAll("#demoBar button").forEach(b=>b.onclick=()=>{close();document.querySelector("#intro").hidden=true;const d=b.dataset.d;
-    if(d==="tk"){showMyTicket();return}ride(Math.max(+d,total));showStation(+d)});
-  setTimeout(()=>{document.querySelector("#intro").hidden=true;cur=3;drawCar(CARS[3]);showStation(8)},700);
+  const paint=()=>{const d=new Date();document.getElementById("demoDate").textContent=`${d.getMonth()+1}월 ${d.getDate()}일`};paint();
+  document.querySelectorAll("#demoBar button").forEach(b=>b.onclick=()=>{const d=b.dataset.d;
+    if(d==="reset"){location.reload();return}
+    if(d==="tk"){document.querySelectorAll(".myt").forEach(e=>e.remove());if(!P.name){toast("먼저 매표소에서 승차권을 발권해 주세요");return}showMyTicket();return}
+    if(d==="next"){__demoDay(1);paint();if(typeof render==="function"&&document.querySelector("#intro").hidden)render();toast(`${new Date().getMonth()+1}월 ${new Date().getDate()}일이 되었어요. 오늘 탈 칸을 골라 주세요`)}});
 })();
 </script>
 </body>
