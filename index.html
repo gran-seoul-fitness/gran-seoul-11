@@ -2248,15 +2248,21 @@ function checkupFront(T){
       <text x="0" y="3.5" text-anchor="middle" font-size="9" font-family="Gloock,Georgia,serif" fill="#F4ECDB">${Math.round(fill*100>99?100:fill*100)}%</text></g>
     <line x1="70" x2="90" y1="${(-24+36*scan).toFixed(1)}" y2="${(-24+36*scan).toFixed(1)}" stroke="#C9C3B4" stroke-width=".8" opacity=".6"/>
   </g>`;
-  /* 뒤에서 본 사람 */
-  const hipY=86+br*.2, shY=50+br*.3, sL=[cx-14,shY+3], sR=[cx+14,shY+3];
-  const hL=[40,84], hR=[120,84], eL=[cx-24,shY+24], eR=[cx+24,shY+24];
-  const fL=[cx-14,124], fR=[cx+14,124], kL=[cx-12,105], kR=[cx+12,105];
-  o+=seg([cx-7,hipY],kL,W.thigh)+seg(kL,fL,W.shin)+seg([cx+7,hipY],kR,W.thigh)+seg(kR,fR,W.shin);
-  o+=`<path d="M${cx-11} ${hipY+4} L${cx-15} ${shY+4} L${cx+15} ${shY+4} L${cx+11} ${hipY+4} Z" class="ink" style="stroke-width:2.6;stroke-linejoin:round"/><path d="M${cx-11} ${hipY+4} L${cx-15} ${shY+4} L${cx+15} ${shY+4} L${cx+11} ${hipY+4} Z" class="skin2"/>`;
-  o+=seg(sL,eL,W.uarm)+seg(eL,hL,W.farm)+seg(sR,eR,W.uarm)+seg(eR,hR,W.farm);
-  o+=`<circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="skin2"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="skin2"/>`;
-  o+=`<rect x="${cx-4}" y="${shY-9}" width="8" height="12" class="skin2" stroke="#2A2622" stroke-width="1.4"/><circle cx="${cx}" cy="${shY-16}" r="8.5" class="ink"/><circle cx="${cx}" cy="${shY-16}" r="7.2" class="skin2"/>`;
+  /* 뒤에서 본 사람: 다른 운동 그림과 같은 선·면 스타일 */
+  const hipY=88+br*.2, shY=hipY-42, hw=9;
+  const hipL=[cx-hw,hipY], hipR=[cx+hw,hipY], fL=[cx-14,124], fR=[cx+14,124], kL=[cx-12,106], kR=[cx+12,106];
+  const sL=[cx-15,shY+4], sR=[cx+15,shY+4], eL=[cx-27,shY+20], eR=[cx+27,shY+20], hL=[40,84], hR=[120,84], head=[cx,shY-15];
+  const thL=limbD(hipL,kL,15,10,1.4,1.4),thR=limbD(hipR,kR,15,10,1.4,1.4),snL=limbD(kL,fL,9,5.5,1,1.6,.3),snR=limbD(kR,fR,9,5.5,1.6,1,.3);
+  const ftL=limbD(fL,[fL[0]-6,fL[1]+1],5.5,4,0,0),ftR=limbD(fR,[fR[0]+6,fR[1]+1],5.5,4,0,0);
+  const tor=`M${cx-11} ${hipY+5} Q${cx-14} ${(hipY+shY)/2} ${cx-19} ${shY+4} Q${cx} ${shY-2} ${cx+19} ${shY+4} Q${cx+14} ${(hipY+shY)/2} ${cx+11} ${hipY+5} Q${cx} ${hipY+9} ${cx-11} ${hipY+5}Z`;
+  const uaL=limbD(sL,eL,9,7,1.2,1.2),faL=limbD(eL,hL,7.5,5,1,.6,.3),uaR=limbD(sR,eR,9,7,1.2,1.2),faR=limbD(eR,hR,7.5,5,1,.6,.3);
+  const dL=`M${sL[0]} ${sL[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`,dR=`M${sR[0]} ${sR[1]} m-6.5 0 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0`;
+  const neckD=`M${cx-4} ${shY+2} V${shY-11} H${cx+4} V${shY+2}Z`;
+  o+=bodyGroup([thL,thR,snL,snR,ftL,ftR,tor,neckD]);
+  o+=`<path d="M${cx} ${shY+6} V${hipY+2} M${cx-10} ${shY+10} q4 8 0 16 M${cx+10} ${shY+10} q-4 8 0 16" class="cont"/>`;
+  o+=bodyGroup([uaL,faL,uaR,faR,dL,dR]);
+  o+=`<circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="bo"/><circle cx="${hL[0]}" cy="${hL[1]}" r="3.8" class="bf"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="bo"/><circle cx="${hR[0]}" cy="${hR[1]}" r="3.8" class="bf"/>`;
+  o+=`<circle cx="${head[0]}" cy="${head[1]}" r="8" class="bo"/><circle cx="${head[0]}" cy="${head[1]}" r="8" class="bf"/>`;
   /* 몸을 훑는 측정 빛 */
   const sy=(shY-18)+(124-(shY-18))*scan;
   o+=`<rect x="${cx-46}" y="${sy.toFixed(1)}" width="92" height="3" rx="1.5" class="scanl"/>`;
