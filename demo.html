@@ -350,7 +350,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .mtk .sec b{font-family:var(--f-kr);letter-spacing:0;font-size:11.5px}
 .mtk .holes{display:flex;gap:4px}.mtk .holes i{flex:1;aspect-ratio:1;border-radius:50%;border:1.5px solid #1F3B2D;opacity:.45}
 .mtk .holes i.on{background:#1F3B2D;opacity:1;box-shadow:inset 0 0 0 2px #F3EDE0}
-.mtk .cars{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:6px}
+.mtk .cars{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:6px}
 .mtk .cars span{text-align:center;font-family:var(--f-mono);font-size:9.5px;padding:4px 0;border:1px dashed rgba(31,59,45,.45);border-radius:3px}
 .mtk .cars span.on{background:#1F3B2D;color:#F3EDE0;border-style:solid}
 .mtk .cars span small{display:block;font-size:8px;opacity:.8}
@@ -1534,6 +1534,48 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .cards .menu .go{margin-top:auto}
 .cards .menu .spec{margin-bottom:12px}
 .cards .menu .gxlink{align-self:flex-start;margin:-6px 0 10px}
+/* ── 1호차 알프스 칸 */
+.w7 .interior{filter:none}
+.alp-wall{position:absolute;inset:0 0 40% 0;background:linear-gradient(180deg,rgba(0,0,0,.15),transparent 30%),repeating-linear-gradient(90deg,#A5652E 0 3px,#B87638 3px 64px,#8A5224 64px 66px,#B87638 66px 130px);
+  box-shadow:inset 0 -24px 0 #7A2E1E,inset 0 -27px 0 #C9A55C}
+.alp-ceil{position:absolute;inset:0 0 auto;height:15%;background:linear-gradient(#5A3218,#8A5226);display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:3%;padding:2% 3% 2.5%;border-bottom:5px solid #6B3E1E;box-shadow:0 4px 0 #C9A55C}
+.alp-ceil i{border-radius:10px;background:radial-gradient(60% 80% at 50% 50%,#C98A4A,#9A5E2A 70%,#7A4520);box-shadow:inset 0 0 0 2px #6B3E1E,inset 0 0 0 4px rgba(255,220,160,.25)}
+.alp-lamp{position:absolute;left:50%;top:-14px;width:60px;height:34px;margin-left:-30px;border-radius:0 0 40px 40px;background:radial-gradient(circle at 50% 30%,#FFF6DA,#F2C878);box-shadow:0 0 60px 26px rgba(255,220,150,.45)}
+.alp-rack{position:absolute;top:22%;width:12%;height:20%;border:2px solid #C9A55C;border-radius:3px;background:repeating-linear-gradient(90deg,transparent 0 5px,rgba(201,165,92,.7) 5px 6px),repeating-linear-gradient(0deg,transparent 0 7px,rgba(201,165,92,.5) 7px 8px)}
+.alp-rack.l{left:1%}.alp-rack.r{right:1%}
+.alp-win{position:absolute;left:12%;right:12%;top:19%;height:38%;padding:8px;border-radius:6px;background:linear-gradient(#E3C27A,#B08A3E);box-shadow:0 0 0 3px #7A4A24,0 12px 26px rgba(0,0,0,.35)}
+.alp-glass{position:relative;width:100%;height:100%;overflow:hidden;border-radius:2px}
+.alp-sky{position:absolute;inset:0;background:linear-gradient(#7FB6E2,#BFDDF1 55%,#EAF4F8)}
+.alp-sun{position:absolute;right:10%;top:8%;width:30px;height:30px;border-radius:50%;background:#FFF8DE;box-shadow:0 0 40px 18px rgba(255,248,220,.75)}
+.alp-cloud{position:absolute;height:14px;border-radius:20px;background:#fff;opacity:.85;animation:cloud 70s linear infinite}
+.alp-cloud.c1{top:12%;width:90px;left:10%}.alp-cloud.c2{top:22%;width:60px;left:60%;animation-duration:95s;opacity:.7}
+@keyframes cloud{from{transform:translateX(0)}to{transform:translateX(-140%)}}
+.alp-l{position:absolute;left:0;bottom:0;height:100%;width:auto;animation:alpPass linear infinite}
+@keyframes alpPass{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.alp-mul{position:absolute;top:8px;bottom:8px;width:9px;background:linear-gradient(90deg,#9A7230,#E3C27A,#9A7230)}
+.alp-mul.m1{left:30%}.alp-mul.m2{right:30%}
+.alp-sill{position:absolute;left:10%;right:10%;top:57%;height:2.2%;background:linear-gradient(#C98A4A,#8A5226);border-radius:2px;box-shadow:0 3px 6px rgba(0,0,0,.3)}
+.alp-floor{position:absolute;inset:60% 0 0 0;background:radial-gradient(circle,#E08A3A 0 1.6px,transparent 2.4px) 0 0/16px 16px,radial-gradient(circle,#C9A55C 0 1px,transparent 1.8px) 8px 8px/16px 16px,linear-gradient(#1E2440,#141A30)}
+.alp-sunbeam{position:absolute;left:30%;right:22%;top:60%;bottom:4%;background:linear-gradient(170deg,rgba(255,236,190,.28),rgba(255,236,190,0) 70%);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);pointer-events:none}
+.alp-table{position:absolute;left:43%;width:14%;top:57%;height:6%;background:linear-gradient(#D49A58,#A86A32);border-radius:3px;box-shadow:0 4px 6px rgba(0,0,0,.35)}
+.alp-table i{position:absolute;left:46%;top:100%;width:8%;height:200%;background:linear-gradient(90deg,#9A7230,#E3C27A,#9A7230)}
+.alp-seat{position:absolute;bottom:22%;width:36%}
+.alp-seat svg{display:block;width:100%}
+.alp-seat.l{left:-4%}.alp-seat.r{right:-4%;transform:scaleX(-1)}
+.w7 .machine{display:none}
+/* 한 칸에 미션 하나면 카드 하나를 가운데 넓게 */
+.cards .menu:only-child{grid-column:1/-1;max-width:72%;justify-self:center;width:100%}
+/* 둘 중 하나 안내 */
+.pick-note{align-self:center;margin:0 auto 8px;padding:6px 14px;border-radius:999px;background:rgba(246,240,226,.95);color:#1C2A5A;font-family:var(--f-sans)!important;font-size:13.5px;font-weight:600;box-shadow:0 6px 14px rgba(0,0,0,.3);text-align:center}
+.pick-note b{color:#8A6A2E}
+/* 퀴즈 포스터: 뒤에서 은은하게 숨 쉬는 램프 빛 */
+#wallQuiz.wallquiz::before{left:-60%;right:-60%;top:-34%;bottom:-34%;width:auto;height:auto;margin:0;z-index:-1;opacity:1;border-radius:50%;
+  background:radial-gradient(closest-side,#FFFBEA 0,#FFE7A0 38%,rgba(255,196,90,.75) 62%,rgba(255,170,60,0) 100%);mix-blend-mode:screen;filter:blur(3px) saturate(1.3);animation:quizGlow 4.2s ease-in-out infinite}
+#wallQuiz .wq-paper{animation:quizHalo 4.2s ease-in-out infinite}
+@keyframes quizHalo{0%,100%{box-shadow:0 0 6px 2px rgba(255,214,120,.55),0 1px 1.5px rgba(40,20,10,.35)}50%{box-shadow:0 0 22px 8px rgba(255,220,130,.95),0 1px 1.5px rgba(40,20,10,.35)}}
+#wallQuiz{isolation:isolate}
+#wallQuiz .wq-paper{position:relative;z-index:1}
+@keyframes quizGlow{0%,100%{opacity:.6;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -1604,6 +1646,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <span class="view" id="view"></span>
     </div>
     <div class="sheet">
+      <div class="pick-note" id="pickNote" hidden>아래 두 미션 중 <b>하나를 골라</b> 진행해 주세요</div>
       <div class="cards" id="cards"></div>
       <div class="bar"><span id="stat"></span><span style="display:flex;gap:6px"><button type="button" id="again">매표소</button><button type="button" id="myTk">마이 티켓</button></span></div>
     </div>
@@ -1988,27 +2031,30 @@ steps:`<svg viewBox="0 0 170 120"><rect x="6" y="80" width="78" height="22" rx="
 };
 
 const CARS=[
- {no:1,en:"BURGUNDY CAR",ko:"체성분·하체 칸",zone:"하체존",view:"산골짜기 · 오후",wall:"w1",win:"rect",sky:["#E8D3A6","#F3E5C3"],sun:{c:"#F6E2A8",x:62,y:16,s:34},lamp:"#F7D88A",
+ {no:1,en:"ALPINE CAR",ko:"체성분 칸",zone:"체크인",view:"알프스 초원 · 맑은 아침",wall:"w7",win:"pano",alpine:true,sky:["#9CC9EC","#E6F2F8"],sun:{c:"#FFF8E0",x:80,y:10,s:26},lamp:"#FFE7B0",
+  layers:[],left:["inbody","left:4%;bottom:27%;width:30%"],right:["inbody","display:none"],
+  missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"측정한 체성분 측정기를 찍어 주세요<br>결과지·결과 화면은 찍지 않아도 돼요"}]},
+ {no:2,en:"BURGUNDY CAR",ko:"하체 칸",zone:"하체존",view:"산골짜기 · 오후",wall:"w1",win:"rect",sky:["#E8D3A6","#F3E5C3"],sun:{c:"#F6E2A8",x:62,y:16,s:34},lamp:"#F7D88A",
   layers:[["peaks","#A7B48A",62,30],["rolling","#71895F",40,14],["trees","#3E5A40",22,4.5]],
-  left:["inbody","left:6%;bottom:27%;width:34%"],right:["smith","right:3%;bottom:29%;width:30%"],
-  missions:[{id:"m1",cat:"CHECK-IN",name:"체성분 측정",spec:"출발 전 1회 · 체성분 측정기",first:true,hint:"측정한 체성분 측정기를 찍어 주세요<br>결과지·결과 화면은 찍지 않아도 돼요"},{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"}]},
- {no:2,en:"VELVET CAR",ko:"등 칸",zone:"등존",view:"호숫가 초원 · 아침",wall:"w2",win:"rect",sky:["#CFE0E6","#EEF2E6"],sun:{c:"#FFF4D6",x:18,y:14,s:28},lamp:"#FBE6B0",
+  left:["mat","left:6%;bottom:27%;width:40%"],right:["smith","right:3%;bottom:29%;width:30%"],
+  missions:[{id:"m2",cat:"LOWER",name:"스미스 머신 스쿼트",spec:"3세트 × 15회"},{id:"m13",cat:"LOWER",name:"스플릿 스쿼트",spec:"3세트 × 좌우 10회"}]},
+ {no:3,en:"VELVET CAR",ko:"등 칸",zone:"등존",view:"호숫가 초원 · 아침",wall:"w2",win:"rect",sky:["#CFE0E6","#EEF2E6"],sun:{c:"#FFF4D6",x:18,y:14,s:28},lamp:"#FBE6B0",
   layers:[["peaks","#B4C6C9",56,40],["flat","#8FB3B8",18,16],["rolling","#7FA36B",22,9],["shrubs","#4E7A4A",12,3.5]],
   left:["latpull","left:2%;bottom:29%;width:40%"],right:["row","right:1%;bottom:28%;width:48%"],
   missions:[{id:"m3",cat:"BACK",name:"랫 풀다운",spec:"3세트 × 12회"},{id:"m4",cat:"BACK",name:"시티드 로우",spec:"3세트 × 12회"}]},
- {no:3,en:"NAVY CAR",ko:"가슴·어깨 칸",zone:"상체존",view:"노을 바다 · 해 질 녘",wall:"w3",win:"rect",sky:["#E58A3C","#F7C47A"],sun:{c:"#FFF4D0",x:45,y:44,s:28},lamp:"#F5CF8A",glitter:true,
+ {no:4,en:"NAVY CAR",ko:"가슴·어깨 칸",zone:"상체존",view:"노을 바다 · 해 질 녘",wall:"w3",win:"rect",sky:["#E58A3C","#F7C47A"],sun:{c:"#FFF4D0",x:45,y:44,s:28},lamp:"#F5CF8A",glitter:true,
   layers:[["rolling","#A85E36",50,70],["flat","#8E6A52",34,40],["waves","#6B4D3A",20,7],["waves","#4A3528",10,3.5]],
   left:["chest","left:2%;bottom:29%;width:46%"],right:["dbrack","right:2%;bottom:29%;width:42%"],
   missions:[{id:"m5",cat:"CHEST",name:"체스트 프레스 머신",spec:"3세트 × 12회"},{id:"m6",cat:"SHOULDER",name:"덤벨 숄더 프레스",spec:"3세트 × 10회 · 앉아서"}]},
- {no:4,en:"MAHOGANY CAR",ko:"유산소 칸",zone:"유산소존",view:"사막 고원 · 한낮",wall:"w4",win:"porthole",sky:["#B9D3DE","#F1E2C2"],sun:{c:"#FFF3D0",x:30,y:12,s:26},lamp:"#F7E2B2",
+ {no:5,en:"MAHOGANY CAR",ko:"유산소 칸",zone:"유산소존",view:"사막 고원 · 한낮",wall:"w4",win:"porthole",sky:["#B9D3DE","#F1E2C2"],sun:{c:"#FFF3D0",x:30,y:12,s:26},lamp:"#F7E2B2",
   layers:[["peaks","#B7AFC4",30,50],["dunes","#D7B888",34,16],["shrubs","#9C8A5C",14,2.6]],
   left:["treadmill","left:0;bottom:29%;width:58%"],right:["bike","right:4%;bottom:29%;width:30%"],
   missions:[{id:"m7",cat:"CARDIO",name:"인클라인 트레드밀 걷기",spec:"경사 6~10% · 20분"},{id:"m8",cat:"CARDIO",name:"실내 사이클",spec:"15분 · 중간 강도"}]},
- {no:5,en:"SAGE CAR",ko:"코어·호흡 칸",zone:"스트레칭존",view:"첫눈 내린 숲 · 오전",wall:"w5",win:"rect",sky:["#DCE3E6","#F4F4EE"],sun:{c:"#FFFFFF",x:70,y:14,s:22},lamp:"#FFF0CC",
+ {no:6,en:"SAGE CAR",ko:"코어·호흡 칸",zone:"스트레칭존",view:"첫눈 내린 숲 · 오전",wall:"w5",win:"rect",sky:["#DCE3E6","#F4F4EE"],sun:{c:"#FFFFFF",x:70,y:14,s:22},lamp:"#FFF0CC",
   layers:[["peaks","#E7ECEE",60,46],["pines","#8DA19A",34,18],["pines","#56706A",22,6]],
   left:["mat","left:12%;bottom:27%;width:64%"],right:["mats","right:3%;bottom:29%;width:26%"],
   missions:[{id:"m9",cat:"CORE",name:"데드버그",spec:"3세트 × 좌우 10회"},{id:"m10",cat:"BREATH",name:"횡격막 호흡",spec:"누워서 5분"}]},
- {no:6,en:"LOUNGE CAR",ko:"GX 라운지 칸",zone:"GX존",view:"밤의 도시 불빛",wall:"w6",win:"arch",sky:["#0F1B2E","#263D5A"],sun:{c:"#F1E6C8",x:70,y:12,s:20},lamp:"#F2C97A",stars:true,night:true,pick:true,
+ {no:7,en:"LOUNGE CAR",ko:"GX 라운지 칸",zone:"GX존",view:"밤의 도시 불빛",wall:"w6",win:"arch",sky:["#0F1B2E","#263D5A"],sun:{c:"#F1E6C8",x:70,y:12,s:20},lamp:"#F2C97A",stars:true,night:true,pick:true,
   layers:[["rolling","#1B2B3E",34,30],["city","#0B1422",36,12],["trees","#060C14",14,4]],
   left:["mirror","left:3%;bottom:30%;width:28%"],right:["steps","right:2%;bottom:29%;width:50%"],
   missions:[{id:"m11",cat:"GX",name:"GX 수업 1회 참여",spec:"11월 시간표 중 1회",gx:true},{id:"m12",cat:"PARTNER",name:"파트너 운동",spec:"보조받기 또는 보조하기 1회",partner:true,hint:"함께 운동한 걸 알 수 있게 찍어 주세요<br>얼굴 대신 손 인증(손 모아 찍기 등)도 좋아요"}]}
@@ -2018,9 +2064,29 @@ const $=s=>document.querySelector(s);
 let cur=0, done={}, total=0;
 var doneBy={};
 const need=c=>c.pick?1:c.missions.length, carDone=c=>c.missions.filter(m=>done[m.id]).length>=need(c);
-const TOTAL=CARS.reduce((a,c)=>a+need(c),0); /* 6호차는 GX·파트너 중 택1 → 총 11칸 */
+const TOTAL=CARS.reduce((a,c)=>a+need(c),0); /* 7호차는 GX·파트너 중 택1 → 총 12칸 */
 
+/* 1호차 알프스 칸: 나무 상감 천장 · 3분할 큰 창 · 청록 다마스크 좌석 · 흘러가는 알프스 풍경 */
+const ALP_LAYERS=[[`far`, `<path d="M0 170 L55 64 L63 58 L73 66 L126 170Z" fill="#9DB2C9"/><path d="M55 64 L63 58 L73 66 L85 92 L73 86 L65 96 L57 84 L43 94Z" fill="#F7FAFC"/><path d="M63 58 L73 66 L85 92 L73 86Z" fill="#D6E2EE"/><path d="M88 170 L162 59 L170 53 L180 61 L252 170Z" fill="#9DB2C9"/><path d="M162 59 L170 53 L180 61 L192 87 L180 81 L172 91 L164 79 L150 89Z" fill="#F7FAFC"/><path d="M170 53 L180 61 L192 87 L180 81Z" fill="#D6E2EE"/><path d="M203 170 L260 65 L268 59 L278 67 L334 170Z" fill="#9DB2C9"/><path d="M260 65 L268 59 L278 67 L290 93 L278 87 L270 97 L262 85 L248 95Z" fill="#F7FAFC"/><path d="M268 59 L278 67 L290 93 L278 87Z" fill="#D6E2EE"/><path d="M295 170 L339 62 L347 56 L357 64 L399 170Z" fill="#9DB2C9"/><path d="M339 62 L347 56 L357 64 L369 90 L357 84 L349 94 L341 82 L327 92Z" fill="#F7FAFC"/><path d="M347 56 L357 64 L369 90 L357 84Z" fill="#D6E2EE"/><path d="M368 170 L430 76 L438 70 L448 78 L508 170Z" fill="#9DB2C9"/><path d="M430 76 L438 70 L448 78 L460 104 L448 98 L440 108 L432 96 L418 106Z" fill="#F7FAFC"/><path d="M438 70 L448 78 L460 104 L448 98Z" fill="#D6E2EE"/><path d="M466 170 L507 51 L515 45 L525 53 L564 170Z" fill="#9DB2C9"/><path d="M507 51 L515 45 L525 53 L537 79 L525 73 L517 83 L509 71 L495 81Z" fill="#F7FAFC"/><path d="M515 45 L525 53 L537 79 L525 73Z" fill="#D6E2EE"/><path d="M534 170 L575 76 L583 70 L593 78 L632 170Z" fill="#9DB2C9"/><path d="M575 76 L583 70 L593 78 L605 104 L593 98 L585 108 L577 96 L563 106Z" fill="#F7FAFC"/><path d="M583 70 L593 78 L605 104 L593 98Z" fill="#D6E2EE"/><path d="M602 170 L667 38 L675 32 L685 40 L748 170Z" fill="#9DB2C9"/><path d="M667 38 L675 32 L685 40 L697 66 L685 60 L677 70 L669 58 L655 68Z" fill="#F7FAFC"/><path d="M675 32 L685 40 L697 66 L685 60Z" fill="#D6E2EE"/><path d="M704 170 L763 84 L771 78 L781 86 L838 170Z" fill="#9DB2C9"/><path d="M763 84 L771 78 L781 86 L793 112 L781 106 L773 116 L765 104 L751 114Z" fill="#F7FAFC"/><path d="M771 78 L781 86 L793 112 L781 106Z" fill="#D6E2EE"/><path d="M800 170 L855 64 L863 58 L873 66 L926 170Z" fill="#9DB2C9"/><path d="M855 64 L863 58 L873 66 L885 92 L873 86 L865 96 L857 84 L843 94Z" fill="#F7FAFC"/><path d="M863 58 L873 66 L885 92 L873 86Z" fill="#D6E2EE"/><path d="M888 170 L962 59 L970 53 L980 61 L1052 170Z" fill="#9DB2C9"/><path d="M962 59 L970 53 L980 61 L992 87 L980 81 L972 91 L964 79 L950 89Z" fill="#F7FAFC"/><path d="M970 53 L980 61 L992 87 L980 81Z" fill="#D6E2EE"/><path d="M1003 170 L1060 65 L1068 59 L1078 67 L1134 170Z" fill="#9DB2C9"/><path d="M1060 65 L1068 59 L1078 67 L1090 93 L1078 87 L1070 97 L1062 85 L1048 95Z" fill="#F7FAFC"/><path d="M1068 59 L1078 67 L1090 93 L1078 87Z" fill="#D6E2EE"/><path d="M1095 170 L1139 62 L1147 56 L1157 64 L1199 170Z" fill="#9DB2C9"/><path d="M1139 62 L1147 56 L1157 64 L1169 90 L1157 84 L1149 94 L1141 82 L1127 92Z" fill="#F7FAFC"/><path d="M1147 56 L1157 64 L1169 90 L1157 84Z" fill="#D6E2EE"/><path d="M1168 170 L1230 76 L1238 70 L1248 78 L1308 170Z" fill="#9DB2C9"/><path d="M1230 76 L1238 70 L1248 78 L1260 104 L1248 98 L1240 108 L1232 96 L1218 106Z" fill="#F7FAFC"/><path d="M1238 70 L1248 78 L1260 104 L1248 98Z" fill="#D6E2EE"/><path d="M1266 170 L1307 51 L1315 45 L1325 53 L1364 170Z" fill="#9DB2C9"/><path d="M1307 51 L1315 45 L1325 53 L1337 79 L1325 73 L1317 83 L1309 71 L1295 81Z" fill="#F7FAFC"/><path d="M1315 45 L1325 53 L1337 79 L1325 73Z" fill="#D6E2EE"/><path d="M1334 170 L1375 76 L1383 70 L1393 78 L1432 170Z" fill="#9DB2C9"/><path d="M1375 76 L1383 70 L1393 78 L1405 104 L1393 98 L1385 108 L1377 96 L1363 106Z" fill="#F7FAFC"/><path d="M1383 70 L1393 78 L1405 104 L1393 98Z" fill="#D6E2EE"/><path d="M1402 170 L1467 38 L1475 32 L1485 40 L1548 170Z" fill="#9DB2C9"/><path d="M1467 38 L1475 32 L1485 40 L1497 66 L1485 60 L1477 70 L1469 58 L1455 68Z" fill="#F7FAFC"/><path d="M1475 32 L1485 40 L1497 66 L1485 60Z" fill="#D6E2EE"/><path d="M1504 170 L1563 84 L1571 78 L1581 86 L1638 170Z" fill="#9DB2C9"/><path d="M1563 84 L1571 78 L1581 86 L1593 112 L1581 106 L1573 116 L1565 104 L1551 114Z" fill="#F7FAFC"/><path d="M1571 78 L1581 86 L1593 112 L1581 106Z" fill="#D6E2EE"/>`, 140], [`mid`, `<path d="M0 300 L0 136 L27 132 L53 132 L80 130 L107 134 L133 135 L160 130 L187 131 L213 124 L240 122 L267 116 L293 115 L320 116 L347 112 L373 109 L400 111 L427 121 L453 125 L480 127 L507 130 L533 131 L560 125 L587 120 L613 117 L640 111 L667 112 L693 120 L720 121 L747 131 L773 130 L800 136 L800 300Z" fill="#2F5A3A"/><path d="M190 185 l-5 14 h10z" fill="#244A2E"/><path d="M296 189 l-5 14 h10z" fill="#244A2E"/><path d="M501 154 l-5 14 h10z" fill="#244A2E"/><path d="M11 204 l-5 14 h10z" fill="#244A2E"/><path d="M207 165 l-5 14 h10z" fill="#244A2E"/><path d="M797 181 l-5 14 h10z" fill="#244A2E"/><path d="M669 181 l-5 14 h10z" fill="#244A2E"/><path d="M511 160 l-5 14 h10z" fill="#244A2E"/><path d="M508 206 l-5 14 h10z" fill="#244A2E"/><path d="M419 198 l-5 14 h10z" fill="#244A2E"/><path d="M537 154 l-5 14 h10z" fill="#244A2E"/><path d="M607 188 l-5 14 h10z" fill="#244A2E"/><path d="M241 152 l-5 14 h10z" fill="#244A2E"/><path d="M692 181 l-5 14 h10z" fill="#244A2E"/><path d="M575 207 l-5 14 h10z" fill="#244A2E"/><path d="M571 210 l-5 14 h10z" fill="#244A2E"/><path d="M316 202 l-5 14 h10z" fill="#244A2E"/><path d="M356 211 l-5 14 h10z" fill="#244A2E"/><path d="M703 156 l-5 14 h10z" fill="#244A2E"/><path d="M109 164 l-5 14 h10z" fill="#244A2E"/><path d="M772 178 l-5 14 h10z" fill="#244A2E"/><path d="M501 170 l-5 14 h10z" fill="#244A2E"/><path d="M406 175 l-5 14 h10z" fill="#244A2E"/><path d="M281 188 l-5 14 h10z" fill="#244A2E"/><path d="M467 209 l-5 14 h10z" fill="#244A2E"/><path d="M546 210 l-5 14 h10z" fill="#244A2E"/><path d="M685 214 l-5 14 h10z" fill="#244A2E"/><path d="M537 161 l-5 14 h10z" fill="#244A2E"/><path d="M689 213 l-5 14 h10z" fill="#244A2E"/><path d="M724 187 l-5 14 h10z" fill="#244A2E"/><path d="M571 164 l-5 14 h10z" fill="#244A2E"/><path d="M665 187 l-5 14 h10z" fill="#244A2E"/><path d="M228 154 l-5 14 h10z" fill="#244A2E"/><path d="M683 214 l-5 14 h10z" fill="#244A2E"/><path d="M71 202 l-5 14 h10z" fill="#244A2E"/><path d="M328 160 l-5 14 h10z" fill="#244A2E"/><path d="M235 200 l-5 14 h10z" fill="#244A2E"/><path d="M698 153 l-5 14 h10z" fill="#244A2E"/><path d="M492 153 l-5 14 h10z" fill="#244A2E"/><path d="M575 172 l-5 14 h10z" fill="#244A2E"/><path d="M705 214 l-5 14 h10z" fill="#244A2E"/><path d="M404 215 l-5 14 h10z" fill="#244A2E"/><path d="M248 155 l-5 14 h10z" fill="#244A2E"/><path d="M480 152 l-5 14 h10z" fill="#244A2E"/><path d="M158 177 l-5 14 h10z" fill="#244A2E"/><path d="M488 160 l-5 14 h10z" fill="#244A2E"/><path d="M34 206 l-5 14 h10z" fill="#244A2E"/><path d="M251 212 l-5 14 h10z" fill="#244A2E"/><path d="M717 175 l-5 14 h10z" fill="#244A2E"/><path d="M368 184 l-5 14 h10z" fill="#244A2E"/><path d="M515 189 l-5 14 h10z" fill="#244A2E"/><path d="M447 190 l-5 14 h10z" fill="#244A2E"/><path d="M752 183 l-5 14 h10z" fill="#244A2E"/><path d="M345 197 l-5 14 h10z" fill="#244A2E"/><path d="M190 170 l-5 14 h10z" fill="#244A2E"/><path d="M782 184 l-5 14 h10z" fill="#244A2E"/><path d="M439 151 l-5 14 h10z" fill="#244A2E"/><path d="M332 188 l-5 14 h10z" fill="#244A2E"/><path d="M16 190 l-5 14 h10z" fill="#244A2E"/><path d="M506 154 l-5 14 h10z" fill="#244A2E"/><path d="M502 180 l-5 14 h10z" fill="#244A2E"/><path d="M543 173 l-5 14 h10z" fill="#244A2E"/><path d="M566 198 l-5 14 h10z" fill="#244A2E"/><path d="M18 154 l-5 14 h10z" fill="#244A2E"/><path d="M541 213 l-5 14 h10z" fill="#244A2E"/><path d="M201 180 l-5 14 h10z" fill="#244A2E"/><path d="M474 171 l-5 14 h10z" fill="#244A2E"/><path d="M291 170 l-5 14 h10z" fill="#244A2E"/><path d="M295 189 l-5 14 h10z" fill="#244A2E"/><path d="M240 175 l-5 14 h10z" fill="#244A2E"/><path d="M800 300 L800 136 L827 132 L853 132 L880 130 L907 134 L933 135 L960 130 L987 131 L1013 124 L1040 122 L1067 116 L1093 115 L1120 116 L1147 112 L1173 109 L1200 111 L1227 121 L1253 125 L1280 127 L1307 130 L1333 131 L1360 125 L1387 120 L1413 117 L1440 111 L1467 112 L1493 120 L1520 121 L1547 131 L1573 130 L1600 136 L1600 300Z" fill="#2F5A3A"/><path d="M990 185 l-5 14 h10z" fill="#244A2E"/><path d="M1096 189 l-5 14 h10z" fill="#244A2E"/><path d="M1301 154 l-5 14 h10z" fill="#244A2E"/><path d="M811 204 l-5 14 h10z" fill="#244A2E"/><path d="M1007 165 l-5 14 h10z" fill="#244A2E"/><path d="M1597 181 l-5 14 h10z" fill="#244A2E"/><path d="M1469 181 l-5 14 h10z" fill="#244A2E"/><path d="M1311 160 l-5 14 h10z" fill="#244A2E"/><path d="M1308 206 l-5 14 h10z" fill="#244A2E"/><path d="M1219 198 l-5 14 h10z" fill="#244A2E"/><path d="M1337 154 l-5 14 h10z" fill="#244A2E"/><path d="M1407 188 l-5 14 h10z" fill="#244A2E"/><path d="M1041 152 l-5 14 h10z" fill="#244A2E"/><path d="M1492 181 l-5 14 h10z" fill="#244A2E"/><path d="M1375 207 l-5 14 h10z" fill="#244A2E"/><path d="M1371 210 l-5 14 h10z" fill="#244A2E"/><path d="M1116 202 l-5 14 h10z" fill="#244A2E"/><path d="M1156 211 l-5 14 h10z" fill="#244A2E"/><path d="M1503 156 l-5 14 h10z" fill="#244A2E"/><path d="M909 164 l-5 14 h10z" fill="#244A2E"/><path d="M1572 178 l-5 14 h10z" fill="#244A2E"/><path d="M1301 170 l-5 14 h10z" fill="#244A2E"/><path d="M1206 175 l-5 14 h10z" fill="#244A2E"/><path d="M1081 188 l-5 14 h10z" fill="#244A2E"/><path d="M1267 209 l-5 14 h10z" fill="#244A2E"/><path d="M1346 210 l-5 14 h10z" fill="#244A2E"/><path d="M1485 214 l-5 14 h10z" fill="#244A2E"/><path d="M1337 161 l-5 14 h10z" fill="#244A2E"/><path d="M1489 213 l-5 14 h10z" fill="#244A2E"/><path d="M1524 187 l-5 14 h10z" fill="#244A2E"/><path d="M1371 164 l-5 14 h10z" fill="#244A2E"/><path d="M1465 187 l-5 14 h10z" fill="#244A2E"/><path d="M1028 154 l-5 14 h10z" fill="#244A2E"/><path d="M1483 214 l-5 14 h10z" fill="#244A2E"/><path d="M871 202 l-5 14 h10z" fill="#244A2E"/><path d="M1128 160 l-5 14 h10z" fill="#244A2E"/><path d="M1035 200 l-5 14 h10z" fill="#244A2E"/><path d="M1498 153 l-5 14 h10z" fill="#244A2E"/><path d="M1292 153 l-5 14 h10z" fill="#244A2E"/><path d="M1375 172 l-5 14 h10z" fill="#244A2E"/><path d="M1505 214 l-5 14 h10z" fill="#244A2E"/><path d="M1204 215 l-5 14 h10z" fill="#244A2E"/><path d="M1048 155 l-5 14 h10z" fill="#244A2E"/><path d="M1280 152 l-5 14 h10z" fill="#244A2E"/><path d="M958 177 l-5 14 h10z" fill="#244A2E"/><path d="M1288 160 l-5 14 h10z" fill="#244A2E"/><path d="M834 206 l-5 14 h10z" fill="#244A2E"/><path d="M1051 212 l-5 14 h10z" fill="#244A2E"/><path d="M1517 175 l-5 14 h10z" fill="#244A2E"/><path d="M1168 184 l-5 14 h10z" fill="#244A2E"/><path d="M1315 189 l-5 14 h10z" fill="#244A2E"/><path d="M1247 190 l-5 14 h10z" fill="#244A2E"/><path d="M1552 183 l-5 14 h10z" fill="#244A2E"/><path d="M1145 197 l-5 14 h10z" fill="#244A2E"/><path d="M990 170 l-5 14 h10z" fill="#244A2E"/><path d="M1582 184 l-5 14 h10z" fill="#244A2E"/><path d="M1239 151 l-5 14 h10z" fill="#244A2E"/><path d="M1132 188 l-5 14 h10z" fill="#244A2E"/><path d="M816 190 l-5 14 h10z" fill="#244A2E"/><path d="M1306 154 l-5 14 h10z" fill="#244A2E"/><path d="M1302 180 l-5 14 h10z" fill="#244A2E"/><path d="M1343 173 l-5 14 h10z" fill="#244A2E"/><path d="M1366 198 l-5 14 h10z" fill="#244A2E"/><path d="M818 154 l-5 14 h10z" fill="#244A2E"/><path d="M1341 213 l-5 14 h10z" fill="#244A2E"/><path d="M1001 180 l-5 14 h10z" fill="#244A2E"/><path d="M1274 171 l-5 14 h10z" fill="#244A2E"/><path d="M1091 170 l-5 14 h10z" fill="#244A2E"/><path d="M1095 189 l-5 14 h10z" fill="#244A2E"/><path d="M1040 175 l-5 14 h10z" fill="#244A2E"/>`, 80], [`mead`, `<path d="M0 300 L0 200 Q50 186 100 218 Q150 181 200 195 Q250 169 300 183 Q350 169 400 209 Q450 195 500 214 Q550 173 600 187 Q650 173 700 189 Q750 175 800 200 L800 300Z" fill="#8CC157"/><path d="M0 262 Q200 246 400 258 T800 262 V300 H0Z" fill="#7DB34B"/><path d="M120 236 h120 M460 228 h160" stroke="#A9D47A" stroke-width="3" opacity=".7"/><rect x="300" y="214" width="26" height="16" fill="#8A5A34"/><path d="M296 216 L313 202 L330 216Z" fill="#5A3A22"/><rect x="305" y="219" width="5" height="5" fill="#F3E3B0"/><rect x="316" y="219" width="5" height="5" fill="#F3E3B0"/><path d="M250 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M262 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M600 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M612 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M700 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M520 236 Q560 228 620 236 Q580 242 520 236Z" fill="#A9CBE0"/><path d="M800 300 L800 200 Q850 186 900 218 Q950 181 1000 195 Q1050 169 1100 183 Q1150 169 1200 209 Q1250 195 1300 214 Q1350 173 1400 187 Q1450 173 1500 189 Q1550 175 1600 200 L1600 300Z" fill="#8CC157"/><path d="M800 262 Q1000 246 1200 258 T1600 262 V300 H800Z" fill="#7DB34B"/><path d="M920 236 h120 M1260 228 h160" stroke="#A9D47A" stroke-width="3" opacity=".7"/><rect x="1100" y="214" width="26" height="16" fill="#8A5A34"/><path d="M1096 216 L1113 202 L1130 216Z" fill="#5A3A22"/><rect x="1105" y="219" width="5" height="5" fill="#F3E3B0"/><rect x="1116" y="219" width="5" height="5" fill="#F3E3B0"/><path d="M1050 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M1062 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M1400 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M1412 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M1500 232 l-7 -26 l-7 26z" fill="#2E5636"/><path d="M1320 236 Q1360 228 1420 236 Q1380 242 1320 236Z" fill="#A9CBE0"/>`, 42], [`fore`, `<path d="M0 300 V286 Q100 276 200 284 T400 284 T600 282 T800 286 V300Z" fill="#5E9A3A"/><path d="M498 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M593 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M636 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M754 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M592 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M738 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M23 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M372 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M755 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M519 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M721 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M91 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M375 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M197 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M435 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M459 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M10 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M173 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M224 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M733 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M613 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M128 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M638 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M111 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M494 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M101 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M697 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M168 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M172 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M800 300 V286 Q900 276 1000 284 T1200 284 T1400 282 T1600 286 V300Z" fill="#5E9A3A"/><path d="M1298 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1393 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1436 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1554 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1392 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1538 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M823 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1172 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1555 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1319 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1521 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M891 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1175 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M997 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1235 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1259 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M810 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M973 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1024 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1533 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1413 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M928 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1438 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M911 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1294 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M901 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M801 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M1497 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M968 300 l3 -14 l3 14z" fill="#4E8A2E"/><path d="M972 300 l3 -14 l3 14z" fill="#4E8A2E"/>`, 9]];
+const ALP_SEAT=k=>`<svg viewBox="0 0 160 220" aria-hidden="true"><defs><pattern id="dm${k}" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#3E8C93"/><path d="M8 2 C11 5 11 7 8 8 C5 7 5 5 8 2Z M8 8 C11 9 11 11 8 14 C5 11 5 9 8 8Z M2 8 C5 5 7 5 8 8 C7 11 5 11 2 8Z M14 8 C11 5 9 5 8 8 C9 11 11 11 14 8Z" fill="#5BA7AD" opacity=".55"/></pattern>
+  <linearGradient id="ds${k}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".25"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs>
+  <path d="M30 10 Q30 2 40 2 H124 Q134 2 134 10 V150 H30Z" fill="url(#dm${k})" stroke="#2C6A70" stroke-width="2"/><path d="M30 10 Q30 2 40 2 H124 Q134 2 134 10 V150 H30Z" fill="url(#ds${k})"/>
+  <path d="M40 8 H124 V46 Q82 54 40 46Z" fill="#F7F4EC" stroke="#DCD6C8"/><circle cx="82" cy="28" r="8" fill="none" stroke="#C9A55C" stroke-width="1.6"/><text x="82" y="31" text-anchor="middle" font-size="8" fill="#B08A3E" font-family="Georgia,serif">GS</text>
+  <path d="M8 120 Q8 100 26 100 H44 V200 H18 Q8 200 8 188Z" fill="url(#dm${k})" stroke="#2C6A70" stroke-width="2"/><path d="M120 100 H138 Q156 100 156 120 V188 Q156 200 146 200 H120Z" fill="url(#dm${k})" stroke="#2C6A70" stroke-width="2"/>
+  <path d="M30 150 H134 Q144 150 144 162 V200 H20 V162 Q20 150 30 150Z" fill="url(#dm${k})" stroke="#2C6A70" stroke-width="2"/><path d="M22 168 H142" stroke="#2C6A70" stroke-width="1.5" opacity=".6"/>
+  <rect x="14" y="200" width="136" height="12" rx="2" fill="#6B4528"/><path d="M14 212 H150" stroke="#3E2414" stroke-width="2"/></svg>`;
+function alpineHTML(c){
+  const lay=ALP_LAYERS.map(([k,body,dur])=>`<svg class="alp-l alp-${k}" viewBox="0 0 1600 300" preserveAspectRatio="xMinYMax slice" style="animation-duration:${dur}s">${body}</svg>`).join("");
+  return `<div class="alp-wall"></div><div class="alp-ceil"><i></i><i></i><i></i><b class="alp-lamp"></b></div>
+    <div class="alp-rack l"></div><div class="alp-rack r"></div>
+    <div class="alp-win"><div class="alp-glass"><div class="alp-sky"></div><div class="alp-sun"></div><div class="alp-cloud c1"></div><div class="alp-cloud c2"></div>${lay}</div><i class="alp-mul m1"></i><i class="alp-mul m2"></i></div>
+    <div class="alp-sill"></div>
+    <div class="alp-floor"></div><div class="alp-sunbeam"></div>
+    <div class="alp-table"><i></i></div>
+    <div class="alp-seat l">${ALP_SEAT("l")}</div><div class="alp-seat r">${ALP_SEAT("r")}</div>
+    <div class="machine" style="${c.left[1]}">${M[c.left[0]]}</div>`}
 function interiorHTML(c){
+  if(c.alpine) return alpineHTML(c);
   const hills=c.layers.map(([s,col,h,dur])=>{const S=SHAPES[s],[, ,vw,vh]=S.vb.split(" ").map(Number),k=Math.ceil(520/S.w)+1;
     const tiles=Array.from({length:k},(_,i)=>`<path transform="translate(${i*vw} 0)" d="${S.d}"/>`).join("");
     return `<svg class="hills" viewBox="0 0 ${vw*k} ${vh}" preserveAspectRatio="none" style="height:${h}%;width:${S.w*k}px;--w:${S.w}px;animation-duration:${dur}s" fill="${col}">${tiles}</svg>`}).join("");
@@ -2048,8 +2114,9 @@ function drawCar(c){
 function render(){
   const c=CARS[cur];
   const full=carDone(c);
+  $("#pickNote").hidden=!c.pick;
   $("#cards").innerHTML=c.missions.map(m=>{const off=full&&!done[m.id];return `<button type="button" class="menu ${done[m.id]?"done":""} ${off?"off":""} ${!done[m.id]&&!off&&rodeToday()?"wait":""}" data-id="${m.id}" ${off?"aria-disabled=\"true\"":""}>
-    <div class="cat">${m.first?"추천 첫 미션":m.cat}${c.pick?" · 둘 중 하나":""}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
+    <div class="cat">${m.first?"추천 첫 미션":m.cat}</div><h3>${m.name}</h3><div class="spec">${m.spec}</div>
     ${m.gx?`<span class="gxlink" data-gx="1">시간표 보기</span>`:""}<div class="go">${done[m.id]?(doneBy[m.id]&&doneBy[m.id]!==P.name?`${doneBy[m.id]} 님이 탐`:"승차 확인"):off?"이 칸은 이미 완료했어요":rodeToday()?"내일 이 칸에서 만나요":"인증하러 가기 →"}</div></button>`}).join("");
   $("#cards").querySelectorAll(".menu").forEach(b=>b.onclick=e=>{if(e.target.closest("[data-gx]")){openReader("gx");return} !done[b.dataset.id]&&!b.classList.contains("off")&&open(b.dataset.id)});
   const n=c.missions.filter(m=>done[m.id]).length;
@@ -2124,6 +2191,9 @@ const MUS={sh:"어깨(삼각근)",ch:"가슴(대흉근)",bi:"이두근",ab:"복�
 const GUIDE={
  m1:{t:["all"],how:["측정 2~3시간 전부터 공복, 화장실 먼저 다녀오기","맨발로 발판의 앞·뒤 전극에 발을 맞춰 올라서기","양쪽 손잡이를 쥐고 팔을 몸통에서 살짝 떨어뜨린 채 화면 안내가 끝날 때까지 가만히"],
    key:["운동·샤워 직후는 수분 변화로 결과가 흔들려요","매번 같은 시간대, 비슷한 옷차림으로 재야 비교가 정확해요","체중보다 골격근량과 체지방률을 중심으로 비교해 보세요"]},
+ m13:{t:["qd","gl","hm"],
+   how:["다리를 앞뒤로 크게 벌리고, 뒷발은 발끝으로 서기","상체를 곧게 세우고 복압 잡기","앞무릎과 뒷무릎이 90° 가까이 될 때까지 <b>수직으로</b> 내려가기","앞발 뒤꿈치로 바닥을 밀며 올라오기 → 반대쪽도 같은 횟수"],
+   key:["앞무릎은 <b>발끝 방향</b>을 따라가게, 안으로 모이지 않게","몸이 앞으로 쏠리지 않게 위아래로만 움직이기","<small class='soft'>균형이 어려우면 벽이나 기구를 살짝 잡아도 좋아요</small>"]},
  m2:{t:["qd","gl","ca"],
    how:["고개를 숙이면 튀어나오는 목뼈 바로 아래, 승모근 위에 바 얹기","어깨에서 주먹 하나 바깥쪽으로 바 잡기","발은 어깨너비 1.5배, 발끝과 무릎 방향 맞추기<span class=\"note\">참고: 타겟 부위에 따라 발 너비를 조절할 수 있어요. 넓게 서면 엉덩이·안쪽 허벅지, 좁게 서면 허벅지 앞쪽에 더 집중돼요.</span>","가슴을 들고 복압을 잡은 뒤 고관절부터 접으며 앉았다 일어서기"],
    key:["<b>무릎 앞으로 5 : 고관절 뒤로 5</b>, 둘이 함께 나가며 앉기.<br><small class='soft'>무릎이 발끝을 넘으면 안 된다며 무릎만 뒤로 빼면 상체가 숙여져 허리에 부담이 가요</small>","무릎은 항상 발끝 방향을 따라가게","앉을 때 엉덩이 양쪽이 멀어지는 느낌으로","발바닥 3점 지지, 갈비뼈를 닫고 허벅지·종아리·엉덩이 힘 유지","앉을 때 <b>뒤꿈치가 뜬다면</b> 뒤꿈치 아래에 원판(플레이트)을 대고 해도 좋아요"]},
@@ -2186,6 +2256,8 @@ const EX={
  m6:{mus:["delt","tricep","trap"],tempo:T=>{const c=T%6.5;const e=x=>(1-Math.cos(Math.PI*x))/2;return c<2?e(c/2):c<3?1:c<6?1-e((c-3)/3):0},pose:t=>({hip:[60,96],torso:-92,feet:[[94,124],[98,124]],hands:LP([66,32],[64,4],t),knee:UP,elbow:DOWN}),
    props:(J)=>`<rect x="44" y="98" width="32" height="6" rx="2" class="mc"/><path d="M48 50 L52 100" class="mc" style="stroke-width:9;stroke-linecap:round"/><path d="M58 104 V126 M40 126 H84" class="mcl"/>`,
    front:(J)=>`<rect x="${J.hand[0]-9}" y="${J.hand[1]-3}" width="18" height="6" rx="2" class="db"/><rect x="${J.hand[0]-11}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/><rect x="${J.hand[0]+6}" y="${J.hand[1]-5}" width="5" height="10" rx="1.5" class="db"/>`},
+ m13:{mus:["quad","glute","ham"],pose:t=>({hip:[L(76,72,t),L(60,86,t)],torso:L(-90,-86,t),feet:[[104,124],[46,123]],hands:[L(80,76,t),L(84,108,t)],hands2:[L(82,78,t),L(86,110,t)],knee:FWD,elbow:DOWN,two:true}),
+   props:()=>`<path d="M14 127 H150" class="mcl"/>`},
  m7:{mus:["glute","ham","calf","quad"],cyc:true,pose:(t,T)=>{const ph=T*3.2,g=x=>126-(x-10)*.09;
      const ft=k=>{const a=ph+k*Math.PI,x=74+18*Math.sin(a);return [x,g(x)-Math.max(0,7*Math.cos(a))]};
      const hd=k=>{const a=ph+k*Math.PI+Math.PI;return [80+12*Math.sin(a),88]};
@@ -2606,7 +2678,7 @@ const runState=()=>{const d=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seou
 const RUN_LOCK={before:`<b>11월 1일에 출발해요</b>지금은 운동 방법만 미리 볼 수 있어요.<br>11월 1일부터 하루 한 칸씩 인증해 주세요!`,
   after:`<b>11월 운행이 끝났어요</b>함께해 주셔서 고마워요.<br>수집한 선물 교환권은 7층 데스크에서 받아 가세요!`};
 /* 인증샷: 내 모습 대신 운동한 기구·매트를 찍어요 */
-const SHOT={m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
+const SHOT={m13:"운동한 자리가 보이게 찍어 주세요 (매트·바닥 등)",m2:"운동한 스미스 머신을 찍어 주세요",m3:"운동한 랫 풀다운 기구를 찍어 주세요",m4:"운동한 시티드 로우 기구를 찍어 주세요",
   m5:"운동한 체스트 프레스 머신을 찍어 주세요",m6:"운동한 덤벨을 찍어 주세요",m7:"운동한 트레드밀을 찍어 주세요<br>화면에 시간·경사가 보이면 더 좋아요",
   m8:"운동한 실내 사이클을 찍어 주세요<br>화면에 운동 시간이 보이면 더 좋아요",m9:"운동한 매트가 보이게 찍어 주세요",m10:"호흡한 매트가 보이게 찍어 주세요",
   m11:"GX 수업에서 쓴 매트가 보이게 찍어 주세요"};
@@ -2777,14 +2849,14 @@ function soap(x,y,w,delay){return `<g class="it" style="animation-delay:${delay}
   <text x="${w/2}" y="${w*.66}" font-size="${w*.13}" fill="#E9ECEF" text-anchor="middle" font-family="Arial,sans-serif" letter-spacing="1">HAEVICHI</text></g></g>`}
 function shreds(x,y,w,h,n){let o="";for(let i=0;i<n;i++){const a=(i*137.5)%360,px=x+((i*53)%w),py=y+((i*29)%h);o+=`<path d="M${px} ${py} q${6+(i%5)} ${-4+(i%7)} ${12+(i%6)} ${(i%3)-1}" stroke="${i%3?"#2A2522":"#3A332D"}" stroke-width="2" fill="none" transform="rotate(${a%40-20} ${px} ${py})"/>`}return o}
 const STATIONS={
- 4:{name:"첫 번째 역",en:"FIRST STATION",time:"morning",bg:"#CFE0EA",item:"퓨리파잉 샴푸",
-   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","SHAMPOO",{pump:true,delay:1.1})}</svg>`},
- 8:{name:"두 번째 역",en:"SECOND STATION",time:"sunset",bg:"#E79A6A",item:"퓨리파잉 컨디셔너",
+ 4:{name:"첫 번째 역",en:"FIRST STATION",time:"morning",bg:"#CFE0EA",item:"퓨리파잉 컨디셔너",
    art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","CONDITIONER",{pump:true,delay:1.1})}</svg>`},
- 11:{name:"종착역 그랑서울",en:"TERMINUS · GRAN SEOUL",time:"night",bg:"#0F1B2E",item:"퍼퓸드 바디워시",final:true,
+ 8:{name:"두 번째 역",en:"SECOND STATION",time:"sunset",bg:"#E79A6A",item:"퓨리파잉 샴푸",
+   art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.2)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PURIFYING","SHAMPOO",{pump:true,delay:1.1})}</svg>`},
+ 12:{name:"종착역 그랑서울",en:"TERMINUS · GRAN SEOUL",time:"night",bg:"#0F1B2E",item:"퍼퓸드 바디워시",final:true,
    art:()=>`<svg viewBox="0 0 300 220">${AM_DEFS}<ellipse cx="150" cy="200" rx="80" ry="13" fill="rgba(0,0,0,.3)"/><circle cx="150" cy="110" r="110" fill="url(#glow)"/>${bottle(110,46,80,154,"PERFUMED","BODY WASH",{pump:true,delay:1.1})}</svg>`}
 };
-const ST_ORDER=[4,8,11];
+const ST_ORDER=[4,8,12];
 /* 유리 지붕 기차역 (원근) — 아침 · 노을 · 밤 */
 function stationBg(S){
   const tm=S.time, night=tm==="night", sun=tm==="sunset";
@@ -2945,7 +3017,7 @@ async function flushPending(){
 }
 const shrinkPhoto=src=>new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1024/Math.max(im.width,im.height)),cv=document.createElement("canvas");
   cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.75))};im.onerror=()=>res(src);im.src=src});
-/* 칸 수: 6호차는 GX·파트너 중 하나만 세요 */
+/* 칸 수: 7호차는 GX·파트너 중 하나만 세요 */
 const calcTotal=()=>CARS.reduce((a,c)=>a+Math.min(c.missions.filter(m=>done[m.id]).length,need(c)),0);
 /* 시트에서 내 기록 불러오기: 다른 기기에서 탄 칸, 어메니티 수령일 */
 /* 팀 승차권: 동행 승차권 링크로 들어왔으면 초대한 사람의 팀, 아니면 나 혼자 팀(내 이름이 팀 대표) */
@@ -2962,8 +3034,7 @@ async function syncFromSheet(){
     (r.stamps||[]).forEach(st=>{if(!CARS.some(c=>c.missions.some(m=>m.id===st.missionId)))return;
       if(!done[st.missionId]&&shortName(st.by)!==P.name)fresh.push(st);
       done[st.missionId]=true;doneBy[st.missionId]=shortName(st.by)});
-    /* 시트의 선물 칸: "필요 없음"이면 빼 둔 선물 */
-    ST_ORDER.forEach(k=>{if((r.amenities||{})[k]==="필요 없음")recv[k]="필요 없음";else delete recv[k]});
+
     team.members=(r.members||[]).map(shortName);
     total=calcTotal();saveProgress();render();
     if(fresh.length){const f=fresh[fresh.length-1],car=CARS.find(c=>c.missions.some(m=>m.id===f.missionId));
@@ -2998,10 +3069,8 @@ const GV_COND=`<svg class="gv-cond-svg" viewBox="0 130 360 560" preserveAspectRa
   <path d="M290 446 Q270 444 250 449" stroke="#CFCAB9" stroke-width="15.6" stroke-linecap="round" fill="none"/><path d="M290 446 Q270 444 250 449" stroke="url(#gv)" stroke-width="13" stroke-linecap="round" fill="none"/><path d="M290 462 Q265 460 240 465" stroke="#CFCAB9" stroke-width="16.6" stroke-linecap="round" fill="none"/><path d="M290 462 Q265 460 240 465" stroke="url(#gv)" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M290 478 Q267 476 244 481" stroke="#CFCAB9" stroke-width="16.6" stroke-linecap="round" fill="none"/><path d="M290 478 Q267 476 244 481" stroke="url(#gv)" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M290 493 Q272 491 254 496" stroke="#CFCAB9" stroke-width="14.6" stroke-linecap="round" fill="none"/><path d="M290 493 Q272 491 254 496" stroke="url(#gv)" stroke-width="12" stroke-linecap="round" fill="none"/>
 </svg>`;
 /* 흰 장갑 손: 아래에서 봉투를 받쳐 건네요 */
-const SKIP="필요 없음";
-const isSkip=k=>recv[k]===SKIP;
-function setSkip(k,v){if(v)recv[k]=SKIP;else delete recv[k];saveProgress();track("gift_pref",{station:STATIONS[k].name,skip:v});
-  if(memberKey())sheetPost({kind:"gift_pref",name:memberKey(),team:teamKey(),station:k,skip:v}).catch(()=>{})}
+/* 칸 수에 따라 받을 수 있는 선물 */
+const GIFT_LINE={4:"4칸 달성! <b>컨디셔너</b>를 받을 수 있어요",8:"8칸 달성! <b>샴푸</b>도 받을 수 있어요",12:"12칸 완주! <b>바디워시</b>까지 총 3종을 받을 수 있어요"};
 function showStation(n,{direct=false}={}){
   track("station_arrive",{station:STATIONS[n].name});
   const S=STATIONS[n], host=$("#stationHost"), today=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
@@ -3022,9 +3091,8 @@ function showStation(n,{direct=false}={}){
           <div class="gv-rule"><i></i><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="#B08A3E"/></svg><i></i></div>
           <div class="gv-art">${S.art()}</div>
           <div class="items">해비치 ${S.item} 1개</div>
-          <p id="stDesc">${S.final?`11칸을 모두 달려온 ${P.name||"승객"} 님께<br>마지막 선물을 드려요.`:`열심히 달려온 ${P.name||"승객"} 님을 위해<br>준비한 선물이에요.`}</p>
-          <div class="gv-foot">수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요!</div>
-          <div class="gv-skipped">필요 없음</div>
+          <p id="stDesc">${GIFT_LINE[n]}</p>
+          <div class="gv-foot">${S.final?"12칸을 모두 채우셨어요! 수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요":"12칸을 채우고 리워드를 받아 가세요!<br>교환권은 11/30 이후 7층 데스크에서"}</div>
         </div>
         <svg class="gv-pocket" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L120 64 L0 90Z" fill="#1C2A5C"/><path d="M300 0 L180 64 L300 90Z" fill="#1C2A5C"/>
           <path d="M0 90 L0 30 L150 70 L300 30 L300 90Z" fill="#22336E"/><path d="M0 30 L150 70 L300 30" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".55"/><path d="M0 0 L120 64 M300 0 L180 64" stroke="#0F1838" stroke-width="1" opacity=".5"/></svg>
@@ -3032,14 +3100,8 @@ function showStation(n,{direct=false}={}){
         <svg class="gv-flipflap" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L150 104 L300 0Z" fill="#26397A"/><path d="M0 0 L150 104 L300 0" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".6"/></svg>
       </div>
     </div>
-    <button type="button" class="gv-note gv-skip" id="stSkip"></button>
     <div class="acts gv-acts"><button class="btn" type="button" id="stClose">객차로 돌아가기</button></div>
   </section>`;
-  /* 받고 싶지 않은 선물은 빼 둘 수 있어요 (시트에 "필요 없음"으로 남아요) */
-  const paintSkip=()=>{const s=isSkip(n);$("#stCard").classList.toggle("nogift",s);
-    $("#stSkip").innerHTML=s?"다시 받을게요":"이 선물은 필요 없어요"};
-  paintSkip();
-  $("#stSkip").onclick=()=>{setSkip(n,!isSkip(n));paintSkip()};
   $("#stClose").onclick=()=>host.innerHTML="";
   /* 차장님 등장 → 봉투(또는 화면 아무 곳) 누르면 교환권이 올라와요 */
   const sec=host.firstElementChild;
@@ -3149,9 +3211,9 @@ function myTicketHTML(){
   const tday=new Date().toLocaleDateString("ko-KR",{month:"2-digit",day:"2-digit",timeZone:"Asia/Seoul"});
   const holes=Array.from({length:TOTAL},(_,i)=>`<i class="${i<total?"on":""}"></i>`).join("");
   const cars=CARS.map(c=>{const n=c.missions.filter(m=>done[m.id]).length,ok=carDone(c);return `<span class="${ok?"on":""}">${c.no}호<small>${ok?"완료":`${Math.min(n,need(c))}/${need(c)}`}</small></span>`}).join("");
-  const earned=ST_ORDER.filter(k=>total>=k), keep=earned.filter(k=>!isSkip(k));
-  const am=ST_ORDER.map(k=>{const S=STATIONS[k],ok=total>=k,sk=ok&&isSkip(k);
-    return `<div class="${sk?"nogift":ok?"ready":""}"${ok?` data-gift="${k}" role="button" tabindex="0" aria-pressed="${!sk}"`:""}><b>${S.item.split(" ").pop()}</b>${S.name.replace("종착역 그랑서울","종착역")}<br><em>${sk?"필요 없음":ok?"받을 예정":`${k-total}칸 남음`}</em></div>`}).join("");
+  const earned=ST_ORDER.filter(k=>total>=k);
+  const am=ST_ORDER.map(k=>{const S=STATIONS[k],ok=total>=k;
+    return `<div class="${ok?"ready":""}"><b>${S.item.split(" ").pop()}</b>${k}칸<br><em>${ok?"받을 수 있어요":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
   return `<div class="mtk v2" role="document" aria-label="나의 승차권">
     <div class="v2-h"><span>GRAN SEOUL ORIGINAL TICKET</span><span>No.${(P.no||"0000").slice(-4)}</span></div>
@@ -3161,12 +3223,12 @@ function myTicketHTML(){
         <div class="w"><span>Passenger</span><b>${who()}</b></div>
         <div><span>Ticket</span><b class="mono">${P.no||"GSX-1101-0000"}</b></div>
         <div><span>Period</span><b>11.1 – 11.30</b></div>
-        <div><span>6호차</span><b>${partner}</b></div>
+        <div><span>7호차</span><b>${partner}</b></div>
         <div><span>Date</span><b>${tday}</b></div>
       </div>
       <div class="v2-row"><div class="v2-k"><span>Punch</span><span>${total} / ${TOTAL}칸 · ${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</span></div><div class="holes">${holes}</div><div class="cars">${cars}</div></div>
-      <div class="v2-row"><div class="v2-k"><span>Gift</span><span>${keep.length}개 받을 예정</span></div>
-        <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>11/30 이후 7층 데스크에서 받아 가세요 · 필요 없는 선물은 눌러서 빼기`:`<b>4칸부터 선물이 생겨요</b>11월 30일까지 탄 칸 수로 선물이 정해져요`}</div>
+      <div class="v2-row"><div class="v2-k"><span>Gift</span><span>${earned.length} / 3종</span></div>
+        <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>12칸을 채우고 리워드를 받아 가세요 · 11/30 이후 7층 데스크`:`<b>4칸부터 선물이 생겨요</b>4칸 컨디셔너 · 8칸 샴푸 · 12칸 바디워시`}</div>
         <div class="am">${am}</div></div>
     </div>
     <div class="v2-f"><span>7F GRAN SEOUL</span><span class="v2-logo">${"GSX".split("").map(c=>`<i>${c}</i>`).join("")}</span></div>
@@ -3180,9 +3242,6 @@ function showMyTicket(){
   const close=()=>{el.classList.remove("set");el.classList.remove("on");setTimeout(()=>el.remove(),reduce?0:450)};
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelector(".cl").onclick=close;
-  const wireGifts=()=>el.querySelectorAll("[data-gift]").forEach(d=>d.onclick=()=>{const k=+d.dataset.gift;setSkip(k,!isSkip(k));
-    const t=el.querySelector(".mtk");t.outerHTML=myTicketHTML();wireGifts()});
-  wireGifts();
   if(reduce){el.classList.add("on","set");return}
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
   setTimeout(()=>el.classList.add("set"),950);
@@ -3194,7 +3253,6 @@ showIntro();
 flushPending().then(syncFromSheet);
 loadRanking();
 </script>
-
 
 <div id="demoBar" style="position:fixed;left:50%;top:max(6px,env(safe-area-inset-top));transform:translateX(-50%);z-index:999;display:flex;align-items:center;max-width:96vw;border-radius:10px;background:rgba(10,14,32,.85);box-shadow:0 6px 18px rgba(0,0,0,.4)">
   <span class="dl">DEMO</span><span class="dd" id="demoDate"></span>

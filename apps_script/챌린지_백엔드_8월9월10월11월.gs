@@ -931,7 +931,7 @@ function reportDuplicateDaysOctober() {
 
 // ══════════════════════════════════════════════════════════════════
 // 11월 (gran-seoul-fitness/gran-seoul-11 : 그랑서울 피트니스 열차,
-//        6량 객차 · 11칸(6호차는 GX·파트너 중 택1) · 어메니티 3회) — 새로 추가
+//        7량 객차 · 12칸(7호차는 GX·파트너 중 택1) · 어메니티 3회) — 새로 추가
 // ══════════════════════════════════════════════════════════════════
 // 한 사람 = 승차권 한 장(이름(입주사)로 구분). 하루 1칸 · 어메니티 3회.
 // 요청 구분: month === "11월" 인 요청만 이 분기로 들어와요. 8·9·10월은 그대로예요.
@@ -944,29 +944,31 @@ const NOVEMBER_SHEET_NAME = "11월 stamps";
 const NOVEMBER_SUMMARY_SHEET_NAME = "11월 요약";
 const NOVEMBER_TZ = "Asia/Seoul";
 
-// index.html의 CARS 미션 12개와 같은 id. 6호차(m11 GX · m12 파트너)는 둘 중 하나만 달성으로 세요.
+// index.html의 CARS 미션 13개와 같은 id. 7호차(m11 GX · m12 파트너)는 둘 중 하나만 달성으로 세요 → 총 12칸.
 const NOVEMBER_QUEST_COLUMNS = [
   { key: "m1", label: "1호차·체성분" },
-  { key: "m2", label: "1호차·스쿼트" },
-  { key: "m3", label: "2호차·랫풀다운" },
-  { key: "m4", label: "2호차·시티드로우" },
-  { key: "m5", label: "3호차·체스트프레스" },
-  { key: "m6", label: "3호차·숄더프레스" },
-  { key: "m7", label: "4호차·트레드밀" },
-  { key: "m8", label: "4호차·사이클" },
-  { key: "m9", label: "5호차·데드버그" },
-  { key: "m10", label: "5호차·횡격막호흡" },
-  { key: "m11", label: "6호차·GX" },
-  { key: "m12", label: "6호차·파트너" },
+  { key: "m2", label: "2호차·스미스스쿼트" },
+  { key: "m13", label: "2호차·스플릿스쿼트" },
+  { key: "m3", label: "3호차·랫풀다운" },
+  { key: "m4", label: "3호차·시티드로우" },
+  { key: "m5", label: "4호차·체스트프레스" },
+  { key: "m6", label: "4호차·숄더프레스" },
+  { key: "m7", label: "5호차·트레드밀" },
+  { key: "m8", label: "5호차·사이클" },
+  { key: "m9", label: "6호차·데드버그" },
+  { key: "m10", label: "6호차·횡격막호흡" },
+  { key: "m11", label: "7호차·GX" },
+  { key: "m12", label: "7호차·파트너" },
 ];
-const NOVEMBER_TOTAL = 11;
+const NOVEMBER_TOTAL = 12;
+const NOVEMBER_PICK_ONE = ["m11", "m12"];
 const NOVEMBER_AMENITIES = [
-  { station: 4, label: "첫 번째 역·샴푸" },
-  { station: 8, label: "두 번째 역·컨디셔너" },
-  { station: 11, label: "종착역·바디워시" },
+  { station: 4, label: "첫 번째 역·컨디셔너" },
+  { station: 8, label: "두 번째 역·샴푸" },
+  { station: 12, label: "종착역·바디워시" },
 ];
 const NOVEMBER_STAMP_HEADER = ["시간", "이름", "호차", "미션id", "미션명", "사진링크"];
-// 요약 탭 열: 이름 | 달성 | 미션 12칸 | 선물 3칸(받지 않을 선물은 "필요 없음") | 수령 유무(직원 메모)
+// 요약 탭 열: 이름 | 달성 | 미션 13칸 | 선물 3칸 | 수령 유무(직원 메모)
 const NOVEMBER_COL = {
   done: 2,
   mission0: 3,
@@ -1099,7 +1101,9 @@ function updateSummaryNovember(team, member, missionId, photoUrl) {
 
   const vals = summary.getRange(row, NOVEMBER_COL.mission0, 1, NOVEMBER_QUEST_COLUMNS.length).getDisplayValues()[0];
   const filled = vals.map((v) => !!(v && v.toString().trim() !== ""));
-  const doneCount = filled.slice(0, 10).filter(Boolean).length + (filled[10] || filled[11] ? 1 : 0);
+  const keys = NOVEMBER_QUEST_COLUMNS.map((q) => q.key);
+  const doneCount = keys.filter((k, i) => filled[i] && NOVEMBER_PICK_ONE.indexOf(k) === -1).length
+    + (keys.some((k, i) => filled[i] && NOVEMBER_PICK_ONE.indexOf(k) !== -1) ? 1 : 0);
   summary.getRange(row, NOVEMBER_COL.done).setValue(`${doneCount}/${NOVEMBER_TOTAL}`).setNumberFormat("@");
 }
 
