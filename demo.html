@@ -1059,7 +1059,7 @@ body{margin:0;background:var(--night);color:var(--paper);font-family:var(--f-bod
 .plat-msg{z-index:4}
 .plat-msg b{font-family:"Playfair Display","Nanum Myeongjo",serif;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:23px;letter-spacing:-.01em;color:#2A1D12;text-shadow:0 1px 0 rgba(255,240,215,.6)}
 .plat-msg span{font-family:"Nanum Myeongjo",serif;font-weight:700;font-size:13.5px;color:#5A4430;margin-top:4px;display:block}
-.plat-msg::before{content:"WELCOME ABOARD";display:block;font-family:"Playfair Display SC",Gloock,serif;font-size:11px;letter-spacing:.32em;color:#8E2B2B;margin-bottom:6px}
+.plat-msg::before{content:none;display:block;font-family:"Playfair Display SC",Gloock,serif;font-size:11px;letter-spacing:.32em;color:#8E2B2B;margin-bottom:6px}
 @media (prefers-reduced-motion:reduce){.xl{animation:none}}
 
 .office .of-clock{position:absolute;left:2%;top:43.5%;width:15%;max-width:72px;z-index:3;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
@@ -1617,6 +1617,14 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .reader-body img.gx-card{background:none;box-shadow:none;border-radius:0}
 .reader:has(.gx-card){background:rgba(0,0,0,.88)}
 #stage:has(.reader) .snd-btn,#stage:has(.qz) .snd-btn,#stage:has(.myt) .snd-btn{display:none}
+/* ── 브랜드: 이선·해비치 로고 */
+.eb.brand{display:flex;align-items:center;gap:8px;letter-spacing:0!important}
+.eb.brand .yisun{height:20px;width:auto;color:#2A2622}
+.eb.brand span{font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6B6A5C;letter-spacing:.02em;padding-left:8px;border-left:1px solid #CFC5B0}
+.gv-k{display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--f-sans)!important;letter-spacing:.04em!important}
+.gv-k .hv-mark{height:13px;width:auto;color:#1C2A5A}
+.gv-top b{font-family:"Nanum Myeongjo",serif!important;font-weight:700;font-size:15px;letter-spacing:.04em}
+.v2-f{align-items:center}.v2-brand .yisun{height:18px;width:auto;color:#1C2A5A;display:block}.v2-brand.hv .hv-mark{height:14px;width:auto;color:#1C2A5A;display:block}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -1890,10 +1898,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
       <form class="office-ui" id="issueForm" autocomplete="off">
         <div class="issue-card">
-          <div class="ttl"><span class="eb">GRAN SEOUL EXPRESS · NOVEMBER</span><b>11월 열차여행에 오신 것을 환영합니다</b></div>
+          <div class="ttl"><span class="eb brand" id="officeBrand"></span><b>11월 열차여행에 오신 것을 환영합니다</b></div>
           <div class="row2 nameco">
-            <div class="fld"><label for="iName">승객 PASSENGER</label><input id="iName" maxlength="12" placeholder="이름" required></div>
-            <div class="fld"><label for="iCo">입주사 COMPANY</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>동양생명보험(주)</option><option>라이엇게임즈코리아 유한회사</option><option>맥스웰피부과</option><option>미래에셋자산운용(주)</option><option>법무법인 세종</option><option>블랙록자산운용</option><option>아멕스(서울역센터)</option><option>(주)알란텀</option><option>에네오스코리아</option><option>에미레이트(영업소)</option><option>엑시스아이티(서린정보기술)(주)</option><option>엠에스씨아이코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>유미개발(주)</option><option>지베스코자산운용</option><option>지씨엠인베스트먼트코리아</option><option>케이지트레이딩(주)</option><option>켐코(주)</option><option>하나로의료재단</option><option>하버베스트파트너스</option><option>한국이토추</option><option>한국전구체(주)</option><option>SGI서울보증</option></select></div>
+            <div class="fld"><label for="iName">이름</label><input id="iName" maxlength="12" placeholder="이름" required></div>
+            <div class="fld"><label for="iCo">입주사</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>동양생명보험(주)</option><option>라이엇게임즈코리아 유한회사</option><option>맥스웰피부과</option><option>미래에셋자산운용(주)</option><option>법무법인 세종</option><option>블랙록자산운용</option><option>아멕스(서울역센터)</option><option>(주)알란텀</option><option>에네오스코리아</option><option>에미레이트(영업소)</option><option>엑시스아이티(서린정보기술)(주)</option><option>엠에스씨아이코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>유미개발(주)</option><option>지베스코자산운용</option><option>지씨엠인베스트먼트코리아</option><option>케이지트레이딩(주)</option><option>켐코(주)</option><option>하나로의료재단</option><option>하버베스트파트너스</option><option>한국이토추</option><option>한국전구체(주)</option><option>SGI서울보증</option></select></div>
           </div>
           <p class="lock-note" id="lockNote" hidden>발권한 승차권의 이름·입주사는 바꿀 수 없어요</p>
           <button class="btn" type="submit" id="issueBtn">승차권 발권하기</button>
@@ -1912,7 +1920,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
             <div class="t6-script">November Fitness Journey</div>
             <div class="t6-date"><svg class="t6-hand" viewBox="0 0 40 18" aria-hidden="true"><g fill="#1C2A5A"><rect x="0" y="4" width="7" height="10" rx="1"/><path d="M8 4 H18 C20 4 21 5 22 6 H37 C39.5 6 39.5 9.5 37 9.5 H24 L24 10 C25 10 26 11 26 12 C26 13 25 14 24 14 H12 C9.5 14 8 13 8 11Z"/></g><path d="M18 9.5 H24 M17 12 H22" stroke="#F1E8D2" stroke-width=".8"/></svg><b>11.1 – 11.30</b><svg class="t6-hand" viewBox="0 0 40 18" aria-hidden="true" style="transform:scaleX(-1)"><g fill="#1C2A5A"><rect x="0" y="4" width="7" height="10" rx="1"/><path d="M8 4 H18 C20 4 21 5 22 6 H37 C39.5 6 39.5 9.5 37 9.5 H24 L24 10 C25 10 26 11 26 12 C26 13 25 14 24 14 H12 C9.5 14 8 13 8 11Z"/></g><path d="M18 9.5 H24 M17 12 H22" stroke="#F1E8D2" stroke-width=".8"/></svg></div>
             <div class="t6-who"><b id="ntName"></b><span id="ntCo"></span></div>
-            <div class="t6-foot">One car a day · See you on board</div>
+            <div class="t6-foot">하루 한 칸, 열두 칸의 여행</div>
           </div>
           <i class="t6-rope"></i>
           <div class="t6-side t6-no"><span id="ntNo"></span><svg class="t6-bar" viewBox="0 0 22 96" preserveAspectRatio="none" aria-hidden="true"><g fill="#1C2A5A"><rect x="0" y="0" width="22" height="2"/><rect x="0" y="4" width="22" height="1"/><rect x="0" y="6" width="22" height="1"/><rect x="0" y="8" width="22" height="2"/><rect x="0" y="11" width="22" height="3"/><rect x="0" y="16" width="22" height="1"/><rect x="0" y="18" width="22" height="1"/><rect x="0" y="22" width="22" height="1"/><rect x="0" y="25" width="22" height="1"/><rect x="0" y="29" width="22" height="1"/><rect x="0" y="31" width="22" height="1"/><rect x="0" y="33" width="22" height="3"/><rect x="0" y="39" width="22" height="1"/><rect x="0" y="42" width="22" height="1"/><rect x="0" y="45" width="22" height="2"/><rect x="0" y="50" width="22" height="1"/><rect x="0" y="52" width="22" height="3"/><rect x="0" y="56" width="22" height="3"/><rect x="0" y="61" width="22" height="1"/><rect x="0" y="64" width="22" height="2"/><rect x="0" y="67" width="22" height="3"/><rect x="0" y="71" width="22" height="3"/><rect x="0" y="75" width="22" height="3"/><rect x="0" y="80" width="22" height="1"/><rect x="0" y="84" width="22" height="2"/><rect x="0" y="87" width="22" height="1"/><rect x="0" y="91" width="22" height="2"/><rect x="0" y="94" width="22" height="1"/></g></svg></div>
@@ -2004,7 +2012,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
       <div class="edge"></div>
       
       
-      <div class="plat-msg"><b id="platTitle">탑승을 환영합니다</b><span>11.1 – 11.30 · 원하는 칸부터 하루 한 칸씩 운동을 인증해요</span></div>
+      <div class="plat-msg"><b id="platTitle">탑승을 환영합니다</b><span>11월 한 달 동안, 마음 가는 칸부터 하루에 한 칸씩 타 보세요</span></div>
     </section>
     <button class="skip" type="button" id="skip">바로 탑승</button>
     <div class="fade" id="fade"></div>
@@ -2071,6 +2079,8 @@ mirror:`<svg viewBox="0 0 160 200"><rect x="6" y="6" width="148" height="190" rx
 steps:`<svg viewBox="0 0 170 120"><rect x="6" y="80" width="78" height="22" rx="4" fill="var(--pad)"/><rect x="10" y="102" width="12" height="10" fill="var(--frame)"/><rect x="68" y="102" width="12" height="10" fill="var(--frame)"/><rect x="18" y="56" width="66" height="22" rx="4" fill="var(--pad)" opacity=".9"/><rect x="96" y="96" width="70" height="16" rx="8" fill="#6E2626"/><circle cx="104" cy="104" r="8" fill="#5A1E1E"/><g transform="translate(120 46)"><circle cx="14" cy="26" r="20" fill="var(--pad)"/><path d="M2 12 Q14 -6 26 12" stroke="var(--shroud)" stroke-width="5" fill="none"/></g></svg>`
 };
 
+const YISUN_LOGO=`<svg class="yisun" viewBox="327 264 188 66" role="img" aria-label="이선 YISUN"><g fill="currentColor"><path d="M 382.84 267.66 L 382.84 297.71 L 385.60 297.71 L 385.60 267.11 L 383.39 267.11 C 383.08 267.11 382.84 267.35 382.84 267.66 "/><path d="M 417.40 282.51 C 416.15 282.01 414.56 281.57 412.69 281.19 C 412.60 281.17 412.52 281.16 412.44 281.13 C 412.36 281.11 412.29 281.10 412.20 281.08 C 412.14 281.07 412.07 281.05 412.01 281.04 C 411.94 281.03 411.88 281.01 411.83 281.00 C 410.09 280.66 408.70 280.32 407.69 280.00 C 406.68 279.67 405.82 279.17 405.13 278.51 C 404.43 277.83 404.08 276.90 404.08 275.74 L 404.08 275.72 C 404.08 273.81 404.78 272.30 406.16 271.25 C 407.53 270.20 409.48 269.67 411.96 269.67 C 413.18 269.67 414.44 269.90 415.69 270.35 C 416.69 270.71 417.71 271.22 418.75 271.88 C 418.98 272.02 419.26 272 419.45 271.81 L 421.08 270.18 C 420.12 269.51 419.15 268.94 418.17 268.50 C 417.17 268.04 416.13 267.69 415.10 267.46 C 414.07 267.23 413.01 267.11 411.96 267.11 C 409.73 267.11 407.79 267.45 406.21 268.14 C 404.63 268.82 403.41 269.82 402.59 271.12 C 401.77 272.41 401.35 274.00 401.35 275.84 L 401.35 275.86 C 401.35 277.68 401.79 279.12 402.66 280.14 C 403.54 281.17 404.62 281.91 405.87 282.33 C 407.13 282.76 408.83 283.19 410.94 283.58 L 411.55 283.71 C 411.60 283.72 411.65 283.73 411.69 283.74 C 411.75 283.75 411.80 283.76 411.83 283.77 C 413.37 284.06 414.64 284.39 415.62 284.73 C 416.61 285.08 417.42 285.62 418.05 286.32 C 418.68 287.03 419.00 287.98 419.00 289.16 L 419.00 289.18 C 419.00 291.06 418.27 292.55 416.83 293.59 C 415.40 294.62 413.35 295.15 410.75 295.15 C 408.96 295.15 407.28 294.86 405.75 294.31 C 404.51 293.86 403.35 293.22 402.28 292.41 C 402.07 292.24 401.76 292.26 401.56 292.46 L 399.96 294.06 C 400.91 294.85 401.94 295.52 403.02 296.05 C 404.14 296.60 405.35 297.02 406.64 297.29 C 407.93 297.57 409.31 297.71 410.75 297.71 C 413.07 297.71 415.07 297.36 416.70 296.69 C 418.33 296.01 419.58 295.02 420.44 293.74 C 421.30 292.45 421.73 290.88 421.73 289.07 L 421.73 289.03 C 421.73 287.26 421.32 285.85 420.50 284.81 C 419.68 283.77 418.63 283.00 417.40 282.51 "/><path d="M 452.29 267.98 L 452.29 286.93 C 452.29 289.60 451.64 291.62 450.35 292.96 C 449.06 294.30 447.10 294.98 444.53 294.98 C 441.97 294.98 440.02 294.30 438.74 292.96 C 437.47 291.62 436.82 289.60 436.82 286.93 L 436.82 267.42 L 434.61 267.42 C 434.30 267.42 434.05 267.67 434.05 267.98 L 434.05 286.79 C 434.05 289.23 434.44 291.27 435.22 292.88 C 435.98 294.48 437.15 295.69 438.69 296.5 C 440.23 297.30 442.19 297.71 444.53 297.71 C 446.87 297.71 448.85 297.30 450.40 296.5 C 451.95 295.69 453.13 294.48 453.89 292.88 C 454.67 291.27 455.06 289.23 455.06 286.79 L 455.06 267.42 L 452.85 267.42 C 452.54 267.42 452.29 267.67 452.29 267.98 "/><path d="M 350.44 291.94 L 352.41 292.54 L 352.41 266.80 L 350.20 266.80 C 349.90 266.80 349.65 267.05 349.65 267.36 L 349.65 290.88 C 349.65 291.37 349.97 291.80 350.44 291.94 "/><path d="M 489.55 288.26 L 489.55 266.80 L 487.34 266.80 C 487.03 266.80 486.79 267.05 486.79 267.36 L 486.79 289.92 L 488.76 289.32 C 489.23 289.18 489.55 288.75 489.55 288.26 "/><path d="M 370.92 267.42 C 369.46 270.47 366.82 275.40 362.70 281.05 C 356.62 289.37 346.02 300.92 329.68 309.57 C 329.32 309.76 329.09 310.14 329.09 310.55 L 329.09 312.99 C 347.01 303.99 358.51 291.49 365 282.59 C 370.00 275.73 372.85 269.98 374.12 267.11 L 371.42 267.11 C 371.21 267.11 371.01 267.23 370.92 267.42 "/><path d="M 512.08 309.57 C 495.75 300.92 485.15 289.37 479.07 281.05 C 474.95 275.40 472.31 270.47 470.85 267.42 C 470.76 267.23 470.57 267.11 470.35 267.11 L 467.47 267.11 L 467.47 297.71 L 470.24 297.71 L 470.24 272.31 C 471.79 275.17 473.94 278.70 476.77 282.59 C 483.26 291.49 494.76 303.99 512.68 312.99 L 512.68 310.55 C 512.68 310.14 512.45 309.76 512.08 309.57 "/><path d="M 409.62 311.70 L 410.61 311.70 L 410.61 327.45 L 409.62 327.45 Z M 402.42 313.83 C 400.73 313.83 399.63 315.81 399.63 318.48 C 399.63 321.10 400.73 323.10 402.42 323.10 C 404.12 323.10 405.22 321.10 405.22 318.48 C 405.22 315.83 404.12 313.83 402.42 313.83 M 402.42 312.95 C 404.71 312.95 406.24 315.10 406.24 318.48 C 406.24 321.81 404.71 323.98 402.42 323.98 C 400.14 323.98 398.61 321.81 398.61 318.46 C 398.61 315.10 400.14 312.95 402.42 312.95 "/><path d="M 441.83 323.13 L 441.83 316.48 L 438.38 316.48 L 438.38 315.63 L 441.83 315.63 L 441.83 311.70 L 442.82 311.70 L 442.82 323.13 Z M 432.80 326.93 L 432.80 322.20 L 433.79 322.20 L 433.79 326.06 L 443.16 326.06 L 443.16 326.93 Z M 438.41 320.56 C 436.84 319.85 435.21 318.19 434.62 316.53 C 434.14 318.19 432.55 320.01 430.69 321.01 L 430.03 320.25 C 432.26 319.15 434.06 317.07 434.06 314.49 L 434.06 312.61 L 435.06 312.61 L 435.06 314.48 C 435.06 317.05 437.25 319.10 439.02 319.78 Z M 438.41 320.56 "/></g></svg>`;
+const HV_LOGO=`<svg class="hv-mark" viewBox="0 0 123 83" role="img" aria-label="해비치"><g fill="currentColor"><rect x="17" y="0" width="5.5" height="83"/><rect x="100" y="0" width="5.5" height="83"/><rect x="1" y="52" width="121" height="5.5"/><path d="M1 19 L122 52 L122 57.5 L1 25Z"/><path d="M1 36 L82 52 L82 57.5 L1 41.5Z"/></g></svg>`;
 const CARS=[
  {no:1,en:"ALPINE CAR",ko:"체성분 칸",zone:"체크인",view:"알프스 초원 · 맑은 아침",wall:"w7",win:"pano",alpine:true,sky:["#9CC9EC","#E6F2F8"],sun:{c:"#FFF8E0",x:80,y:10,s:26},lamp:"#FFE7B0",
   layers:[],left:["inbody","left:4%;bottom:27%;width:30%"],right:["inbody","display:none"],
@@ -2113,7 +2123,7 @@ const ALP_SOFA=`<svg viewBox="0 0 260 200" aria-hidden="true"><defs>
   <pattern id="dmS" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#2F6E74"/><path d="M9 2 C12 5 12 7 9 9 C6 7 6 5 9 2Z M9 9 C12 11 12 13 9 16 C6 13 6 11 9 9Z M2 9 C5 6 7 6 9 9 C7 12 5 12 2 9Z M16 9 C13 6 11 6 9 9 C11 12 13 12 16 9Z" fill="#4E9097" opacity=".55"/></pattern>
   <linearGradient id="dmSh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient></defs>
   <path d="M18 34 Q18 18 34 18 H66 Q80 18 80 34 V150 H18Z" fill="url(#dmS)" stroke="#1F4E53" stroke-width="2.4"/><path d="M18 34 Q18 18 34 18 H66 Q80 18 80 34 V150 H18Z" fill="url(#dmSh)"/>
-  <path d="M26 24 H72 V62 Q49 70 26 62Z" fill="#F4F0E6" stroke="#D8D1C2"/><circle cx="49" cy="42" r="8.5" fill="none" stroke="#C9A55C" stroke-width="1.6"/><text x="49" y="45.5" text-anchor="middle" font-size="9" fill="#B08A3E" font-family="Georgia,serif">GS</text>
+  <path d="M26 24 H72 V62 Q49 70 26 62Z" fill="#F4F0E6" stroke="#D8D1C2"/><g transform="translate(40.5 36.6) scale(.14)" fill="#B08A3E"><rect x="17" y="0" width="5.5" height="83"/><rect x="100" y="0" width="5.5" height="83"/><rect x="1" y="52" width="121" height="5.5"/><path d="M1 19 L122 52 L122 57.5 L1 25Z"/><path d="M1 36 L82 52 L82 57.5 L1 41.5Z"/></g>
   <path d="M70 112 H236 Q250 112 250 128 V158 H70Z" fill="url(#dmS)" stroke="#1F4E53" stroke-width="2.4"/><path d="M70 112 H236 Q250 112 250 128 V158 H70Z" fill="url(#dmSh)"/>
   <path d="M74 126 H246" stroke="#1F4E53" stroke-width="1.4" opacity=".55"/><path d="M160 114 V156" stroke="#1F4E53" stroke-width="1.2" opacity=".45"/>
   <path d="M228 86 Q228 76 240 76 Q254 76 254 90 V160 H228Z" fill="url(#dmS)" stroke="#1F4E53" stroke-width="2.4"/><path d="M228 86 Q228 76 240 76 Q254 76 254 90 V160 H228Z" fill="url(#dmSh)"/>
@@ -2740,7 +2750,7 @@ function open(id){
       <p>${mate} 또는 피트니스 선생님과 짝을 이뤄 한 동작을 보조받거나 보조해 주세요.</p>
       <div class="chips"><button type="button" class="chip2" data-m="보조받기">보조받기</button><button type="button" class="chip2" data-m="보조하기">보조하기</button></div></div>`:""}
     ${m.first?`<div class="gate"><span class="eb">추천 첫 미션</span><b class="t">체성분 측정</b><p>7층 체성분 측정기로 재고, 측정기를 찍어 주세요. 이 기록이 여행의 출발점이 돼요.</p><p class="need"><b>준비물</b> <em>테크노짐 앱 회원가입</em>이 먼저 필요해요. 어려우면 데스크에 말씀해 주세요.</p></div>`:""}
-    ${done[m.id]?`<div class="mine"><span class="eb">MY RIDE · 내 인증 기록</span><b>${(loadShots()[m.id]||{}).day?`${loadShots()[m.id].day} 승차 확인`:"승차 확인 완료"}</b>
+    ${done[m.id]?`<div class="mine"><span class="eb">내 인증 기록</span><b>${(loadShots()[m.id]||{}).day?`${loadShots()[m.id].day} 승차 확인`:"승차 확인 완료"}</b>
       ${(loadShots()[m.id]||{}).th?`<img src="${loadShots()[m.id].th}" alt="내가 올린 인증샷">`:`<p>인증샷은 시트에 안전하게 저장돼 있어요.</p>`}</div><button class="btn ghost" id="pc">돌아가기</button></div>`
     :runState()!=="on"?`<div class="day-lock">${RUN_LOCK[runState()]}</div><button class="btn ghost" id="pc">돌아가기</button></div>`
     :rodeToday()?`<div class="day-lock"><b>오늘은 이미 한 칸을 탔어요</b>열차는 하루에 한 칸씩 옮겨 타요.<br>오늘은 운동 방법만 미리 보고, 내일 이 칸에서 인증해 주세요!</div><button class="btn ghost" id="pc">돌아가기</button></div>`
@@ -2880,6 +2890,7 @@ const paintSnd=()=>{sndBtn.setAttribute("aria-pressed",SND.on);sndBtn.setAttribu
 sndBtn.onclick=e=>{e.stopPropagation();SND.set(!SND.on);paintSnd();if(SND.on)SND.play("chime")};
 paintSnd();$("#stage").appendChild(sndBtn);
 setInterval(()=>SND.syncAmb(),800);
+$("#officeBrand").innerHTML=`${YISUN_LOGO}<span>7층 피트니스 · 11월 열차여행</span>`;
 $("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding");SND.play("bell")};
 /* ── 첫 화면 */
 const P={name:"",mate:"",co:""};
@@ -3150,7 +3161,7 @@ const SEAL_INNER=`<defs><radialGradient id="wx" cx=".38" cy=".32" r=".75"><stop 
   <radialGradient id="wx2" cx=".6" cy=".65" r=".6"><stop offset="0" stop-color="#B8903C"/><stop offset="1" stop-color="#E6C77A"/></radialGradient></defs>
   <path d="M50 4 C60 3 64 9 72 10 C81 12 84 19 89 26 C95 34 93 41 96 50 C98 60 92 65 90 73 C87 82 79 84 72 90 C64 96 57 94 49 97 C40 99 35 93 27 90 C18 87 15 79 10 72 C4 64 6 57 4 49 C2 40 8 35 11 27 C15 18 22 15 29 10 C37 5 42 5 50 4Z" fill="url(#wx)"/>
   <circle cx="50" cy="51" r="31" fill="url(#wx2)" stroke="#8A6424" stroke-width="1.2" opacity=".95"/><circle cx="50" cy="51" r="26.5" fill="none" stroke="#F3DC9A" stroke-width=".8" opacity=".7"/>
-  <text x="50" y="61" text-anchor="middle" font-family="Nanum Myeongjo,serif" font-weight="800" font-size="27" fill="#7A5518" opacity=".9">GS</text>`;
+  <g transform="translate(31 38.6) scale(.31)" fill="#7A5518" opacity=".85"><rect x="17" y="0" width="5.5" height="83"/><rect x="100" y="0" width="5.5" height="83"/><rect x="1" y="52" width="121" height="5.5"/><path d="M1 19 L122 52 L122 57.5 L1 25Z"/><path d="M1 36 L82 52 L82 57.5 L1 41.5Z"/></g>`;
 const SEAL=`<svg class="gv-seal" viewBox="0 0 100 100" aria-hidden="true">${SEAL_INNER}</svg>`;
 /* 닫힌 봉투: 딥블루, 양옆·아래 접힘과 덮개, 가운데 왁스 실 */
 const ENV_CLOSED=`<rect x="80" y="226" width="200" height="136" rx="3" fill="#18244F"/>
@@ -3179,7 +3190,7 @@ function showStation(n,{direct=false}={}){
   const intro=!direct&&!reduce;
   if(intro){SND.play("curtain");setTimeout(()=>SND.play("spot"),1700)}else SND.play("chime");
   host.innerHTML=`<section class="station gv${intro?" intro":""}" aria-label="${S.name} 정차 · 선물 교환권">
-    <div class="gv-top"><span>${n} / ${TOTAL}칸 · ${S.name} 정차</span><b>FOR YOU · MERCI</b></div>
+    <div class="gv-top"><span>${n}번째 칸 · ${S.name}</span><b>열심히 달려오셨어요</b></div>
     ${intro?`<div class="gv-show" aria-hidden="true"><i class="gv-dark"></i><i class="gv-spot"></i><i class="gv-cur l"></i><i class="gv-cur r"></i></div>`:""}
     ${intro?`<button type="button" class="gv-cond" id="gvCond" aria-label="선물 봉투 열기">${GV_COND}
       <span class="gv-tap"><b>${S.final?"완주 선물을 드릴게요":"중간 선물을 드릴게요"}</b>봉투를 눌러 열어 보세요</span></button>`:""}
@@ -3187,13 +3198,13 @@ function showStation(n,{direct=false}={}){
       <div class="gv-env">
         <svg class="gv-flap" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L150 6 L300 120Z" fill="#1F2E66"/><path d="M0 120 L150 6 L300 120" fill="none" stroke="#C9A55C" stroke-width="1.2" opacity=".5"/></svg>
         <div class="gv-card" id="stCard">
-          <div class="gv-k">GIFT VOUCHER · No.${gi}</div>
+          <div class="gv-k">${HV_LOGO}<span>해비치 어메니티 교환권</span></div>
           <h2 id="stTitle">선물 교환권</h2>
           <div class="gv-rule"><i></i><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="#B08A3E"/></svg><i></i></div>
           <div class="gv-art">${S.art()}</div>
           <div class="items">해비치 ${S.item} 1개</div>
           <p id="stDesc">${GIFT_LINE[n]}</p>
-          <div class="gv-foot">${S.final?"12칸을 모두 채우셨어요! 수집한 선물 교환권은<br>11/30 이후 7층 데스크에서 받아 가세요":"12칸을 채우고 리워드를 받아 가세요!<br>교환권은 11/30 이후 7층 데스크에서"}</div>
+          <div class="gv-foot">모은 교환권은 11월 30일 이후<br>7층 이선 데스크에서 한꺼번에 챙겨 드릴게요</div>
         </div>
         <svg class="gv-pocket" viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L120 64 L0 90Z" fill="#1C2A5C"/><path d="M300 0 L180 64 L300 90Z" fill="#1C2A5C"/>
           <path d="M0 90 L0 30 L150 70 L300 30 L300 90Z" fill="#22336E"/><path d="M0 30 L150 70 L300 30" fill="none" stroke="#C9A55C" stroke-width="1" opacity=".55"/><path d="M0 0 L120 64 M300 0 L180 64" stroke="#0F1838" stroke-width="1" opacity=".5"/></svg>
@@ -3335,7 +3346,7 @@ function myTicketHTML(){
     return `<div class="${ok?"ready":""}"><b>${S.item.split(" ").pop()}</b>${k}칸<br><em>${ok?"받을 수 있어요":`${k-total}칸 남음`}</em></div>`}).join("");
   const partner=done.m12?(P.pmode||"파트너 운동 완료"):done.m11?"GX 수업 참여":"아직 없음";
   return `<div class="mtk v2" role="document" aria-label="나의 승차권">
-    <div class="v2-h"><span>GRAN SEOUL ORIGINAL TICKET</span><span>No.${(P.no||"0000").slice(-4)}</span></div>
+    <div class="v2-h"><span>그랑서울 피트니스 열차 · 승차권</span><span>No.${(P.no||"0000").slice(-4)}</span></div>
     <div class="v2-box">
       <div class="v2-row v2-title"><div class="v2-k"><span>Title</span><span>(2026.11)</span></div><b>GRAN SEOUL EXPRESS</b><small>그랑서울 피트니스 열차</small></div>
       <div class="v2-row v2-list">
@@ -3347,10 +3358,10 @@ function myTicketHTML(){
       </div>
       <div class="v2-row"><div class="v2-k"><span>Punch</span><span>${total} / ${TOTAL}칸 · ${total>=TOTAL?"전 객차 완주":`종착역까지 ${TOTAL-total}칸`}</span></div><div class="holes">${holes}</div><div class="cars">${cars}</div></div>
       <div class="v2-row"><div class="v2-k"><span>Gift</span><span>${earned.length} / 3종</span></div>
-        <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>12칸을 채우고 리워드를 받아 가세요 · 11/30 이후 7층 데스크`:`<b>4칸부터 선물이 생겨요</b>4칸 컨디셔너 · 8칸 샴푸 · 12칸 바디워시`}</div>
+        <div class="gift-note">${earned.length?`<b>상품 수령이 가능해요!</b>11월 30일 이후 7층 이선 데스크에 말씀해 주세요`:`<b>4칸부터 선물이 생겨요</b>4칸 컨디셔너 · 8칸 샴푸 · 12칸 바디워시`}</div>
         <div class="am">${am}</div></div>
     </div>
-    <div class="v2-f"><span>7F GRAN SEOUL</span><span class="v2-logo">${"GSX".split("").map(c=>`<i>${c}</i>`).join("")}</span></div>
+    <div class="v2-f"><span class="v2-brand">${YISUN_LOGO}</span><span class="v2-brand hv">${HV_LOGO}</span></div>
   </div>`}
 function showMyTicket(){
   track("myticket_open"); SND.play("ticket");
