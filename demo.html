@@ -1620,7 +1620,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 /* ── 브랜드: 이선·해비치 로고 */
 .eb.brand{display:flex;align-items:center;gap:8px;letter-spacing:0!important}
 .eb.brand .yisun{height:20px;width:auto;color:#2A2622}
-.eb.brand span{font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6B6A5C;letter-spacing:.02em;padding-left:8px;border-left:1px solid #CFC5B0}
+.eb.brand{justify-content:space-between}
+.eb.brand span{font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6B6A5C;letter-spacing:.02em}
 .gv-k{display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--f-sans)!important;letter-spacing:.04em!important}
 .gv-k .hv-mark{height:13px;width:auto;color:#1C2A5A}
 .gv-top b{font-family:"Nanum Myeongjo",serif!important;font-weight:700;font-size:15px;letter-spacing:.04em}
@@ -2890,7 +2891,7 @@ const paintSnd=()=>{sndBtn.setAttribute("aria-pressed",SND.on);sndBtn.setAttribu
 sndBtn.onclick=e=>{e.stopPropagation();SND.set(!SND.on);paintSnd();if(SND.on)SND.play("chime")};
 paintSnd();$("#stage").appendChild(sndBtn);
 setInterval(()=>SND.syncAmb(),800);
-$("#officeBrand").innerHTML=`${YISUN_LOGO}<span>7층 피트니스 · 11월 열차여행</span>`;
+$("#officeBrand").innerHTML=`<span>7층 피트니스 · 11월 열차여행</span>${YISUN_LOGO}`;
 $("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding");SND.play("bell")};
 /* ── 첫 화면 */
 const P={name:"",mate:"",co:""};
