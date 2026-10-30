@@ -1588,6 +1588,23 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .mine b{display:block;font-family:"Nanum Myeongjo",serif!important;font-size:19px;margin:4px 0 8px}
 .mine img{display:block;max-width:100%;max-height:220px;margin:0 auto;border-radius:4px;box-shadow:0 0 0 1px #D8CDB4}
 .mine p{margin:0;font-size:13px;color:#6B6A5C}
+/* 퀴즈 v2: 2단계(참여자 → 문제), 정돈된 입력 */
+.qz-steps{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 4px;font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#B4A08A}
+.qz-steps span{padding:3px 10px;border-radius:999px;border:1px solid #D9C8AE}
+.qz-steps span.on{background:#6C1F24;border-color:#6C1F24;color:#F6ECD6}
+.qz-steps i{width:18px;height:1px;background:#C9B48A}
+.qz-lead{margin:10px 0 12px;text-align:center;font-family:"Nanum Myeongjo",serif!important;font-weight:800;font-size:17px;color:#2A1D18}
+.qz-f{display:block;margin:0 0 10px;padding:8px 12px 6px;border:1px solid #D2C2A6;border-radius:6px;background:rgba(255,252,244,.75)}
+.qz-f span{display:block;font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6C1F24}
+.qz-f input,.qz-f select{width:100%;border:0;background:transparent;padding:3px 0 2px;font:600 16px var(--f-sans);color:#2A1D18;-webkit-appearance:none;appearance:none}
+.qz-f select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236C1F24' stroke-width='1.6'/%3E%3C/svg%3E") right 2px center/12px no-repeat;padding-right:18px}
+.qz-f input:focus,.qz-f select:focus{outline:none}.qz-f:focus-within{border-color:#6C1F24;box-shadow:0 0 0 2px rgba(108,31,36,.12)}
+.qz-f input::placeholder{color:#B4A88E;font-weight:400}
+.qz-note{margin:-2px 0 12px;font-family:var(--f-sans)!important;font-size:12px;color:#8A6A4E;text-align:center}
+.qz-next{display:block;width:100%;border:0;border-radius:6px;padding:13px;background:#6C1F24;color:#F6ECD6;font:700 16px var(--f-sans);box-shadow:0 2px 0 #4A1418}
+.qz-ask .qz-q{margin-top:10px}
+.qz-me{margin:8px 0 0;text-align:center;font-family:var(--f-sans)!important;font-size:12px;color:#8A7A66}
+.qz-me button{border:0;background:none;padding:0 0 0 4px;color:#6C1F24;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -3176,9 +3193,9 @@ const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
 const quizName=()=>P.name||($("#iName")?.value||"").trim();
 const quizCo=()=>P.co||($("#iCo")?.value||"");
 function syncNameToTicket(name){const i=$("#iName");if(i&&!i.value.trim())i.value=name}
-function sendQuizToSheet(name){
+function sendQuizToSheet(name,co){
   try{fetch(QUIZ_SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:new URLSearchParams({action:"quiz",name,company:quizCo(),vol:QUIZ.sheetVol,month:QUIZ.month,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
+    body:new URLSearchParams({action:"quiz",name,company:co||quizCo(),vol:QUIZ.sheetVol,month:QUIZ.month,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
 }
 function paintQuizPoster(){
   const w=$("#wallQuiz"),st=quizState(),done=quizDone();
@@ -3196,20 +3213,45 @@ function openQuiz(){
   if(done) body=ok;
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
   else if(st==="closed") body=`<p class="qz-kick">CLOSED</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>마감되었어요</p><p class="qz-hint">다음 달 퀴즈로 다시 만나요.</p>`;
-  else body=`<p class="qz-kick">QUESTION</p><p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
-    <label class="qz-name"><span>이름 NAME</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름을 입력해 주세요" value="${quizName().replace(/"/g,"&quot;")}"></label>
-    <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div><p class="qz-msg" id="qzMsg" aria-live="polite"></p>`;
+  else body=`<div class="qz-steps"><span class="on">1 참여자</span><i></i><span>2 문제</span></div>
+    <div class="qz-who" id="qzWho">
+      <p class="qz-lead">퀴즈에 참여할 분의 정보를 알려 주세요</p>
+      <label class="qz-f"><span>이름</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름" value="${quizName().replace(/"/g,"&quot;")}"></label>
+      <label class="qz-f"><span>입주사</span><select id="qzCo">${$("#iCo").innerHTML}</select></label>
+      <p class="qz-note">동명이인 구분을 위해 입주사를 꼭 선택해 주세요</p>
+      <button type="button" class="qz-next" id="qzNext">퀴즈 풀기 →</button>
+      <p class="qz-msg" id="qzMsg0" aria-live="polite"></p>
+    </div>
+    <div class="qz-ask" id="qzAsk" hidden>
+      <p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
+      <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div>
+      <p class="qz-msg" id="qzMsg" aria-live="polite"></p>
+      <p class="qz-me" id="qzMe"></p>
+    </div>`;
   el.innerHTML=`<div class="qz-paper">${head}<div id="qzBody">${body}</div></div><button type="button" class="qz-close">닫기</button>`;
   const close=()=>{el.remove();paintQuizPoster()};
   el.querySelector(".qz-close").onclick=close;
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelectorAll("[data-letter]").forEach(b=>b.onclick=()=>openReader("letter"));
+  /* 1단계: 이름·입주사 (승차권이 있으면 채워져 있고 바로 2단계) */
+  let qzName="",qzCo="";
+  const coSel=el.querySelector("#qzCo");
+  if(coSel){coSel.value=quizCo()||"";if(!coSel.value)coSel.selectedIndex=0}
+  const toAsk=()=>{const nm=el.querySelector("#qzName");qzName=nm.value.trim();qzCo=coSel.value;
+    const m=el.querySelector("#qzMsg0");
+    if(!qzName){m.textContent="이름을 입력해 주세요.";nm.focus();return}
+    if(!qzCo){m.textContent="입주사를 선택해 주세요.";coSel.focus();return}
+    syncNameToTicket(qzName);
+    el.querySelector("#qzWho").hidden=true;el.querySelector("#qzAsk").hidden=false;
+    el.querySelector(".qz-steps span:last-child").classList.add("on");
+    el.querySelector("#qzMe").innerHTML=`${qzName} · ${qzCo} <button type="button" id="qzEdit">수정</button>`;
+    el.querySelector("#qzEdit").onclick=()=>{el.querySelector("#qzWho").hidden=false;el.querySelector("#qzAsk").hidden=true;el.querySelector(".qz-steps span:last-child").classList.remove("on")}};
+  el.querySelector("#qzNext")?.addEventListener("click",toAsk);
+  if(el.querySelector("#qzName")&&quizName()&&quizCo())toAsk();
   el.querySelectorAll(".qz-choice").forEach(b=>b.onclick=()=>{
-    const nm=el.querySelector("#qzName"),name=nm.value.trim();
-    if(!name){el.querySelector("#qzMsg").textContent="이름을 먼저 입력해 주세요.";nm.focus();return}
-    syncNameToTicket(name);
+    const name=qzName;if(!name){toAsk();return}
     track("quiz_answer",{correct:b.dataset.c===QUIZ.answer});
-    if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
+    if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name,qzCo);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
   $("#stage").appendChild(el);el.querySelector(".qz-close").focus();
 }
