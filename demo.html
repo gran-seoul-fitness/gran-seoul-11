@@ -1605,6 +1605,11 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .qz-ask .qz-q{margin-top:10px}
 .qz-me{margin:8px 0 0;text-align:center;font-family:var(--f-sans)!important;font-size:12px;color:#8A7A66}
 .qz-me button{border:0;background:none;padding:0 0 0 4px;color:#6C1F24;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.qz-row{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-top:14px}
+.qz-row .qz-f{margin:0;min-width:0}
+.qz-row .qz-f select{font-size:14px;text-overflow:ellipsis}
+.qz-note{margin:6px 0 0}
+.qz-choice .qz-art{display:block;width:84%;max-width:118px;height:auto;margin:2px auto 6px}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -3203,6 +3208,15 @@ function paintQuizPoster(){
   if(done){w.classList.add("done");$("#wqBadge").textContent="정답 완료"}
   else if(st!=="open"){w.classList.add(st);$("#wqBadge").textContent=st==="soon"?`${md(QUIZ.start)} OPEN`:"CLOSED"}
 }
+/* 퀴즈 선택지 그림: A 근육(붉은 돔 모양 근육) · B 막(근육 위를 덮은 반투명 막) */
+const QZ_DOME="M6 40 C20 34 30 14 60 12 C90 14 100 34 114 40 C100 44 86 44 60 43 C34 44 20 44 6 40Z";
+const QZ_ART={
+ "근육":`<svg class="qz-art" viewBox="0 0 120 52" aria-hidden="true"><path d="${QZ_DOME}" fill="#C8584B" stroke="#7A2A22" stroke-width="1.4"/>
+   <g stroke="#E58B7C" stroke-width="1" fill="none" opacity=".8"><path d="M20 38 C34 26 46 20 60 19"/><path d="M28 40 C40 30 50 25 62 24 C74 25 84 30 94 38"/><path d="M40 41 C50 34 56 31 62 30 C70 31 78 35 86 40"/><path d="M62 19 C76 20 88 26 100 37"/></g>
+   <path d="M14 36 C30 24 44 16 60 15" stroke="#F3B5A8" stroke-width="1.6" fill="none" opacity=".55"/></svg>`,
+ "막":`<svg class="qz-art" viewBox="0 0 120 52" aria-hidden="true"><path d="${QZ_DOME}" fill="#C8584B" stroke="#7A2A22" stroke-width="1.2"/>
+   <path d="M2 41 C16 33 28 9 60 7 C92 9 104 33 118 41 C104 47 86 47 60 46 C34 47 16 47 2 41Z" fill="rgba(236,242,246,.5)" stroke="#8C9BA4" stroke-width="1.2"/>
+   <g stroke="#FFFFFF" stroke-width="1" fill="none" opacity=".9"><path d="M16 34 C32 20 46 13 60 12"/><path d="M70 13 C84 16 96 24 104 33" opacity=".6"/></g></svg>`};
 function openQuiz(){
   track("quiz_open");
   const st=quizState(),done=quizDone(),el=document.createElement("div");
@@ -3213,43 +3227,26 @@ function openQuiz(){
   if(done) body=ok;
   else if(st==="soon") body=`<p class="qz-kick">COMING SOON</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>${md(QUIZ.start)}에 열려요</p><p class="qz-hint">미리 <button type="button" data-letter>웰니스 레터</button>를 읽어두면 쉽게 풀 수 있어요.</p>`;
   else if(st==="closed") body=`<p class="qz-kick">CLOSED</p><p class="qz-q">${QUIZ.month} 퀴즈는<br>마감되었어요</p><p class="qz-hint">다음 달 퀴즈로 다시 만나요.</p>`;
-  else body=`<div class="qz-steps"><span class="on">1 참여자</span><i></i><span>2 문제</span></div>
-    <div class="qz-who" id="qzWho">
-      <p class="qz-lead">퀴즈에 참여할 분의 정보를 알려 주세요</p>
+  else body=`<p class="qz-kick">QUESTION</p><p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
+    <div class="qz-row">
       <label class="qz-f"><span>이름</span><input id="qzName" maxlength="12" autocomplete="off" placeholder="이름" value="${quizName().replace(/"/g,"&quot;")}"></label>
       <label class="qz-f"><span>입주사</span><select id="qzCo">${$("#iCo").innerHTML}</select></label>
-      <p class="qz-note">동명이인 구분을 위해 입주사를 꼭 선택해 주세요</p>
-      <button type="button" class="qz-next" id="qzNext">퀴즈 풀기 →</button>
-      <p class="qz-msg" id="qzMsg0" aria-live="polite"></p>
     </div>
-    <div class="qz-ask" id="qzAsk" hidden>
-      <p class="qz-q">${QUIZ.q}</p><p class="qz-hint">힌트는 <button type="button" data-letter>웰니스 레터 ${QUIZ.month}호</button>에 있어요.</p>
-      <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}"><small>${String.fromCharCode(65+i)}</small>${c}</button>`).join("")}</div>
-      <p class="qz-msg" id="qzMsg" aria-live="polite"></p>
-      <p class="qz-me" id="qzMe"></p>
-    </div>`;
+    <p class="qz-note">동명이인 구분을 위해 입주사를 꼭 선택해 주세요</p>
+    <div class="qz-choices">${QUIZ.choices.map((c,i)=>`<button type="button" class="qz-choice" data-c="${c}">${QZ_ART[c]||""}${c}</button>`).join("")}</div>
+    <p class="qz-msg" id="qzMsg" aria-live="polite"></p>`;
   el.innerHTML=`<div class="qz-paper">${head}<div id="qzBody">${body}</div></div><button type="button" class="qz-close">닫기</button>`;
   const close=()=>{el.remove();paintQuizPoster()};
   el.querySelector(".qz-close").onclick=close;
   el.onclick=e=>{if(e.target===el)close()};
   el.querySelectorAll("[data-letter]").forEach(b=>b.onclick=()=>openReader("letter"));
-  /* 1단계: 이름·입주사 (승차권이 있으면 채워져 있고 바로 2단계) */
-  let qzName="",qzCo="";
   const coSel=el.querySelector("#qzCo");
   if(coSel){coSel.value=quizCo()||"";if(!coSel.value)coSel.selectedIndex=0}
-  const toAsk=()=>{const nm=el.querySelector("#qzName");qzName=nm.value.trim();qzCo=coSel.value;
-    const m=el.querySelector("#qzMsg0");
-    if(!qzName){m.textContent="이름을 입력해 주세요.";nm.focus();return}
-    if(!qzCo){m.textContent="입주사를 선택해 주세요.";coSel.focus();return}
-    syncNameToTicket(qzName);
-    el.querySelector("#qzWho").hidden=true;el.querySelector("#qzAsk").hidden=false;
-    el.querySelector(".qz-steps span:last-child").classList.add("on");
-    el.querySelector("#qzMe").innerHTML=`${qzName} · ${qzCo} <button type="button" id="qzEdit">수정</button>`;
-    el.querySelector("#qzEdit").onclick=()=>{el.querySelector("#qzWho").hidden=false;el.querySelector("#qzAsk").hidden=true;el.querySelector(".qz-steps span:last-child").classList.remove("on")}};
-  el.querySelector("#qzNext")?.addEventListener("click",toAsk);
-  if(el.querySelector("#qzName")&&quizName()&&quizCo())toAsk();
   el.querySelectorAll(".qz-choice").forEach(b=>b.onclick=()=>{
-    const name=qzName;if(!name){toAsk();return}
+    const nm=el.querySelector("#qzName"),name=nm.value.trim(),qzCo=coSel.value,msg=el.querySelector("#qzMsg");
+    if(!name){msg.textContent="이름을 먼저 입력해 주세요.";nm.focus();return}
+    if(!qzCo){msg.textContent="입주사를 선택해 주세요.";coSel.focus();return}
+    syncNameToTicket(name);
     track("quiz_answer",{correct:b.dataset.c===QUIZ.answer});
     if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name,qzCo);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
