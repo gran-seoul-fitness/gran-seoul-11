@@ -1610,6 +1610,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 .qz-row .qz-f select{font-size:14px;text-overflow:ellipsis}
 .qz-note{margin:6px 0 0}
 .qz-choice .qz-art{display:block;width:84%;max-width:118px;height:auto;margin:2px auto 6px}
+.snd-btn{position:absolute;left:max(8px,env(safe-area-inset-left,0px));top:max(10px,env(safe-area-inset-top,0px));z-index:40;width:32px;height:32px;display:grid;place-items:center;padding:0;
+  border:1px solid rgba(201,165,92,.6);border-radius:50%;background:rgba(15,21,17,.6);color:#F1E6CB;backdrop-filter:blur(2px)}
+.snd-btn svg{width:17px;height:17px}.snd-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.snd-btn[aria-pressed="true"]{color:#F6D98A;border-color:#E3C47F;box-shadow:0 0 10px rgba(246,217,138,.45)}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -2705,7 +2709,7 @@ function paperHTML(m,c){
 function wirePaper(L){const w=L.querySelector(".np-wrap");if(!w)return;
   const fold=w.querySelector(".np-fold");
   fold.onclick=()=>{if(!w.classList.contains("folded")||w.classList.contains("opening"))return;
-    track("guide_open",{mission_id:mid});
+    track("guide_open",{mission_id:mid});SND.play("paper");
     if(reduce){w.classList.remove("folded");return}
     w.classList.add("opening");setTimeout(()=>{w.classList.remove("folded","opening");w.classList.add("opened")},1150)};
   w.querySelector(".np-close").onclick=()=>{w.classList.remove("opened");w.classList.add("folded")}}
@@ -2768,7 +2772,7 @@ async function punchSeq(){
   setTimeout(()=>{const hr=tgt.getBoundingClientRect(), br=hand.parentElement.getBoundingClientRect();
     hand.style.setProperty("--hx",(hr.left+hr.width/2-(br.right+8-370+15.9))+"px");
     hand.style.top=(hr.top+hr.height/2-br.top)+"px"; hand.classList.add("in")},550);
-  setTimeout(()=>{hand.classList.add("click"); tgt.classList.remove("target"); tgt.classList.add("on","pop");
+  setTimeout(()=>{hand.classList.add("click"); SND.play("punch"); tgt.classList.remove("target"); tgt.classList.add("on","pop");
     const hr=tgt.getBoundingClientRect(), tr=tk.getBoundingClientRect();
     for(let i=0;i<5;i++){const ch=document.createElement("span"); ch.className="chad";
       ch.style.left=(hr.left-tr.left+8)+"px"; ch.style.top=(hr.top-tr.top+8)+"px"; ch.style.setProperty("--dx",(Math.random()*60-30)+"px"); tk.appendChild(ch)}},1250);
@@ -2829,7 +2833,43 @@ function startBoardCycle(){
 }
 let boardNext=()=>{boardText()};
 
-$("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding")};
+/* ── 소리: 파일 없이 브라우저에서 합성 · 기본은 꺼짐(회사에서 열어도 조용하게) */
+const SND=(()=>{let ctx=null,on=false,amb=null;try{on=localStorage.getItem("gse-sound")==="on"}catch(e){}
+  const ac=()=>{if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C()}if(ctx.state==="suspended")ctx.resume();return ctx};
+  const tone=(f,t0,dur,vol,type="sine")=>{const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;
+    g.gain.setValueAtTime(0,c.currentTime+t0);g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+.005);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);
+    o.connect(g).connect(c.destination);o.start(c.currentTime+t0);o.stop(c.currentTime+t0+dur+.05)};
+  const noise=(t0,dur,vol,f1,f2,q=1)=>{const c=ac();if(!c)return;const n=Math.floor(c.sampleRate*dur),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+    const s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();s.buffer=b;fl.type="bandpass";fl.Q.value=q;fl.frequency.setValueAtTime(f1,c.currentTime+t0);fl.frequency.exponentialRampToValueAtTime(f2,c.currentTime+t0+dur);
+    g.gain.setValueAtTime(0,c.currentTime+t0);g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+dur*.2);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);
+    s.connect(fl).connect(g).connect(c.destination);s.start(c.currentTime+t0)};
+  const fx={
+    bell:()=>{[[1318,1.6,.22],[2637,.9,.07],[3951,.5,.035],[1760,1.2,.05]].forEach(([f,d,v])=>tone(f,0,d,v))},
+    punch:()=>{noise(0,.06,.5,3000,1200,2);tone(180,0,.08,.25,"triangle")},
+    whistle:()=>{tone(880,0,.5,.06,"triangle");tone(1108,0,.5,.05,"triangle")},
+    curtain:()=>{noise(0,1.1,.18,500,2400,.8)},
+    spot:()=>{noise(0,.05,.35,2500,2500,3);tone(98,0,.25,.12,"square")},
+    paper:()=>{noise(0,.35,.16,1800,5200,1.2);noise(.12,.25,.1,4000,2000,1.5)},
+    chime:()=>{[[1046,0],[1318,.12],[1568,.24]].forEach(([f,t])=>tone(f,t,1,.09))},
+    tick:()=>{noise(0,.02,.12,4000,4000,4)}};
+  /* 열차 안: 낮은 덜컹 소리가 은은하게 반복 */
+  const startAmb=()=>{if(amb||!on)return;const c=ac();if(!c)return;
+    const n=c.sampleRate*2,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);let last=0;for(let i=0;i<n;i++){last=(last+.02*(Math.random()*2-1))/1.02;d[i]=last*3}
+    const s=c.createBufferSource(),lp=c.createBiquadFilter(),g=c.createGain();s.buffer=b;s.loop=true;lp.type="lowpass";lp.frequency.value=220;g.gain.value=.12;
+    s.connect(lp).connect(g).connect(c.destination);s.start();
+    const clack=()=>{noise(0,.05,.16,900,500,3);noise(.13,.05,.12,900,500,3)};clack();const iv=setInterval(clack,1150);amb={s,g,iv}};
+  const stopAmb=()=>{if(!amb)return;try{amb.s.stop()}catch(e){}clearInterval(amb.iv);amb=null};
+  return {get on(){return on},play:k=>{if(on&&fx[k])try{fx[k]()}catch(e){}},
+    set:v=>{on=v;try{localStorage.setItem("gse-sound",v?"on":"off")}catch(e){};if(v){ac();SND.syncAmb()}else stopAmb()},
+    syncAmb:()=>{const inTrain=$("#intro").hidden&&!$("#stationHost").innerHTML;if(on&&inTrain)startAmb();else stopAmb()}};
+})();
+const sndBtn=document.createElement("button");sndBtn.type="button";sndBtn.id="sndBtn";sndBtn.className="snd-btn";
+const paintSnd=()=>{sndBtn.setAttribute("aria-pressed",SND.on);sndBtn.setAttribute("aria-label",SND.on?"소리 끄기":"소리 켜기");
+  sndBtn.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/>${SND.on?'<path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>':'<path d="M16.5 9.5l5 5M21.5 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'}</svg><span>${SND.on?"소리 켬":"소리"}</span>`};
+sndBtn.onclick=e=>{e.stopPropagation();SND.set(!SND.on);paintSnd();if(SND.on)SND.play("chime")};
+paintSnd();$("#stage").appendChild(sndBtn);
+setInterval(()=>SND.syncAmb(),800);
+$("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding");SND.play("bell")};
 /* ── 첫 화면 */
 const P={name:"",mate:"",co:""};
 /* 승객 표기: 이름-입주사 */
@@ -2857,7 +2897,7 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   /* 승차권 주는 손이 짐수레에 가리지 않게: 발권할 때 수레는 제자리로, 손이 들어갈 때까지 잠깐 고정 */
   const trol=document.querySelector(".office .trolley"); if(trol){trol.classList.remove("out"); trol.dataset.hold="1"; setTimeout(()=>delete trol.dataset.hold,2500)}
   office.classList.add("issued");syncFromSheet();loadRanking()});
-$("#toPlatform").onclick=()=>{office.hidden=true;plat.hidden=false;$("#skip").hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
+$("#toPlatform").onclick=()=>{SND.play("whistle");office.hidden=true;plat.hidden=false;$("#skip").hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
   plat.classList.add("waiting");
   setTimeout(()=>plat.classList.add("departing"),reduce?0:1300);
   setTimeout(board,reduce?300:5000)};
@@ -3126,6 +3166,7 @@ function showStation(n,{direct=false}={}){
   const gi=ST_ORDER.indexOf(+n)+1;
   /* 선물 교환권: 남색 벨벳 위, 장갑 낀 손이 봉투에서 꺼낸 교환권을 건네요 (어메니티 그림은 그대로) */
   const intro=!direct&&!reduce;
+  if(intro){SND.play("curtain");setTimeout(()=>SND.play("spot"),1700)}else SND.play("chime");
   host.innerHTML=`<section class="station gv${intro?" intro":""}" aria-label="${S.name} 정차 · 선물 교환권">
     <div class="gv-top"><span>${n} / ${TOTAL}칸 · ${S.name} 정차</span><b>FOR YOU · MERCI</b></div>
     ${intro?`<div class="gv-show" aria-hidden="true"><i class="gv-dark"></i><i class="gv-spot"></i><i class="gv-cur l"></i><i class="gv-cur r"></i></div>`:""}
@@ -3154,7 +3195,7 @@ function showStation(n,{direct=false}={}){
   $("#stClose").onclick=()=>host.innerHTML="";
   /* 차장님 등장 → 봉투(또는 화면 아무 곳) 누르면 교환권이 올라와요 */
   const sec=host.firstElementChild;
-  if(intro)sec.addEventListener("click",function openEnv(e){if(!sec.classList.contains("intro"))return;e.stopPropagation();sec.classList.remove("intro");sec.classList.add("opened");$("#gvCond")?.remove();sec.querySelector(".gv-show")?.remove();sec.removeEventListener("click",openEnv,true)},true);
+  if(intro)sec.addEventListener("click",function openEnv(e){if(!sec.classList.contains("intro"))return;e.stopPropagation();SND.play("paper");sec.classList.remove("intro");sec.classList.add("opened");$("#gvCond")?.remove();sec.querySelector(".gv-show")?.remove();sec.removeEventListener("click",openEnv,true)},true);
   if(S.final&&!reduce){const st=host.firstElementChild;for(let i=0;i<40;i++){const c=document.createElement("span");c.className="conf";
     c.style.left=Math.random()*100+"%";c.style.background=["#C9A55C","#F4ECDB","#6E2626","#E3C47F"][i%4];c.style.animationDelay=(1+Math.random()*1.4)+"s";
     c.style.setProperty("--dx",(Math.random()*80-40)+"px");c.style.setProperty("--r",(Math.random()*720)+"deg");st.appendChild(c)}}
@@ -3248,6 +3289,7 @@ function openQuiz(){
     if(!qzCo){msg.textContent="입주사를 선택해 주세요.";coSel.focus();return}
     syncNameToTicket(name);
     track("quiz_answer",{correct:b.dataset.c===QUIZ.answer});
+    SND.play(b.dataset.c===QUIZ.answer?"chime":"tick");
     if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name,qzCo);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요, 한 번 더 생각해 보세요!"}});
   $("#stage").appendChild(el);el.querySelector(".qz-close").focus();
@@ -3328,7 +3370,7 @@ loadRanking();
 #demoBar{gap:5px;padding:5px 6px}#demoBar,#demoBar *{font-family:system-ui,-apple-system,sans-serif!important}
 #demoBar .dl{color:#E9D7A6;font-size:11px;font-weight:800;padding:0 2px}#demoBar .dd{color:#F6F0E2;font-size:12px;font-weight:600;padding:0 4px;white-space:nowrap}
 #demoBar button{border:1px solid #C9A55C;background:#1C2A5A;color:#F6F0E2;border-radius:6px;padding:6px 8px;font-size:12px;font-weight:600;white-space:nowrap}
-.ui .top{padding-top:38px}
+.ui .top{padding-top:38px}.snd-btn{top:52px!important}
 </style>
 <script>
 (function(){
