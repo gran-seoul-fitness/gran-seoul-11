@@ -16,7 +16,7 @@
   /* 보고서용: 운영자만 보는 GA에 입주사를 붙여요(회원 화면에는 표시 안 함). 이름은 보내지 않아요 */
   function trackCompany(co){try{if(co)gtag('set','user_properties',{company:co})}catch(e){}}
 </script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=UnifrakturMaguntia&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital@1&family=Nanum+Myeongjo:wght@400;700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Montserrat:wght@400;500;600;700&family=UnifrakturMaguntia&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital@1&family=Nanum+Myeongjo:wght@400;700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 [hidden]{display:none!important}
 /* Layout: 휴대폰 한 화면 = 객차 한 칸. 위 황동 명판(칸 이동) → 창(칸마다 다른 풍경) → 기구 → 테이블 위 미션 카드 */
@@ -1232,6 +1232,10 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 :root{--f-display:"Nanum Myeongjo",serif;--f-kr:"Nanum Myeongjo",serif;--f-body:"Nanum Myeongjo",serif;--f-mono:"Nanum Myeongjo",serif}
 :where(body *:not(.fb-row):not(.fb-row *):not(.fb-head):not(.fb-head *)){font-family:"Nanum Myeongjo",serif!important}
 .fb-row span,.fb-head{font-family:"IBM Plex Mono",ui-monospace,monospace!important}
+/* ── 숫자·작은 영문 라벨만 Montserrat (한글은 원래 글씨체로 자동 대체) */
+.v2-h span,.v2-k span,.v2-list b.mono,.mtk .cars span,.mtk .cars small,.mtk .am div,.mtk .am div em,.t6-no span,.dep span,.plate .no,.plate .t span,.tcar .nm,.dots button,.wq-dl,.wq-new,.shut,.qz-dl,.qz-stamp,.np-price,.t2-no,.t3-grid #ntNo,.rk-list li b{font-family:"Montserrat","Nanum Myeongjo",serif!important}
+.v2-list span,.v2-list b,.bar span{font-family:"Montserrat","IBM Plex Sans KR",sans-serif!important}
+.v2-list b.mono{font-family:"Montserrat","Nanum Myeongjo",serif!important}
 /* ── 정차역: 선물 교환권 (남색 벨벳 · 아이보리 카드 · 금색 왁스 실 · 흰 장갑) */
 .station.gv{background:radial-gradient(70% 45% at 50% 18%,rgba(255,220,160,.16),transparent 70%),radial-gradient(120% 80% at 50% 50%,transparent 55%,rgba(0,0,0,.55)),
   repeating-linear-gradient(90deg,#2A0A0E 0,#4E1519 3.2%,#6A1E22 4.4%,#46141A 6%,#2A0A0E 8%);justify-content:flex-start;padding:max(18px,env(safe-area-inset-top,0px)) 16px max(16px,env(safe-area-inset-bottom,0px));gap:10px}
@@ -1616,13 +1620,12 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 #stage:has(.reader) .snd-btn,#stage:has(.qz) .snd-btn,#stage:has(.myt) .snd-btn{display:none}
 /* ── 브랜드: 이선·해비치 로고 */
 .eb.brand{display:flex;align-items:center;gap:8px;letter-spacing:0!important}
-.eb.brand .yisun{height:20px;width:auto;color:#2A2622}
 .eb.brand{justify-content:space-between}
 .eb.brand span{font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6B6A5C;letter-spacing:.02em}
 .gv-k{display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--f-sans)!important;letter-spacing:.04em!important}
 .gv-k .hv-mark{height:13px;width:auto;color:#1C2A5A}
 .gv-top b{font-family:"Nanum Myeongjo",serif!important;font-weight:700;font-size:15px;letter-spacing:.04em}
-.v2-f{align-items:center}.v2-brand .yisun{height:18px;width:auto;color:#1C2A5A;display:block}.v2-brand.hv .hv-mark{height:14px;width:auto;color:#1C2A5A;display:block}
+.v2-f{align-items:center}.v2-brand.hv .hv-mark{height:14px;width:auto;color:#1C2A5A;display:block}
 .lock-note{margin:-2px 0 8px;font-size:12px;color:#6B6A5C;font-family:var(--f-sans)!important}
 #iCo:disabled{background-image:none!important}
 #iName[readonly],#iCo:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
@@ -2077,7 +2080,6 @@ mirror:`<svg viewBox="0 0 160 200"><rect x="6" y="6" width="148" height="190" rx
 steps:`<svg viewBox="0 0 170 120"><rect x="6" y="80" width="78" height="22" rx="4" fill="var(--pad)"/><rect x="10" y="102" width="12" height="10" fill="var(--frame)"/><rect x="68" y="102" width="12" height="10" fill="var(--frame)"/><rect x="18" y="56" width="66" height="22" rx="4" fill="var(--pad)" opacity=".9"/><rect x="96" y="96" width="70" height="16" rx="8" fill="#6E2626"/><circle cx="104" cy="104" r="8" fill="#5A1E1E"/><g transform="translate(120 46)"><circle cx="14" cy="26" r="20" fill="var(--pad)"/><path d="M2 12 Q14 -6 26 12" stroke="var(--shroud)" stroke-width="5" fill="none"/></g></svg>`
 };
 
-const YISUN_LOGO=`<svg class="yisun" viewBox="327 264 188 66" role="img" aria-label="그랑서울 피트니스"><g fill="currentColor"><path d="M 382.84 267.66 L 382.84 297.71 L 385.60 297.71 L 385.60 267.11 L 383.39 267.11 C 383.08 267.11 382.84 267.35 382.84 267.66 "/><path d="M 417.40 282.51 C 416.15 282.01 414.56 281.57 412.69 281.19 C 412.60 281.17 412.52 281.16 412.44 281.13 C 412.36 281.11 412.29 281.10 412.20 281.08 C 412.14 281.07 412.07 281.05 412.01 281.04 C 411.94 281.03 411.88 281.01 411.83 281.00 C 410.09 280.66 408.70 280.32 407.69 280.00 C 406.68 279.67 405.82 279.17 405.13 278.51 C 404.43 277.83 404.08 276.90 404.08 275.74 L 404.08 275.72 C 404.08 273.81 404.78 272.30 406.16 271.25 C 407.53 270.20 409.48 269.67 411.96 269.67 C 413.18 269.67 414.44 269.90 415.69 270.35 C 416.69 270.71 417.71 271.22 418.75 271.88 C 418.98 272.02 419.26 272 419.45 271.81 L 421.08 270.18 C 420.12 269.51 419.15 268.94 418.17 268.50 C 417.17 268.04 416.13 267.69 415.10 267.46 C 414.07 267.23 413.01 267.11 411.96 267.11 C 409.73 267.11 407.79 267.45 406.21 268.14 C 404.63 268.82 403.41 269.82 402.59 271.12 C 401.77 272.41 401.35 274.00 401.35 275.84 L 401.35 275.86 C 401.35 277.68 401.79 279.12 402.66 280.14 C 403.54 281.17 404.62 281.91 405.87 282.33 C 407.13 282.76 408.83 283.19 410.94 283.58 L 411.55 283.71 C 411.60 283.72 411.65 283.73 411.69 283.74 C 411.75 283.75 411.80 283.76 411.83 283.77 C 413.37 284.06 414.64 284.39 415.62 284.73 C 416.61 285.08 417.42 285.62 418.05 286.32 C 418.68 287.03 419.00 287.98 419.00 289.16 L 419.00 289.18 C 419.00 291.06 418.27 292.55 416.83 293.59 C 415.40 294.62 413.35 295.15 410.75 295.15 C 408.96 295.15 407.28 294.86 405.75 294.31 C 404.51 293.86 403.35 293.22 402.28 292.41 C 402.07 292.24 401.76 292.26 401.56 292.46 L 399.96 294.06 C 400.91 294.85 401.94 295.52 403.02 296.05 C 404.14 296.60 405.35 297.02 406.64 297.29 C 407.93 297.57 409.31 297.71 410.75 297.71 C 413.07 297.71 415.07 297.36 416.70 296.69 C 418.33 296.01 419.58 295.02 420.44 293.74 C 421.30 292.45 421.73 290.88 421.73 289.07 L 421.73 289.03 C 421.73 287.26 421.32 285.85 420.50 284.81 C 419.68 283.77 418.63 283.00 417.40 282.51 "/><path d="M 452.29 267.98 L 452.29 286.93 C 452.29 289.60 451.64 291.62 450.35 292.96 C 449.06 294.30 447.10 294.98 444.53 294.98 C 441.97 294.98 440.02 294.30 438.74 292.96 C 437.47 291.62 436.82 289.60 436.82 286.93 L 436.82 267.42 L 434.61 267.42 C 434.30 267.42 434.05 267.67 434.05 267.98 L 434.05 286.79 C 434.05 289.23 434.44 291.27 435.22 292.88 C 435.98 294.48 437.15 295.69 438.69 296.5 C 440.23 297.30 442.19 297.71 444.53 297.71 C 446.87 297.71 448.85 297.30 450.40 296.5 C 451.95 295.69 453.13 294.48 453.89 292.88 C 454.67 291.27 455.06 289.23 455.06 286.79 L 455.06 267.42 L 452.85 267.42 C 452.54 267.42 452.29 267.67 452.29 267.98 "/><path d="M 350.44 291.94 L 352.41 292.54 L 352.41 266.80 L 350.20 266.80 C 349.90 266.80 349.65 267.05 349.65 267.36 L 349.65 290.88 C 349.65 291.37 349.97 291.80 350.44 291.94 "/><path d="M 489.55 288.26 L 489.55 266.80 L 487.34 266.80 C 487.03 266.80 486.79 267.05 486.79 267.36 L 486.79 289.92 L 488.76 289.32 C 489.23 289.18 489.55 288.75 489.55 288.26 "/><path d="M 370.92 267.42 C 369.46 270.47 366.82 275.40 362.70 281.05 C 356.62 289.37 346.02 300.92 329.68 309.57 C 329.32 309.76 329.09 310.14 329.09 310.55 L 329.09 312.99 C 347.01 303.99 358.51 291.49 365 282.59 C 370.00 275.73 372.85 269.98 374.12 267.11 L 371.42 267.11 C 371.21 267.11 371.01 267.23 370.92 267.42 "/><path d="M 512.08 309.57 C 495.75 300.92 485.15 289.37 479.07 281.05 C 474.95 275.40 472.31 270.47 470.85 267.42 C 470.76 267.23 470.57 267.11 470.35 267.11 L 467.47 267.11 L 467.47 297.71 L 470.24 297.71 L 470.24 272.31 C 471.79 275.17 473.94 278.70 476.77 282.59 C 483.26 291.49 494.76 303.99 512.68 312.99 L 512.68 310.55 C 512.68 310.14 512.45 309.76 512.08 309.57 "/><path d="M 409.62 311.70 L 410.61 311.70 L 410.61 327.45 L 409.62 327.45 Z M 402.42 313.83 C 400.73 313.83 399.63 315.81 399.63 318.48 C 399.63 321.10 400.73 323.10 402.42 323.10 C 404.12 323.10 405.22 321.10 405.22 318.48 C 405.22 315.83 404.12 313.83 402.42 313.83 M 402.42 312.95 C 404.71 312.95 406.24 315.10 406.24 318.48 C 406.24 321.81 404.71 323.98 402.42 323.98 C 400.14 323.98 398.61 321.81 398.61 318.46 C 398.61 315.10 400.14 312.95 402.42 312.95 "/><path d="M 441.83 323.13 L 441.83 316.48 L 438.38 316.48 L 438.38 315.63 L 441.83 315.63 L 441.83 311.70 L 442.82 311.70 L 442.82 323.13 Z M 432.80 326.93 L 432.80 322.20 L 433.79 322.20 L 433.79 326.06 L 443.16 326.06 L 443.16 326.93 Z M 438.41 320.56 C 436.84 319.85 435.21 318.19 434.62 316.53 C 434.14 318.19 432.55 320.01 430.69 321.01 L 430.03 320.25 C 432.26 319.15 434.06 317.07 434.06 314.49 L 434.06 312.61 L 435.06 312.61 L 435.06 314.48 C 435.06 317.05 437.25 319.10 439.02 319.78 Z M 438.41 320.56 "/></g></svg>`;
 const HV_LOGO=`<svg class="hv-mark" viewBox="0 0 123 83" role="img" aria-label="해비치"><g fill="currentColor"><rect x="17" y="0" width="5.5" height="83"/><rect x="100" y="0" width="5.5" height="83"/><rect x="1" y="52" width="121" height="5.5"/><path d="M1 19 L122 52 L122 57.5 L1 25Z"/><path d="M1 36 L82 52 L82 57.5 L1 41.5Z"/></g></svg>`;
 const CARS=[
  {no:1,en:"ALPINE CAR",ko:"체성분 칸",zone:"체크인",view:"알프스 초원 · 맑은 아침",wall:"w7",win:"pano",alpine:true,sky:["#9CC9EC","#E6F2F8"],sun:{c:"#FFF8E0",x:80,y:10,s:26},lamp:"#FFE7B0",
@@ -2888,7 +2890,7 @@ const paintSnd=()=>{sndBtn.setAttribute("aria-pressed",SND.on);sndBtn.setAttribu
 sndBtn.onclick=e=>{e.stopPropagation();SND.set(!SND.on);paintSnd();if(SND.on)SND.play("chime")};
 paintSnd();$("#stage").appendChild(sndBtn);
 setInterval(()=>SND.syncAmb(),800);
-$("#officeBrand").innerHTML=`<span>7층 피트니스 · 11월 열차여행</span>${YISUN_LOGO}`;
+$("#officeBrand").innerHTML=`<span>7층 피트니스 · 11월 열차여행</span>`;
 $("#bell").onclick=()=>{const b=$("#bell");b.classList.remove("ding");void b.offsetWidth;b.classList.add("ding");SND.play("bell")};
 /* ── 첫 화면 */
 const P={name:"",mate:"",co:""};
