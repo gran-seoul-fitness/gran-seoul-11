@@ -3260,7 +3260,7 @@ const md=d=>{const [,m,dd]=d.split("-");return `${+m}/${+dd}`};
 /* 퀴즈 ↔ 승차권 카드 이름 연동: 발권했거나 매표소 카드에 적어둔 이름·입주사를 퀴즈에 쓰고, 퀴즈에서 적은 이름은 카드에도 채움 */
 const quizName=()=>P.name||($("#iName")?.value||"").trim();
 const quizCo=()=>P.co||($("#iCo")?.value||"");
-function syncNameToTicket(name){const i=$("#iName");if(i&&!i.value.trim())i.value=name}
+function syncNameToTicket(name,co){const i=$("#iName"),c=$("#iCo");if(i&&!i.value.trim())i.value=name;if(c&&!c.value&&co)c.value=co;syncIssue()}
 function sendQuizToSheet(name,co){
   try{fetch(QUIZ_SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},
     body:new URLSearchParams({action:"quiz",name,company:co||quizCo(),vol:QUIZ.sheetVol,month:QUIZ.month,timestamp:new Date().toISOString()}).toString()}).catch(()=>{})}catch(e){}
@@ -3309,7 +3309,7 @@ function openQuiz(){
     const nm=el.querySelector("#qzName"),name=nm.value.trim(),qzCo=coSel.value,msg=el.querySelector("#qzMsg");
     if(!name){msg.textContent="이름을 먼저 입력해 주세요.";nm.focus();return}
     if(!qzCo){msg.textContent="입주사를 선택해 주세요.";coSel.focus();return}
-    syncNameToTicket(name);
+    syncNameToTicket(name,qzCo);
     track("quiz_answer",{correct:b.dataset.c===QUIZ.answer});
     SND.play(b.dataset.c===QUIZ.answer?"chime":"tick");
     if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name,qzCo);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
