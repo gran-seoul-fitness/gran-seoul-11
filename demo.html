@@ -3332,6 +3332,8 @@ function openQuiz(){
     if(!qzCo){msg.textContent="입주사를 선택해 주세요.";coSel.focus();return}
     syncNameToTicket(name,qzCo);
     track("quiz_answer",{correct:b.dataset.c===QUIZ.answer});
+    /* 시트(정답만 저장)와 바로 맞춰볼 수 있게 정답·오답을 따로 남겨요 */
+    track(b.dataset.c===QUIZ.answer?"quiz_correct":"quiz_wrong",{choice:b.dataset.c,company:qzCo});
     SND.play(b.dataset.c===QUIZ.answer?"chime":"tick");
     if(b.dataset.c===QUIZ.answer){markQuizDone();sendQuizToSheet(name,qzCo);el.querySelector("#qzBody").innerHTML=ok;paintQuizPoster()}
     else{b.classList.remove("wrong");void b.offsetWidth;b.classList.add("wrong");el.querySelector("#qzMsg").textContent="아쉬워요. 한 번 더 생각해 보세요."}});
