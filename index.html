@@ -2850,7 +2850,13 @@ let boardNext=()=>{boardText()};
 
 /* ── 소리: 파일 없이 브라우저에서 합성 · 기본은 꺼짐(회사에서 열어도 조용하게) */
 const SND=(()=>{let ctx=null,on=false,amb=null;try{on=localStorage.getItem("gse-sound")==="on"}catch(e){}
-  const ac=()=>{if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C()}if(ctx.state==="suspended")ctx.resume();return ctx};
+  const ac=()=>{if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C();load()}if(ctx.state==="suspended")ctx.resume();return ctx};
+  /* 녹음한 소리(객실 기차 소리 · 매표소 벨 · 증기기관차). 못 불러오면 아래 합성음으로 대신해요 */
+  const SRC={amb:"sound/amb.mp3",bell:"sound/bell.mp3",steam:"sound/steam.mp3"},buf={};
+  const load=()=>Object.entries(SRC).forEach(([k,u])=>fetch(u).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(a=>new Promise((ok,no)=>ctx.decodeAudioData(a,ok,no)))
+    .then(b=>{buf[k]=b;if(k==="amb"&&amb&&amb.synth){stopAmb();startAmb()}}).catch(()=>{}));
+  const clip=(k,vol)=>{const c=ac();if(!c||!buf[k])return null;const s=c.createBufferSource(),g=c.createGain();s.buffer=buf[k];g.gain.value=vol;s.connect(g).connect(c.destination);s.start();return {s,g}};
+  let steam=null;
   const tone=(f,t0,dur,vol,type="sine")=>{const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;
     g.gain.setValueAtTime(0,c.currentTime+t0);g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+.005);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);
     o.connect(g).connect(c.destination);o.start(c.currentTime+t0);o.stop(c.currentTime+t0+dur+.05)};
@@ -2859,7 +2865,7 @@ const SND=(()=>{let ctx=null,on=false,amb=null;try{on=localStorage.getItem("gse-
     g.gain.setValueAtTime(0,c.currentTime+t0);g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+dur*.2);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);
     s.connect(fl).connect(g).connect(c.destination);s.start(c.currentTime+t0)};
   const fx={
-    bell:()=>{[[1318,1.6,.22],[2637,.9,.07],[3951,.5,.035],[1760,1.2,.05]].forEach(([f,d,v])=>tone(f,0,d,v))},
+    bell:()=>{if(clip("bell",.7))return;[[1318,1.6,.22],[2637,.9,.07],[3951,.5,.035],[1760,1.2,.05]].forEach(([f,d,v])=>tone(f,0,d,v))},
     punch:()=>{noise(0,.06,.5,3000,1200,2);tone(180,0,.08,.25,"triangle")},
     whistle:()=>{tone(880,0,.5,.06,"triangle");tone(1108,0,.5,.05,"triangle")},
     curtain:()=>{noise(0,1.1,.18,500,2400,.8)},
@@ -2873,15 +2879,22 @@ const SND=(()=>{let ctx=null,on=false,amb=null;try{on=localStorage.getItem("gse-
     tap:()=>{noise(0,.015,.08,3000,3000,5)},
     board:()=>{for(let k=0;k<14;k++)noise(k*.07+Math.random()*.03,.018,.05+Math.random()*.03,3200+Math.random()*1500,2600,4)},
     chime:()=>{[[1046,0],[1318,.12],[1568,.24]].forEach(([f,t])=>tone(f,t,1,.09))},
-    tick:()=>{noise(0,.02,.12,4000,4000,4)}};
+    tick:()=>{noise(0,.02,.12,4000,4000,4)},
+    steam:()=>{steam=clip("steam",.8);if(!steam)fx.whistle()}};
   /* 열차 안: 낮은 덜컹 소리가 은은하게 반복 */
   const startAmb=()=>{if(amb||!on)return;const c=ac();if(!c)return;
+    if(buf.amb){const s=c.createBufferSource(),g=c.createGain();s.buffer=buf.amb;s.loop=true;s.loopStart=.05;s.loopEnd=buf.amb.duration-.05;
+      g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(.45,c.currentTime+1.2);s.connect(g).connect(c.destination);s.start();amb={s,g};return}
     const n=c.sampleRate*2,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);let last=0;for(let i=0;i<n;i++){last=(last+.02*(Math.random()*2-1))/1.02;d[i]=last*3}
     const s=c.createBufferSource(),lp=c.createBiquadFilter(),g=c.createGain();s.buffer=b;s.loop=true;lp.type="lowpass";lp.frequency.value=220;g.gain.value=.12;
     s.connect(lp).connect(g).connect(c.destination);s.start();
-    const clack=()=>{noise(0,.05,.16,900,500,3);noise(.13,.05,.12,900,500,3)};clack();const iv=setInterval(clack,1150);amb={s,g,iv}};
-  const stopAmb=()=>{if(!amb)return;try{amb.s.stop()}catch(e){}clearInterval(amb.iv);amb=null};
-  return {get on(){return on},play:k=>{if(on&&fx[k])try{fx[k]()}catch(e){}},
+    const clack=()=>{noise(0,.05,.16,900,500,3);noise(.13,.05,.12,900,500,3)};clack();const iv=setInterval(clack,1150);amb={s,g,iv,synth:true}};
+  const stopAmb=()=>{if(!amb)return;const {s,g,iv,synth}=amb;amb=null;clearInterval(iv);if(synth){try{s.stop()}catch(e){}return}
+    const t=ctx.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+.4);setTimeout(()=>{try{s.stop()}catch(e){}},450)};
+  /* 증기기관차 소리는 객차에 들어설 때 천천히 줄여요 */
+  const fadeSteam=()=>{if(!steam)return;const t=ctx.currentTime;steam.g.gain.cancelScheduledValues(t);steam.g.gain.setValueAtTime(steam.g.gain.value,t);steam.g.gain.linearRampToValueAtTime(0,t+1.4);
+    const s=steam.s;setTimeout(()=>{try{s.stop()}catch(e){}},1500);steam=null};
+  return {get on(){return on},fadeSteam,play:k=>{if(on&&fx[k])try{fx[k]()}catch(e){}},
     set:v=>{on=v;try{localStorage.setItem("gse-sound",v?"on":"off")}catch(e){};if(v){ac();SND.syncAmb()}else stopAmb()},
     syncAmb:()=>{const inTrain=$("#intro").hidden&&!$("#stationHost").innerHTML;if(on&&inTrain)startAmb();else stopAmb()}};
 })();
@@ -2920,11 +2933,11 @@ $("#issueForm").addEventListener("submit",e=>{e.preventDefault();
   /* 승차권 주는 손이 짐수레에 가리지 않게: 발권할 때 수레는 제자리로, 손이 들어갈 때까지 잠깐 고정 */
   const trol=document.querySelector(".office .trolley"); if(trol){trol.classList.remove("out"); trol.dataset.hold="1"; setTimeout(()=>delete trol.dataset.hold,2500)}
   office.classList.add("issued");syncFromSheet();loadRanking()});
-$("#toPlatform").onclick=()=>{SND.play("whistle");office.hidden=true;plat.hidden=false;$("#skip").hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
+$("#toPlatform").onclick=()=>{SND.play("steam");office.hidden=true;plat.hidden=false;$("#skip").hidden=false;$("#platTitle").textContent=`${P.name} 님, 탑승을 환영합니다`;
   plat.classList.add("waiting");
   setTimeout(()=>plat.classList.add("departing"),reduce?0:1300);
   setTimeout(board,reduce?300:5000)};
-function board(){fade.classList.add("on");
+function board(){fade.classList.add("on");SND.fadeSteam();
   setTimeout(()=>{intro.hidden=true;fade.classList.remove("on");if(cur!==0){cur=0;drawCar(CARS[0])}else render()},reduce?0:550)}
 $("#skip").onclick=()=>{if(!P.name&&office.hidden===false&&!office.classList.contains("issued")){$("#iName").focus();return}board()};
 $("#again").onclick=showIntro;
