@@ -1099,11 +1099,12 @@ function updateSummaryNovember(team, member, missionId, photoUrl) {
   if (photoUrl) cell.setFormula(`=HYPERLINK("${photoUrl}","✓")`);
   else cell.setValue("✓");
 
-  const vals = summary.getRange(row, NOVEMBER_COL.mission0, 1, NOVEMBER_QUEST_COLUMNS.length).getDisplayValues()[0];
-  const filled = vals.map((v) => !!(v && v.toString().trim() !== ""));
+  // 달성 칸 수는 실제 도장 기록("11월 stamps")으로 세요. 요약 칸에 남은 ✓가 있어도 숫자가 부풀지 않아요.
   const keys = NOVEMBER_QUEST_COLUMNS.map((q) => q.key);
-  const doneCount = keys.filter((k, i) => filled[i] && NOVEMBER_PICK_ONE.indexOf(k) === -1).length
-    + (keys.some((k, i) => filled[i] && NOVEMBER_PICK_ONE.indexOf(k) !== -1) ? 1 : 0);
+  const stamped = {};
+  teamRowsNovember(getOrCreateSheetNovember(), team).forEach((r) => { if (keys.indexOf(r.row[3]) !== -1) stamped[r.row[3]] = true; });
+  const doneCount = keys.filter((k) => stamped[k] && NOVEMBER_PICK_ONE.indexOf(k) === -1).length
+    + (keys.some((k) => stamped[k] && NOVEMBER_PICK_ONE.indexOf(k) !== -1) ? 1 : 0);
   summary.getRange(row, NOVEMBER_COL.done).setValue(`${doneCount}/${NOVEMBER_TOTAL}`).setNumberFormat("@");
 }
 
