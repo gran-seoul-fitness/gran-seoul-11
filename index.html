@@ -1622,6 +1622,8 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 /* ── 브랜드: 이선·해비치 로고 */
 .eb.brand{display:flex;align-items:center;gap:8px;letter-spacing:0!important}
 .eb.brand{justify-content:space-between}
+.issue-card .ttl .perk{display:block;margin-top:5px;font-family:var(--f-sans)!important;font-size:12.5px;line-height:1.45;color:#5E5A4E;letter-spacing:0}
+.issue-card .ttl .perk em{font-style:normal;font-weight:600;color:#7A2B2B;font-family:var(--f-sans)!important}
 .eb.brand span{font-family:var(--f-sans)!important;font-size:12px;font-weight:600;color:#6B6A5C;letter-spacing:.02em}
 .gv-k{display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--f-sans)!important;letter-spacing:.04em!important}
 .gv-k .hv-mark{height:13px;width:auto;color:#1C2A5A}
@@ -1900,7 +1902,7 @@ h1,h2,h3,h4,.st-card h2,.gate b{text-wrap:balance}
 
       <form class="office-ui" id="issueForm" autocomplete="off">
         <div class="issue-card">
-          <div class="ttl"><span class="eb brand" id="officeBrand"></span><b>11월 열차여행에 오신 것을 환영합니다</b></div>
+          <div class="ttl"><span class="eb brand" id="officeBrand"></span><b>11월 열차여행에 오신 것을 환영합니다</b><span class="perk">하루 한 칸 인증하면 <em>4칸부터 선물</em>을 드려요</span></div>
           <div class="row2 nameco">
             <div class="fld"><label for="iName">이름</label><input id="iName" maxlength="12" placeholder="이름" required></div>
             <div class="fld"><label for="iCo">입주사</label><select id="iCo" required><option value="" disabled selected>입주사 선택</option><option>고려아연(주)</option><option>동양생명보험(주)</option><option>라이엇게임즈코리아 유한회사</option><option>맥스웰피부과</option><option>미래에셋자산운용(주)</option><option>법무법인 세종</option><option>블랙록자산운용</option><option>아멕스(서울역센터)</option><option>(주)알란텀</option><option>에네오스코리아</option><option>에미레이트(영업소)</option><option>엑시스아이티(서린정보기술)(주)</option><option>엠에스씨아이코리아</option><option>엠에이치아이컴프레서코리아 주식회사</option><option>유미개발(주)</option><option>지베스코자산운용</option><option>지씨엠인베스트먼트코리아</option><option>케이지트레이딩(주)</option><option>켐코(주)</option><option>하나로의료재단</option><option>하버베스트파트너스</option><option>한국이토추</option><option>한국전구체(주)</option><option>SGI서울보증</option></select></div>
@@ -2833,9 +2835,14 @@ function startBoardCycle(){
   /* 기록이 아직 없거나(첫 탑승 전) 시트에 연결되지 않아도 전광판은 계속 돌아가요 */
   const R=ranking||{};
   const frames=[{t:"DEPARTURES",a:"11:01 GRAN SEOUL EXP",b:"PLATFORM 7F  ON TIME"},
-    R.riders?{t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${R.cars}칸`),b:fbLine("완주한 승객",`${R.finishers}명`)}
+    /* 완주는 빨라야 12일째라, 완주자가 나오기 전엔 '함께 탄 승객 수'를 보여줘요 */
+    R.riders?{t:"ALL ABOARD · 모두의 기록",a:fbLine("지금까지 총 운행",`${R.cars}칸`),b:R.finishers?fbLine("완주한 승객",`${R.finishers}명`):fbLine("함께 탄 승객",`${R.riders}명`)}
       :{t:"ALL ABOARD · 모두의 기록",a:fbLine("첫 열차 출발","11.01"),b:fbLine("첫 승객을 기다려요")}];
   if(!R.me&&memberKey())frames.push({t:"MY RANK · 나의 순위",a:fbLine("아직 탑승 기록 없음"),b:fbLine("첫 칸을 타 보세요")});
+  /* 다음 선물역까지 남은 칸: 가까운 목표를 보여줘요 */
+  const ns=ST_ORDER.find(k=>total<k);
+  if(memberKey()&&ns){const S=STATIONS[ns];
+    frames.push({t:"NEXT STATION · 다음 선물역",a:fbLine(`${S.name}까지`,`${ns-total}칸`),b:fbLine(`${ns}칸 선물`,S.item.split(" ").pop())})}
   if(R.me){const m=ranking.me;
     /* 전체 인원 대신 '다음 목표'만 보여줘요. gap이 없으면(시트 코드 갱신 전) 응원 문구 */
     const next=typeof m.gap!=="number"?"오늘도 한 칸 더":m.gap>0?`다음 순위까지 ${m.gap}칸`:"1위를 지키는 중";
@@ -2937,8 +2944,10 @@ $("#toPlatform").onclick=()=>{SND.play("steam");office.hidden=true;plat.hidden=f
   plat.classList.add("waiting");
   setTimeout(()=>plat.classList.add("departing"),reduce?0:1300);
   setTimeout(board,reduce?300:5000)};
+/* 다시 온 승객은 아직 안 탄 첫 칸으로 바로 모셔요 (처음이면 1호차 체성분부터) */
+const nextCar=()=>{const i=CARS.findIndex(c=>c.missions.filter(m=>done[m.id]).length<need(c));return i<0?0:i};
 function board(){fade.classList.add("on");SND.fadeSteam();
-  setTimeout(()=>{intro.hidden=true;fade.classList.remove("on");if(cur!==0){cur=0;drawCar(CARS[0])}else render()},reduce?0:550)}
+  setTimeout(()=>{intro.hidden=true;fade.classList.remove("on");const t=nextCar();if(cur!==t){cur=t;drawCar(CARS[t])}else render()},reduce?0:550)}
 $("#skip").onclick=()=>{if(!P.name&&office.hidden===false&&!office.classList.contains("issued")){$("#iName").focus();return}board()};
 $("#again").onclick=showIntro;
 
